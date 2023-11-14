@@ -1,0 +1,20 @@
+description = 'casbin-lettuce-redis-watcher'
+
+jar.enabled = true
+bootJar.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'org.casbin:jcasbin:1.41.0'
+    api 'io.lettuce:lettuce-core:6.2.6.RELEASE'
+    api 'org.apache.commons:commons-lang3'
+
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+

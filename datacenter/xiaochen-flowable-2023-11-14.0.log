@@ -1,0 +1,157 @@
+[]-2023-11-14 17:56:52.899 [main] [31mWARN [0;39m [36mcom.alibaba.nacos.client.logging.NacosLogging:64[0;39m - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+[]-2023-11-14 17:56:52.903 [main] [34mINFO [0;39m [36mcom.zvz09.xiaochen.flowable.FlowableApplication:636[0;39m - The following 1 profile is active: "dev"
+[]-2023-11-14 17:56:55.502 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:291[0;39m - Multiple Spring Data modules found, entering strict repository configuration mode
+[]-2023-11-14 17:56:55.509 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:138[0;39m - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[]-2023-11-14 17:56:55.577 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:208[0;39m - Finished Spring Data repository scanning in 30 ms. Found 0 Redis repository interfaces.
+[]-2023-11-14 17:56:56.280 [main] [34mINFO [0;39m [36mo.springframework.cloud.context.scope.GenericScope:282[0;39m - BeanFactory id=99d8e65b-32e0-37e0-8cf5-54e943227212
+[]-2023-11-14 17:56:58.154 [main] [34mINFO [0;39m [36mo.s.boot.web.embedded.tomcat.TomcatWebServer:108[0;39m - Tomcat initialized with port(s): 17200 (http)
+[]-2023-11-14 17:56:58.177 [main] [34mINFO [0;39m [36morg.apache.coyote.http11.Http11NioProtocol:173[0;39m - Initializing ProtocolHandler ["http-nio-17200"]
+[]-2023-11-14 17:56:58.179 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardService:173[0;39m - Starting service [Tomcat]
+[]-2023-11-14 17:56:58.180 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardEngine:173[0;39m - Starting Servlet engine: [Apache Tomcat/10.1.5]
+[]-2023-11-14 17:56:58.379 [main] [34mINFO [0;39m [36mo.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173[0;39m - Initializing Spring embedded WebApplicationContext
+[]-2023-11-14 17:56:58.379 [main] [34mINFO [0;39m [36mo.s.b.w.s.c.ServletWebServerApplicationContext:291[0;39m - Root WebApplicationContext: initialization completed in 5433 ms
+[]-2023-11-14 17:56:58.737 [main] [31mWARN [0;39m [36mo.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:592[0;39m - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'appEngineConfig': Unsatisfied dependency expressed through method 'setDatasourceConfigurator' parameter 0: Error creating bean with name 'datasourceConfigurator': Injection of autowired dependencies failed
+[]-2023-11-14 17:56:58.740 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardService:173[0;39m - Stopping service [Tomcat]
+[]-2023-11-14 17:56:58.824 [main] [34mINFO [0;39m [36mo.s.b.a.logging.ConditionEvaluationReportLogger:82[0;39m - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[]-2023-11-14 17:56:58.877 [main] [1;31mERROR[0;39m [36morg.springframework.boot.SpringApplication:820[0;39m - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'appEngineConfig': Unsatisfied dependency expressed through method 'setDatasourceConfigurator' parameter 0: Error creating bean with name 'datasourceConfigurator': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.resolveMethodArguments(AutowiredAnnotationBeanPostProcessor.java:817)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:769)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:133)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:481)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1397)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:961)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:915)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:584)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:730)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:432)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1302)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1291)
+	at com.zvz09.xiaochen.flowable.FlowableApplication.main(FlowableApplication.java:26)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'datasourceConfigurator': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:487)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1397)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1405)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1325)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.resolveMethodArguments(AutowiredAnnotationBeanPostProcessor.java:809)
+	... 20 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'spring.datasource.type' in value "${spring.datasource.type}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:180)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:191)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:920)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1346)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1325)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:709)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:692)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:133)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:481)
+	... 31 common frames omitted
+[]-2023-11-14 17:56:59.745 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:136[0;39m - [NotifyCenter] Start destroying Publisher
+[]-2023-11-14 17:56:59.745 [Thread-1] [31mWARN [0;39m [36mc.alibaba.nacos.common.http.HttpClientBeanHolder:102[0;39m - [HttpClientBeanHolder] Start destroying common HttpClient
+[]-2023-11-14 17:56:59.746 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:153[0;39m - [NotifyCenter] Destruction of the end
+[]-2023-11-14 17:58:17.554 [main] [31mWARN [0;39m [36mcom.alibaba.nacos.client.logging.NacosLogging:64[0;39m - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+[]-2023-11-14 17:58:17.557 [main] [34mINFO [0;39m [36mcom.zvz09.xiaochen.flowable.FlowableApplication:636[0;39m - The following 1 profile is active: "dev"
+[]-2023-11-14 17:58:20.366 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:291[0;39m - Multiple Spring Data modules found, entering strict repository configuration mode
+[]-2023-11-14 17:58:20.374 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:138[0;39m - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[]-2023-11-14 17:58:20.465 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:208[0;39m - Finished Spring Data repository scanning in 49 ms. Found 0 Redis repository interfaces.
+[]-2023-11-14 17:58:21.250 [main] [34mINFO [0;39m [36mo.springframework.cloud.context.scope.GenericScope:282[0;39m - BeanFactory id=99d8e65b-32e0-37e0-8cf5-54e943227212
+[]-2023-11-14 17:58:23.456 [main] [34mINFO [0;39m [36mo.s.boot.web.embedded.tomcat.TomcatWebServer:108[0;39m - Tomcat initialized with port(s): 17200 (http)
+[]-2023-11-14 17:58:23.485 [main] [34mINFO [0;39m [36morg.apache.coyote.http11.Http11NioProtocol:173[0;39m - Initializing ProtocolHandler ["http-nio-17200"]
+[]-2023-11-14 17:58:23.487 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardService:173[0;39m - Starting service [Tomcat]
+[]-2023-11-14 17:58:23.487 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardEngine:173[0;39m - Starting Servlet engine: [Apache Tomcat/10.1.5]
+[]-2023-11-14 17:58:23.683 [main] [34mINFO [0;39m [36mo.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173[0;39m - Initializing Spring embedded WebApplicationContext
+[]-2023-11-14 17:58:23.683 [main] [34mINFO [0;39m [36mo.s.b.w.s.c.ServletWebServerApplicationContext:291[0;39m - Root WebApplicationContext: initialization completed in 6081 ms
+[]-2023-11-14 17:58:24.450 [main] [34mINFO [0;39m [36mo.f.spring.boot.ProcessEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 17:58:25.284 [main] [34mINFO [0;39m [36mo.f.spring.boot.cmmn.CmmnEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 17:58:25.456 [main] [34mINFO [0;39m [36mo.f.s.b.e.EventRegistryAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 17:58:25.558 [main] [34mINFO [0;39m [36mo.f.spring.boot.dmn.DmnEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 17:58:25.611 [main] [34mINFO [0;39m [36mo.f.spring.boot.app.AppEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 17:58:25.643 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1084[0;39m - Found 6 Engine Configurators in total:
+[]-2023-11-14 17:58:25.644 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.engine.spring.configurator.SpringProcessEngineConfigurator (priority:50000)
+[]-2023-11-14 17:58:25.644 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+[]-2023-11-14 17:58:25.644 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator (priority:150000)
+[]-2023-11-14 17:58:25.644 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.dmn.spring.configurator.SpringDmnEngineConfigurator (priority:200000)
+[]-2023-11-14 17:58:25.644 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.cmmn.spring.configurator.SpringCmmnEngineConfigurator (priority:500000)
+[]-2023-11-14 17:58:25.645 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class com.zvz09.xiaochen.flowable.config.DatasourceConfigurator (priority:600000)
+[]-2023-11-14 17:58:25.645 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.engine.spring.configurator.SpringProcessEngineConfigurator (priority:50000)
+[]-2023-11-14 17:58:25.681 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+[]-2023-11-14 17:58:25.689 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator (priority:150000)
+[]-2023-11-14 17:58:25.694 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.dmn.spring.configurator.SpringDmnEngineConfigurator (priority:200000)
+[]-2023-11-14 17:58:25.700 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.cmmn.spring.configurator.SpringCmmnEngineConfigurator (priority:500000)
+[]-2023-11-14 17:58:25.708 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class com.zvz09.xiaochen.flowable.config.DatasourceConfigurator (priority:600000)
+[]-2023-11-14 17:58:25.793 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:110[0;39m - HikariPool-1 - Starting...
+[]-2023-11-14 17:58:28.298 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.pool.HikariPool:565[0;39m - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6971f5f4
+[]-2023-11-14 17:58:28.304 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:123[0;39m - HikariPool-1 - Start completed.
+[]-2023-11-14 17:58:30.439 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.engine.spring.configurator.SpringProcessEngineConfigurator (priority:50000)
+[]-2023-11-14 17:58:31.227 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:110[0;39m - HikariPool-2 - Starting...
+[]-2023-11-14 17:58:32.649 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.pool.HikariPool:565[0;39m - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@15d25244
+[]-2023-11-14 17:58:32.649 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:123[0;39m - HikariPool-2 - Start completed.
+[]-2023-11-14 17:58:35.792 [main] [34mINFO [0;39m [36morg.flowable.engine.impl.ProcessEngineImpl:89[0;39m - ProcessEngine default created
+[]-2023-11-14 17:58:36.034 [main] [34mINFO [0;39m [36mo.flowable.engine.impl.cmd.ValidateV5EntitiesCmd:43[0;39m - Total of v5 deployments found: 0
+[]-2023-11-14 17:58:37.265 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+[]-2023-11-14 17:58:40.483 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 17:58:43.182 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.FLW_EV_DATABASECHANGELOG
+[]-2023-11-14 17:58:46.779 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 17:58:47.147 [main] [34mINFO [0;39m [36mo.f.eventregistry.impl.EventRegistryEngineImpl:53[0;39m - EventRegistryEngine default created
+[]-2023-11-14 17:58:47.149 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator (priority:150000)
+[]-2023-11-14 17:58:47.743 [main] [34mINFO [0;39m [36morg.flowable.idm.engine.impl.IdmEngineImpl:52[0;39m - IdmEngine default created
+[]-2023-11-14 17:58:47.745 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.dmn.spring.configurator.SpringDmnEngineConfigurator (priority:200000)
+[]-2023-11-14 17:58:50.584 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 17:58:53.114 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.ACT_DMN_DATABASECHANGELOG
+[]-2023-11-14 17:58:55.633 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 17:58:56.013 [main] [34mINFO [0;39m [36morg.flowable.dmn.engine.impl.DmnEngineImpl:55[0;39m - DmnEngine default created
+[]-2023-11-14 17:58:56.015 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.cmmn.spring.configurator.SpringCmmnEngineConfigurator (priority:500000)
+[]-2023-11-14 17:59:02.112 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 17:59:04.206 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.ACT_CMMN_DATABASECHANGELOG
+[]-2023-11-14 17:59:07.042 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 17:59:07.716 [main] [34mINFO [0;39m [36morg.flowable.cmmn.engine.impl.CmmnEngineImpl:72[0;39m - CmmnEngine default created
+[]-2023-11-14 17:59:07.718 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class com.zvz09.xiaochen.flowable.config.DatasourceConfigurator (priority:600000)
+[]-2023-11-14 17:59:11.098 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 17:59:13.556 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.ACT_APP_DATABASECHANGELOG
+[]-2023-11-14 17:59:16.022 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 17:59:16.694 [main] [34mINFO [0;39m [36morg.flowable.app.engine.impl.AppEngineImpl:48[0;39m - AppEngine default created
+[]-2023-11-14 17:59:16.704 [main] [31mWARN [0;39m [36mo.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:592[0;39m - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'globalEventListenerConfig' defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\config\GlobalEventListenerConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'globalEventListener' defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\listener\GlobalEventListener.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'flowableTaskCallback' defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\listener\callback\FlowableTaskCallback.class]: Unsatisfied dependency expressed through constructor parameter 1: No qualifying bean of type 'com.zvz09.xiaochen.message.api.RemoteEventRemindService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+[]-2023-11-14 17:59:17.427 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:350[0;39m - HikariPool-2 - Shutdown initiated...
+[]-2023-11-14 17:59:17.437 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:352[0;39m - HikariPool-2 - Shutdown completed.
+[]-2023-11-14 17:59:17.438 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardService:173[0;39m - Stopping service [Tomcat]
+[]-2023-11-14 17:59:17.478 [main] [34mINFO [0;39m [36mo.s.b.a.logging.ConditionEvaluationReportLogger:82[0;39m - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[]-2023-11-14 17:59:17.552 [main] [1;31mERROR[0;39m [36mo.s.b.diagnostics.LoggingFailureAnalysisReporter:40[0;39m - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 1 of constructor in com.zvz09.xiaochen.flowable.listener.callback.FlowableTaskCallback required a bean of type 'com.zvz09.xiaochen.message.api.RemoteEventRemindService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.zvz09.xiaochen.message.api.RemoteEventRemindService' in your configuration.
+
+[]-2023-11-14 17:59:18.391 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:136[0;39m - [NotifyCenter] Start destroying Publisher
+[]-2023-11-14 17:59:18.391 [Thread-1] [31mWARN [0;39m [36mc.alibaba.nacos.common.http.HttpClientBeanHolder:102[0;39m - [HttpClientBeanHolder] Start destroying common HttpClient
+[]-2023-11-14 17:59:18.392 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:153[0;39m - [NotifyCenter] Destruction of the end

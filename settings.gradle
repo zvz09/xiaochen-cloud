@@ -1,0 +1,44 @@
+pluginManagement {
+    repositories {
+        //        mavenLocal() //从maven本地仓库下载jar到gradle仓库 【两者】
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        // 新增
+        maven { url 'https://maven.aliyun.com/repository/grails-core' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter/' }
+        maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
+        maven {
+            url 'http://mirrors.huaweicloud.com/repository/maven/'
+            allowInsecureProtocol = true
+        }
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.spring.io/snapshot' }
+        mavenCentral() //maven中央仓库
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'xiaochen-cloud'
+include 'xiaochen-common'
+include 'xiaochen-gateway'
+include 'xiaochen-modules'
+include 'xiaochen-modules:xiaochen-autocode'
+include 'xiaochen-modules:xiaochen-flowable'
+include 'xiaochen-modules:xiaochen-message'
+include 'xiaochen-modules:xiaochen-system'
+include 'xiaochen-common:common-web'
+include 'xiaochen-common:common-core'
+include 'xiaochen-common:common-jwt'
+include 'xiaochen-auth'
+include 'xiaochen-api'
+include 'xiaochen-api:xiaochen-api-system'
+include 'xiaochen-monitor'
+include 'xiaochen-common:casbin-lettuce-redis-watcher'
+findProject(':xiaochen-common:casbin-lettuce-redis-watcher')?.name = 'casbin-lettuce-redis-watcher'
+include 'xiaochen-common:casbin-lettuce-redis-adapter'
+findProject(':xiaochen-common:casbin-lettuce-redis-adapter')?.name = 'casbin-lettuce-redis-adapter'
+include 'xiaochen-common:casbin-spring-boot-starter'
+findProject(':xiaochen-common:casbin-spring-boot-starter')?.name = 'casbin-spring-boot-starter'
+include 'xiaochen-api:xiaochen-api-message'
+findProject(':xiaochen-api:xiaochen-api-message')?.name = 'xiaochen-api-message'
+

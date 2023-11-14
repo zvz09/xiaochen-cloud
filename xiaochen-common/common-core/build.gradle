@@ -1,0 +1,20 @@
+description = 'common-core'
+
+jar.enabled = true
+bootJar.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.8'
+    api 'org.apache.commons:commons-lang3:3.12.0'
+    api 'com.fasterxml.jackson.core:jackson-databind:'
+
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+

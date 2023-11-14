@@ -1,0 +1,13 @@
+description = 'xiaochen-system'
+
+//子项目需要的jar包
+dependencies {
+
+    implementation project(':xiaochen-common:casbin-spring-boot-starter')
+
+    implementation project(':xiaochen-api:xiaochen-api-system')
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+

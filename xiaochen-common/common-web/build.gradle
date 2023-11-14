@@ -1,0 +1,32 @@
+description = 'common-web'
+
+jar.enabled = true
+bootJar.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api project(':xiaochen-common:common-core')
+    api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-aop'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    api 'org.springframework.boot:spring-boot-starter-actuator'
+    api 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+    api 'com.baomidou:mybatis-plus-boot-starter'
+    api 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter'
+    api 'org.redisson:redisson-spring-boot-starter'
+    api 'cn.hutool:hutool-all'
+    api 'com.agido:logback-elasticsearch-appender'
+    api 'com.alibaba:druid-spring-boot-starter'
+    api 'com.alibaba:transmittable-thread-local:2.14.3'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

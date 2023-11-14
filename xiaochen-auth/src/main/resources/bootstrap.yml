@@ -1,0 +1,30 @@
+# Tomcat
+server:
+  port: 17500
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: xiaochen-auth
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        username: 'nacos'
+        password: 'nacos'
+        server-addr: '127.0.0.1:8848'
+        namespace: '0c709398-4a48-4c72-8d8d-cfd49671ca1a'
+      config:
+        # 配置中心地址
+        username: 'nacos'
+        password: '!QAZ2wsx'
+        server-addr: '192.168.191.1:8848'
+        namespace: '0c709398-4a48-4c72-8d8d-cfd49671ca1a'
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+

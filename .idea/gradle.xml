@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle-8.3" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/xiaochen-api" />
+            <option value="$PROJECT_DIR$/xiaochen-api/xiaochen-api-system" />
+            <option value="$PROJECT_DIR$/xiaochen-auth" />
+            <option value="$PROJECT_DIR$/xiaochen-common" />
+            <option value="$PROJECT_DIR$/xiaochen-common/casbin-lettuce-redis-adapter" />
+            <option value="$PROJECT_DIR$/xiaochen-common/casbin-lettuce-redis-watcher" />
+            <option value="$PROJECT_DIR$/xiaochen-common/casbin-spring-boot-starter" />
+            <option value="$PROJECT_DIR$/xiaochen-common/common-core" />
+            <option value="$PROJECT_DIR$/xiaochen-common/common-jwt" />
+            <option value="$PROJECT_DIR$/xiaochen-common/common-web" />
+            <option value="$PROJECT_DIR$/xiaochen-gateway" />
+            <option value="$PROJECT_DIR$/xiaochen-modules" />
+            <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-autocode" />
+            <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-flowable" />
+            <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-message" />
+            <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-system" />
+            <option value="$PROJECT_DIR$/xiaochen-monitor" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

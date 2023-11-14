@@ -1,0 +1,16 @@
+description = 'xiaochen-monitor'
+
+//子项目需要的jar包
+dependencies {
+    implementation 'de.codecentric:spring-boot-admin-starter-server:3.1.5'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+

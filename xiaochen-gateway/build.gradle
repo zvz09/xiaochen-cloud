@@ -1,0 +1,26 @@
+description = 'xiaochen-gateway'
+
+//子项目需要的jar包
+dependencies {
+    implementation project(':xiaochen-common:common-core')
+    implementation project(':xiaochen-common:common-jwt')
+    implementation project(':xiaochen-common:casbin-spring-boot-starter')
+    //SpringBoot启动项引入
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+    implementation 'com.alibaba.cloud:spring-cloud-alibaba-sentinel-gateway'
+    implementation 'com.github.xiaoymin:knife4j-gateway-spring-boot-starter:4.3.0'
+    implementation 'com.alibaba.csp:sentinel-datasource-nacos'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-loadbalancer'
+    implementation 'com.github.xiaoymin:knife4j-gateway-spring-boot-starter:4.3.0'
+    implementation 'cn.hutool:hutool-all'
+    implementation 'com.agido:logback-elasticsearch-appender'
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+

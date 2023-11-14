@@ -1,0 +1,14 @@
+description = 'xiaochen-common'
+jar.enabled = true
+/* 需要org.springframework.boot插件 不需要打包成可执行的jar*/
+bootJar.enabled = false
+//子项目需要的jar包
+dependencies {
+    //SpringBoot启动项引入
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+
