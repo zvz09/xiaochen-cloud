@@ -3,7 +3,6 @@ package com.zvz09.xiaochen.common.jwt;
 
 import cn.hutool.core.convert.Convert;
 import com.zvz09.xiaochen.common.core.constant.SecurityConstants;
-import com.zvz09.xiaochen.common.core.util.JacksonUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

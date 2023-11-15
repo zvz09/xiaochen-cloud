@@ -3,7 +3,7 @@ package com.zvz09.xiaochen.message.api.constant;
 import lombok.Getter;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 
 @Getter

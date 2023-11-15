@@ -4,7 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author geekidea
+ * @author zvz09
  * @date 2022/7/13
  **/
 public class PasswordUtil {

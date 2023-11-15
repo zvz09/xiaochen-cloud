@@ -15,6 +15,7 @@ import com.zvz09.xiaochen.system.api.domain.entity.SysUserAuthority;
 import com.zvz09.xiaochen.system.api.domain.vo.SysAuthorityVo;
 import com.zvz09.xiaochen.system.mapper.SysAuthorityMapper;
 import com.zvz09.xiaochen.system.mapper.SysUserAuthorityMapper;
+import com.zvz09.xiaochen.system.service.ICasbinRuleService;
 import com.zvz09.xiaochen.system.service.ISysAuthorityBtnService;
 import com.zvz09.xiaochen.system.service.ISysAuthorityMenuService;
 import com.zvz09.xiaochen.system.service.ISysAuthorityService;
@@ -50,6 +51,8 @@ public class SysAuthorityServiceImpl extends ServiceImpl<SysAuthorityMapper, Sys
     private final ISysAuthorityMenuService sysAuthorityMenuService;
 
     private final ISysAuthorityBtnService sysAuthorityBtnService;
+
+    private final ICasbinRuleService casbinRuleService;
 
 
     @Override
@@ -139,12 +142,9 @@ public class SysAuthorityServiceImpl extends ServiceImpl<SysAuthorityMapper, Sys
         }
         this.sysAuthorityBtnService.saveBatch(btns);
 
-        //保存角色菜单
-        //TODO
-       /* List<List<String>> list = enforcer.getFilteredPolicy(0, oldAuthority.getAuthorityCode());
-        list.forEach(l -> l.set(0, newSysAuthority.getAuthorityCode()));
-        enforcer.removeFilteredPolicy(0, newSysAuthority.getAuthorityCode());
-        enforcer.addPolicies(list);*/
+        //保存权限
+        casbinRuleService.copyRule(newSysAuthority.getAuthorityCode(),oldAuthority.getAuthorityCode());
+
     }
 
     @Override
@@ -164,8 +164,8 @@ public class SysAuthorityServiceImpl extends ServiceImpl<SysAuthorityMapper, Sys
             throw new BusinessException("此角色存在子角色不允许删除");
         }
 
-        //TODO
-        /* enforcer.removeFilteredPolicy(0, sysAuthority.getAuthorityCode());*/
+        casbinRuleService.removeRule(sysAuthority.getAuthorityCode());
+
         this.sysAuthorityMenuService.remove(new LambdaQueryWrapper<SysAuthorityMenu>().eq(SysAuthorityMenu::getSysAuthorityId, id));
         this.sysAuthorityBtnService.remove(new LambdaQueryWrapper<SysAuthorityBtn>().eq(SysAuthorityBtn::getAuthorityId, id));
         this.update(new LambdaUpdateWrapper<SysAuthority>().eq(SysAuthority::getId, id)

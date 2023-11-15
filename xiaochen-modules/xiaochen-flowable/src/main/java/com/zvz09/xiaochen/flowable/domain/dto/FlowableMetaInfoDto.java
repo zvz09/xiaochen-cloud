@@ -3,7 +3,7 @@ package com.zvz09.xiaochen.flowable.domain.dto;
 import lombok.Data;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Data
 public class FlowableMetaInfoDto {

@@ -28,7 +28,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 /**
  * 网关鉴权
  *
- * @author ruoyi
+ * @author zvz09
  */
 @Slf4j
 @Component

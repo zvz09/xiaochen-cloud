@@ -12,14 +12,14 @@ import org.springframework.scheduling.annotation.EnableAsync;
 /**
  * 网关启动程序
  *
- * @author ruoyi
+ * @author zvz09
  */
 @EnableCaching
-@EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
 @ComponentScan("com.zvz09.xiaochen")
 @EnableAsync(proxyTargetClass = true)
+@EnableFeignClients(basePackages = "com.zvz09.xiaochen")
 @MapperScan(basePackages = "com.zvz09.xiaochen.*.mapper")
 public class MessageApplication {
     public static void main(String[] args) {

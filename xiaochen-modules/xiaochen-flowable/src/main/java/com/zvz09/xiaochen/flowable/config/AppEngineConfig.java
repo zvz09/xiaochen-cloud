@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Configuration
 public class AppEngineConfig implements EngineConfigurationConfigurer<SpringAppEngineConfiguration> {

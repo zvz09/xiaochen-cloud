@@ -2,7 +2,7 @@ package com.zvz09.xiaochen.flowable.common.constant;
 
 /**
  * 流程常量信息
- * @author lizili-YF0033
+ * @author zvz09
  */
 public class ProcessConstants {
 

@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import static com.zvz09.xiaochen.common.core.constant.CommonConstant.TRACE_ID;
+
 /**
  * ApiLogInterceptor
  *
@@ -37,7 +39,6 @@ public class ApiLogInterceptor implements HandlerInterceptor {
 
     private final ApiLogProperties apiLogProperties;
 
-    private static final String TRACE_ID = "traceId";
 
 
     @Override

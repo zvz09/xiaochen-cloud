@@ -4,6 +4,8 @@ description = 'xiaochen-system'
 dependencies {
 
     implementation project(':xiaochen-common:casbin-spring-boot-starter')
+    implementation project(':xiaochen-common:common-auxiliary')
+
 
     implementation project(':xiaochen-api:xiaochen-api-system')
 }

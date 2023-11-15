@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.system.api;
 
-import com.zvz09.xiaochen.system.api.constant.FeignPath;
 import com.zvz09.xiaochen.common.core.constant.ServiceNameConstants;
+import com.zvz09.xiaochen.system.api.constant.FeignPath;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
 import org.springframework.cloud.openfeign.FeignClient;

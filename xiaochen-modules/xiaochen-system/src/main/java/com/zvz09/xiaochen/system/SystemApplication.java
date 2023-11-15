@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 /**
  * 网关启动程序
  *
- * @author ruoyi
+ * @author zvz09
  */
 @EnableCaching
 @EnableFeignClients

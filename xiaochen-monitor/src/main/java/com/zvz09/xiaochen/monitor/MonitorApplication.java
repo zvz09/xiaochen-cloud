@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * 监控中心
  *
- * @author ruoyi
+ * @author zvz09
  */
 @EnableAdminServer
 @SpringBootApplication

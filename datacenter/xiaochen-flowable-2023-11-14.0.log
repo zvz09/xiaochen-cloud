@@ -155,3 +155,107 @@ Consider defining a bean of type 'com.zvz09.xiaochen.message.api.RemoteEventRemi
 []-2023-11-14 17:59:18.391 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:136[0;39m - [NotifyCenter] Start destroying Publisher
 []-2023-11-14 17:59:18.391 [Thread-1] [31mWARN [0;39m [36mc.alibaba.nacos.common.http.HttpClientBeanHolder:102[0;39m - [HttpClientBeanHolder] Start destroying common HttpClient
 []-2023-11-14 17:59:18.392 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:153[0;39m - [NotifyCenter] Destruction of the end
+[]-2023-11-14 18:11:41.778 [main] [31mWARN [0;39m [36mcom.alibaba.nacos.client.logging.NacosLogging:64[0;39m - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+[]-2023-11-14 18:11:41.781 [main] [34mINFO [0;39m [36mcom.zvz09.xiaochen.flowable.FlowableApplication:636[0;39m - The following 1 profile is active: "dev"
+[]-2023-11-14 18:11:44.075 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:291[0;39m - Multiple Spring Data modules found, entering strict repository configuration mode
+[]-2023-11-14 18:11:44.084 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:138[0;39m - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[]-2023-11-14 18:11:44.148 [main] [34mINFO [0;39m [36mo.s.d.r.config.RepositoryConfigurationDelegate:208[0;39m - Finished Spring Data repository scanning in 24 ms. Found 0 Redis repository interfaces.
+[]-2023-11-14 18:11:44.604 [main] [34mINFO [0;39m [36mo.springframework.cloud.context.scope.GenericScope:282[0;39m - BeanFactory id=62c4c40c-9d6f-37f0-b8b7-82289e630cf3
+[]-2023-11-14 18:11:44.790 [main] [34mINFO [0;39m [36mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409[0;39m - Bean 'com.zvz09.xiaochen.system.api.RemoteAuthorityMenuService' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[]-2023-11-14 18:11:44.793 [main] [34mINFO [0;39m [36mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409[0;39m - Bean 'com.zvz09.xiaochen.system.api.RemoteAuthorityService' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[]-2023-11-14 18:11:44.795 [main] [34mINFO [0;39m [36mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409[0;39m - Bean 'com.zvz09.xiaochen.system.api.RemoteBaseMenuService' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[]-2023-11-14 18:11:44.797 [main] [34mINFO [0;39m [36mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409[0;39m - Bean 'com.zvz09.xiaochen.system.api.RemoteDepartmentService' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[]-2023-11-14 18:11:44.800 [main] [34mINFO [0;39m [36mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409[0;39m - Bean 'com.zvz09.xiaochen.system.api.RemoteUserAuthorityService' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[]-2023-11-14 18:11:44.802 [main] [34mINFO [0;39m [36mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409[0;39m - Bean 'com.zvz09.xiaochen.system.api.RemoteUserService' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[]-2023-11-14 18:11:44.805 [main] [34mINFO [0;39m [36mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:409[0;39m - Bean 'com.zvz09.xiaochen.message.api.RemoteEventRemindService' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[]-2023-11-14 18:11:46.207 [main] [34mINFO [0;39m [36mo.s.boot.web.embedded.tomcat.TomcatWebServer:108[0;39m - Tomcat initialized with port(s): 17200 (http)
+[]-2023-11-14 18:11:46.225 [main] [34mINFO [0;39m [36morg.apache.coyote.http11.Http11NioProtocol:173[0;39m - Initializing ProtocolHandler ["http-nio-17200"]
+[]-2023-11-14 18:11:46.226 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardService:173[0;39m - Starting service [Tomcat]
+[]-2023-11-14 18:11:46.226 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardEngine:173[0;39m - Starting Servlet engine: [Apache Tomcat/10.1.5]
+[]-2023-11-14 18:11:46.375 [main] [34mINFO [0;39m [36mo.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173[0;39m - Initializing Spring embedded WebApplicationContext
+[]-2023-11-14 18:11:46.375 [main] [34mINFO [0;39m [36mo.s.b.w.s.c.ServletWebServerApplicationContext:291[0;39m - Root WebApplicationContext: initialization completed in 4561 ms
+[]-2023-11-14 18:11:46.891 [main] [34mINFO [0;39m [36mo.f.spring.boot.ProcessEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 18:11:47.436 [main] [34mINFO [0;39m [36mo.f.spring.boot.cmmn.CmmnEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 18:11:47.580 [main] [34mINFO [0;39m [36mo.f.s.b.e.EventRegistryAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 18:11:47.659 [main] [34mINFO [0;39m [36mo.f.spring.boot.dmn.DmnEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 18:11:47.699 [main] [34mINFO [0;39m [36mo.f.spring.boot.app.AppEngineAutoConfiguration:104[0;39m - No deployment resources were found for autodeployment
+[]-2023-11-14 18:11:47.724 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1084[0;39m - Found 6 Engine Configurators in total:
+[]-2023-11-14 18:11:47.726 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.engine.spring.configurator.SpringProcessEngineConfigurator (priority:50000)
+[]-2023-11-14 18:11:47.726 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+[]-2023-11-14 18:11:47.726 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator (priority:150000)
+[]-2023-11-14 18:11:47.726 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.dmn.spring.configurator.SpringDmnEngineConfigurator (priority:200000)
+[]-2023-11-14 18:11:47.726 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class org.flowable.cmmn.spring.configurator.SpringCmmnEngineConfigurator (priority:500000)
+[]-2023-11-14 18:11:47.727 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1086[0;39m - class com.zvz09.xiaochen.flowable.config.DatasourceConfigurator (priority:600000)
+[]-2023-11-14 18:11:47.727 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.engine.spring.configurator.SpringProcessEngineConfigurator (priority:50000)
+[]-2023-11-14 18:11:47.752 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+[]-2023-11-14 18:11:47.757 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator (priority:150000)
+[]-2023-11-14 18:11:47.761 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.dmn.spring.configurator.SpringDmnEngineConfigurator (priority:200000)
+[]-2023-11-14 18:11:47.766 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class org.flowable.cmmn.spring.configurator.SpringCmmnEngineConfigurator (priority:500000)
+[]-2023-11-14 18:11:47.771 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1112[0;39m - Executing beforeInit() of class com.zvz09.xiaochen.flowable.config.DatasourceConfigurator (priority:600000)
+[]-2023-11-14 18:11:47.819 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:110[0;39m - HikariPool-1 - Starting...
+[]-2023-11-14 18:11:49.602 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.pool.HikariPool:565[0;39m - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@416bff93
+[]-2023-11-14 18:11:49.605 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:123[0;39m - HikariPool-1 - Start completed.
+[]-2023-11-14 18:11:50.908 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.engine.spring.configurator.SpringProcessEngineConfigurator (priority:50000)
+[]-2023-11-14 18:11:51.263 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:110[0;39m - HikariPool-2 - Starting...
+[]-2023-11-14 18:11:52.562 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.pool.HikariPool:565[0;39m - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@65dff28b
+[]-2023-11-14 18:11:52.563 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:123[0;39m - HikariPool-2 - Start completed.
+[]-2023-11-14 18:11:55.619 [main] [34mINFO [0;39m [36morg.flowable.engine.impl.ProcessEngineImpl:89[0;39m - ProcessEngine default created
+[]-2023-11-14 18:11:55.856 [main] [34mINFO [0;39m [36mo.flowable.engine.impl.cmd.ValidateV5EntitiesCmd:43[0;39m - Total of v5 deployments found: 0
+[]-2023-11-14 18:11:57.153 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.eventregistry.spring.configurator.SpringEventRegistryConfigurator (priority:100000)
+[]-2023-11-14 18:12:00.403 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 18:12:03.474 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.FLW_EV_DATABASECHANGELOG
+[]-2023-11-14 18:12:06.032 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 18:12:06.798 [main] [34mINFO [0;39m [36mo.f.eventregistry.impl.EventRegistryEngineImpl:53[0;39m - EventRegistryEngine default created
+[]-2023-11-14 18:12:06.800 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator (priority:150000)
+[]-2023-11-14 18:12:07.422 [main] [34mINFO [0;39m [36morg.flowable.idm.engine.impl.IdmEngineImpl:52[0;39m - IdmEngine default created
+[]-2023-11-14 18:12:07.424 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.dmn.spring.configurator.SpringDmnEngineConfigurator (priority:200000)
+[]-2023-11-14 18:12:10.670 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 18:12:13.269 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.ACT_DMN_DATABASECHANGELOG
+[]-2023-11-14 18:12:15.753 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 18:12:16.741 [main] [34mINFO [0;39m [36morg.flowable.dmn.engine.impl.DmnEngineImpl:55[0;39m - DmnEngine default created
+[]-2023-11-14 18:12:16.745 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class org.flowable.cmmn.spring.configurator.SpringCmmnEngineConfigurator (priority:500000)
+[]-2023-11-14 18:12:22.645 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 18:12:24.851 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.ACT_CMMN_DATABASECHANGELOG
+[]-2023-11-14 18:12:27.308 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 18:12:27.687 [main] [34mINFO [0;39m [36morg.flowable.cmmn.engine.impl.CmmnEngineImpl:72[0;39m - CmmnEngine default created
+[]-2023-11-14 18:12:27.689 [main] [34mINFO [0;39m [36mo.flowable.app.spring.SpringAppEngineConfiguration:1119[0;39m - Executing configure() of class com.zvz09.xiaochen.flowable.config.DatasourceConfigurator (priority:600000)
+[]-2023-11-14 18:12:31.182 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully acquired change log lock
+[]-2023-11-14 18:12:33.373 [main] [34mINFO [0;39m [36mliquibase.changelog:36[0;39m - Reading from flowable.ACT_APP_DATABASECHANGELOG
+[]-2023-11-14 18:12:35.773 [main] [34mINFO [0;39m [36mliquibase.lockservice:36[0;39m - Successfully released change log lock
+[]-2023-11-14 18:12:36.162 [main] [34mINFO [0;39m [36morg.flowable.app.engine.impl.AppEngineImpl:48[0;39m - AppEngine default created
+[]-2023-11-14 18:12:36.260 [main] [31mWARN [0;39m [36mo.s.c.a.AnnotationConfigApplicationContext:592[0;39m - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCurrentlyInCreationException: Error creating bean with name 'globalEventListenerConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+[]-2023-11-14 18:12:36.261 [main] [31mWARN [0;39m [36mo.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:592[0;39m - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'globalEventListenerConfig' defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\config\GlobalEventListenerConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'globalEventListener' defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\listener\GlobalEventListener.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'flowableTaskCallback' defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\listener\callback\FlowableTaskCallback.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'com.zvz09.xiaochen.message.api.RemoteEventRemindService': FactoryBean threw exception on object creation
+[]-2023-11-14 18:12:37.041 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:350[0;39m - HikariPool-2 - Shutdown initiated...
+[]-2023-11-14 18:12:37.049 [main] [34mINFO [0;39m [36mcom.zaxxer.hikari.HikariDataSource:352[0;39m - HikariPool-2 - Shutdown completed.
+[]-2023-11-14 18:12:37.050 [main] [34mINFO [0;39m [36morg.apache.catalina.core.StandardService:173[0;39m - Stopping service [Tomcat]
+[]-2023-11-14 18:12:37.075 [main] [34mINFO [0;39m [36mo.s.b.a.logging.ConditionEvaluationReportLogger:82[0;39m - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[]-2023-11-14 18:12:37.125 [main] [1;31mERROR[0;39m [36mo.s.b.diagnostics.LoggingFailureAnalysisReporter:40[0;39m - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  globalEventListenerConfig defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\config\GlobalEventListenerConfig.class]
+↑     ↓
+|  globalEventListener defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\listener\GlobalEventListener.class]
+↑     ↓
+|  flowableTaskCallback defined in file [D:\Run\Java\xiaochen-cloud\xiaochen-modules\xiaochen-flowable\build\classes\java\main\com\zvz09\xiaochen\flowable\listener\callback\FlowableTaskCallback.class]
+↑     ↓
+|  com.zvz09.xiaochen.message.api.RemoteEventRemindService
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+[]-2023-11-14 18:12:38.207 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:136[0;39m - [NotifyCenter] Start destroying Publisher
+[]-2023-11-14 18:12:38.206 [Thread-1] [31mWARN [0;39m [36mc.alibaba.nacos.common.http.HttpClientBeanHolder:102[0;39m - [HttpClientBeanHolder] Start destroying common HttpClient
+[]-2023-11-14 18:12:38.207 [Thread-7] [31mWARN [0;39m [36mcom.alibaba.nacos.common.notify.NotifyCenter:153[0;39m - [NotifyCenter] Destruction of the end

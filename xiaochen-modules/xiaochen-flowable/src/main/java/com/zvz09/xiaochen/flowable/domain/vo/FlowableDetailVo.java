@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 流程详情视图对象
- * @author 18237
+ * @author zvz09
  */
 @Data
 public class FlowableDetailVo {

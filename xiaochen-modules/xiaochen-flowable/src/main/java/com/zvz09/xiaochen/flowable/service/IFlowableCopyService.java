@@ -9,7 +9,7 @@ import com.zvz09.xiaochen.flowable.domain.vo.FlowableCopyVo;
 import java.util.List;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public interface IFlowableCopyService {
     Boolean makeCopy(FlowableTaskDto dto);

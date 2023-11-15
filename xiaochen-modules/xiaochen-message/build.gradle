@@ -3,6 +3,8 @@ description = 'xiaochen-message'
 //子项目需要的jar包
 dependencies {
     implementation project(':xiaochen-common:common-web')
+    implementation project(':xiaochen-common:common-auxiliary')
+
     implementation project(':xiaochen-api:xiaochen-api-message')
 
     compileOnly "org.jetbrains:annotations:22.0.0"

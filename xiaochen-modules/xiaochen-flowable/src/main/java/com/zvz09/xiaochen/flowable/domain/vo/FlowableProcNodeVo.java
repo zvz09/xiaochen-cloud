@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author 18237
+ * @author zvz09
  */
 @Data
 public class FlowableProcNodeVo implements Serializable {

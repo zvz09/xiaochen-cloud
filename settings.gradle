@@ -41,4 +41,6 @@ include 'xiaochen-common:casbin-spring-boot-starter'
 findProject(':xiaochen-common:casbin-spring-boot-starter')?.name = 'casbin-spring-boot-starter'
 include 'xiaochen-api:xiaochen-api-message'
 findProject(':xiaochen-api:xiaochen-api-message')?.name = 'xiaochen-api-message'
+include 'xiaochen-common:common-auxiliary'
+findProject(':xiaochen-common:common-auxiliary')?.name = 'common-auxiliary'
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Component
 public class DatasourceConfigurator implements EngineConfigurator {

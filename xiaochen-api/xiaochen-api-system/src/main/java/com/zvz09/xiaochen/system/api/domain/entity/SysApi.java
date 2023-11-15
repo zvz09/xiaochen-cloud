@@ -23,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @TableName("sys_api")
 public class SysApi extends BaseEntity {
-
+    private String serviceName;
     private String path;
 
     private String description;

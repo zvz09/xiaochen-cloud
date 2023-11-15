@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.common.core.constant;
 
 /**
- * @author geekidea
+ * @author zvz09
  * @date 2022/7/9
  **/
 public interface RedisKey {

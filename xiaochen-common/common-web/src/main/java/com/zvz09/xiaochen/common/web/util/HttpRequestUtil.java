@@ -8,7 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * 获取当前请求的HttpServletRequest对象
  *
- * @author geekidea
+ * @author zvz09
  * @date 2018-11-08
  */
 public class HttpRequestUtil {

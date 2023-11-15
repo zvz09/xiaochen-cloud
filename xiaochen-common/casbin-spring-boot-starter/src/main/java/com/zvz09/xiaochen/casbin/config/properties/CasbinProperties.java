@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Getter
 @Setter

@@ -10,7 +10,7 @@ import java.util.TimeZone;
 
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Configuration
 public class JacksonPropertiesConfig {

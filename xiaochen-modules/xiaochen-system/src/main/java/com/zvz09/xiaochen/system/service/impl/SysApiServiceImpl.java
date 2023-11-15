@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.system.api.RemoteSysApiService;
 import com.zvz09.xiaochen.system.api.constant.FeignPath;
 import com.zvz09.xiaochen.system.api.domain.dto.api.SysApiDto;
 import com.zvz09.xiaochen.system.api.domain.dto.api.SysApiQuery;
@@ -38,7 +39,7 @@ import java.util.List;
 @RequestMapping(FeignPath.API)
 @Tag(name = "feign-api接口")
 @RequiredArgsConstructor
-public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> implements ISysApiService {
+public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> implements ISysApiService, RemoteSysApiService {
 
     @Override
     public List<SysApiVo> getAllApis() {
@@ -111,5 +112,16 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         LambdaUpdateWrapper<SysApi> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.in(SysApi::getId, ids).set(SysApi::getDeleted, true);
         this.baseMapper.update(null, lambdaUpdateWrapper);
+    }
+
+    @Override
+    public List<SysApi> list(String serviceName) {
+        List<SysApi> sysApis = this.list(new LambdaQueryWrapper<SysApi>().eq(SysApi::getServiceName,serviceName));
+        return (sysApis != null &&sysApis.size() >0) ? sysApis:new ArrayList<>();
+    }
+
+    @Override
+    public void saveBatch(List<SysApi> sysApis) {
+        super.saveBatch(sysApis);
     }
 }

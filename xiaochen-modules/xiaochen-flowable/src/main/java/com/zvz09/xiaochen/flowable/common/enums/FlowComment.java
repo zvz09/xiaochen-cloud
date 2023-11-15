@@ -1,12 +1,11 @@
 package com.zvz09.xiaochen.flowable.common.enums;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * 流程意见类型
  *
- * @author Tony
+ * @author zvz09
  * @date 2021/4/19
  */
 @Getter

@@ -10,14 +10,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 
 @EnableCaching
-@EnableFeignClients(basePackages = "com.zvz09.xiaochen")
 @EnableDiscoveryClient
 @ComponentScan("com.zvz09.xiaochen")
 @EnableAsync(proxyTargetClass = true)
+@EnableFeignClients(basePackages = "com.zvz09.xiaochen")
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class AuthApplication {
 

@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @FeignClient(contextId = "RemoteDepartmentService", path = FeignPath.DEPARTMENT, value = ServiceNameConstants.SYSTEM_SERVICE)
 public interface RemoteDepartmentService {

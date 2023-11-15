@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.system.api;
 
-import com.zvz09.xiaochen.system.api.constant.FeignPath;
 import com.zvz09.xiaochen.common.core.constant.ServiceNameConstants;
+import com.zvz09.xiaochen.system.api.constant.FeignPath;
 import com.zvz09.xiaochen.system.api.domain.entity.SysBaseMenu;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

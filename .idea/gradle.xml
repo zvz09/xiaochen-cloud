@@ -10,12 +10,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/xiaochen-api" />
+            <option value="$PROJECT_DIR$/xiaochen-api/xiaochen-api-message" />
             <option value="$PROJECT_DIR$/xiaochen-api/xiaochen-api-system" />
             <option value="$PROJECT_DIR$/xiaochen-auth" />
             <option value="$PROJECT_DIR$/xiaochen-common" />
             <option value="$PROJECT_DIR$/xiaochen-common/casbin-lettuce-redis-adapter" />
             <option value="$PROJECT_DIR$/xiaochen-common/casbin-lettuce-redis-watcher" />
             <option value="$PROJECT_DIR$/xiaochen-common/casbin-spring-boot-starter" />
+            <option value="$PROJECT_DIR$/xiaochen-common/common-auxiliary" />
             <option value="$PROJECT_DIR$/xiaochen-common/common-core" />
             <option value="$PROJECT_DIR$/xiaochen-common/common-jwt" />
             <option value="$PROJECT_DIR$/xiaochen-common/common-web" />

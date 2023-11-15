@@ -4,7 +4,7 @@ import com.jfinal.template.source.ISource;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @RequiredArgsConstructor
 public class StringSource implements ISource {

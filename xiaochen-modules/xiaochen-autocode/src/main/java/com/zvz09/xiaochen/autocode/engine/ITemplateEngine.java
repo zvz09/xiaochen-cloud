@@ -8,7 +8,7 @@ import java.io.StringWriter;
 import java.util.Map;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public interface ITemplateEngine {
     String engineType();

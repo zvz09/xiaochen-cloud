@@ -1,5 +1,7 @@
 package com.zvz09.xiaochen.system.api.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -13,6 +15,7 @@ import lombok.Data;
 @TableName("casbin_rule")
 public class CasbinRule {
 
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String ptype;
     private String v0;

@@ -11,7 +11,6 @@ import com.zvz09.xiaochen.system.api.RemoteBaseMenuService;
 import com.zvz09.xiaochen.system.api.constant.FeignPath;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.AddMenuAuthorityDto;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysBaseMenuDto;
-import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
 import com.zvz09.xiaochen.system.api.domain.entity.SysBaseMenu;
 import com.zvz09.xiaochen.system.api.domain.entity.SysBaseMenuBtn;
 import com.zvz09.xiaochen.system.api.domain.entity.SysBaseMenuParameter;

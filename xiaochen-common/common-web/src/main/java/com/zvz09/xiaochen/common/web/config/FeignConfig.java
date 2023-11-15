@@ -6,11 +6,14 @@ import feign.Logger;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static com.zvz09.xiaochen.common.core.constant.CommonConstant.TRACE_ID;
+
 /**
- * @author lizili-YF0033
+ * @author zvz09
  * @version 1.0
  * @date 2023-03-09 17:37
  */
@@ -30,6 +33,9 @@ public class FeignConfig implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
+        if(StringUtils.isNoneBlank(MDC.get(TRACE_ID))){
+            requestTemplate.header(TRACE_ID,MDC.get(TRACE_ID));
+        }
         if(SecurityContextHolder.getUserId()!=null){
             requestTemplate.header(SecurityConstants.DETAILS_USER_ID, String.valueOf(SecurityContextHolder.getUserId()));
         }
