@@ -14,14 +14,12 @@ import com.zvz09.xiaochen.system.api.domain.dto.user.RegisterUserDto;
 import com.zvz09.xiaochen.system.api.domain.dto.user.SysUserQuery;
 import com.zvz09.xiaochen.system.api.domain.dto.user.UpdateUserDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
-import com.zvz09.xiaochen.system.api.domain.entity.SysBaseMenu;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUserAuthority;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
 import com.zvz09.xiaochen.system.mapper.SysUserMapper;
 import com.zvz09.xiaochen.system.service.ISysAuthorityMenuService;
 import com.zvz09.xiaochen.system.service.ISysAuthorityService;
-import com.zvz09.xiaochen.system.service.ISysBaseMenuService;
 import com.zvz09.xiaochen.system.service.ISysUserAuthorityService;
 import com.zvz09.xiaochen.system.service.ISysUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,7 +58,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final ISysAuthorityMenuService sysAuthorityMenuService;
 
-    private final ISysBaseMenuService sysBaseMenuService;
 
     @Override
     public SysUser getByUserName(String username) {
@@ -112,13 +109,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         List<Long> sysBaseMenuIds = sysAuthorityMenuService.getMenuIdByAuthorityId(sysUser.getAuthorityId());
-
-        List<SysBaseMenu> sysBaseMenus = sysBaseMenuService.getDefaultMenu(sysAuthority.getDefaultRouter(), sysBaseMenuIds);
-
-        //用户角色默认路由不在菜单内，设置默认路由为 404 页面
-        if (sysBaseMenus == null || sysBaseMenus.isEmpty()) {
-            sysAuthority.setDefaultRouter("404");
-        }
 
         SysUserVo user = new SysUserVo(sysUser, sysAuthority, sysAuthorities);
         return user;

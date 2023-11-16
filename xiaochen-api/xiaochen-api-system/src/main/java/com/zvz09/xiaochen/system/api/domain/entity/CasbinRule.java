@@ -15,7 +15,7 @@ import lombok.Data;
 @TableName("casbin_rule")
 public class CasbinRule {
 
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Integer id;
     private String ptype;
     private String v0;

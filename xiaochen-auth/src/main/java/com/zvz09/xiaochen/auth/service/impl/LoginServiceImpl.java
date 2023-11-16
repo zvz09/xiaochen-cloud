@@ -16,11 +16,9 @@ import com.zvz09.xiaochen.common.jwt.JwtUtils;
 import com.zvz09.xiaochen.common.web.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.RemoteAuthorityMenuService;
 import com.zvz09.xiaochen.system.api.RemoteAuthorityService;
-import com.zvz09.xiaochen.system.api.RemoteBaseMenuService;
 import com.zvz09.xiaochen.system.api.RemoteUserAuthorityService;
 import com.zvz09.xiaochen.system.api.RemoteUserService;
 import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
-import com.zvz09.xiaochen.system.api.domain.entity.SysBaseMenu;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,8 +55,6 @@ public class LoginServiceImpl implements ILoginService {
 
     private final RemoteAuthorityMenuService remoteAuthorityMenuService;
 
-    private final RemoteBaseMenuService remoteBaseMenuService;
-
     @Override
     public LoginVo doLogin(LoginDto loginDto) {
 
@@ -88,12 +84,6 @@ public class LoginServiceImpl implements ILoginService {
 
         List<Long> sysBaseMenuIds = remoteAuthorityMenuService.getMenuIdByAuthorityId(sysUser.getAuthorityId());
 
-        List<SysBaseMenu> sysBaseMenus = remoteBaseMenuService.getDefaultMenu(sysAuthority.getDefaultRouter(), sysBaseMenuIds);
-
-        //用户角色默认路由不在菜单内，设置默认路由为 404 页面
-        if (sysBaseMenus == null || sysBaseMenus.isEmpty()) {
-            sysAuthority.setDefaultRouter("404");
-        }
 
         SysUserVo user = new SysUserVo(sysUser, sysAuthority, sysAuthorities);
 
