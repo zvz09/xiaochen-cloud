@@ -36,40 +36,40 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysDepartmentController {
 
-    private final ISysDepartmentService SysDepartmentService;
+    private final ISysDepartmentService sysDepartmentService;
 
 
     @Operation(summary = "新增部门")
     @PostMapping("/createDepartment")
     public ApiResult<String> createDepartment(@Valid @RequestBody DepartmentDto departmentDto) {
-        SysDepartmentService.createDepartment(departmentDto);
+        sysDepartmentService.createDepartment(departmentDto);
         return ApiResult.success();
     }
 
     @Operation(summary = "删除选中部门")
     @DeleteMapping("/deleteDepartmentByIds")
     public ApiResult<String> deleteDepartmentByIds(@RequestBody List<Long> ids) {
-        SysDepartmentService.deleteDepartmentByIds(ids);
+        sysDepartmentService.deleteDepartmentByIds(ids);
         return ApiResult.success();
     }
 
     @Operation(summary = "删除部门")
     @DeleteMapping("/deleteDepartment")
     public ApiResult<String> deleteDepartment(@Parameter(description = "id") Long id) {
-        SysDepartmentService.deleteDepartment(id);
+        sysDepartmentService.deleteDepartment(id);
         return ApiResult.success();
     }
 
     @Operation(summary = "根据ID更新部门")
     @PutMapping("/updateDepartment")
     public ApiResult<String> updateDepartment(@RequestBody @Validated(value = {UpdateValidation.class, Default.class}) DepartmentDto departmentDto) {
-        SysDepartmentService.updateDepartment(departmentDto);
+        sysDepartmentService.updateDepartment(departmentDto);
         return ApiResult.success();
     }
 
     @Operation(summary = "部门")
     @GetMapping("/getDepartmentTree")
     public ApiResult getDepartmentTree() {
-        return ApiResult.success(SysDepartmentService.getDepartmentTree());
+        return ApiResult.success(sysDepartmentService.getDepartmentTree());
     }
 }

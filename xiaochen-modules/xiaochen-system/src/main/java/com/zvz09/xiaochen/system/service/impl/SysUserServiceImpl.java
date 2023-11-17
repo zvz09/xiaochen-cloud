@@ -75,7 +75,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         queryWrapper.like(StringUtils.isNotBlank(sysUserQuery.getUserName()), SysUser::getUsername, sysUserQuery.getUserName());
         queryWrapper.eq(StringUtils.isNotBlank(sysUserQuery.getPhone()), SysUser::getPhone, sysUserQuery.getPhone());
 
-        Page<SysUser> page = this.page(new Page<>(sysUserQuery.getPage(), sysUserQuery.getPageSize()), queryWrapper);
+        Page<SysUser> page = this.page(new Page<>(sysUserQuery.getPageNum(), sysUserQuery.getPageSize()), queryWrapper);
 
         List<Long> authorityIds = page.getRecords().stream().map(SysUser::getAuthorityId).collect(Collectors.toList());
 
@@ -165,7 +165,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         queryWrapper.like(StringUtils.isNotBlank(sysUserQuery.getUserName()), SysUser::getUsername, sysUserQuery.getUserName());
         queryWrapper.eq(StringUtils.isNotBlank(sysUserQuery.getPhone()), SysUser::getPhone, sysUserQuery.getPhone());
 
-        IPage<SysUser> page = this.page(new Page<>(sysUserQuery.getPage(), sysUserQuery.getPageSize()), queryWrapper);
+        IPage<SysUser> page = this.page(new Page<>(sysUserQuery.getPageNum(), sysUserQuery.getPageSize()), queryWrapper);
 
         return page.convert(sysUser -> new SysUserVo(sysUser.getId(), sysUser.getNickName()));
     }

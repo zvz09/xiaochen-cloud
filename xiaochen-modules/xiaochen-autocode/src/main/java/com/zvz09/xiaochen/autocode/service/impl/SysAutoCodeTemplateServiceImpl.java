@@ -31,7 +31,7 @@ import java.util.List;
 public class SysAutoCodeTemplateServiceImpl extends ServiceImpl<SysAutoCodeTemplateMapper, SysAutoCodeTemplate> implements ISysAutoCodeTemplateService {
     @Override
     public Page<SysAutoCodeTemplate> getAutoCodeTemplateList(QueryDto queryDto) {
-        return this.page(new Page<>(queryDto.getPage(), queryDto.getPageSize()),
+        return this.page(new Page<>(queryDto.getPageNum(), queryDto.getPageSize()),
                 new LambdaQueryWrapper<SysAutoCodeTemplate>()
                         .eq(StringUtils.isNotBlank(queryDto.getLanguage()), SysAutoCodeTemplate::getLanguage, queryDto.getTemplateEngine())
                         .eq(StringUtils.isNotBlank(queryDto.getTemplateEngine()), SysAutoCodeTemplate::getTemplateEngine, queryDto.getTemplateEngine())

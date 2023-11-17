@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { AuthState } from "@/stores/interface";
-import { getAuthButtonListApi, getAuthMenuListApi } from "@/api/modules/login";
+import { listTree } from "@/api/system/menu";
 import { getFlatMenuList, getShowMenuList, getAllBreadcrumbList } from "@/utils";
 
 export const useAuthStore = defineStore({
@@ -26,14 +26,14 @@ export const useAuthStore = defineStore({
     breadcrumbListGet: state => getAllBreadcrumbList(state.authMenuList)
   },
   actions: {
-    // Get AuthButtonList
+    /* // Get AuthButtonList
     async getAuthButtonList() {
       const { data } = await getAuthButtonListApi();
       this.authButtonList = data;
-    },
+    },*/
     // Get AuthMenuList
     async getAuthMenuList() {
-      const { data } = await getAuthMenuListApi();
+      const { data } = await listTree();
       this.authMenuList = data;
     },
     // Set RouteName

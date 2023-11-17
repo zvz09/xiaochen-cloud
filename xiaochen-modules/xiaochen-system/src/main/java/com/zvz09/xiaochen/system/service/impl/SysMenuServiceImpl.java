@@ -3,6 +3,8 @@ package com.zvz09.xiaochen.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
+import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysMenu;
 import com.zvz09.xiaochen.system.api.domain.vo.SysMenuVo;
 import com.zvz09.xiaochen.system.mapper.SysMenuMapper;
@@ -10,10 +12,13 @@ import com.zvz09.xiaochen.system.service.ISysAuthorityMenuService;
 import com.zvz09.xiaochen.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
 
 
 /**
@@ -30,16 +35,52 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenuVo> listTree() {
-        List<Long> menuIds = this.sysAuthorityMenuService.getMenuIdByAuthorityId(SecurityContextHolder.getAuthorityId());
-
-        if (menuIds == null || menuIds.isEmpty()) {
-            return null;
+        List<SysMenu> menuList = new ArrayList<>();
+        if(SUPER_ADMIN.equals(SecurityContextHolder.getAuthorityCode())){
+            menuList = this.list();
+        }else {
+            List<Long> menuIds = this.sysAuthorityMenuService.getMenuIdByAuthorityId(SecurityContextHolder.getAuthorityId());
+            if (menuIds == null || menuIds.isEmpty()) {
+                return null;
+            }
+            menuList = this.list(new LambdaQueryWrapper<SysMenu>().in(SysMenu::getId, menuIds)
+                    .orderByAsc(SysMenu::getSort));
         }
-        List<SysMenu> menuList = this.list(new LambdaQueryWrapper<SysMenu>().in(SysMenu::getId, menuIds)
-                .orderByAsc(SysMenu::getSort));
 
         return this.buildTree(menuList);
     }
+
+    @Override
+    @Transactional
+    public void createMenu(SysMenuDto sysMenuDto) {
+        if (this.count(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getName, sysMenuDto.getName())) > 0) {
+            throw new BusinessException("存在重复name，请修改name");
+        }
+        SysMenu sysMenu = sysMenuDto.convertedToPo();
+        this.save(sysMenu);
+    }
+
+
+    @Override
+    public void deleteMenu(Long id) {
+        this.remove(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getId,id));
+    }
+
+    @Override
+    public void updateMenu(SysMenuDto sysMenuDto) {
+        SysMenu sysBaseMenu = this.getById(sysMenuDto.getId());
+        if (sysBaseMenu == null) {
+            return;
+        }
+        if (this.count(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getName, sysMenuDto.getName())
+                .ne(SysMenu::getId, sysMenuDto.getId())) > 0) {
+            throw new BusinessException("存在重复name，请修改name");
+        }
+        this.updateById(sysMenuDto.convertedToPo());
+    }
+
     private List<SysMenuVo> buildTree(List<SysMenu> menuList) {
         if (menuList == null || menuList.isEmpty()) {
             return null;

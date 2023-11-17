@@ -39,7 +39,7 @@ public class SysDictionaryDetailServiceImpl extends ServiceImpl<SysDictionaryDet
     @Override
     public IPage<SysDictionaryDetailVo> getSysDictionaryDetailList(SysDictionaryDetailQuery dictionaryDetailQuery) {
 
-        IPage<SysDictionaryDetail> dictionaryPage = this.page(new Page<>(dictionaryDetailQuery.getPage(), dictionaryDetailQuery.getPageSize()),
+        IPage<SysDictionaryDetail> dictionaryPage = this.page(new Page<>(dictionaryDetailQuery.getPageNum(), dictionaryDetailQuery.getPageSize()),
                 new LambdaQueryWrapper<SysDictionaryDetail>().eq(SysDictionaryDetail::getSysDictionaryId, dictionaryDetailQuery.getSysDictionaryId())
                         .eq(StringUtils.isNotBlank(dictionaryDetailQuery.getLabel()), SysDictionaryDetail::getLabel, dictionaryDetailQuery.getLabel())
                         .eq(dictionaryDetailQuery.getValue() != null, SysDictionaryDetail::getValue, dictionaryDetailQuery.getValue())
@@ -104,12 +104,12 @@ public class SysDictionaryDetailServiceImpl extends ServiceImpl<SysDictionaryDet
                 this.sysDictionaryService.getOne(new LambdaQueryWrapper<SysDictionary>()
                         .eq(SysDictionary::getType, sysDictionaryType));
         if (sysDictionary == null) {
-            return new Page<>(basePage.getPage(), basePage.getPageSize());
+            return new Page<>(basePage.getPageNum(), basePage.getPageSize());
         }
         SysDictionaryDetailQuery dictionaryDetailQuery = new SysDictionaryDetailQuery();
         dictionaryDetailQuery.setSysDictionaryId(sysDictionary.getId());
         dictionaryDetailQuery.setLabel(basePage.getKeyword());
-        dictionaryDetailQuery.setPage(basePage.getPage());
+        dictionaryDetailQuery.setPageNum(basePage.getPageNum());
         dictionaryDetailQuery.setPageSize(basePage.getPageSize());
         return this.getSysDictionaryDetailList(dictionaryDetailQuery);
     }

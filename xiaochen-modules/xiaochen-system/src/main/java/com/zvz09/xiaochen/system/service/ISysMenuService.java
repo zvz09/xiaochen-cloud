@@ -1,6 +1,7 @@
 package com.zvz09.xiaochen.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysMenu;
 import com.zvz09.xiaochen.system.api.domain.vo.SysMenuVo;
 
@@ -17,5 +18,12 @@ import java.util.List;
 public interface ISysMenuService extends IService<SysMenu> {
 
     List<SysMenuVo> listTree();
+
+    void createMenu(SysMenuDto sysMenuDto);
+
+
+    void deleteMenu(Long id);
+
+    void updateMenu(SysMenuDto sysMenuDto);
 }
 

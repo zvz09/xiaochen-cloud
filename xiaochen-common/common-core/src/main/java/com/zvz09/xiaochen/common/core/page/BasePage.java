@@ -27,7 +27,7 @@ import lombok.Setter;
 public class BasePage {
 
     @Schema(description = "页码")
-    private Long page = 1L;
+    private Long pageNum = 1L;
 
     @Schema(description = "每页大小")
     private Long pageSize = 10L;

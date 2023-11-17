@@ -4,7 +4,7 @@ import { LOGIN_URL } from "@/config";
 import { ElMessage } from "element-plus";
 import { ResultData } from "@/api/interface";
 import { ResultEnum } from "@/enums/httpEnum";
-import { checkStatus } from "./helper/checkStatus";
+import { checkStatus } from "../../api/helper/checkStatus";
 import { useUserStore } from "@/stores/modules/user";
 import router from "@/routers";
 
@@ -36,8 +36,9 @@ class RequestHttp {
       (config: CustomAxiosRequestConfig) => {
         const userStore = useUserStore();
         // 当前请求不需要显示 loading，在 api 服务中通过指定的第三个参数: { loading: false } 来控制
-        config.loading ?? (config.loading = true);
-        config.loading && showFullScreenLoading();
+        //config.loading ?? (config.loading = true);
+        //config.loading && showFullScreenLoading();
+        showFullScreenLoading();
         if (config.headers && typeof config.headers.set === "function") {
           config.headers.set("xc-token", userStore.token);
         }

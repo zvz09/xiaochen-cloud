@@ -59,10 +59,10 @@ public class FlowableModelServiceImpl implements IFlowableModelService {
         if (pageTotal <= 0) {
             return new Page<>();
         }
-        long offset = flowableModelQuery.getPageSize() * (flowableModelQuery.getPage() - 1);
+        long offset = flowableModelQuery.getPageSize() * (flowableModelQuery.getPageNum() - 1);
         List<Model> modelList = modelQuery.listPage(Math.toIntExact(offset), Math.toIntExact(flowableModelQuery.getPageSize()));
         List<FlowableModelVo> modelVoList = buildFlowableModelVos(modelList);
-        Page<FlowableModelVo> page = new Page<>(flowableModelQuery.getPage(), flowableModelQuery.getPageSize());
+        Page<FlowableModelVo> page = new Page<>(flowableModelQuery.getPageNum(), flowableModelQuery.getPageSize());
         page.setRecords(modelVoList);
         page.setTotal(pageTotal);
         return page;
@@ -87,10 +87,10 @@ public class FlowableModelServiceImpl implements IFlowableModelService {
             return new Page<>();
         }
         // offset+1，去掉最新版
-        int offset = (int) (1 + basePage.getPageSize() * (basePage.getPage() - 1));
+        int offset = (int) (1 + basePage.getPageSize() * (basePage.getPageNum() - 1));
         List<Model> modelList = modelQuery.listPage(offset, Math.toIntExact(basePage.getPageSize()));
         List<FlowableModelVo> modelVoList = buildFlowableModelVos(modelList);
-        Page<FlowableModelVo> page = new Page<>(basePage.getPage(), basePage.getPageSize());
+        Page<FlowableModelVo> page = new Page<>(basePage.getPageNum(), basePage.getPageSize());
         page.setRecords(modelVoList);
         page.setTotal(pageTotal);
         return page;

@@ -23,7 +23,7 @@ public class SysOperationRecordServiceImpl extends ServiceImpl<SysOperationRecor
 
     @Override
     public Page<SysOperationRecord> getSysDictionaryList(SysOperationRecordQuery sysOperationRecordQuery) {
-        return this.page(new Page<>(sysOperationRecordQuery.getPage(), sysOperationRecordQuery.getPageSize()),
+        return this.page(new Page<>(sysOperationRecordQuery.getPageNum(), sysOperationRecordQuery.getPageSize()),
                 new LambdaQueryWrapper<SysOperationRecord>()
                         .eq(StringUtils.isNotBlank(sysOperationRecordQuery.getMethod()), SysOperationRecord::getMethod, sysOperationRecordQuery.getMethod())
                         .eq(sysOperationRecordQuery.getStatus() != null, SysOperationRecord::getStatus, sysOperationRecordQuery.getStatus())

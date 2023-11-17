@@ -79,7 +79,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         queryWrapper.eq(StringUtils.isNotEmpty(sysApiQuery.getMethod()), SysApi::getMethod, sysApiQuery.getMethod());
         queryWrapper.orderByAsc(SysApi::getId);
 
-        IPage<SysApi> sysApiPage = this.page(new Page<>(sysApiQuery.getPage(), sysApiQuery.getPageSize()), queryWrapper);
+        IPage<SysApi> sysApiPage = this.page(new Page<>(sysApiQuery.getPageNum(), sysApiQuery.getPageSize()), queryWrapper);
 
         return sysApiPage.convert(SysApiVo::new);
     }

@@ -16,6 +16,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
+
 
 /**
  * @author zvz09
@@ -43,7 +45,7 @@ public class CasbinConfig {
         // policy effect
         model.addDef("e", "e", "some(where (p.eft == allow))");
         // matchers
-        model.addDef("m", "m", "(g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act) || r.sub == \"888\"");
+        model.addDef("m", "m", "g(r.sub, p.sub) && (keyMatch4(r.obj, p.obj) && r.act == p.act) ||  r.sub == '"+SUPER_ADMIN+"'");
 
         Enforcer enforcer;
         if (properties.isUseSyncedEnforcer()) {

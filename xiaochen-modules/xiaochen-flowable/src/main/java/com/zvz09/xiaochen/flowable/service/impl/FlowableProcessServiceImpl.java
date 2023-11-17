@@ -104,7 +104,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableDeployVo> selectPageStartProcessList(ProcessQuery processQuery) {
-        Page<FlowableDeployVo> page = new Page<>(processQuery.getPage(),processQuery.getPageSize());
+        Page<FlowableDeployVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
         // 流程定义列表数据查询
         ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery()
                 .latestVersion()
@@ -117,7 +117,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
         if (pageTotal <= 0) {
             return page;
         }
-        long offset = processQuery.getPageSize() * (processQuery.getPage() - 1);
+        long offset = processQuery.getPageSize() * (processQuery.getPageNum() - 1);
         List<ProcessDefinition> definitionList = processDefinitionQuery.listPage(Math.toIntExact(offset), Math.toIntExact(processQuery.getPageSize()));
 
         List<FlowableDeployVo> definitionVoList = new ArrayList<>();
@@ -143,14 +143,14 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageOwnProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPage(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
         HistoricProcessInstanceQuery historicProcessInstanceQuery = historyService.createHistoricProcessInstanceQuery()
                 .startedBy(String.valueOf(SecurityContextHolder.getUserId()))
                 .orderByProcessInstanceStartTime()
                 .desc();
         // 构建搜索条件
         ProcessUtils.buildProcessSearch(historicProcessInstanceQuery, processQuery);
-        long offset = processQuery.getPageSize() * (processQuery.getPage() - 1);
+        long offset = processQuery.getPageSize() * (processQuery.getPageNum() - 1);
         List<HistoricProcessInstance> historicProcessInstances = historicProcessInstanceQuery
                 .listPage(Math.toIntExact(offset), Math.toIntExact(processQuery.getPageSize()));
         page.setTotal(historicProcessInstanceQuery.count());
@@ -202,7 +202,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageTodoProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPage(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
         TaskQuery taskQuery = taskService.createTaskQuery()
                 .active()
                 .includeProcessVariables()
@@ -211,7 +211,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
         // 构建搜索条件
         ProcessUtils.buildProcessSearch(taskQuery, processQuery);
         page.setTotal(taskQuery.count());
-        long offset = processQuery.getPageSize() * (processQuery.getPage() - 1);
+        long offset = processQuery.getPageSize() * (processQuery.getPageNum() - 1);
         List<Task> taskList = taskQuery.listPage(Math.toIntExact(offset), Math.toIntExact(processQuery.getPageSize()));
         List<FlowableTaskVo> flowList = new ArrayList<>();
         for (Task task : taskList) {
@@ -254,7 +254,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageReceiptedProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPage(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
         TaskQuery taskQuery = taskService.createTaskQuery()
                 .active()
                 .includeProcessVariables()
@@ -266,7 +266,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
         // 构建搜索条件
         ProcessUtils.buildProcessSearch(taskQuery, processQuery);
         page.setTotal(taskQuery.count());
-        long offset = processQuery.getPageSize() * (processQuery.getPage() - 1);
+        long offset = processQuery.getPageSize() * (processQuery.getPageNum() - 1);
         List<Task> taskList = taskQuery.listPage(Math.toIntExact(offset), Math.toIntExact(processQuery.getPageSize()));
         List<FlowableTaskVo> flowList = new ArrayList<>();
         for (Task task : taskList) {
@@ -305,7 +305,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageFinishedProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPage(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
         HistoricTaskInstanceQuery taskInstanceQuery = historyService.createHistoricTaskInstanceQuery()
                 .includeProcessVariables()
                 .finished()
@@ -314,7 +314,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
                 .desc();
         // 构建搜索条件
         ProcessUtils.buildProcessSearch(taskInstanceQuery, processQuery);
-        long offset = processQuery.getPageSize() * (processQuery.getPage() - 1);
+        long offset = processQuery.getPageSize() * (processQuery.getPageNum() - 1);
         List<HistoricTaskInstance> historicTaskInstanceList = taskInstanceQuery.listPage(Math.toIntExact(offset), Math.toIntExact(processQuery.getPageSize()));
         List<FlowableTaskVo> hisTaskList = new ArrayList<>();
         for (HistoricTaskInstance histTask : historicTaskInstanceList) {

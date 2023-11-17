@@ -1,5 +1,5 @@
 // ? 暂未使用，目前使用全局 Loading 来控制重复请求
-import { CustomAxiosRequestConfig } from "../index";
+import { CustomAxiosRequestConfig } from "../../config/axios";
 import qs from "qs";
 
 // 声明一个 Map 用于存储每个请求的标识 和 取消函数

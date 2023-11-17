@@ -59,7 +59,7 @@ public class EventRemindServiceImpl extends ServiceImpl<EventRemindMapper, Event
 
     @Override
     public IPage<EventRemindVo> getByType(String type, Boolean state, BasePage basePage) {
-        IPage<EventRemind> page = this.page(new Page<>(basePage.getPage(), basePage.getPageSize())
+        IPage<EventRemind> page = this.page(new Page<>(basePage.getPageNum(), basePage.getPageSize())
                 , new LambdaQueryWrapper<EventRemind>().eq(StringUtils.isNotBlank(type), EventRemind::getSourceType, type)
                         .eq(state != null, EventRemind::getState, state)
                         .eq(EventRemind::getRecipientId, SecurityContextHolder.getUserId())

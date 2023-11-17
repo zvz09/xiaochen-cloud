@@ -25,7 +25,6 @@ import java.io.Serializable;
  * @description
  * @date 2023/9/1 14:24
  */
-@Getter
 @Setter
 @SuperBuilder
 @AllArgsConstructor
@@ -36,6 +35,10 @@ public class BaseDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull(groups = UpdateValidation.class, message = "id不能为空")
-    private Long id;
+    private String id;
+
+    public Long getId() {
+        return Long.valueOf(id);
+    }
 }
  

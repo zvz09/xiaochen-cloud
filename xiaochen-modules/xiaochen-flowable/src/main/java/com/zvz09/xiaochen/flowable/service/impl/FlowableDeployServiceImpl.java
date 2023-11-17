@@ -49,7 +49,7 @@ public class FlowableDeployServiceImpl implements IFlowableDeployService {
         if (pageTotal <= 0) {
             return null;
         }
-        long offset = processQuery.getPageSize() * (processQuery.getPage() - 1);
+        long offset = processQuery.getPageSize() * (processQuery.getPageNum() - 1);
         List<ProcessDefinition> definitionList = processDefinitionQuery.listPage(Math.toIntExact(offset), Math.toIntExact(processQuery.getPageSize()));
 
         List<FlowableDeployVo> deployVoList = new ArrayList<>(definitionList.size());
@@ -68,7 +68,7 @@ public class FlowableDeployServiceImpl implements IFlowableDeployService {
                     .build();
             deployVoList.add(vo);
         }
-        Page<FlowableDeployVo> page = new Page<>(processQuery.getPage(), processQuery.getPageSize());
+        Page<FlowableDeployVo> page = new Page<>(processQuery.getPageNum(), processQuery.getPageSize());
         page.setRecords(deployVoList);
         page.setTotal(pageTotal);
         return page;
@@ -86,7 +86,7 @@ public class FlowableDeployServiceImpl implements IFlowableDeployService {
             return null;
         }
         // 根据查询条件，查询所有版本
-        long offset = basePage.getPageSize() * (basePage.getPage() - 1);
+        long offset = basePage.getPageSize() * (basePage.getPageNum() - 1);
         List<ProcessDefinition> processDefinitionList = processDefinitionQuery
                 .listPage(Math.toIntExact(offset), Math.toIntExact(basePage.getPageSize()));
         List<FlowableDeployVo> deployVoList = processDefinitionList.stream().map(item -> {
@@ -100,7 +100,7 @@ public class FlowableDeployServiceImpl implements IFlowableDeployService {
                     .category(item.getCategory())
                     .build();
         }).collect(Collectors.toList());
-        Page<FlowableDeployVo> page = new Page<>(basePage.getPage(), basePage.getPageSize());
+        Page<FlowableDeployVo> page = new Page<>(basePage.getPageNum(), basePage.getPageSize());
         page.setRecords(deployVoList);
         page.setTotal(pageTotal);
         return page;

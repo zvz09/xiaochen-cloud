@@ -27,4 +27,6 @@ public class Constants {
             "/swagger-ui.html/**", "/swagger-ui/**"};
 
     public static final String FEIGN_PATH_PREFIX = "/feign";
+
+    public static final String SUPER_ADMIN = "888";
 }

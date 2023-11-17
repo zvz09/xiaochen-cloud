@@ -70,7 +70,7 @@ public class SysPositionServiceImpl extends ServiceImpl<SysPositionMapper, SysPo
 
     @Override
     public Page<SysPosition> getPositionList(QueryDto queryDto) {
-        return this.page(new Page<>(queryDto.getPage(), queryDto.getPageSize()),
+        return this.page(new Page<>(queryDto.getPageNum(), queryDto.getPageSize()),
                 new LambdaQueryWrapper<SysPosition>()
                         .like(StringUtils.isNotBlank(queryDto.getPositionCode()), SysPosition::getPositionCode, queryDto.getPositionCode())
                         .like(StringUtils.isNotBlank(queryDto.getPositionName()), SysPosition::getPositionName, queryDto.getPositionName())

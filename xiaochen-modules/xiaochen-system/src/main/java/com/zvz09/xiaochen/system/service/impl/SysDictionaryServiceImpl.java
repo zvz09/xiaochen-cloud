@@ -29,7 +29,7 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
     @Override
     public IPage<SysDictionaryVo> getSysDictionaryList(SysDictionaryQuery sysDictionaryQuery) {
 
-        IPage<SysDictionary> dictionaryPage = this.page(new Page<>(sysDictionaryQuery.getPage(), sysDictionaryQuery.getPageSize()),
+        IPage<SysDictionary> dictionaryPage = this.page(new Page<>(sysDictionaryQuery.getPageNum(), sysDictionaryQuery.getPageSize()),
                 new LambdaQueryWrapper<SysDictionary>()
                         .like(StringUtils.isNotBlank(sysDictionaryQuery.getName()), SysDictionary::getName, sysDictionaryQuery.getName())
                         .like(StringUtils.isNotBlank(sysDictionaryQuery.getType()), SysDictionary::getType, sysDictionaryQuery.getType())

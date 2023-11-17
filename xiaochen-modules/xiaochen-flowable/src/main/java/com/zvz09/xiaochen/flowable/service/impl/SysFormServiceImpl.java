@@ -115,6 +115,6 @@ public class SysFormServiceImpl extends ServiceImpl<SysFormMapper, SysForm> impl
     public Page<SysForm> selectSysFormPage(SysFormQuery sysFormQuery) {
         LambdaQueryWrapper<SysForm> queryWrapper = new LambdaQueryWrapper<SysForm>()
                 .like(StringUtils.isNotBlank(sysFormQuery.getKeyword()), SysForm::getFormName, sysFormQuery.getKeyword());
-        return this.page(new Page<>(sysFormQuery.getPage(), sysFormQuery.getPageSize()), queryWrapper);
+        return this.page(new Page<>(sysFormQuery.getPageNum(), sysFormQuery.getPageSize()), queryWrapper);
     }
 }

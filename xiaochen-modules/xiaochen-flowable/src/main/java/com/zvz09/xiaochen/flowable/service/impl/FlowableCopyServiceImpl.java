@@ -73,8 +73,8 @@ public class FlowableCopyServiceImpl extends ServiceImpl<FlowableCopyMapper, Flo
     public Page<FlowableCopyVo> selectPageList(FlowableCopyDto flowableCopyDto, BasePage basePage) {
         LambdaQueryWrapper<FlowableCopy> lqw = buildQueryWrapper(flowableCopyDto);
         lqw.orderByDesc(FlowableCopy::getCreatedAt);
-        Page<FlowableCopy> result = baseMapper.selectPage(new Page<>(basePage.getPage(), basePage.getPageSize()), lqw);
-        Page<FlowableCopyVo> flowableCopyVoPage = new Page<>(basePage.getPage(), basePage.getPageSize());
+        Page<FlowableCopy> result = baseMapper.selectPage(new Page<>(basePage.getPageNum(), basePage.getPageSize()), lqw);
+        Page<FlowableCopyVo> flowableCopyVoPage = new Page<>(basePage.getPageNum(), basePage.getPageSize());
         List<FlowableCopyVo> voList = new ArrayList<>();
         result.getRecords().forEach(flowableCopy -> {
             voList.add(new FlowableCopyVo(flowableCopy));

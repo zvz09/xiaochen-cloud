@@ -20,7 +20,7 @@ public class SysGenCodeHistoryServiceImpl extends ServiceImpl<SysGenCodeHistoryM
 
     @Override
     public Page<SysGenCodeHistory> getGenCodeHistoryList(BasePage queryDto) {
-        return this.page(new Page<>(queryDto.getPage(), queryDto.getPageSize()),
+        return this.page(new Page<>(queryDto.getPageNum(), queryDto.getPageSize()),
                 new LambdaQueryWrapper<SysGenCodeHistory>().orderByDesc(SysGenCodeHistory::getCreatedAt)
         );
     }
