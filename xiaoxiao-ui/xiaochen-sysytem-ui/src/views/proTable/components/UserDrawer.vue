@@ -12,19 +12,23 @@
       <el-form-item label="用户头像" prop="avatar">
         <UploadImg v-model:image-url="drawerProps.row!.avatar" width="135px" height="135px" :file-size="3">
           <template #empty>
-            <el-icon><Avatar /></el-icon>
+            <el-icon>
+              <Avatar />
+            </el-icon>
             <span>请上传头像</span>
           </template>
-          <template #tip> 头像大小不能超过 3M </template>
+          <template #tip> 头像大小不能超过 3M</template>
         </UploadImg>
       </el-form-item>
       <el-form-item label="用户照片" prop="photo">
         <UploadImgs v-model:file-list="drawerProps.row!.photo" height="140px" width="140px" border-radius="50%">
           <template #empty>
-            <el-icon><Picture /></el-icon>
+            <el-icon>
+              <Picture />
+            </el-icon>
             <span>请上传照片</span>
           </template>
-          <template #tip> 照片大小不能超过 5M </template>
+          <template #tip> 照片大小不能超过 5M</template>
         </UploadImgs>
       </el-form-item>
       <el-form-item label="用户姓名" prop="username">
@@ -53,7 +57,7 @@
 </template>
 
 <script setup lang="ts" name="UserDrawer">
-import { ref, reactive } from "vue";
+import { reactive, ref } from "vue";
 import { genderType } from "@/utils/dict";
 import { ElMessage, FormInstance } from "element-plus";
 import { User } from "@/api/interface";

@@ -32,5 +32,5 @@ public interface ISysUserService extends IService<SysUser> {
 
     void deleteUser(Long id);
 
-    IPage<SysUserVo> getAllUser(SysUserQuery sysUserQuery);
+    IPage<SysUserVo> simpleList(SysUserQuery sysUserQuery);
 }

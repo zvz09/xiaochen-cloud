@@ -7,9 +7,9 @@
 package com.zvz09.xiaochen.system.api.domain.vo;
 
 import com.zvz09.xiaochen.common.web.vo.BaseVo;
-import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
 import com.zvz09.xiaochen.system.api.domain.entity.SysDepartment;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPosition;
+import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +36,6 @@ import java.util.List;
 @Schema(name = "SysUserVo", description = "")
 public class SysUserVo extends BaseVo {
 
-    @Schema(description = "用户UUID")
-    private String uuid;
-
     @Schema(description = "用户登录名")
     private String username;
 
@@ -54,11 +50,7 @@ public class SysUserVo extends BaseVo {
 
     private String activeColor;
 
-    private Long authorityId;
-
-    private SysAuthorityVo authority;
-
-    private List<SysAuthorityVo> authorities;
+    private List<SysRoleVo> authorities;
 
     private String phone;
 
@@ -76,70 +68,36 @@ public class SysUserVo extends BaseVo {
 
     public SysUserVo(@NotNull SysUser sysUser) {
         super(sysUser.getId());
-        this.uuid = sysUser.getUuid();
         this.username = sysUser.getUsername();
         this.nickName = sysUser.getNickName();
         this.sideMode = sysUser.getSideMode();
         this.headerImg = sysUser.getHeaderImg();
         this.baseColor = sysUser.getBaseColor();
         this.activeColor = sysUser.getActiveColor();
-        this.authorityId = sysUser.getAuthorityId();
         this.phone = sysUser.getPhone();
         this.email = sysUser.getEmail();
         this.enable = sysUser.getEnable();
     }
 
-    public SysUserVo(@NotNull SysUser sysUser, SysAuthority sysAuthority) {
+    public SysUserVo(@NotNull SysUser sysUser, List<SysRole> sysAuthorities) {
         super(sysUser.getId());
-        this.uuid = sysUser.getUuid();
         this.username = sysUser.getUsername();
         this.nickName = sysUser.getNickName();
         this.sideMode = sysUser.getSideMode();
         this.headerImg = sysUser.getHeaderImg();
         this.baseColor = sysUser.getBaseColor();
         this.activeColor = sysUser.getActiveColor();
-        this.authorityId = sysUser.getAuthorityId();
         this.phone = sysUser.getPhone();
         this.email = sysUser.getEmail();
         this.enable = sysUser.getEnable();
-        if (sysAuthority == null) {
-            this.authority = null;
-        } else {
-            SysAuthorityVo sysAuthorityVo = new SysAuthorityVo();
-            BeanUtils.copyProperties(sysAuthority, sysAuthorityVo);
-            this.authority = sysAuthorityVo;
-        }
-    }
 
-    public SysUserVo(@NotNull SysUser sysUser, SysAuthority sysAuthority, List<SysAuthority> sysAuthorities) {
-        super(sysUser.getId());
-        this.uuid = sysUser.getUuid();
-        this.username = sysUser.getUsername();
-        this.nickName = sysUser.getNickName();
-        this.sideMode = sysUser.getSideMode();
-        this.headerImg = sysUser.getHeaderImg();
-        this.baseColor = sysUser.getBaseColor();
-        this.activeColor = sysUser.getActiveColor();
-        this.authorityId = sysUser.getAuthorityId();
-        this.phone = sysUser.getPhone();
-        this.email = sysUser.getEmail();
-        this.enable = sysUser.getEnable();
-        if (sysAuthority == null) {
-            this.authority = null;
-        } else {
-            SysAuthorityVo sysAuthorityVo = new SysAuthorityVo();
-            BeanUtils.copyProperties(sysAuthority, sysAuthorityVo);
-            this.authority = sysAuthorityVo;
-        }
 
         if (sysAuthorities == null) {
             this.authorities = null;
         } else {
-            List<SysAuthorityVo> authorities = new ArrayList<>();
-            sysAuthorities.forEach(s -> {
-                SysAuthorityVo sysAuthorityVo = new SysAuthorityVo();
-                BeanUtils.copyProperties(s, sysAuthorityVo);
-                authorities.add(sysAuthorityVo);
+            List<SysRoleVo> authorities = new ArrayList<>();
+            sysAuthorities.forEach(role -> {
+                authorities.add(new SysRoleVo(role));
             });
             this.authorities = authorities;
         }

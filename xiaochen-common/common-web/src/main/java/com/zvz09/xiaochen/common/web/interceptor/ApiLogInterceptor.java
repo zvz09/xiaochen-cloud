@@ -40,7 +40,6 @@ public class ApiLogInterceptor implements HandlerInterceptor {
     private final ApiLogProperties apiLogProperties;
 
 
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
@@ -86,7 +85,7 @@ public class ApiLogInterceptor implements HandlerInterceptor {
         }
         String body = "";
         if ((response instanceof BodyCachingHttpServletResponseWrapper responseWrapper)) {
-            if (response.getContentType()!=null && !response.getContentType().contains("application/octet-stream")) {
+            if (response.getContentType() != null && !response.getContentType().contains("application/octet-stream")) {
                 body = new String(responseWrapper.getBody());
             }
         }

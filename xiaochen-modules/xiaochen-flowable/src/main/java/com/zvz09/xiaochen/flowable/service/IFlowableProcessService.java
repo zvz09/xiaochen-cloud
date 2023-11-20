@@ -21,7 +21,7 @@ public interface IFlowableProcessService {
 
     Page<FlowableTaskVo> selectPageReceiptedProcessList(ProcessQuery processQuery);
 
-    Page<FlowableTaskVo>  selectPageFinishedProcessList(ProcessQuery processQuery);
+    Page<FlowableTaskVo> selectPageFinishedProcessList(ProcessQuery processQuery);
 
     SysFormVo selectFormContent(String definitionId, String deployId, String procInsId);
 

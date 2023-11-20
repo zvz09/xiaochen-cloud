@@ -56,7 +56,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String obj = requestUrl.getPath();
         // 获取请求方法
         String act = request.getMethod().name();
-        log.info("用户ip:{},访问路径:{},请求类型：{},后端服务名:{}", requestUrl.getHost(), requestUrl.getPath(),act,route.getId());
+        log.info("用户ip:{},访问路径:{},请求类型：{},后端服务名:{}", requestUrl.getHost(), requestUrl.getPath(), act, route.getId());
 
         // 获取请求头中token
         String token = exchange.getRequest().getHeaders().getFirst(LoginConstant.TOKEN_NAME);
@@ -71,13 +71,13 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String userkey = JwtUtils.getUserKey(claims);
         String userid = JwtUtils.getUserId(claims);
         String username = JwtUtils.getUserName(claims);
-        String authorityId = JwtUtils.getAuthorityId(claims);
-        String authorityCode = JwtUtils.getAuthorityCode(claims);
+        String roleId = JwtUtils.getRoleId(claims);
+        String roleCode = JwtUtils.getRoleCode(claims);
         if (StringUtils.isEmpty(userid) || StringUtils.isEmpty(username)) {
             return unauthorizedResponse(exchange, "令牌验证失败");
         }
 
-        if(!enforcer.enforce(authorityCode, obj, act)){
+        if (!enforcer.enforce(roleCode, obj, act)) {
             return unauthorizedResponse(exchange, "用户权限不足");
         }
 
@@ -85,8 +85,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
         addHeader(mutate, SecurityConstants.USER_KEY, userkey);
         addHeader(mutate, SecurityConstants.DETAILS_USER_ID, userid);
         addHeader(mutate, SecurityConstants.DETAILS_USERNAME, username);
-        addHeader(mutate, SecurityConstants.DETAILS_AUTHORITY_ID, authorityId);
-        addHeader(mutate, SecurityConstants.DETAILS_AUTHORITY_CODE, authorityCode);
+        addHeader(mutate, SecurityConstants.DETAILS_AUTHORITY_ID, roleId);
+        addHeader(mutate, SecurityConstants.DETAILS_AUTHORITY_CODE, roleCode);
         // 内部请求来源参数清除
         removeHeader(mutate, SecurityConstants.FROM_SOURCE);
         return chain.filter(exchange.mutate().request(mutate.build()).build());
@@ -111,10 +111,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
     }
 
 
-
     @Override
     public int getOrder() {
-        return  10001;  //这里要在 RouteToRequestUrlFilter 之后执行，才可以获得路由之后的路径
+        return 10001;  //这里要在 RouteToRequestUrlFilter 之后执行，才可以获得路由之后的路径
     }
 
 }

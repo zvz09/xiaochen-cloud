@@ -30,7 +30,7 @@ public interface RemoteUserService {
     SysUser getByUserName(@RequestParam(name = "username") String username);
 
     @GetMapping("/getById")
-    SysUser getById(@RequestParam(name = "id")Long id);
+    SysUser getById(@RequestParam(name = "id") Long id);
 
     @GetMapping("/getUserInfo")
     SysUserVo getUserInfo();

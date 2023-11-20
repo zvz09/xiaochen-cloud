@@ -9,7 +9,6 @@ package com.zvz09.xiaochen.message.api.constant;
 import static com.zvz09.xiaochen.common.core.constant.Constants.FEIGN_PATH_PREFIX;
 
 /**
- *
  * @author zvz09
  * @version 1.0
  * @description

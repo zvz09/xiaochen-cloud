@@ -2,7 +2,9 @@
   <el-drawer v-model="drawerVisible" title="布局设置" size="290px">
     <!-- 布局样式 -->
     <el-divider class="divider" content-position="center">
-      <el-icon><Notification /></el-icon>
+      <el-icon>
+        <Notification />
+      </el-icon>
       布局样式
     </el-divider>
     <div class="layout-box">
@@ -71,7 +73,9 @@
 
     <!-- 全局主题 -->
     <el-divider class="divider" content-position="center">
-      <el-icon><ColdDrink /></el-icon>
+      <el-icon>
+        <ColdDrink />
+      </el-icon>
       全局主题
     </el-divider>
     <div class="theme-item">
@@ -93,7 +97,9 @@
 
     <!-- 界面设置 -->
     <el-divider class="divider" content-position="center">
-      <el-icon><Setting /></el-icon>
+      <el-icon>
+        <Setting />
+      </el-icon>
       界面设置
     </el-divider>
     <div class="theme-item">

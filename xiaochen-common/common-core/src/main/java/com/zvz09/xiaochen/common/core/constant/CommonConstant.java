@@ -66,5 +66,5 @@ public interface CommonConstant {
     /**
      *
      */
-    String LOGIN_USER_AUTHORITY_ID = "login_user_authority_Id";
+    String LOGIN_USER_AUTHORITY_ID = "login_user_role_Id";
 }

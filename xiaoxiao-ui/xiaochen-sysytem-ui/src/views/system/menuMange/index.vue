@@ -12,7 +12,7 @@
       >
         <!-- 表格 header 按钮 -->
         <template #tableHeader>
-          <el-button type="primary" :icon="CirclePlus" @click="addMenu('0')">新增菜单 </el-button>
+          <el-button type="primary" :icon="CirclePlus" @click="addMenu('0')">新增菜单</el-button>
         </template>
         <!-- 菜单图标 -->
         <template #icon="scope">
@@ -22,9 +22,9 @@
         </template>
         <!-- 菜单操作 -->
         <template #operation="scope">
-          <el-button type="primary" link :icon="Plus" @click="addMenu(scope.row.id)"> 新增 </el-button>
-          <el-button type="primary" link :icon="EditPen" @click="editMenu(scope.row)"> 编辑 </el-button>
-          <el-button type="primary" link :icon="Delete" @click="delMenu(scope.row.id)"> 删除 </el-button>
+          <el-button type="primary" link :icon="Plus" @click="addMenu(scope.row.id)"> 新增</el-button>
+          <el-button type="primary" link :icon="EditPen" @click="editMenu(scope.row)"> 编辑</el-button>
+          <el-button type="primary" link :icon="Delete" @click="delMenu(scope.row.id)"> 删除</el-button>
         </template>
       </ProTable>
     </div>
@@ -96,10 +96,10 @@
 <script setup lang="ts" name="menuMange">
 import { reactive, ref } from "vue";
 import { ColumnProps } from "@/components/ProTable/interface";
-import { Plus, Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
+import { CirclePlus, Delete, EditPen, Plus } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
-import { MenuVO, MenuForm } from "@/api/system/menu/types";
-import { createMenu, deleteMenu, updateMenu, listTree } from "@/api/system/menu";
+import { MenuForm, MenuVO } from "@/api/system/menu/types";
+import { createMenu, deleteMenu, listTree, updateMenu } from "@/api/system/menu";
 import { ElMessage, ElMessageBox, FormInstance, FormRules } from "element-plus";
 import SelectIcon from "@/components/SelectIcon/index.vue";
 

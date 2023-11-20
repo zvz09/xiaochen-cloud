@@ -136,7 +136,7 @@ public class JwtUtils {
      * @param token 令牌
      * @return 角色ID
      */
-    public static String getAuthorityId(String token) {
+    public static String getRoleId(String token) {
         Claims claims = parseToken(token);
         return getValue(claims, SecurityConstants.DETAILS_AUTHORITY_ID);
     }
@@ -148,7 +148,7 @@ public class JwtUtils {
      * @param claims 身份信息
      * @return 用户名
      */
-    public static String getAuthorityId(Claims claims) {
+    public static String getRoleId(Claims claims) {
         return getValue(claims, SecurityConstants.DETAILS_AUTHORITY_ID);
     }
 
@@ -158,7 +158,7 @@ public class JwtUtils {
      * @param token 令牌
      * @return 角色Code
      */
-    public static String getAuthorityCode(String token) {
+    public static String getRoleCode(String token) {
         Claims claims = parseToken(token);
         return getValue(claims, SecurityConstants.DETAILS_AUTHORITY_CODE);
     }
@@ -170,7 +170,7 @@ public class JwtUtils {
      * @param claims 身份信息
      * @return 用户名
      */
-    public static String getAuthorityCode(Claims claims) {
+    public static String getRoleCode(Claims claims) {
         return getValue(claims, SecurityConstants.DETAILS_AUTHORITY_CODE);
     }
 

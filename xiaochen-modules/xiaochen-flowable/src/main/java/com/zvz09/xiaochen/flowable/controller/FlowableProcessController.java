@@ -41,12 +41,13 @@ public class FlowableProcessController {
 
     /**
      * 查询可发起流程列表
+     *
      * @param processQuery 查询参数
      */
     @GetMapping(value = "/list")
     @Operation(summary = "查询可发起流程列表")
     public ApiResult<Page<FlowableDeployVo>> startProcessList(ProcessQuery processQuery) {
-        return  ApiResult.success(flowableProcessService.selectPageStartProcessList(processQuery));
+        return ApiResult.success(flowableProcessService.selectPageStartProcessList(processQuery));
     }
 
     /**
@@ -80,7 +81,6 @@ public class FlowableProcessController {
 
     /**
      * 获取已办列表
-     *
      */
     @GetMapping(value = "/finishedList")
     @Operation(summary = "获取已办列表")
@@ -92,7 +92,7 @@ public class FlowableProcessController {
      * 查询流程部署关联表单信息
      *
      * @param definitionId 流程定义id
-     * @param deployId 流程部署id
+     * @param deployId     流程部署id
      */
     @GetMapping("/getProcessForm")
     @Operation(summary = "查询流程部署关联表单信息")
@@ -129,6 +129,7 @@ public class FlowableProcessController {
 
     /**
      * 读取xml文件
+     *
      * @param processDefId 流程定义ID
      */
     @GetMapping("/bpmnXml")
@@ -141,7 +142,7 @@ public class FlowableProcessController {
      * 查询流程详情信息
      *
      * @param procInsId 流程实例ID
-     * @param taskId 任务ID
+     * @param taskId    任务ID
      */
     @GetMapping("/detail")
     @Operation(summary = "查询流程详情信息")

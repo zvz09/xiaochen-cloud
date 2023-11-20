@@ -13,7 +13,7 @@ public class LettuceSubscriber {
         this.runnable = updateCallback;
     }
 
-    public void setUpdateCallback(Runnable runnable){
+    public void setUpdateCallback(Runnable runnable) {
         this.runnable = runnable;
     }
 

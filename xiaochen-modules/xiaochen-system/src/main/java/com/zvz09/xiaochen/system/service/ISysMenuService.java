@@ -21,7 +21,6 @@ public interface ISysMenuService extends IService<SysMenu> {
 
     void createMenu(SysMenuDto sysMenuDto);
 
-
     void deleteMenu(Long id);
 
     void updateMenu(SysMenuDto sysMenuDto);

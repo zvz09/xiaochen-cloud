@@ -1,6 +1,7 @@
 // 请求响应参数（不包含data）
 export interface Result {
-  code: string;
+  code: number;
+  success: boolean;
   msg: string;
 }
 
@@ -36,10 +37,12 @@ export namespace Login {
     username: string;
     password: string;
   }
+
   export interface ResLogin {
     user: any;
     token: string;
   }
+
   export interface ResAuthButtons {
     [key: string]: string[];
   }
@@ -56,6 +59,7 @@ export namespace User {
     createTime: string[];
     status: number;
   }
+
   export interface ResUserList {
     id: string;
     username: string;
@@ -70,19 +74,23 @@ export namespace User {
     photo: any[];
     children?: ResUserList[];
   }
+
   export interface ResStatus {
     userLabel: string;
     userValue: number;
   }
+
   export interface ResGender {
     genderLabel: string;
     genderValue: number;
   }
+
   export interface ResDepartment {
     id: string;
     name: string;
     children?: ResDepartment[];
   }
+
   export interface ResRole {
     id: string;
     name: string;

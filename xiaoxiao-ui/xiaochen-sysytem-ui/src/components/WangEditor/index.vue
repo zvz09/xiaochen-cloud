@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts" name="WangEditor">
-import { nextTick, computed, inject, shallowRef, onBeforeUnmount } from "vue";
-import { IToolbarConfig, IEditorConfig } from "@wangeditor/editor";
+import { computed, inject, nextTick, onBeforeUnmount, shallowRef } from "vue";
+import { IEditorConfig, IToolbarConfig } from "@wangeditor/editor";
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { uploadImg, uploadVideo } from "@/api/modules/upload";
 import "@wangeditor/editor/dist/css/style.css";
@@ -39,6 +39,7 @@ interface RichEditorProps {
   hideToolBar?: boolean; // 是否隐藏工具栏 ==> 非必传（默认为false）
   disabled?: boolean; // 是否禁用编辑器 ==> 非必传（默认为false）
 }
+
 const props = withDefaults(defineProps<RichEditorProps>(), {
   toolbarConfig: () => {
     return {

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, provide, watch } from "vue";
+import { onBeforeUnmount, provide, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useDebounceFn } from "@vueuse/core";
 import { useGlobalStore } from "@/stores/modules/global";

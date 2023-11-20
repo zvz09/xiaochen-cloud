@@ -10,7 +10,7 @@ public class Constants {
      * UTF-8 字符集
      */
     public static final String UTF8 = "UTF-8";
-    
+
     /**
      * http请求
      */
@@ -20,8 +20,8 @@ public class Constants {
      * https请求
      */
     public static final String HTTPS = "https://";
-    
-    
+
+
     public static final String[] EXCLUDE_PATH_PATTERNS = {"/favicon.ico", "/error",
             "/doc.html", "/webjars/**", "/swagger-resources/**", "/v3/api-docs/**",
             "/swagger-ui.html/**", "/swagger-ui/**"};

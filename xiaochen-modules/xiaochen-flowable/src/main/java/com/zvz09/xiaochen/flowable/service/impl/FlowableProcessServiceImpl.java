@@ -32,11 +32,11 @@ import com.zvz09.xiaochen.flowable.service.ISysFormService;
 import com.zvz09.xiaochen.flowable.utils.FlowableUtils;
 import com.zvz09.xiaochen.flowable.utils.ModelUtils;
 import com.zvz09.xiaochen.flowable.utils.ProcessUtils;
-import com.zvz09.xiaochen.system.api.RemoteAuthorityService;
 import com.zvz09.xiaochen.system.api.RemoteDepartmentService;
+import com.zvz09.xiaochen.system.api.RemoteRoleService;
 import com.zvz09.xiaochen.system.api.RemoteUserService;
-import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
 import com.zvz09.xiaochen.system.api.domain.entity.SysDepartment;
+import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
 import lombok.RequiredArgsConstructor;
@@ -95,7 +95,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
     private final RuntimeService runtimeService;
 
     private final RemoteUserService remoteUserService;
-    private final RemoteAuthorityService remoteAuthorityService;
+    private final RemoteRoleService remoteRoleService;
     private final RemoteDepartmentService remoteDepartmentService;
 
     private final IFlowableTaskService flowableTaskService;
@@ -104,7 +104,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableDeployVo> selectPageStartProcessList(ProcessQuery processQuery) {
-        Page<FlowableDeployVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
+        Page<FlowableDeployVo> page = new Page<>(processQuery.getPageNum(), processQuery.getPageSize());
         // 流程定义列表数据查询
         ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery()
                 .latestVersion()
@@ -143,7 +143,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageOwnProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(), processQuery.getPageSize());
         HistoricProcessInstanceQuery historicProcessInstanceQuery = historyService.createHistoricProcessInstanceQuery()
                 .startedBy(String.valueOf(SecurityContextHolder.getUserId()))
                 .orderByProcessInstanceStartTime()
@@ -202,7 +202,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageTodoProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(), processQuery.getPageSize());
         TaskQuery taskQuery = taskService.createTaskQuery()
                 .active()
                 .includeProcessVariables()
@@ -239,7 +239,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
             Long userId = Long.parseLong(historicProcessInstance.getStartUserId());
             SysUser sysUser = remoteUserService.getById(userId);
             flowTask.setStartUserId(userId);
-            if(sysUser !=null){
+            if (sysUser != null) {
                 flowTask.setStartUserName(sysUser.getNickName());
             }
 
@@ -254,7 +254,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageReceiptedProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(), processQuery.getPageSize());
         TaskQuery taskQuery = taskService.createTaskQuery()
                 .active()
                 .includeProcessVariables()
@@ -293,7 +293,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
             Long userId = Long.parseLong(historicProcessInstance.getStartUserId());
             flowTask.setStartUserId(userId);
             SysUser sysUser = remoteUserService.getById(userId);
-            if(sysUser !=null){
+            if (sysUser != null) {
                 flowTask.setStartUserName(sysUser.getNickName());
             }
 
@@ -305,7 +305,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
 
     @Override
     public Page<FlowableTaskVo> selectPageFinishedProcessList(ProcessQuery processQuery) {
-        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(),processQuery.getPageSize());
+        Page<FlowableTaskVo> page = new Page<>(processQuery.getPageNum(), processQuery.getPageSize());
         HistoricTaskInstanceQuery taskInstanceQuery = historyService.createHistoricTaskInstanceQuery()
                 .includeProcessVariables()
                 .finished()
@@ -346,7 +346,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
             Long userId = Long.parseLong(historicProcessInstance.getStartUserId());
             flowTask.setStartUserId(userId);
             SysUser sysUser = remoteUserService.getById(userId);
-            if(sysUser !=null){
+            if (sysUser != null) {
                 flowTask.setStartUserName(sysUser.getNickName());
             }
 
@@ -400,7 +400,7 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
                     .processDefinitionId(processDefId).singleResult();
             startProcess(processDefinition, variables);
         } catch (Exception e) {
-            log.error("流程启动错误",e);
+            log.error("流程启动错误", e);
             throw new BusinessException("流程启动错误");
         }
     }
@@ -549,9 +549,9 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
                         }
                         if (StringUtils.isNotBlank(identityLink.getGroupId())) {
                             if (identityLink.getGroupId().startsWith(TaskConstants.ROLE_GROUP_PREFIX)) {
-                                String authorityCode = StringUtils.stripStart(identityLink.getGroupId(), TaskConstants.ROLE_GROUP_PREFIX);
-                                SysAuthority role = remoteAuthorityService.getByAuthorityCode(authorityCode);
-                                stringBuilder.append(role.getAuthorityName()).append(",");
+                                String roleCode = StringUtils.stripStart(identityLink.getGroupId(), TaskConstants.ROLE_GROUP_PREFIX);
+                                SysRole role = remoteRoleService.getByRoleCode(roleCode);
+                                stringBuilder.append(role.getRoleName()).append(",");
                             } else if (identityLink.getGroupId().startsWith(TaskConstants.DEPT_GROUP_PREFIX)) {
                                 Long deptId = Long.parseLong(StringUtils.stripStart(identityLink.getGroupId(), TaskConstants.DEPT_GROUP_PREFIX));
                                 SysDepartment dept = remoteDepartmentService.getById(deptId);
@@ -683,12 +683,12 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
      *
      * @return candidateGroup
      */
-    private  List<String> getCandidateGroup() {
+    private List<String> getCandidateGroup() {
         List<String> list = new ArrayList<>();
         SysUserVo user = remoteUserService.getUserInfo();
         if (ObjectUtil.isNotNull(user)) {
             if (ObjectUtil.isNotEmpty(user.getAuthorities())) {
-                user.getAuthorities().forEach(authorityVo -> list.add(TaskConstants.ROLE_GROUP_PREFIX + authorityVo.getAuthorityCode()));
+                user.getAuthorities().forEach(roleVo -> list.add(TaskConstants.ROLE_GROUP_PREFIX + roleVo.getRoleCode()));
             }
         }
         return list;

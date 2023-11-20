@@ -2,21 +2,23 @@ package com.zvz09.xiaochen.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zvz09.xiaochen.common.core.util.TreeBuilder;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
 import com.zvz09.xiaochen.common.web.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysMenu;
 import com.zvz09.xiaochen.system.api.domain.vo.SysMenuVo;
+import com.zvz09.xiaochen.system.converter.SysMenuTreeConverter;
 import com.zvz09.xiaochen.system.mapper.SysMenuMapper;
-import com.zvz09.xiaochen.system.service.ISysAuthorityMenuService;
 import com.zvz09.xiaochen.system.service.ISysMenuService;
+import com.zvz09.xiaochen.system.service.ISysPermCodeService;
+import com.zvz09.xiaochen.system.service.ISysRolePermCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
 
@@ -31,23 +33,25 @@ import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
-    private final ISysAuthorityMenuService sysAuthorityMenuService;
+    private final ISysPermCodeService sysPermCodeService;
+    private final ISysRolePermCodeService sysRolePermCodeService;
 
     @Override
     public List<SysMenuVo> listTree() {
         List<SysMenu> menuList = new ArrayList<>();
-        if(SUPER_ADMIN.equals(SecurityContextHolder.getAuthorityCode())){
+        if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
             menuList = this.list();
-        }else {
-            List<Long> menuIds = this.sysAuthorityMenuService.getMenuIdByAuthorityId(SecurityContextHolder.getAuthorityId());
+        } else {
+            List<Long> menuIds = this.sysRolePermCodeService.getMenuIdByRoleId(SecurityContextHolder.getRoleId());
             if (menuIds == null || menuIds.isEmpty()) {
                 return null;
             }
             menuList = this.list(new LambdaQueryWrapper<SysMenu>().in(SysMenu::getId, menuIds)
                     .orderByAsc(SysMenu::getSort));
         }
+        return new TreeBuilder<SysMenu, SysMenuVo>(t -> t.getParentId() == 0L)
+                .buildTree(menuList, new SysMenuTreeConverter());
 
-        return this.buildTree(menuList);
     }
 
     @Override
@@ -59,12 +63,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
         SysMenu sysMenu = sysMenuDto.convertedToPo();
         this.save(sysMenu);
+        sysPermCodeService.createAndSave(sysMenu.getId(), sysMenuDto);
     }
 
 
     @Override
     public void deleteMenu(Long id) {
-        this.remove(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getId,id));
+        this.remove(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getId, id));
     }
 
     @Override
@@ -79,34 +84,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             throw new BusinessException("存在重复name，请修改name");
         }
         this.updateById(sysMenuDto.convertedToPo());
-    }
-
-    private List<SysMenuVo> buildTree(List<SysMenu> menuList) {
-        if (menuList == null || menuList.isEmpty()) {
-            return null;
-        }
-        List<Long> menuIds = menuList.stream().map(SysMenu::getId).collect(Collectors.toList());
-
-        List<SysMenuVo> menuVos = new ArrayList<>();
-        menuList.stream().filter(t -> "0".equals(t.getParentId()))
-                .forEach((menu) -> {
-                    SysMenuVo sysBaseMenuVo = new SysMenuVo(menu);
-                    sysBaseMenuVo.setChildren(this.getChildren(menu, menuList));
-                    menuVos.add(sysBaseMenuVo);
-                });
-        return menuVos;
-    }
-
-    private List<SysMenuVo> getChildren(SysMenu root, List<SysMenu> allMenus) {
-        List<SysMenuVo> menuVos = new ArrayList<>();
-        allMenus.stream()
-                .filter(t -> t.getParentId().equals(String.valueOf(root.getId())))
-                .forEach((menu) -> {
-                    SysMenuVo sysBaseMenuVo = new SysMenuVo(menu);
-                    sysBaseMenuVo.setChildren(this.getChildren(menu, allMenus));
-                    menuVos.add(sysBaseMenuVo);
-                });
-        return menuVos;
     }
 }
 

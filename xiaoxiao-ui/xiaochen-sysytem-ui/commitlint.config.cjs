@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const scopes = fs
-  .readdirSync(path.resolve(__dirname, "src"), { withFileTypes: true })
+  .readdirSync(path.resolve(__dirname, "src"), {withFileTypes: true})
   .filter(dirent => dirent.isDirectory())
   .map(dirent => dirent.name.replace(/s$/, ""));
 

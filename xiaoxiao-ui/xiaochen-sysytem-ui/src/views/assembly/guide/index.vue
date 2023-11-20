@@ -7,7 +7,7 @@
       :closable="false"
     />
     <div id="Geeker">
-      <el-button type="primary" @click.prevent.stop="driverObj.drive()"> 打开引导页 🤹‍♂️ </el-button>
+      <el-button type="primary" @click.prevent.stop="driverObj.drive()"> 打开引导页 🤹‍♂️</el-button>
     </div>
   </div>
 </template>

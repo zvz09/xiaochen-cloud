@@ -4,6 +4,7 @@ export namespace Table {
     pageSize: number;
     total: number;
   }
+
   export interface StateProps {
     tableData: any[];
     pageable: Pageable;

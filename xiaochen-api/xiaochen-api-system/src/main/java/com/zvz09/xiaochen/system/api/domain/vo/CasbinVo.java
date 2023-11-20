@@ -28,7 +28,7 @@ import lombok.Setter;
 public class CasbinVo {
 
     @Schema(description = "角色编码")
-    private String authorityCode;
+    private String roleCode;
 
     @Schema(description = "路径")
     private String path;

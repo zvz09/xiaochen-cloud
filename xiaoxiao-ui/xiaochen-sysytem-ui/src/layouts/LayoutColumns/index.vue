@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts" name="layoutColumns">
-import { ref, computed, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/modules/auth";
 import { useGlobalStore } from "@/stores/modules/global";

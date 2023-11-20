@@ -11,11 +11,11 @@ import com.zvz09.xiaochen.flowable.domain.entity.SysDeployForm;
 import com.zvz09.xiaochen.flowable.domain.vo.FlowableTaskVo;
 import com.zvz09.xiaochen.flowable.service.IFlowableInstanceService;
 import com.zvz09.xiaochen.flowable.service.ISysDeployFormService;
-import com.zvz09.xiaochen.system.api.RemoteAuthorityService;
 import com.zvz09.xiaochen.system.api.RemoteDepartmentService;
+import com.zvz09.xiaochen.system.api.RemoteRoleService;
 import com.zvz09.xiaochen.system.api.RemoteUserService;
-import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
 import com.zvz09.xiaochen.system.api.domain.entity.SysDepartment;
+import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +43,7 @@ public class FlowableInstanceServiceImpl implements IFlowableInstanceService {
     private final TaskService taskService;
 
     private final RemoteUserService remoteUserService;
-    private final RemoteAuthorityService remoteAuthorityService;
+    private final RemoteRoleService remoteRoleService;
     private final RemoteDepartmentService remoteDepartmentService;
 
     private final ISysDeployFormService sysDeployFormService;
@@ -84,9 +84,9 @@ public class FlowableInstanceServiceImpl implements IFlowableInstanceService {
                         }
                         if (StringUtils.isNotBlank(identityLink.getGroupId())) {
                             if (identityLink.getGroupId().startsWith(TaskConstants.ROLE_GROUP_PREFIX)) {
-                                String authorityCode = StringUtils.stripStart(identityLink.getGroupId(), TaskConstants.ROLE_GROUP_PREFIX);
-                                SysAuthority role = remoteAuthorityService.getByAuthorityCode(authorityCode);
-                                stringBuilder.append(role.getAuthorityName()).append(",");
+                                String roleCode = StringUtils.stripStart(identityLink.getGroupId(), TaskConstants.ROLE_GROUP_PREFIX);
+                                SysRole role = remoteRoleService.getByRoleCode(roleCode);
+                                stringBuilder.append(role.getRoleName()).append(",");
                             } else if (identityLink.getGroupId().startsWith(TaskConstants.DEPT_GROUP_PREFIX)) {
                                 Long deptId = Long.parseLong(StringUtils.stripStart(identityLink.getGroupId(), TaskConstants.DEPT_GROUP_PREFIX));
                                 SysDepartment dept = remoteDepartmentService.getById(deptId);

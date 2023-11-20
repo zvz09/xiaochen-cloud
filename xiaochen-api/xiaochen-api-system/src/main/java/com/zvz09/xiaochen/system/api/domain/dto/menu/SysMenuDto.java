@@ -46,7 +46,7 @@ public class SysMenuDto extends BaseDto {
 
     public SysMenu convertedToPo() {
         return SysMenu.builder().id(this.getId())
-                .parentId(this.getParentId())
+                .parentId(Long.valueOf(this.getParentId()))
                 .path(this.path)
                 .name(this.name)
                 .redirect(this.redirect)

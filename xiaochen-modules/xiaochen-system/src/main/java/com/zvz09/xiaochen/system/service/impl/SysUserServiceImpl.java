@@ -10,17 +10,17 @@ import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
 import com.zvz09.xiaochen.common.web.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.RemoteUserService;
 import com.zvz09.xiaochen.system.api.constant.FeignPath;
+import com.zvz09.xiaochen.system.api.domain.bo.UserRoleBo;
 import com.zvz09.xiaochen.system.api.domain.dto.user.RegisterUserDto;
 import com.zvz09.xiaochen.system.api.domain.dto.user.SysUserQuery;
 import com.zvz09.xiaochen.system.api.domain.dto.user.UpdateUserDto;
-import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
+import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
-import com.zvz09.xiaochen.system.api.domain.entity.SysUserAuthority;
+import com.zvz09.xiaochen.system.api.domain.entity.SysUserRole;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
 import com.zvz09.xiaochen.system.mapper.SysUserMapper;
-import com.zvz09.xiaochen.system.service.ISysAuthorityMenuService;
-import com.zvz09.xiaochen.system.service.ISysAuthorityService;
-import com.zvz09.xiaochen.system.service.ISysUserAuthorityService;
+import com.zvz09.xiaochen.system.service.ISysRoleService;
+import com.zvz09.xiaochen.system.service.ISysUserRoleService;
 import com.zvz09.xiaochen.system.service.ISysUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,11 +55,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService, RemoteUserService {
 
-    private final ISysAuthorityService sysAuthorityService;
+    private final ISysRoleService sysRoleService;
 
-    private final ISysUserAuthorityService sysUserAuthorityService;
-
-    private final ISysAuthorityMenuService sysAuthorityMenuService;
+    private final ISysUserRoleService sysUserRoleService;
 
 
     @Override
@@ -77,13 +78,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         Page<SysUser> page = this.page(new Page<>(sysUserQuery.getPageNum(), sysUserQuery.getPageSize()), queryWrapper);
 
-        List<Long> authorityIds = page.getRecords().stream().map(SysUser::getAuthorityId).collect(Collectors.toList());
+        List<Long> userIds = page.getRecords().stream().map(SysUser::getId).toList();
 
-        List<SysAuthority> sysAuthorities = this.sysAuthorityService.getByIds(authorityIds);
-        Map<Long, SysAuthority> authorityMap = sysAuthorities.stream()
-                .collect(Collectors.toMap(SysAuthority::getId, sysAuthority -> sysAuthority));
+        Map<Long, List<SysRole>> roleMap;
+        if (!userIds.isEmpty()) {
+            roleMap = this.sysUserRoleService.getByUserIds(userIds)
+                    .stream()
+                    .collect(Collectors.groupingBy(
+                            UserRoleBo::getUserId,
+                            Collectors.mapping(UserRoleBo::convertedToRole, Collectors.toList())
+                    ));
+        } else {
+            roleMap = new HashMap<>();
+        }
+
         return page.convert(sysUser -> {
-            return new SysUserVo(sysUser, authorityMap.get(sysUser.getAuthorityId()));
+            return new SysUserVo(sysUser, roleMap.get(sysUser.getId()));
         });
     }
 
@@ -98,20 +108,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new BusinessException("登陆失败! 用户被禁止登录!");
         }
 
-        List<String> authorityCodes = sysUserAuthorityService.getAuthorityIdByUserId(sysUser.getId());
+        List<UserRoleBo> userRoleBos = this.sysUserRoleService.getByUserIds(Collections.singletonList(sysUser.getId()));
 
-        SysAuthority sysAuthority = sysAuthorityService.getById(sysUser.getAuthorityId());
+        List<SysRole> sysRole = new ArrayList<>();
 
-        List<SysAuthority> sysAuthorities = null;
-
-        if (authorityCodes != null && !authorityCodes.isEmpty()) {
-            sysAuthorities = sysAuthorityService.getByAuthorityCodes(authorityCodes);
+        if (userRoleBos != null && !userRoleBos.isEmpty()) {
+            userRoleBos.forEach(userRoleBo -> {
+                sysRole.add(userRoleBo.convertedToRole());
+            });
         }
 
-        List<Long> sysBaseMenuIds = sysAuthorityMenuService.getMenuIdByAuthorityId(sysUser.getAuthorityId());
-
-        SysUserVo user = new SysUserVo(sysUser, sysAuthority, sysAuthorities);
-        return user;
+        return new SysUserVo(sysUser, sysRole);
     }
 
     @Override
@@ -139,10 +146,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (sysUser == null) {
             return;
         }
-        sysUserAuthorityService.remove(new LambdaQueryWrapper<SysUserAuthority>().eq(SysUserAuthority::getSysUserId, updateUserDto.getId()));
-        SysAuthority sysAuthority = sysAuthorityService.getById(updateUserDto.getAuthorityId());
-        if (sysAuthority != null) {
-            sysUserAuthorityService.save(new SysUserAuthority(updateUserDto.getId(), sysAuthority.getAuthorityCode()));
+        sysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getSysUserId, updateUserDto.getId()));
+        List<SysRole> sysRoles = sysRoleService.getByIds(updateUserDto.getRoleIds());
+        if (sysRoles != null) {
+            List<SysUserRole> sysUserRoles = new ArrayList<>();
+            sysRoles.forEach(s -> {
+                sysUserRoles.add(new SysUserRole(updateUserDto.getId(), s.getRoleCode()));
+            });
+            sysUserRoleService.saveBatch(sysUserRoles);
         }
         this.updateById(updateUserDto.convertedToPo());
     }
@@ -158,7 +169,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public IPage<SysUserVo> getAllUser(SysUserQuery sysUserQuery) {
+    public IPage<SysUserVo> simpleList(SysUserQuery sysUserQuery) {
         //TODO 暂时全部返回
         sysUserQuery.setPageSize(Long.MAX_VALUE);
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();

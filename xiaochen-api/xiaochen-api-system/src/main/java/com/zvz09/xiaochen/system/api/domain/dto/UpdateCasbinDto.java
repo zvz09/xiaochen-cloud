@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 public class UpdateCasbinDto {
 
-    private String authorityCode;
+    private String roleCode;
 
     private List<CasbinInfo> casbinInfos;
 }

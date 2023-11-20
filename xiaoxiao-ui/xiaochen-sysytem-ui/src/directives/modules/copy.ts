@@ -5,10 +5,12 @@
  */
 import type { Directive, DirectiveBinding } from "vue";
 import { ElMessage } from "element-plus";
+
 interface ElType extends HTMLElement {
   copyData: string | number;
   __handleClick__: any;
 }
+
 const copy: Directive = {
   mounted(el: ElType, binding: DirectiveBinding) {
     el.copyData = binding.value;

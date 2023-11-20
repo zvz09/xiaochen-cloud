@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 public class SysMenu extends BaseEntity {
 
     @Schema(description = "父id")
-    private String parentId;
+    private Long parentId;
     @Schema(description = "路由菜单访问路径")
     private String path;
     @Schema(description = "路由名称")

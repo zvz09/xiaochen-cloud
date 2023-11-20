@@ -116,8 +116,8 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
 
     @Override
     public List<SysApi> list(String serviceName) {
-        List<SysApi> sysApis = this.list(new LambdaQueryWrapper<SysApi>().eq(SysApi::getServiceName,serviceName));
-        return (sysApis != null &&sysApis.size() >0) ? sysApis:new ArrayList<>();
+        List<SysApi> sysApis = this.list(new LambdaQueryWrapper<SysApi>().eq(SysApi::getServiceName, serviceName));
+        return (sysApis != null && sysApis.size() > 0) ? sysApis : new ArrayList<>();
     }
 
     @Override

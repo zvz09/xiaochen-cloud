@@ -45,7 +45,7 @@ public class CasbinConfig {
         // policy effect
         model.addDef("e", "e", "some(where (p.eft == allow))");
         // matchers
-        model.addDef("m", "m", "g(r.sub, p.sub) && (keyMatch4(r.obj, p.obj) && r.act == p.act) ||  r.sub == '"+SUPER_ADMIN+"'");
+        model.addDef("m", "m", "g(r.sub, p.sub) && (keyMatch4(r.obj, p.obj) && r.act == p.act) ||  r.sub == '" + SUPER_ADMIN + "'");
 
         Enforcer enforcer;
         if (properties.isUseSyncedEnforcer()) {

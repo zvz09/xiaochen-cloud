@@ -33,20 +33,20 @@ public class FeignConfig implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        if(StringUtils.isNoneBlank(MDC.get(TRACE_ID))){
-            requestTemplate.header(TRACE_ID,MDC.get(TRACE_ID));
+        if (StringUtils.isNoneBlank(MDC.get(TRACE_ID))) {
+            requestTemplate.header(TRACE_ID, MDC.get(TRACE_ID));
         }
-        if(SecurityContextHolder.getUserId()!=null){
+        if (SecurityContextHolder.getUserId() != null) {
             requestTemplate.header(SecurityConstants.DETAILS_USER_ID, String.valueOf(SecurityContextHolder.getUserId()));
         }
-        if(StringUtils.isNoneBlank(SecurityContextHolder.getUserName())){
+        if (StringUtils.isNoneBlank(SecurityContextHolder.getUserName())) {
             requestTemplate.header(SecurityConstants.DETAILS_USERNAME, SecurityContextHolder.getUserName());
         }
-        if(SecurityContextHolder.getAuthorityId()!=null){
-            requestTemplate.header(SecurityConstants.DETAILS_AUTHORITY_ID, String.valueOf(SecurityContextHolder.getAuthorityId()));
+        if (SecurityContextHolder.getRoleId() != null) {
+            requestTemplate.header(SecurityConstants.DETAILS_AUTHORITY_ID, String.valueOf(SecurityContextHolder.getRoleId()));
         }
-        if(StringUtils.isNoneBlank(SecurityContextHolder.getAuthorityCode())){
-            requestTemplate.header(SecurityConstants.DETAILS_AUTHORITY_CODE, SecurityContextHolder.getAuthorityCode());
+        if (StringUtils.isNoneBlank(SecurityContextHolder.getRoleCode())) {
+            requestTemplate.header(SecurityConstants.DETAILS_AUTHORITY_CODE, SecurityContextHolder.getRoleCode());
         }
     }
 }

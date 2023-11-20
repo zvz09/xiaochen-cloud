@@ -32,7 +32,7 @@ public class BaseVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private String  id;
+    private String id;
 
     public BaseVo(Long id) {
         this.id = String.valueOf(id);

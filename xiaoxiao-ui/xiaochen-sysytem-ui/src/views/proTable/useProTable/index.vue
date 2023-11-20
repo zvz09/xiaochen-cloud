@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="tsx" name="useProTable">
-import { ref, reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { User } from "@/api/interface";
 import { useHandleData } from "@/hooks/useHandleData";
@@ -58,19 +58,19 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import ProTable from "@/components/ProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
-import { ProTableInstance, ColumnProps, HeaderRenderScope } from "@/components/ProTable/interface";
-import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
+import { ColumnProps, HeaderRenderScope, ProTableInstance } from "@/components/ProTable/interface";
+import { CirclePlus, Delete, Download, EditPen, Refresh, Upload, View } from "@element-plus/icons-vue";
 import {
-  getUserList,
+  addUser,
+  BatchAddUser,
+  changeUserStatus,
   deleteUser,
   editUser,
-  addUser,
-  changeUserStatus,
-  resetUserPassWord,
   exportUserInfo,
-  BatchAddUser,
+  getUserGender,
+  getUserList,
   getUserStatus,
-  getUserGender
+  resetUserPassWord
 } from "@/api/modules/user";
 
 const router = useRouter();

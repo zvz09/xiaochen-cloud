@@ -37,7 +37,7 @@ import java.util.Optional;
  * @author zvz09
  */
 @Slf4j
-public class RedisAdapter  implements Adapter, BatchAdapter {
+public class RedisAdapter implements Adapter, BatchAdapter {
 
     private String key;
     private final AbstractRedisClient abstractRedisClient;
@@ -45,32 +45,33 @@ public class RedisAdapter  implements Adapter, BatchAdapter {
     /**
      * Constructor
      *
-     * @param redisIp          Redis IP
-     * @param redisPort        Redis Port
+     * @param redisIp   Redis IP
+     * @param redisPort Redis Port
      */
     public RedisAdapter(String redisIp, Integer redisPort) {
-        this(redisIp, redisPort, 2000, null,Constant.DEFAULT_ADAPTER_KEY);
+        this(redisIp, redisPort, 2000, null, Constant.DEFAULT_ADAPTER_KEY);
     }
 
     /**
      * Constructor
      *
-     * @param redisIp          Redis IP
-     * @param redisPort        Redis Port
+     * @param redisIp   Redis IP
+     * @param redisPort Redis Port
      */
-    public RedisAdapter(String redisIp, Integer redisPort,String password) {
-        this(redisIp, redisPort, 2000, password,Constant.DEFAULT_ADAPTER_KEY);
+    public RedisAdapter(String redisIp, Integer redisPort, String password) {
+        this(redisIp, redisPort, 2000, password, Constant.DEFAULT_ADAPTER_KEY);
     }
+
     /**
      * Constructor
      *
-     * @param redisIp          Redis IP
-     * @param redisPort        Redis Port
-     * @param timeout          Redis Timeout
-     * @param password         Redis Password
-     * @param key              Redis key
+     * @param redisIp   Redis IP
+     * @param redisPort Redis Port
+     * @param timeout   Redis Timeout
+     * @param password  Redis Password
+     * @param key       Redis key
      */
-    public RedisAdapter(String redisIp, Integer redisPort, int timeout, String password,String key) {
+    public RedisAdapter(String redisIp, Integer redisPort, int timeout, String password, String key) {
         this.abstractRedisClient = this.getLettuceRedisClient(redisIp, redisPort, null, password, timeout, Constant.LETTUCE_REDIS_TYPE_STANDALONE);
         this.key = key;
     }
@@ -78,26 +79,26 @@ public class RedisAdapter  implements Adapter, BatchAdapter {
     /**
      * Constructor
      *
-     * @param nodes            Redis Nodes
-     * @param timeout          Redis Timeout
-     * @param password         Redis Password
-     * @param key              Redis key
+     * @param nodes    Redis Nodes
+     * @param timeout  Redis Timeout
+     * @param password Redis Password
+     * @param key      Redis key
      */
-    public RedisAdapter(String nodes, Integer timeout, String password,String key) {
+    public RedisAdapter(String nodes, Integer timeout, String password, String key) {
         this.abstractRedisClient = this.getLettuceRedisClient(null, null, nodes, password, timeout, Constant.LETTUCE_REDIS_TYPE_CLUSTER);
     }
 
 
     @Override
     public void addPolicies(String sec, String ptype, List<List<String>> rules) {
-        for (List<String> rule:rules) {
+        for (List<String> rule : rules) {
             addPolicy(sec, ptype, rule);
         }
     }
 
     @Override
     public void removePolicies(String sec, String ptype, List<List<String>> rules) {
-        for (List<String> rule:rules) {
+        for (List<String> rule : rules) {
             removePolicy(sec, ptype, rule);
         }
     }
@@ -108,12 +109,12 @@ public class RedisAdapter  implements Adapter, BatchAdapter {
                      this.getStatefulRedisPubSubConnection(this.abstractRedisClient)) {
             if (statefulRedisPubSubConnection.isOpen()) {
                 Long length = statefulRedisPubSubConnection.sync().llen(this.key);
-                if (length  == null) {
-                      return;
+                if (length == null) {
+                    return;
                 }
                 List<String> policies = statefulRedisPubSubConnection.sync().lrange(this.key, 0, length);
-                for (String policy:policies) {
-                    CasbinRule rule = JacksonUtil.readValue(policy,CasbinRule.class);
+                for (String policy : policies) {
+                    CasbinRule rule = JacksonUtil.readValue(policy, CasbinRule.class);
                     loadPolicyLine(rule, model);
                 }
             }
@@ -128,8 +129,8 @@ public class RedisAdapter  implements Adapter, BatchAdapter {
                      this.getStatefulRedisPubSubConnection(this.abstractRedisClient)) {
             if (statefulRedisPubSubConnection.isOpen()) {
                 statefulRedisPubSubConnection.sync().del(this.key);
-                extracted(statefulRedisPubSubConnection,model, "p");
-                extracted(statefulRedisPubSubConnection,model, "g");
+                extracted(statefulRedisPubSubConnection, model, "p");
+                extracted(statefulRedisPubSubConnection, model, "g");
             }
         }
     }
@@ -277,7 +278,7 @@ public class RedisAdapter  implements Adapter, BatchAdapter {
         }
     }
 
-    private void extracted(StatefulRedisPubSubConnection<String, String> statefulRedisPubSubConnection,Model model, String type) {
+    private void extracted(StatefulRedisPubSubConnection<String, String> statefulRedisPubSubConnection, Model model, String type) {
         for (Map.Entry<String, Assertion> entry : model.model.get(type).entrySet()) {
             String ptype = entry.getKey();
             Assertion ast = entry.getValue();

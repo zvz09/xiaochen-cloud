@@ -37,7 +37,7 @@ public class SysMenuVo extends BaseVo {
 
     public SysMenuVo(SysMenu sysMenu) {
         super(sysMenu.getId());
-        this.parentId = sysMenu.getParentId();
+        this.parentId = String.valueOf(sysMenu.getParentId());
         this.path = sysMenu.getPath();
         this.name = sysMenu.getName();
         this.redirect = sysMenu.getRedirect();

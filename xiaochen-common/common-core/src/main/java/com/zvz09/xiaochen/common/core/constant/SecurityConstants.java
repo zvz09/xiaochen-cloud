@@ -19,12 +19,12 @@ public class SecurityConstants {
     /**
      * 当前角色id
      */
-    public static final String DETAILS_AUTHORITY_ID = "authority_id";
+    public static final String DETAILS_AUTHORITY_ID = "role_id";
 
     /**
      * 当前角色code
      */
-    public static final String DETAILS_AUTHORITY_CODE = "authority_code";
+    public static final String DETAILS_AUTHORITY_CODE = "role_code";
 
     /**
      * 授权信息字段

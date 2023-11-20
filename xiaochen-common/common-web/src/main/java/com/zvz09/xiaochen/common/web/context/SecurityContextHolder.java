@@ -61,19 +61,19 @@ public class SecurityContextHolder {
         set(SecurityConstants.DETAILS_USERNAME, username);
     }
 
-    public static void setAuthorityId(String authorityId) {
-        set(SecurityConstants.DETAILS_AUTHORITY_ID, authorityId);
+    public static void setRoleId(String roleId) {
+        set(SecurityConstants.DETAILS_AUTHORITY_ID, roleId);
     }
 
-    public static void setAuthorityCode(String authorityCode) {
-        set(SecurityConstants.DETAILS_AUTHORITY_CODE, authorityCode);
+    public static void setRoleCode(String roleCode) {
+        set(SecurityConstants.DETAILS_AUTHORITY_CODE, roleCode);
     }
 
-    public static Long getAuthorityId() {
+    public static Long getRoleId() {
         return Convert.toLong(get(SecurityConstants.DETAILS_AUTHORITY_ID), 0L);
     }
 
-    public static String getAuthorityCode() {
+    public static String getRoleCode() {
         return get(SecurityConstants.DETAILS_AUTHORITY_CODE);
     }
 

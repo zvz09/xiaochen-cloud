@@ -6,18 +6,18 @@
 
 <script setup lang="ts" name="Grid">
 import {
-  ref,
-  watch,
-  useSlots,
   computed,
-  provide,
+  onActivated,
   onBeforeMount,
+  onDeactivated,
   onMounted,
   onUnmounted,
-  onDeactivated,
-  onActivated,
+  provide,
+  ref,
+  useSlots,
+  VNode,
   VNodeArrayChildren,
-  VNode
+  watch
 } from "vue";
 import type { BreakPoint } from "./interface/index";
 

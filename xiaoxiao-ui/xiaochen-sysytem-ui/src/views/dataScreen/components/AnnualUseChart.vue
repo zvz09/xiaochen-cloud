@@ -199,6 +199,7 @@ const option: ECOption = {
   width: 100%;
   height: 100%;
 }
+
 :deep(.annual-tooltip) {
   box-sizing: border-box;
   width: 206px;
@@ -206,6 +207,7 @@ const option: ECOption = {
   padding: 5px 20px;
   background: url("../images/contrast-bg.png") no-repeat;
   background-size: 100% 100%;
+
   .annual-month {
     display: inline-block;
     margin-bottom: 2px;
@@ -213,30 +215,36 @@ const option: ECOption = {
     color: #03b8e2;
     transform: scale(0.9);
   }
+
   .annual-list {
     display: flex;
     flex-direction: column;
     width: 100%;
+
     .year-item {
       display: flex;
       align-items: center;
       width: 100%;
       height: 22px;
+
       .year-dot {
         width: 5px;
         height: 5px;
         margin: 0 2px;
         border-radius: 50%;
       }
+
       .year-name,
       .year-value {
         font-size: 10px;
         color: #03b8e2;
         transform: scale(0.8);
       }
+
       .year-name {
         margin: 0 2px;
       }
+
       .year-value {
         display: inline-block;
         width: 25%;

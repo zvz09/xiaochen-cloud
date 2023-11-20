@@ -42,10 +42,10 @@ import { ElMessage } from "element-plus";
 import { User } from "@/api/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import ProTable from "@/components/ProTable/index.vue";
-import { CirclePlus, Pointer, Delete, Refresh } from "@element-plus/icons-vue";
+import { CirclePlus, Delete, Pointer, Refresh } from "@element-plus/icons-vue";
 import type { TableColumnCtx } from "element-plus/es/components/table/src/table-column/defaults";
-import { ProTableInstance, ColumnProps, HeaderRenderScope } from "@/components/ProTable/interface";
-import { getUserList, deleteUser, resetUserPassWord, getUserStatus, getUserGender } from "@/api/modules/user";
+import { ColumnProps, HeaderRenderScope, ProTableInstance } from "@/components/ProTable/interface";
+import { deleteUser, getUserGender, getUserList, getUserStatus, resetUserPassWord } from "@/api/modules/user";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
@@ -111,6 +111,7 @@ interface SummaryMethodProps<T = User.ResUserList> {
   columns: TableColumnCtx<T>[];
   data: T[];
 }
+
 const getSummaries = (param: SummaryMethodProps) => {
   const { columns } = param;
   const sums: string[] = [];
@@ -128,6 +129,7 @@ interface SpanMethodProps {
   rowIndex: number;
   columnIndex: number;
 }
+
 const objectSpanMethod = ({ rowIndex, columnIndex }: SpanMethodProps) => {
   if (columnIndex === 3) {
     if (rowIndex % 2 === 0) return { rowspan: 2, colspan: 1 };
@@ -175,6 +177,7 @@ const resetPass = async (params: User.ResUserList) => {
 .el-table .warning-row .el-table-fixed-column--left {
   background-color: var(--el-color-warning-light-9);
 }
+
 .el-table .success-row,
 .el-table .success-row .el-table-fixed-column--right,
 .el-table .success-row .el-table-fixed-column--left {

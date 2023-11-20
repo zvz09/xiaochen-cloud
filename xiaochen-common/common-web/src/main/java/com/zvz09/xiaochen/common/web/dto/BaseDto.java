@@ -9,7 +9,6 @@ package com.zvz09.xiaochen.common.web.dto;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;

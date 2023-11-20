@@ -26,20 +26,20 @@ import java.time.LocalDateTime;
 @Schema(name = "EventRemind", description = "事件提醒")
 public class EventRemind extends BaseEntity {
 
-      @Schema(description = "动作类型")
-      private String action;
-      @Schema(description = "事件源ID")
-      private String sourceId;
-      @Schema(description = "事件源类型")
-      private String sourceType;
-      @Schema(description = "事件源的内容")
-      private String sourceContent;
-      @Schema(description = "是否已读")
-      private Boolean state;
-      @Schema(description = "操作者的ID")
-      private Long senderId;
-      @Schema(description = "接受通知的用户的ID")
-      private Long recipientId;
-      @Schema(description = "提醒的时间")
-      private LocalDateTime remindTime;
+    @Schema(description = "动作类型")
+    private String action;
+    @Schema(description = "事件源ID")
+    private String sourceId;
+    @Schema(description = "事件源类型")
+    private String sourceType;
+    @Schema(description = "事件源的内容")
+    private String sourceContent;
+    @Schema(description = "是否已读")
+    private Boolean state;
+    @Schema(description = "操作者的ID")
+    private Long senderId;
+    @Schema(description = "接受通知的用户的ID")
+    private Long recipientId;
+    @Schema(description = "提醒的时间")
+    private LocalDateTime remindTime;
 }

@@ -21,14 +21,14 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/casbin")
-@Tag(name = "CasbinRule 接口")
+@Tag(name = "CasbinRule")
 @RequiredArgsConstructor
 public class CasbinRuleController {
     private final ICasbinRuleService casbinRuleService;
 
-    @GetMapping("/getPolicyPathByAuthorityId")
-    public ApiResult<List<CasbinVo>> getPolicyPathByAuthorityId(String authorityCode) {
-        return ApiResult.success(casbinRuleService.listByAuthorityCode(authorityCode));
+    @GetMapping("/getPolicyPathByRoleId")
+    public ApiResult<List<CasbinVo>> getPolicyPathByRoleId(String roleCode) {
+        return ApiResult.success(casbinRuleService.listByRoleCode(roleCode));
     }
 
 

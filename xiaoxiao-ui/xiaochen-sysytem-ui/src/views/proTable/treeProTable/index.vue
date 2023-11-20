@@ -47,7 +47,7 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { getUserTreeList, deleteUser, editUser, addUser, getUserStatus, getUserDepartment } from "@/api/modules/user";
+import { addUser, deleteUser, editUser, getUserDepartment, getUserStatus, getUserTreeList } from "@/api/modules/user";
 
 onMounted(() => {
   getTreeFilter();

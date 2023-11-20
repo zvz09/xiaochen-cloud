@@ -19,12 +19,12 @@ import static com.zvz09.xiaochen.common.core.constant.Constants.FEIGN_PATH_PREFI
 public interface FeignPath {
 
     String API = FEIGN_PATH_PREFIX + "/api";
-    String AUTHORITY_MENU = FEIGN_PATH_PREFIX + "/authority/menu";
-    String AUTHORITY = FEIGN_PATH_PREFIX + "/authority";
+    String ROLE_MENU = FEIGN_PATH_PREFIX + "/role/menu";
+    String AUTHORITY = FEIGN_PATH_PREFIX + "/role";
     String MENU = FEIGN_PATH_PREFIX + "/menu";
-    String USER_AUTHORITY = FEIGN_PATH_PREFIX + "/user/authority";
+    String ROLE_AUTHORITY = FEIGN_PATH_PREFIX + "/user/role";
     String USER = FEIGN_PATH_PREFIX + "/user";
 
-    String DEPARTMENT =  FEIGN_PATH_PREFIX + "/department";
+    String DEPARTMENT = FEIGN_PATH_PREFIX + "/department";
 
 }

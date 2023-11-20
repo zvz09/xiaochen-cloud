@@ -31,14 +31,14 @@ public class CasbinRuleServiceImpl extends ServiceImpl<CasbinRuleMapper, CasbinR
 
     @Override
     @Transactional
-    public void copyRule(String newAuthorityCode, String oldAuthorityCode) {
-        List<List<String>> list = enforcer.getFilteredPolicy(0, oldAuthorityCode);
+    public void copyRule(String newRoleCode, String oldRoleCode) {
+        List<List<String>> list = enforcer.getFilteredPolicy(0, oldRoleCode);
         List<CasbinRule> casbinRuleList = new ArrayList<>();
         list.forEach(l -> {
-            l.set(0, newAuthorityCode);
+            l.set(0, newRoleCode);
             casbinRuleList.add(conversion(l));
         });
-        this.removeRule(newAuthorityCode);
+        this.removeRule(newRoleCode);
         this.saveBatch(casbinRuleList);
     }
 
@@ -57,19 +57,19 @@ public class CasbinRuleServiceImpl extends ServiceImpl<CasbinRuleMapper, CasbinR
     }
 
     @Override
-    public void removeRule(String authorityCode) {
-        this.remove(new LambdaQueryWrapper<CasbinRule>().eq(CasbinRule::getV0,authorityCode));
-        enforcer.removeFilteredPolicy(0, authorityCode);
+    public void removeRule(String roleCode) {
+        this.remove(new LambdaQueryWrapper<CasbinRule>().eq(CasbinRule::getV0, roleCode));
+        enforcer.removeFilteredPolicy(0, roleCode);
     }
 
     @Override
-    public List<CasbinVo> listByAuthorityCode(String authorityCode) {
-        List<CasbinRule> casbinRuleList = this.list(new LambdaQueryWrapper<CasbinRule>().eq(CasbinRule::getV0,authorityCode));
+    public List<CasbinVo> listByRoleCode(String roleCode) {
+        List<CasbinRule> casbinRuleList = this.list(new LambdaQueryWrapper<CasbinRule>().eq(CasbinRule::getV0, roleCode));
         List<CasbinVo> casbinVos = new ArrayList<>();
         if (casbinRuleList != null && !casbinRuleList.isEmpty()) {
             casbinRuleList.forEach(e -> {
                 CasbinVo casbinVo = new CasbinVo();
-                casbinVo.setAuthorityCode(e.getV0());
+                casbinVo.setRoleCode(e.getV0());
                 casbinVo.setPath(e.getV1());
                 casbinVo.setMethod(e.getV2());
                 casbinVos.add(casbinVo);
@@ -80,12 +80,12 @@ public class CasbinRuleServiceImpl extends ServiceImpl<CasbinRuleMapper, CasbinR
 
     @Override
     public void updateCasbin(UpdateCasbinDto updateCasbinDto) {
-        this.removeRule(updateCasbinDto.getAuthorityCode());
+        this.removeRule(updateCasbinDto.getRoleCode());
         List<CasbinRule> casbinRuleList = new ArrayList<>();
         updateCasbinDto.getCasbinInfos().forEach(casbinInfo -> {
             CasbinRule casbinRule = new CasbinRule();
             casbinRule.setPtype("p");
-            casbinRule.setV0(updateCasbinDto.getAuthorityCode());
+            casbinRule.setV0(updateCasbinDto.getRoleCode());
             casbinRule.setV1(casbinInfo.getPath());
             casbinRule.setV2(casbinInfo.getMethod());
             casbinRuleList.add(casbinRule);

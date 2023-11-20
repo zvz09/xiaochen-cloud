@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, computed } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import { useI18n } from "vue-i18n";
 import { getBrowserLang } from "@/utils";
 import { useTheme } from "@/hooks/useTheme";

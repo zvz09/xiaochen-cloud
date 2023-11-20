@@ -8,6 +8,7 @@ import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Consumer;
+
 /**
  * @author Shingmo Yeung
  */

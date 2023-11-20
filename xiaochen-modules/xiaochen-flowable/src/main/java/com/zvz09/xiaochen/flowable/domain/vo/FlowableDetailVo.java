@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 流程详情视图对象
+ *
  * @author zvz09
  */
 @Data
@@ -35,6 +36,7 @@ public class FlowableDetailVo {
 
     /**
      * 是否存在任务表单信息
+     *
      * @return true:存在；false:不存在
      */
     public Boolean isExistTaskForm() {

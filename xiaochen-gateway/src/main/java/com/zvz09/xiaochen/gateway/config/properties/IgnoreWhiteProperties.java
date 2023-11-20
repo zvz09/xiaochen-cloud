@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * 放行白名单配置
- * 
+ *
  * @author zvz09
  */
 @Getter
@@ -19,8 +19,7 @@ import java.util.List;
 @Configuration
 @RefreshScope
 @ConfigurationProperties(prefix = "security.ignore")
-public class IgnoreWhiteProperties
-{
+public class IgnoreWhiteProperties {
     /**
      * 放行白名单配置，网关不校验此处的白名单
      */

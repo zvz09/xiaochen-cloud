@@ -27,7 +27,7 @@ public class MybatisplusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("start insert fill ....");
+        log.debug("start insert fill ....");
         this.fillStrategy(metaObject, "deleted", false);
         this.fillStrategy(metaObject, "createdAt", LocalDateTime.now());
         this.fillStrategy(metaObject, "updatedAt", LocalDateTime.now());
@@ -36,7 +36,7 @@ public class MybatisplusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("start update fill ....");
+        log.debug("start update fill ....");
         this.fillStrategy(metaObject, "updatedAt", LocalDateTime.now());
     }
 }

@@ -2,7 +2,7 @@
   <el-dialog v-model="dialogVisible" :title="`批量添加${parameter.title}`" :destroy-on-close="true" width="580px" draggable>
     <el-form class="drawer-multiColumn-form" label-width="100px">
       <el-form-item label="模板下载 :">
-        <el-button type="primary" :icon="Download" @click="downloadTemp"> 点击下载 </el-button>
+        <el-button type="primary" :icon="Download" @click="downloadTemp"> 点击下载</el-button>
       </el-form-item>
       <el-form-item label="文件上传 :">
         <el-upload
@@ -43,7 +43,7 @@
 import { ref } from "vue";
 import { useDownload } from "@/hooks/useDownload";
 import { Download } from "@element-plus/icons-vue";
-import { ElNotification, UploadRequestOptions, UploadRawFile } from "element-plus";
+import { ElNotification, UploadRawFile, UploadRequestOptions } from "element-plus";
 
 export interface ExcelParameterProps {
   title: string; // 标题

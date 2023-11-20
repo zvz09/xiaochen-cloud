@@ -8,5 +8,6 @@
 
 <script setup lang="ts" name="useTreeFilter">
 import { useRoute } from "vue-router";
+
 const route = useRoute();
 </script>

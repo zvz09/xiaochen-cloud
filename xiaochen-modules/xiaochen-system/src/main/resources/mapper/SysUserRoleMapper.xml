@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zvz09.xiaochen.system.mapper.SysUserRoleMapper">
+
+    <resultMap id="UserAuthorityMap" type="com.zvz09.xiaochen.system.api.domain.bo.UserRoleBo">
+        <result column="user_id" property="userId"/>
+        <result column="authority_id" property="authorityId"/>
+        <result column="username" property="username"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="side_mode" property="sideMode"/>
+        <result column="header_img" property="headerImg"/>
+        <result column="base_color" property="baseColor"/>
+        <result column="active_color" property="activeColor"/>
+        <result column="email" property="email"/>
+        <result column="enable" property="enable"/>
+        <result column="authority_code" property="authorityCode"/>
+        <result column="authority_name" property="authorityName"/>
+    </resultMap>
+
+    <sql id="Base_Column">
+        SELECT su.id as user_id,
+               sr.id as authority_id,
+               su.username,
+               su.nick_name,
+               su.side_mode,
+               su.header_img,
+               su.base_color,
+               su.active_color,
+               su.phone,
+               su.email,
+               su.enable,
+               sr.authority_code,
+               sr.authority_name
+        from sys_user_authority ua
+                 left join `xiaochen-cloud`.sys_user su on su.id = ua.sys_user_id
+                 left join sys_role sr on sr.authority_code = ua.sys_authority_code
+    </sql>
+
+    <select id="getByUserIds" resultMap="UserAuthorityMap">
+        <include refid="Base_Column"/>
+        WHERE ua.sys_user_id IN
+        <foreach collection="list" item="userId" index="index" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </select>
+
+    <select id="getByRoleIds" resultMap="UserAuthorityMap">
+        <include refid="Base_Column"/>
+        WHERE ua.sys_authority_code IN
+        <foreach collection="list" item="authorityId" index="index" open="(" close=")" separator=",">
+            #{authorityId}
+        </foreach>
+    </select>
+</mapper>

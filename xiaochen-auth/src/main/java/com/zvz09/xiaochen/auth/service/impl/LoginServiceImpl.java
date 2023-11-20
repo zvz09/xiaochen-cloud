@@ -14,11 +14,11 @@ import com.zvz09.xiaochen.common.core.constant.LoginConstant;
 import com.zvz09.xiaochen.common.core.constant.SecurityConstants;
 import com.zvz09.xiaochen.common.jwt.JwtUtils;
 import com.zvz09.xiaochen.common.web.exception.BusinessException;
-import com.zvz09.xiaochen.system.api.RemoteAuthorityMenuService;
-import com.zvz09.xiaochen.system.api.RemoteAuthorityService;
-import com.zvz09.xiaochen.system.api.RemoteUserAuthorityService;
+import com.zvz09.xiaochen.system.api.RemoteRoleMenuService;
+import com.zvz09.xiaochen.system.api.RemoteRoleService;
+import com.zvz09.xiaochen.system.api.RemoteUserRoleService;
 import com.zvz09.xiaochen.system.api.RemoteUserService;
-import com.zvz09.xiaochen.system.api.domain.entity.SysAuthority;
+import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,11 +49,11 @@ public class LoginServiceImpl implements ILoginService {
 
     private final RemoteUserService remoteUserService;
 
-    private final RemoteAuthorityService remoteAuthorityService;
+    private final RemoteRoleService remoteRoleService;
 
-    private final RemoteUserAuthorityService remoteUserAuthorityService;
+    private final RemoteUserRoleService remoteUserRoleService;
 
-    private final RemoteAuthorityMenuService remoteAuthorityMenuService;
+    private final RemoteRoleMenuService remoteRoleMenuService;
 
     @Override
     public LoginVo doLogin(LoginDto loginDto) {
@@ -72,20 +72,20 @@ public class LoginServiceImpl implements ILoginService {
             throw new BusinessException("登陆失败! 用户名不存在或者密码错误!");
         }
 
-        List<String> authorityCodes = remoteUserAuthorityService.getAuthorityIdByUserId(sysUser.getId());
+        List<String> roleCodes = remoteUserRoleService.getRoleIdByUserId(sysUser.getId());
 
-        SysAuthority sysAuthority = remoteAuthorityService.getById(sysUser.getAuthorityId());
+        SysRole sysRole = remoteRoleService.getById(sysUser.getRoleId());
 
-        List<SysAuthority> sysAuthorities = null;
+        List<SysRole> sysAuthorities = null;
 
-        if (authorityCodes != null && !authorityCodes.isEmpty()) {
-            sysAuthorities = remoteAuthorityService.getByAuthorityCodes(authorityCodes);
+        if (roleCodes != null && !roleCodes.isEmpty()) {
+            sysAuthorities = remoteRoleService.getByRoleCodes(roleCodes);
         }
 
-        List<Long> sysBaseMenuIds = remoteAuthorityMenuService.getMenuIdByAuthorityId(sysUser.getAuthorityId());
+        List<Long> sysBaseMenuIds = remoteRoleMenuService.getMenuIdByRoleId(sysUser.getRoleId());
 
 
-        SysUserVo user = new SysUserVo(sysUser, sysAuthority, sysAuthorities);
+        SysUserVo user = new SysUserVo(sysUser, sysRole, sysAuthorities);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setUser(user);
@@ -94,8 +94,8 @@ public class LoginServiceImpl implements ILoginService {
         claimsMap.put(SecurityConstants.USER_KEY, user.getId());
         claimsMap.put(SecurityConstants.DETAILS_USER_ID, user.getId());
         claimsMap.put(SecurityConstants.DETAILS_USERNAME, user.getNickName());
-        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_ID, sysAuthority.getId());
-        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_CODE, sysAuthority.getAuthorityCode());
+        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_ID, sysRole.getId());
+        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_CODE, sysRole.getRoleCode());
 
         loginVo.setToken(JwtUtils.createToken(claimsMap));
 

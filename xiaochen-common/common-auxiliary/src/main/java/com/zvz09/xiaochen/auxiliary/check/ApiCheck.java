@@ -113,7 +113,7 @@ public class ApiCheck implements ApplicationRunner {
                 if (operation.getTags() != null && !operation.getTags().isEmpty()) {
                     apiGroup = operation.getTags().get(0);
                 }
-                sysApiList.add(new SysApi(env.getProperty("spring.application.name"),path, description, apiGroup, method));
+                sysApiList.add(new SysApi(env.getProperty("spring.application.name"), path, description, apiGroup, method));
             }
         });
     }

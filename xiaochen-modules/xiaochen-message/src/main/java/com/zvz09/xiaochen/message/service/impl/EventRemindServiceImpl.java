@@ -88,13 +88,13 @@ public class EventRemindServiceImpl extends ServiceImpl<EventRemindMapper, Event
     @Override
     public void confirm(List<Long> ids) {
         this.update(new LambdaUpdateWrapper<EventRemind>().set(EventRemind::getState, true)
-                .eq(EventRemind::getRecipientId,SecurityContextHolder.getUserId())
+                .eq(EventRemind::getRecipientId, SecurityContextHolder.getUserId())
                 .in(EventRemind::getId, ids));
     }
 
     @Override
     public void notice(EventRemindDto eventRemindDto) {
-        this.notice(eventRemindDto.getRecipientId(),eventRemindDto.getAction(),
-                eventRemindDto.getSourceType(),eventRemindDto.getSourceContent());
+        this.notice(eventRemindDto.getRecipientId(), eventRemindDto.getAction(),
+                eventRemindDto.getSourceType(), eventRemindDto.getSourceContent());
     }
 }

@@ -14,20 +14,22 @@ public interface ICasbinRuleService extends IService<CasbinRule> {
 
     /**
      * 从旧角色拷贝权限
-     * @param newAuthorityCode
-     * @param oldAuthorityCode
+     *
+     * @param newRoleCode
+     * @param oldRoleCode
      */
-    void copyRule(String newAuthorityCode, String oldAuthorityCode);
+    void copyRule(String newRoleCode, String oldRoleCode);
 
     void saveBatch(List<CasbinRule> casbinRules);
 
     /**
      * 删除角色权限
-     * @param authorityCode
+     *
+     * @param roleCode
      */
-    void removeRule(String authorityCode);
+    void removeRule(String roleCode);
 
-    List<CasbinVo> listByAuthorityCode(String authorityCode);
+    List<CasbinVo> listByRoleCode(String roleCode);
 
     void updateCasbin(UpdateCasbinDto updateCasbinDto);
 }

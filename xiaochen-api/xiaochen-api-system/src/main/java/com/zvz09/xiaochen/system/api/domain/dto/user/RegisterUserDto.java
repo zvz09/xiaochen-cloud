@@ -7,7 +7,6 @@
 package com.zvz09.xiaochen.system.api.domain.dto.user;
 
 import cn.hutool.crypto.digest.BCrypt;
-import com.zvz09.xiaochen.common.web.util.UUIDUtil;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -35,8 +34,6 @@ public class RegisterUserDto {
     private String nickName;
     @Schema(description = "头型地址")
     private String headerImg;
-    @Schema(description = "角色id")
-    private Long authorityId;
     @Schema(description = "是否启动")
     private Long enable;
     @Schema(description = "手机号")
@@ -46,12 +43,10 @@ public class RegisterUserDto {
 
     public SysUser convertedToPo() {
         return SysUser.builder()
-                .uuid(UUIDUtil.getUuid())
                 .username(this.userName)
                 .password(BCrypt.hashpw(this.password, BCrypt.gensalt()))
                 .nickName(this.nickName)
                 .headerImg(this.headerImg)
-                .authorityId(this.authorityId)
                 .enable(this.enable)
                 .phone(this.phone)
                 .email(this.email)

@@ -26,16 +26,13 @@ import lombok.experimental.SuperBuilder;
 @Schema(name = "SysUser", description = "")
 public class SysUser extends BaseEntity {
 
-    @Schema(description = "用户UUID")
-    private String uuid;
-
     @Schema(description = "用户登录名")
     private String username;
 
     @Schema(description = "用户登录密码")
     private String password;
 
-    @Schema(description = "用户ni'ch")
+    @Schema(description = "用户昵称")
     private String nickName;
 
     private String sideMode;
@@ -45,8 +42,6 @@ public class SysUser extends BaseEntity {
     private String baseColor;
 
     private String activeColor;
-
-    private Long authorityId;
 
     private String phone;
 

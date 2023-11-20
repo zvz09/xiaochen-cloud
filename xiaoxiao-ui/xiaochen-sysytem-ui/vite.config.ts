@@ -1,19 +1,19 @@
-import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
-import { resolve } from "path";
-import { wrapperEnv } from "./build/getEnv";
-import { createProxy } from "./build/proxy";
-import { createVitePlugins } from "./build/plugins";
+import {ConfigEnv, defineConfig, loadEnv, UserConfig} from "vite";
+import {resolve} from "path";
+import {wrapperEnv} from "./build/getEnv";
+import {createProxy} from "./build/proxy";
+import {createVitePlugins} from "./build/plugins";
 import pkg from "./package.json";
 import dayjs from "dayjs";
 
-const { dependencies, devDependencies, name, version } = pkg;
+const {dependencies, devDependencies, name, version} = pkg;
 const __APP_INFO__ = {
-  pkg: { dependencies, devDependencies, name, version },
+  pkg: {dependencies, devDependencies, name, version},
   lastBuildTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
 };
 
 // @see: https://vitejs.dev/config/
-export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
+export default defineConfig(({mode}: ConfigEnv): UserConfig => {
   const root = process.cwd();
   const env = loadEnv(mode, root);
   const viteEnv = wrapperEnv(env);

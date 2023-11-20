@@ -18,7 +18,7 @@ import java.util.List;
 public interface RemoteSysApiService {
 
     @GetMapping("/list")
-   List<SysApi> list(@RequestParam(name = "serviceName")String serviceName);
+    List<SysApi> list(@RequestParam(name = "serviceName") String serviceName);
 
     @PostMapping("/list")
     void saveBatch(@RequestBody List<SysApi> sysApis);

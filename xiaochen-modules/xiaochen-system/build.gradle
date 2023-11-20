@@ -6,7 +6,8 @@ dependencies {
     implementation project(':xiaochen-common:casbin-spring-boot-starter')
     implementation project(':xiaochen-common:common-auxiliary')
 
-
+    api("com.baomidou:mybatis-plus-generator:3.5.1")
+    api("org.apache.velocity:velocity-engine-core:2.3")
     implementation project(':xiaochen-api:xiaochen-api-system')
 }
 

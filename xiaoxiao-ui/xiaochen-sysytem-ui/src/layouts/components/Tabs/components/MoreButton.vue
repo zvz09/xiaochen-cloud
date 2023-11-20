@@ -6,25 +6,46 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item @click="refresh">
-          <el-icon><Refresh /></el-icon>{{ $t("tabs.refresh") }}
+          <el-icon>
+            <Refresh />
+          </el-icon>
+          {{ $t("tabs.refresh") }}
         </el-dropdown-item>
         <el-dropdown-item @click="maximize">
-          <el-icon><FullScreen /></el-icon>{{ $t("tabs.maximize") }}
+          <el-icon>
+            <FullScreen />
+          </el-icon>
+          {{ $t("tabs.maximize") }}
         </el-dropdown-item>
         <el-dropdown-item divided @click="closeCurrentTab">
-          <el-icon><Remove /></el-icon>{{ $t("tabs.closeCurrent") }}
+          <el-icon>
+            <Remove />
+          </el-icon>
+          {{ $t("tabs.closeCurrent") }}
         </el-dropdown-item>
         <el-dropdown-item @click="tabStore.closeTabsOnSide(route.fullPath, 'left')">
-          <el-icon><DArrowLeft /></el-icon>{{ $t("tabs.closeLeft") }}
+          <el-icon>
+            <DArrowLeft />
+          </el-icon>
+          {{ $t("tabs.closeLeft") }}
         </el-dropdown-item>
         <el-dropdown-item @click="tabStore.closeTabsOnSide(route.fullPath, 'right')">
-          <el-icon><DArrowRight /></el-icon>{{ $t("tabs.closeRight") }}
+          <el-icon>
+            <DArrowRight />
+          </el-icon>
+          {{ $t("tabs.closeRight") }}
         </el-dropdown-item>
         <el-dropdown-item divided @click="tabStore.closeMultipleTab(route.fullPath)">
-          <el-icon><CircleClose /></el-icon>{{ $t("tabs.closeOther") }}
+          <el-icon>
+            <CircleClose />
+          </el-icon>
+          {{ $t("tabs.closeOther") }}
         </el-dropdown-item>
         <el-dropdown-item @click="closeAllTab">
-          <el-icon><FolderDelete /></el-icon>{{ $t("tabs.closeAll") }}
+          <el-icon>
+            <FolderDelete />
+          </el-icon>
+          {{ $t("tabs.closeAll") }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>

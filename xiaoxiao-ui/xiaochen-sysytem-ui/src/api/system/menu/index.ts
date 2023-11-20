@@ -1,10 +1,11 @@
 import http from "@/config/axios";
 import type { MenuVO } from "./types";
 import { MenuForm } from "./types";
+import { SYSTEM_SERVICE_PATH } from "@/api/config/servicePort";
 
 // 获取菜单列表
 export const listTree = () => {
-  return http.get<MenuVO[]>(`/system/menu/listTree`, {}, { loading: false });
+  return http.get<MenuVO[]>(SYSTEM_SERVICE_PATH + `/menu/listTree`, {}, { loading: false });
 };
 
 /**
@@ -12,7 +13,7 @@ export const listTree = () => {
  * @returns
  */
 export const createMenu = (params: MenuForm) => {
-  return http.post(`/system/menu`, params);
+  return http.post(SYSTEM_SERVICE_PATH + `/menu`, params);
 };
 
 /**
@@ -20,7 +21,7 @@ export const createMenu = (params: MenuForm) => {
  * @returns
  */
 export const updateMenu = (params: MenuForm) => {
-  return http.put(`/system/menu`, params);
+  return http.put(SYSTEM_SERVICE_PATH + `/menu`, params);
 };
 
 /**
@@ -29,5 +30,5 @@ export const updateMenu = (params: MenuForm) => {
  * @returns
  */
 export const deleteMenu = (id: string) => {
-  return http.delete(`/menu/${id}`);
+  return http.delete(SYSTEM_SERVICE_PATH + `/menu/${id}`);
 };

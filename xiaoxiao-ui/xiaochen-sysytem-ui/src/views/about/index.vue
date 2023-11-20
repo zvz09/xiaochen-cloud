@@ -19,16 +19,16 @@
           <el-tag>{{ lastBuildTime }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="Gitee" label-align="left">
-          <el-link type="primary" href="https://gitee.com/HalseySpicy/Geeker-Admin" target="_blank"> Gitee </el-link>
+          <el-link type="primary" href="https://gitee.com/HalseySpicy/Geeker-Admin" target="_blank"> Gitee</el-link>
         </el-descriptions-item>
         <el-descriptions-item label="Github" label-align="left">
-          <el-link type="primary" href="https://github.com/HalseySpicy/Geeker-Admin" target="_blank"> Github </el-link>
+          <el-link type="primary" href="https://github.com/HalseySpicy/Geeker-Admin" target="_blank"> Github</el-link>
         </el-descriptions-item>
         <el-descriptions-item label="文档地址" label-align="left">
-          <el-link type="primary" href="https://docs.spicyboy.cn" target="_blank"> 文档地址 </el-link>
+          <el-link type="primary" href="https://docs.spicyboy.cn" target="_blank"> 文档地址</el-link>
         </el-descriptions-item>
         <el-descriptions-item label="预览地址" label-align="left">
-          <el-link type="primary" href="https://admin.spicyboy.cn" target="_blank"> 预览地址 </el-link>
+          <el-link type="primary" href="https://admin.spicyboy.cn" target="_blank"> 预览地址</el-link>
         </el-descriptions-item>
       </el-descriptions>
     </div>
@@ -68,10 +68,12 @@ const { dependencies, devDependencies, version } = pkg;
     font-weight: bold;
     color: var(--el-text-color-primary);
   }
+
   .text {
     font-size: 15px;
     line-height: 25px;
     color: var(--el-text-color-regular);
+
     .el-link {
       font-size: 15px;
     }

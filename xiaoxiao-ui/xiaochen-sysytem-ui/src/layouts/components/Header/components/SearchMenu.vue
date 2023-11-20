@@ -28,10 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from "vue";
+import { computed, nextTick, ref } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/modules/auth";
+
 const router = useRouter();
 const authStore = useAuthStore();
 const menuList = computed(() => authStore.flatMenuListGet.filter(item => !item.meta.isHide));
@@ -84,27 +85,32 @@ const handleClickMenu = (menuItem: Menu.MenuOptions | Record<string, any>) => {
     background-color: rgb(0 0 0 / 50%);
     border-radius: 0 !important;
     box-shadow: unset !important;
+
     .el-dialog__header {
       border-bottom: none !important;
     }
   }
+
   :deep(.el-autocomplete) {
     position: absolute;
     top: 100px;
     left: 50%;
     width: 550px;
     transform: translateX(-50%);
+
     .el-input__wrapper {
       background-color: var(--el-bg-color);
     }
   }
 }
+
 .el-autocomplete__popper {
   .el-icon {
     position: relative;
     top: 2px;
     font-size: 16px;
   }
+
   span {
     margin: 0 0 0 10px;
     font-size: 14px;

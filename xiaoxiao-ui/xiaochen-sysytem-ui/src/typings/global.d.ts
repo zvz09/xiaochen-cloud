@@ -8,6 +8,7 @@ declare namespace Menu {
     meta: MetaProps;
     children?: MenuOptions[];
   }
+
   interface MetaProps {
     icon: string;
     title: string;

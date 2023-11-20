@@ -11,9 +11,11 @@
 	<div class="dialog-model" v-draggable></div>
 */
 import type { Directive } from "vue";
+
 interface ElType extends HTMLElement {
   parentNode: any;
 }
+
 const draggable: Directive = {
   mounted: function (el: ElType) {
     el.style.cursor = "move";

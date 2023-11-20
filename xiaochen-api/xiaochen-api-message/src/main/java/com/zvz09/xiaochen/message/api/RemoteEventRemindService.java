@@ -1,7 +1,6 @@
 package com.zvz09.xiaochen.message.api;
 
 
-
 import com.zvz09.xiaochen.common.core.constant.ServiceNameConstants;
 import com.zvz09.xiaochen.message.api.constant.FeignPath;
 import com.zvz09.xiaochen.message.api.domain.dto.EventRemindDto;
