@@ -18,6 +18,7 @@ import com.zvz09.xiaochen.system.api.RemoteRoleMenuService;
 import com.zvz09.xiaochen.system.api.RemoteRoleService;
 import com.zvz09.xiaochen.system.api.RemoteUserRoleService;
 import com.zvz09.xiaochen.system.api.RemoteUserService;
+import com.zvz09.xiaochen.system.api.domain.bo.UserRoleBo;
 import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,18 +76,18 @@ public class LoginServiceImpl implements ILoginService {
 
         List<String> roleCodes = remoteUserRoleService.getRoleIdByUserId(sysUser.getId());
 
-        SysRole sysRole = remoteRoleService.getById(sysUser.getRoleId());
+        List<UserRoleBo> userRoleBos = remoteUserRoleService.getByUserId(sysUser.getId());
 
-        List<SysRole> sysAuthorities = null;
-
-        if (roleCodes != null && !roleCodes.isEmpty()) {
-            sysAuthorities = remoteRoleService.getByRoleCodes(roleCodes);
+        if(userRoleBos == null || userRoleBos.isEmpty()){
+            throw new BusinessException("用户暂未授权角色，请联系管理员");
         }
+        List<SysRole> roles = new ArrayList<>();
+        userRoleBos.forEach(r ->{
+            roles.add(r.convertedToRole());
+        });
 
-        List<Long> sysBaseMenuIds = remoteRoleMenuService.getMenuIdByRoleId(sysUser.getRoleId());
 
-
-        SysUserVo user = new SysUserVo(sysUser, sysRole, sysAuthorities);
+        SysUserVo user = new SysUserVo(sysUser, roles);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setUser(user);
@@ -94,8 +96,8 @@ public class LoginServiceImpl implements ILoginService {
         claimsMap.put(SecurityConstants.USER_KEY, user.getId());
         claimsMap.put(SecurityConstants.DETAILS_USER_ID, user.getId());
         claimsMap.put(SecurityConstants.DETAILS_USERNAME, user.getNickName());
-        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_ID, sysRole.getId());
-        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_CODE, sysRole.getRoleCode());
+        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_ID, roles.get(0).getId());
+        claimsMap.put(SecurityConstants.DETAILS_AUTHORITY_CODE, roles.get(0).getRoleCode());
 
         loginVo.setToken(JwtUtils.createToken(claimsMap));
 

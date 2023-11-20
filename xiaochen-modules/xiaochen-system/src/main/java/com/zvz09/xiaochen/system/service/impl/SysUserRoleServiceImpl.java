@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,5 +48,11 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     public List<UserRoleBo> getByRoleIds(List<Long> roleIds) {
         return this.baseMapper.getByRoleIds(roleIds);
+    }
+
+    @Override
+    public  List<UserRoleBo> getByUserId(Long userId) {
+        List<UserRoleBo> userRoleBos = this.getByUserIds(Collections.singletonList(userId));
+        return userRoleBos;
     }
 }

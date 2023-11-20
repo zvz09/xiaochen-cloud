@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.system.api;
 
 import com.zvz09.xiaochen.common.core.constant.ServiceNameConstants;
 import com.zvz09.xiaochen.system.api.constant.FeignPath;
+import com.zvz09.xiaochen.system.api.domain.bo.UserRoleBo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,4 +30,6 @@ public interface RemoteUserRoleService {
     @GetMapping("/getRoleIdByUserId")
     List<String> getRoleIdByUserId(@RequestParam(name = "userId") Long userId);
 
+    @GetMapping("/getByUserId")
+    List<UserRoleBo> getByUserId(@RequestParam(name = "userId")Long userId);
 }

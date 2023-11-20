@@ -1,60 +1,62 @@
-// 参数接口
-export interface CreateRoleParams {
-  /* */
-  id: number;
-
-  /*角色编码 */
-  authorityCode: string;
-
-  /*角色名称 */
-  authorityName: string;
-}
-
-// 参数接口
-export interface UpdateRoleParams {
-  /* */
-  id: number;
-
-  /*角色编码 */
-  authorityCode: string;
-
-  /*角色名称 */
-  authorityName: string;
-}
-
-// 参数接口
-export interface CopyRoleParams {
-  /* */
-  authority: {
+// 用户管理模块
+export namespace Role {
+  // 参数接口
+  export interface CreateRoleParams {
     /* */
-    id: Record<string, unknown>;
+    id: number;
 
     /*角色编码 */
     authorityCode: string;
 
     /*角色名称 */
     authorityName: string;
-  };
+  }
 
-  /*旧角色ID */
-  oldRoleId: number;
-}
+  // 参数接口
+  export interface UpdateRoleParams {
+    /* */
+    id: number;
 
-// 参数接口
-export interface GetRoleListParams {
-  /*页码 */
-  pageNum?: number;
+    /*角色编码 */
+    authorityCode: string;
 
-  /*每页大小 */
-  pageSize?: number;
+    /*角色名称 */
+    authorityName: string;
+  }
+  // 参数接口
+  export interface CopyRoleParams {
+    /* */
+    authority: {
+      /* */
+      id: Record<string, unknown>;
 
-  /*关键字 */
-  keyword?: string;
-}
+      /*角色编码 */
+      authorityCode: string;
 
-export interface RoleVO {
-  id?: string;
-  authorityCode: string;
-  authorityName: string;
-  children?: any;
+      /*角色名称 */
+      authorityName: string;
+    };
+
+    /*旧角色ID */
+    oldRoleId: number;
+  }
+
+  // 参数接口
+  export interface GetRoleListParams {
+    /*页码 */
+    pageNum?: number;
+
+    /*每页大小 */
+    pageSize?: number;
+
+    /*关键字 */
+    keyword?: string;
+  }
+
+  export interface RoleVO {
+    id?: string;
+    authorityCode: string;
+    authorityName: string;
+    children?: any;
+  }
 }
