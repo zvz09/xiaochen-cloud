@@ -30,7 +30,7 @@ public class SysPermCodeApiServiceImpl extends ServiceImpl<SysPermCodeApiMapper,
 
     @Override
     public List<Long> getApiIdByPermCodeId(Long permCodeId) {
-        return this.list(new LambdaQueryWrapper<SysPermCodeApi>().eq(SysPermCodeApi::getPermCodeId,permCodeId))
+        return this.list(new LambdaQueryWrapper<SysPermCodeApi>().eq(SysPermCodeApi::getPermCodeId, permCodeId))
                 .stream().map(SysPermCodeApi::getApiId).collect(Collectors.toList());
     }
 }

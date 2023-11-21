@@ -25,7 +25,7 @@ import ProTable from "@/components/ProTable/index.vue";
 import RoleDrawer from "@/views/system/roleManage/RoleDrawer.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
-import { getRoleList, deleteRole, createRole, updateRole } from "@/api/system/role";
+import { createRole, deleteRole, getRoleList, updateRole } from "@/api/system/role";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();

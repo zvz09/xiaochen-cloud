@@ -48,7 +48,9 @@ interface SelectDataProps {
 
 interface SelectFilterProps {
   data?: SelectDataProps[]; // 选择的列表数据
-  defaultValues?: { [key: string]: any }; // 默认值
+  defaultValues?: {
+    [key: string]: any;
+  }; // 默认值
 }
 
 const props = withDefaults(defineProps<SelectFilterProps>(), {
@@ -57,7 +59,9 @@ const props = withDefaults(defineProps<SelectFilterProps>(), {
 });
 
 // 重新接收默认值
-const selected = ref<{ [key: string]: any }>({});
+const selected = ref<{
+  [key: string]: any;
+}>({});
 watch(
   () => props.defaultValues,
   () => {

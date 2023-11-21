@@ -68,8 +68,8 @@ public class SysPermCodeController {
 
     @PutMapping("/bind/{id}")
     @Operation(summary = "绑定权限资源")
-    public ApiResult<String> bindApis(@PathVariable(value = "id") Long id,@RequestBody List<Long> apiIds) {
-        sysPermCodeService.bindApis(id,apiIds);
+    public ApiResult<String> bindApis(@PathVariable(value = "id") Long id, @RequestBody List<Long> apiIds) {
+        sysPermCodeService.bindApis(id, apiIds);
         return ApiResult.success();
     }
 

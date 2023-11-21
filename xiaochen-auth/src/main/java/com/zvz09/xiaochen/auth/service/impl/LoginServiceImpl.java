@@ -78,11 +78,11 @@ public class LoginServiceImpl implements ILoginService {
 
         List<UserRoleBo> userRoleBos = remoteUserRoleService.getByUserId(sysUser.getId());
 
-        if(userRoleBos == null || userRoleBos.isEmpty()){
+        if (userRoleBos == null || userRoleBos.isEmpty()) {
             throw new BusinessException("用户暂未授权角色，请联系管理员");
         }
         List<SysRole> roles = new ArrayList<>();
-        userRoleBos.forEach(r ->{
+        userRoleBos.forEach(r -> {
             roles.add(r.convertedToRole());
         });
 

@@ -29,7 +29,9 @@ import { ColumnProps } from "@/components/ProTable/interface";
 
 interface SearchFormItem {
   column: ColumnProps;
-  searchParam: { [key: string]: any };
+  searchParam: {
+    [key: string]: any;
+  };
 }
 
 const props = defineProps<SearchFormItem>();

@@ -37,7 +37,12 @@ const option: ECOption = {
     trigger: "axis",
     confine: true,
     formatter: params => {
-      let tipData = (params as { name: string; value: string }[])[0];
+      let tipData = (
+        params as {
+          name: string;
+          value: string;
+        }[]
+      )[0];
       let html = `<div class="line-chart-bg">
                         <span style="">${tipData.name} <i >${tipData.value}</i> 人次访问</span>
                     </div>`;
@@ -165,6 +170,7 @@ const option: ECOption = {
 .echarts {
   width: 100%;
   height: 100%;
+
   :deep(.line-chart-bg) {
     box-sizing: border-box;
     display: flex;
@@ -174,9 +180,11 @@ const option: ECOption = {
     padding-left: 20px;
     background: url("../images/line-bg.png") no-repeat;
     background-size: 100% 100%;
+
     span {
       font-size: 12px;
       color: rgb(255 255 255 / 80%);
+
       i {
         font-style: normal;
         color: #f5b348;

@@ -7,7 +7,9 @@ import { inject, ref, useSlots } from "vue";
 import { ColumnProps, HeaderRenderScope, RenderScope } from "@/components/ProTable/interface";
 import { filterEnum, formatValue, handleProp, handleRowAccordingToProp } from "@/utils";
 
-defineProps<{ column: ColumnProps }>();
+defineProps<{
+  column: ColumnProps;
+}>();
 
 const slots = useSlots();
 

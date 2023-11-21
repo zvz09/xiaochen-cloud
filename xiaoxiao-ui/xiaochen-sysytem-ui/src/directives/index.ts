@@ -7,7 +7,9 @@ import debounce from "./modules/debounce";
 import throttle from "./modules/throttle";
 import longpress from "./modules/longpress";
 
-const directivesList: { [key: string]: Directive } = {
+const directivesList: {
+  [key: string]: Directive;
+} = {
   auth,
   copy,
   waterMarker,

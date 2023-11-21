@@ -31,5 +31,5 @@ public interface RemoteUserRoleService {
     List<String> getRoleIdByUserId(@RequestParam(name = "userId") Long userId);
 
     @GetMapping("/getByUserId")
-    List<UserRoleBo> getByUserId(@RequestParam(name = "userId")Long userId);
+    List<UserRoleBo> getByUserId(@RequestParam(name = "userId") Long userId);
 }

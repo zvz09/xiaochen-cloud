@@ -29,7 +29,9 @@ const props = withDefaults(defineProps<Props>(), {
   xl: undefined
 });
 
-const attrs = useAttrs() as { index: string };
+const attrs = useAttrs() as {
+  index: string;
+};
 const isShow = ref(true);
 
 // 注入断点

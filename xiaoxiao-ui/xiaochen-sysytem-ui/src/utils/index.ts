@@ -75,7 +75,14 @@ export function generateUUID() {
  * @param {Object} b 要比较的对象二
  * @returns {Boolean} 相同返回 true，反之 false
  */
-export function isObjectValueEqual(a: { [key: string]: any }, b: { [key: string]: any }) {
+export function isObjectValueEqual(
+  a: {
+    [key: string]: any;
+  },
+  b: {
+    [key: string]: any;
+  }
+) {
   if (!a || !b) return false;
   let aProps = Object.getOwnPropertyNames(a);
   let bProps = Object.getOwnPropertyNames(b);
@@ -176,7 +183,13 @@ export function getShowMenuList(menuList: Menu.MenuOptions[]) {
  * @param {Object} result 处理后的结果
  * @returns {Object}
  */
-export const getAllBreadcrumbList = (menuList: Menu.MenuOptions[], parent = [], result: { [key: string]: any } = {}) => {
+export const getAllBreadcrumbList = (
+  menuList: Menu.MenuOptions[],
+  parent = [],
+  result: {
+    [key: string]: any;
+  } = {}
+) => {
   for (const item of menuList) {
     result[item.path] = [...parent, item];
     if (item.children) getAllBreadcrumbList(item.children, result[item.path], result);
@@ -259,7 +272,12 @@ export function formatValue(callValue: any) {
  * @param {String} prop 当前 prop
  * @returns {*}
  * */
-export function handleRowAccordingToProp(row: { [key: string]: any }, prop: string) {
+export function handleRowAccordingToProp(
+  row: {
+    [key: string]: any;
+  },
+  prop: string
+) {
   if (!prop.includes(".")) return row[prop] ?? "--";
   prop.split(".").forEach(item => (row = row[item] ?? "--"));
   return row;
@@ -288,7 +306,9 @@ export function filterEnum(callValue: any, enumData?: any, fieldNames?: FieldNam
   const value = fieldNames?.value ?? "value";
   const label = fieldNames?.label ?? "label";
   const children = fieldNames?.children ?? "children";
-  let filterData: { [key: string]: any } = {};
+  let filterData: {
+    [key: string]: any;
+  } = {};
   // 判断 enumData 是否为数组
   if (Array.isArray(enumData)) filterData = findItemNested(enumData, callValue, value, children);
   // 判断是否输出的结果为 tag 类型

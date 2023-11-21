@@ -11,7 +11,9 @@ export const useAuthButtons = () => {
   const authButtons = authStore.authPermCodeListGet[route.name as string] || [];
 
   const BUTTONS = computed(() => {
-    let currentPageAuthButton: { [key: string]: boolean } = {};
+    let currentPageAuthButton: {
+      [key: string]: boolean;
+    } = {};
     authButtons.forEach(item => (currentPageAuthButton[item] = true));
     return currentPageAuthButton;
   });

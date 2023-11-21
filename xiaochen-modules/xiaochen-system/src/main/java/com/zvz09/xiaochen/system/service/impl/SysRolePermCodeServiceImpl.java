@@ -34,7 +34,7 @@ public class SysRolePermCodeServiceImpl extends ServiceImpl<SysRolePermCodeMappe
     @Override
     public List<Long> getPermCodeIdByRoleId(Long roleId) {
         return this.list(new LambdaQueryWrapper<SysRolePermCode>()
-                .eq(SysRolePermCode::getRoleId,roleId)).stream().map(SysRolePermCode::getPermCodeId).collect(Collectors.toList());
+                .eq(SysRolePermCode::getRoleId, roleId)).stream().map(SysRolePermCode::getPermCodeId).collect(Collectors.toList());
 
     }
 }

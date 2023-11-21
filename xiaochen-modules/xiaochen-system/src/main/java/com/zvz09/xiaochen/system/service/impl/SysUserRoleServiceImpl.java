@@ -51,7 +51,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     }
 
     @Override
-    public  List<UserRoleBo> getByUserId(Long userId) {
+    public List<UserRoleBo> getByUserId(Long userId) {
         List<UserRoleBo> userRoleBos = this.getByUserIds(Collections.singletonList(userId));
         return userRoleBos;
     }

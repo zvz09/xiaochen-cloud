@@ -200,7 +200,14 @@ const tableColumns = reactive<ColumnProps[]>(props.columns);
 const flatColumns = computed(() => flatColumnsFunc(tableColumns));
 
 // 定义 enumMap 存储 enum 值（避免异步请求无法格式化单元格内容 || 无法填充搜索下拉选择）
-const enumMap = ref(new Map<string, { [key: string]: any }[]>());
+const enumMap = ref(
+  new Map<
+    string,
+    {
+      [key: string]: any;
+    }[]
+  >()
+);
 const setEnumMap = async ({ prop, enum: enumValue }: ColumnProps) => {
   if (!enumValue) return;
 
@@ -267,7 +274,12 @@ const openColSetting = () => colRef.value.openColSetting();
 const emit = defineEmits<{
   search: [];
   reset: [];
-  dargSort: [{ newIndex?: number; oldIndex?: number }];
+  dargSort: [
+    {
+      newIndex?: number;
+      oldIndex?: number;
+    }
+  ];
 }>();
 
 const _search = () => {

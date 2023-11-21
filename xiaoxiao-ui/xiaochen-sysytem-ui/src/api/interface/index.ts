@@ -64,7 +64,11 @@ export namespace User {
     id: string;
     username: string;
     gender: number;
-    user: { detail: { age: number } };
+    user: {
+      detail: {
+        age: number;
+      };
+    };
     idCard: string;
     email: string;
     address: string;

@@ -115,7 +115,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
 
     @Override
     public List<SysApiVo> listTree(List<Long> ids) {
-        if(ids ==null || ids.isEmpty()){
+        if (ids == null || ids.isEmpty()) {
             return new ArrayList<>();
         }
         List<SysApi> sysApis = this.list(new LambdaQueryWrapper<SysApi>().in(SysApi::getId, ids));
@@ -140,7 +140,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         for (String key : apiObj.keySet()) {
             SysApiVo sysApiVo = new SysApiVo();
             sysApiVo.setApiGroup(key);
-            sysApiVo.setDescription(key+"组");
+            sysApiVo.setDescription(key + "组");
             sysApiVo.setChildren(apiObj.get(key));
             apiTree.add(sysApiVo);
         }

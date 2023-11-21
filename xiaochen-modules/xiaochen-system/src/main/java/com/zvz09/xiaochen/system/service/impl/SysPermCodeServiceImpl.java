@@ -11,7 +11,6 @@ import com.zvz09.xiaochen.common.web.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.constant.PermCodeType;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.dto.perm.SysPermCodeDto;
-import com.zvz09.xiaochen.system.api.domain.entity.SysApi;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCode;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCodeApi;
 import com.zvz09.xiaochen.system.api.domain.vo.SysApiVo;
@@ -28,12 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
 
@@ -118,7 +115,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
         if (dbData != null) {
             sysPermCode.setId(dbData.getId());
             this.updateById(sysPermCode);
-        }else {
+        } else {
             this.save(sysPermCode);
         }
     }
@@ -143,7 +140,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
         Map<String, List<String>> result = new HashMap<>();
         if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
             sysPermCodeList = this.list();
-        }else {
+        } else {
             List<Long> permCodeIds = sysRolePermCodeService.getPermCodeIdByRoleId(SecurityContextHolder.getRoleId());
 
             if (permCodeIds.isEmpty()) {
@@ -175,19 +172,19 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
     @Override
     public SysPermCodeVo detail(Long id) {
         SysPermCode sysPermCode = this.getById(id);
-        if(sysPermCode ==null){
+        if (sysPermCode == null) {
             return null;
         }
         List<Long> apiIds = sysPermCodeApiService.getApiIdByPermCodeId(id);
         List<SysApiVo> sysApiVos = sysApiService.listTree(apiIds);
-        return new SysPermCodeVo(sysPermCode,apiIds,sysApiVos);
+        return new SysPermCodeVo(sysPermCode, apiIds, sysApiVos);
     }
 
     @Override
     public void bindApis(Long id, List<Long> apiIds) {
         SysPermCode sysPermCode = this.getById(id);
-        if(sysPermCode ==null){
-            return ;
+        if (sysPermCode == null) {
+            return;
         }
         sysPermCodeApiService.deleteByPermCodeId(id);
         if (apiIds != null && !apiIds.isEmpty()) {

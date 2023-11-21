@@ -41,7 +41,9 @@ import { ElTree } from "element-plus";
 // 接收父组件参数并设置默认值
 interface TreeFilterProps {
   requestApi?: (data?: any) => Promise<any>; // 请求分类数据的 api ==> 非必传
-  data?: { [key: string]: any }[]; // 分类数据，如果有分类数据，则不会执行 api 请求 ==> 非必传
+  data?: {
+    [key: string]: any;
+  }[]; // 分类数据，如果有分类数据，则不会执行 api 请求 ==> 非必传
   title?: string; // treeFilter 标题 ==> 非必传
   id?: string; // 选择的id ==> 非必传，默认为 “id”
   label?: string; // 显示的label ==> 非必传，默认为 “label”
@@ -61,8 +63,16 @@ const defaultProps = {
 };
 
 const treeRef = ref<InstanceType<typeof ElTree>>();
-const treeData = ref<{ [key: string]: any }[]>([]);
-const treeAllData = ref<{ [key: string]: any }[]>([]);
+const treeData = ref<
+  {
+    [key: string]: any;
+  }[]
+>([]);
+const treeAllData = ref<
+  {
+    [key: string]: any;
+  }[]
+>([]);
 
 const selected = ref();
 const setSelected = () => {
@@ -103,7 +113,13 @@ watch(filterText, val => {
 });
 
 // 过滤
-const filterNode = (value: string, data: { [key: string]: any }, node: any) => {
+const filterNode = (
+  value: string,
+  data: {
+    [key: string]: any;
+  },
+  node: any
+) => {
   if (!value) return true;
   let parentNode = node.parent,
     labels = [node.label],

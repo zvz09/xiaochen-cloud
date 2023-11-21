@@ -2,15 +2,12 @@ package com.zvz09.xiaochen.system.api.domain.dto.perm;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zvz09.xiaochen.common.web.dto.BaseDto;
-import com.zvz09.xiaochen.system.api.domain.entity.SysPermCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 
 /**

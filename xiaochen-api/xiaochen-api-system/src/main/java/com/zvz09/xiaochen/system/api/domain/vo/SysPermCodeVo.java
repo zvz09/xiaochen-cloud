@@ -63,8 +63,8 @@ public class SysPermCodeVo extends BaseVo {
     public SysPermCodeVo(SysPermCode sysPermCode, List<Long> apiIds, List<SysApiVo> sysApiVos) {
         super(sysPermCode.getId());
         this.apiVos = sysApiVos;
-        if(apiIds!=null && !apiIds.isEmpty()){
-            this.apiIds =apiIds.stream()
+        if (apiIds != null && !apiIds.isEmpty()) {
+            this.apiIds = apiIds.stream()
                     .map(Object::toString)  // 使用toString方法将Long转换为String
                     .collect(Collectors.toList());
         } else {

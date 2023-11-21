@@ -7,7 +7,7 @@
         <el-button v-if="scope.row.permCodeType === 0" type="primary" link :icon="Plus" @click="openDrawer('新增', scope.row)">
           新增
         </el-button>
-        <el-button type="primary" link :icon="EditPen" @click="openApiDrawer('编辑', scope.row)">绑定权限资源</el-button>
+        <el-button type="primary" link :icon="EditPen" @click="openApiDrawer('编辑', scope.row)">绑定权限资源 </el-button>
         <el-button v-if="scope.row.permCodeType !== 0" type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">
           编辑
         </el-button>
@@ -30,7 +30,7 @@ import PermCodeDrawer from "@/views/system/permCodeManage/PermCodeDrawer.vue";
 import BindApiDrawer from "@/views/system/permCodeManage/BindApiDrawer.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { Delete, EditPen, Plus, View } from "@element-plus/icons-vue";
-import { listTree, createPermCode, deletePermCode, updatePermCode, getPermCodeType, detailPermCode } from "@/api/system/permCode";
+import { createPermCode, deletePermCode, detailPermCode, getPermCodeType, listTree, updatePermCode } from "@/api/system/permCode";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();

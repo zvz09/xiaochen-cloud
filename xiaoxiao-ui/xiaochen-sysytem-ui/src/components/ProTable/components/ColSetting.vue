@@ -25,7 +25,9 @@
 import { ref } from "vue";
 import { ColumnProps } from "@/components/ProTable/interface";
 
-defineProps<{ colSetting: ColumnProps[] }>();
+defineProps<{
+  colSetting: ColumnProps[];
+}>();
 
 const drawerVisible = ref<boolean>(false);
 

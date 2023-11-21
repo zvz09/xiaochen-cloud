@@ -25,6 +25,7 @@ import { ElMessage, ElTree } from "element-plus";
 import { listAPITree } from "@/api/system/api";
 import { bindApis } from "@/api/system/permCode";
 import { API } from "@/api/system/api/types";
+
 interface DrawerProps {
   title: string;
   isView: boolean;

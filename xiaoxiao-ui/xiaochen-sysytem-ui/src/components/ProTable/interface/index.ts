@@ -28,7 +28,9 @@ export type SearchType =
   | "slider";
 
 export type SearchRenderScope = {
-  searchParam: { [key: string]: any };
+  searchParam: {
+    [key: string]: any;
+  };
   placeholder: string;
   clearable: boolean;
   options: EnumProps[];

@@ -30,5 +30,6 @@ public interface ISysApiService extends IService<SysApi> {
     void deleteApisByIds(List<Long> ids);
 
     List<SysApiVo> listTree();
+
     List<SysApiVo> listTree(List<Long> ids);
 }

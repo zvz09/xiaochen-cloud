@@ -74,15 +74,23 @@ const clearIcon = () => {
 
 // 监听搜索框值
 const inputValue = ref("");
-const customIcons: { [key: string]: any } = Icons;
-const iconsList = computed((): { [key: string]: any } => {
-  if (!inputValue.value) return Icons;
-  let result: { [key: string]: any } = {};
-  for (const key in customIcons) {
-    if (key.toLowerCase().indexOf(inputValue.value.toLowerCase()) > -1) result[key] = customIcons[key];
+const customIcons: {
+  [key: string]: any;
+} = Icons;
+const iconsList = computed(
+  (): {
+    [key: string]: any;
+  } => {
+    if (!inputValue.value) return Icons;
+    let result: {
+      [key: string]: any;
+    } = {};
+    for (const key in customIcons) {
+      if (key.toLowerCase().indexOf(inputValue.value.toLowerCase()) > -1) result[key] = customIcons[key];
+    }
+    return result;
   }
-  return result;
-});
+);
 </script>
 
 <style scoped lang="scss">

@@ -80,6 +80,7 @@ const openDialog = (ref: string) => {
   overflow: hidden;
   cursor: pointer;
   border-radius: 50%;
+
   img {
     width: 100%;
     height: 100%;

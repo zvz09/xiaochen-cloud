@@ -23,6 +23,7 @@ export namespace Role {
     /*角色名称 */
     authorityName: string;
   }
+
   // 参数接口
   export interface CopyRoleParams {
     /* */
@@ -58,6 +59,7 @@ export namespace Role {
     roleCode: string;
     roleName: string;
   }
+
   // 响应接口
   export interface ListPermCodesRes {
     [key: string]: string[];

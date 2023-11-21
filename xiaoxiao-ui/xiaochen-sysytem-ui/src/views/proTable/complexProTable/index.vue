@@ -14,7 +14,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" :icon="CirclePlus" @click="proTable?.element?.toggleAllSelection">全选 / 全不选</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="proTable?.element?.toggleAllSelection">全选 / 全不选 </el-button>
         <el-button type="primary" :icon="Pointer" plain @click="setCurrent">选中第五行</el-button>
         <el-button type="danger" :icon="Delete" plain :disabled="!scope.isSelected" @click="batchDelete(scope.selectedListIds)">
           批量删除用户
@@ -177,6 +177,7 @@ const resetPass = async (params: User.ResUserList) => {
 .el-table .warning-row .el-table-fixed-column--left {
   background-color: var(--el-color-warning-light-9);
 }
+
 .el-table .success-row,
 .el-table .success-row .el-table-fixed-column--right,
 .el-table .success-row .el-table-fixed-column--left {
