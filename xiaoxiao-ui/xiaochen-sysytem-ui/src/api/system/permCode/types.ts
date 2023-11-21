@@ -1,4 +1,6 @@
 // 权限字管理模块
+import { API } from "@/api/system/api/types";
+
 export namespace PermCode {
   // 参数接口
   export interface ListTreeParams {
@@ -65,6 +67,7 @@ export namespace PermCode {
 
   export interface PermCodeVO {
     id: string;
+    parentId: string;
     permCode: string;
     permCodeType: number;
     showName: string;
@@ -72,5 +75,6 @@ export namespace PermCode {
     children: PermCodeVO[];
     /*资源ID */
     apiIds?: string[];
+    apiVos?: API.ApiVO[];
   }
 }

@@ -30,9 +30,6 @@ import java.util.List;
 @Schema(description = "系统权限字")
 public class SysPermCodeDto extends BaseDto {
 
-    @Schema(description = "菜单Id")
-    private Long menuId;
-
     @Schema(description = "上级权限字Id")
     private Long parentId;
 

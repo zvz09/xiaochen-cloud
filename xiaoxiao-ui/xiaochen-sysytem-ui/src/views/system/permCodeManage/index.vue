@@ -1,19 +1,13 @@
 <template>
   <div class="table-box">
     <ProTable ref="proTable" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback">
-      <!-- 表格 header 按钮 -->
-      <template #tableHeader="scope">
-        <el-button v-auth="'add'" type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增权限字</el-button>
-        <el-button type="danger" :icon="Delete" plain :disabled="!scope.isSelected" @click="batchDelete(scope.selectedListIds)">
-          批量删除权限字
-        </el-button>
-      </template>
-
       <!-- 表格操作 -->
       <template #operation="scope">
         <el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
-        <el-button type="primary" link :icon="View" @click="openApiDrawer('查看', scope.row)">查看权限资源</el-button>
-        <el-button type="primary" link :icon="View" @click="openApiDrawer('编辑', scope.row)">绑定权限资源</el-button>
+        <el-button v-if="scope.row.permCodeType === 0" type="primary" link :icon="Plus" @click="openDrawer('新增', scope.row)">
+          新增
+        </el-button>
+        <el-button type="primary" link :icon="EditPen" @click="openApiDrawer('编辑', scope.row)">绑定权限资源</el-button>
         <el-button v-if="scope.row.permCodeType !== 0" type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">
           编辑
         </el-button>
@@ -35,7 +29,7 @@ import ProTable from "@/components/ProTable/index.vue";
 import PermCodeDrawer from "@/views/system/permCodeManage/PermCodeDrawer.vue";
 import BindApiDrawer from "@/views/system/permCodeManage/BindApiDrawer.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
+import { Delete, EditPen, Plus, View } from "@element-plus/icons-vue";
 import { listTree, createPermCode, deletePermCode, updatePermCode, getPermCodeType, detailPermCode } from "@/api/system/permCode";
 
 // ProTable 实例
@@ -85,19 +79,12 @@ const columns = reactive<ColumnProps<PermCode.PermCodeVO>[]>([
     prop: "showOrder",
     label: "排序"
   },
-  { prop: "operation", label: "操作", fixed: "right", width: 430 }
+  { prop: "operation", label: "操作", fixed: "right", width: 480 }
 ]);
 
 // 删除权限字信息
 const deleteAccount = async (params: PermCode.PermCodeVO) => {
   await useHandleData(deletePermCode, params.id, `删除【${params.showName}】权限字`);
-  proTable.value?.getTableList();
-};
-
-// 批量删除权限字信息
-const batchDelete = async (id: string[]) => {
-  await useHandleData(deletePermCode, id, "删除所选权限字信息");
-  proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };
 

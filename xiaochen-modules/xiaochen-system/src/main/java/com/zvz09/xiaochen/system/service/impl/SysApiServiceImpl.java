@@ -113,6 +113,15 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         return buildApiTree(sysApis);
     }
 
+    @Override
+    public List<SysApiVo> listTree(List<Long> ids) {
+        if(ids ==null || ids.isEmpty()){
+            return new ArrayList<>();
+        }
+        List<SysApi> sysApis = this.list(new LambdaQueryWrapper<SysApi>().in(SysApi::getId, ids));
+        return buildApiTree(sysApis);
+    }
+
     public List<SysApiVo> buildApiTree(List<SysApi> apis) {
         Map<String, List<SysApiVo>> apiObj = new HashMap<>();
 

@@ -9,7 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -28,6 +30,9 @@ import java.util.List;
 @Schema(description = "系统权限字")
 public class SysPermCodeVo extends BaseVo {
 
+    @Schema(description = "上级权限字Id")
+    private String parentId;
+
     @Schema(description = "权限字标识(一般为有含义的英文字符串)")
     private String permCode;
 
@@ -40,22 +45,32 @@ public class SysPermCodeVo extends BaseVo {
     @Schema(description = "显示顺序(数值越小，越靠前)")
     private Integer showOrder;
 
-    private List<Long> apiIds;
+    private List<String> apiIds;
+    private List<SysApiVo> apiVos;
 
     @Schema(description = "子")
     private List<SysPermCodeVo> children;
 
     public SysPermCodeVo(SysPermCode sysPermCode) {
         super(sysPermCode.getId());
+        this.parentId = String.valueOf(sysPermCode.getParentId());
         this.permCode = sysPermCode.getPermCode();
         this.permCodeType = sysPermCode.getPermCodeType();
         this.showName = sysPermCode.getShowName();
         this.showOrder = sysPermCode.getShowOrder();
     }
 
-    public SysPermCodeVo(SysPermCode sysPermCode, List<Long> apiIds) {
+    public SysPermCodeVo(SysPermCode sysPermCode, List<Long> apiIds, List<SysApiVo> sysApiVos) {
         super(sysPermCode.getId());
-        this.apiIds = apiIds;
+        this.apiVos = sysApiVos;
+        if(apiIds!=null && !apiIds.isEmpty()){
+            this.apiIds =apiIds.stream()
+                    .map(Object::toString)  // 使用toString方法将Long转换为String
+                    .collect(Collectors.toList());
+        } else {
+            this.apiIds = new ArrayList<>();
+        }
+        this.parentId = String.valueOf(sysPermCode.getParentId());
         this.permCode = sysPermCode.getPermCode();
         this.permCodeType = sysPermCode.getPermCodeType();
         this.showName = sysPermCode.getShowName();

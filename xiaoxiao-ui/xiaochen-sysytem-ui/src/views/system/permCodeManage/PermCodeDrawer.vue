@@ -24,6 +24,20 @@
         <el-input v-model="drawerProps.row!.showOrder" placeholder="请填写排序" clearable></el-input>
       </el-form-item>
     </el-form>
+    <div v-if="drawerProps.isView">
+      <el-divider content-position="center">权限资源信息</el-divider>
+      <el-tree
+        ref="apiTreeRef"
+        empty-text="暂未绑定权限资源"
+        :data="apiData"
+        :default-checked-keys="apiTreeIds"
+        :props="apiDefaultProps"
+        default-expand-all
+        highlight-current
+        node-key="id"
+        show-checkbox
+      />
+    </div>
     <template #footer>
       <el-button @click="drawerVisible = false">取消</el-button>
       <el-button v-show="!drawerProps.isView" type="primary" @click="handleSubmit">确定</el-button>
@@ -33,9 +47,10 @@
 
 <script setup lang="ts" name="PermCodeDrawer">
 import { reactive, ref } from "vue";
-import { ElMessage, FormInstance } from "element-plus";
+import { ElMessage, ElTree, FormInstance } from "element-plus";
 import { PermCode } from "@/api/system/permCode/types";
-import { getPermCodeType } from "@/api/system/permCode";
+import { detailPermCode, getPermCodeType } from "@/api/system/permCode";
+import { API } from "@/api/system/api/types";
 
 const rules = reactive({
   roleCode: [{ required: true, message: "请填写角色编码" }],
@@ -56,13 +71,21 @@ const drawerProps = ref<DrawerProps>({
   title: "",
   row: {}
 });
-
-const apiData = ref([]);
-
+const apiData = ref<API.ApiVO[]>();
+const apiTreeIds = ref([]);
 // 接收父组件传过来的参数
 const acceptParams = async (params: DrawerProps) => {
-  apiData.value = await listAPITree().data;
   drawerProps.value = params;
+  if (drawerProps.value.title == "查看" && drawerProps.value.row.id) {
+    let data = (await detailPermCode(drawerProps.value.row.id)).data;
+    apiData.value = data.apiVos;
+    apiTreeIds.value = data.apiIds;
+  }
+  if (drawerProps.value.title == "新增") {
+    let parentId = params.row.id;
+    drawerProps.value.row = {};
+    drawerProps.value.row.parentId = parentId;
+  }
   drawerVisible.value = true;
 };
 
@@ -70,10 +93,11 @@ const acceptParams = async (params: DrawerProps) => {
 const ruleFormRef = ref<FormInstance>();
 const handleSubmit = () => {
   ruleFormRef.value!.validate(async valid => {
+    console.log(drawerProps.value.row);
     if (!valid) return;
     try {
       await drawerProps.value.api!(drawerProps.value.row);
-      ElMessage.success({ message: `${drawerProps.value.title}用户成功！` });
+      ElMessage.success({ message: `${drawerProps.value.title}成功！` });
       drawerProps.value.getTableList!();
       drawerVisible.value = false;
     } catch (error) {
@@ -82,6 +106,14 @@ const handleSubmit = () => {
   });
 };
 
+const apiTreeRef = ref<InstanceType<typeof ElTree>>();
+const apiDefaultProps = ref({
+  children: "children",
+  label: "description",
+  disabled: () => {
+    return true;
+  }
+});
 defineExpose({
   acceptParams
 });

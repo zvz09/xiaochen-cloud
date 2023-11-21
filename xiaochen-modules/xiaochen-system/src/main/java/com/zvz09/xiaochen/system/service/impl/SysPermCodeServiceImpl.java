@@ -11,11 +11,14 @@ import com.zvz09.xiaochen.common.web.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.constant.PermCodeType;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.dto.perm.SysPermCodeDto;
+import com.zvz09.xiaochen.system.api.domain.entity.SysApi;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCode;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCodeApi;
+import com.zvz09.xiaochen.system.api.domain.vo.SysApiVo;
 import com.zvz09.xiaochen.system.api.domain.vo.SysPermCodeVo;
 import com.zvz09.xiaochen.system.converter.SysPermCodeTreeConverter;
 import com.zvz09.xiaochen.system.mapper.SysPermCodeMapper;
+import com.zvz09.xiaochen.system.service.ISysApiService;
 import com.zvz09.xiaochen.system.service.ISysPermCodeApiService;
 import com.zvz09.xiaochen.system.service.ISysPermCodeService;
 import com.zvz09.xiaochen.system.service.ISysRolePermCodeService;
@@ -50,6 +53,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
     private final ISysPermCodeApiService sysPermCodeApiService;
     private final ISysRolePermCodeService sysRolePermCodeService;
+    private final ISysApiService sysApiService;
 
     @Override
     @Transactional
@@ -92,13 +96,11 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
     private void saveOrUpdatePermCode(SysPermCodeDto sysPermCodeDto) {
         SysPermCode parent = this.getById(sysPermCodeDto.getParentId());
-        if (parent == null && sysPermCodeDto.getMenuId() == null) {
+        if (parent == null) {
             throw new BusinessException("请选择菜单");
         }
-        Long menuId = sysPermCodeDto.getMenuId();
-        if (parent != null) {
-            menuId = parent.getMenuId();
-        }
+        Long menuId = parent.getMenuId();
+
         SysPermCode dbData = null;
         if (sysPermCodeDto.getId() != null) {
             dbData = this.getById(sysPermCodeDto.getParentId());
@@ -107,6 +109,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
         SysPermCode sysPermCode =
                 SysPermCode.builder().menuId(menuId)
                         .parentId(parent == null ? 0L : parent.getId())
+                        .permCode(sysPermCodeDto.getPermCode())
                         .permCodeType(sysPermCodeDto.getPermCodeType())
                         .showName(sysPermCodeDto.getShowName())
                         .showOrder(sysPermCodeDto.getShowOrder())
@@ -114,11 +117,10 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
         if (dbData != null) {
             sysPermCode.setId(dbData.getId());
+            this.updateById(sysPermCode);
+        }else {
+            this.save(sysPermCode);
         }
-
-        this.updateById(sysPermCode);
-
-
     }
 
     @Override
@@ -177,7 +179,8 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
             return null;
         }
         List<Long> apiIds = sysPermCodeApiService.getApiIdByPermCodeId(id);
-        return new SysPermCodeVo(sysPermCode,apiIds);
+        List<SysApiVo> sysApiVos = sysApiService.listTree(apiIds);
+        return new SysPermCodeVo(sysPermCode,apiIds,sysApiVos);
     }
 
     @Override

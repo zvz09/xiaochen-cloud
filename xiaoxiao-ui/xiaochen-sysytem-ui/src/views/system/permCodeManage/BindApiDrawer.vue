@@ -3,11 +3,11 @@
     <el-tree
       ref="apiTreeRef"
       :data="apiData"
-      :default-checked-keys="drawerProps.apiIds"
+      :default-checked-keys="apiTreeIds"
       :props="apiDefaultProps"
       default-expand-all
       highlight-current
-      node-key="onlyId"
+      node-key="id"
       show-checkbox
       :filter-node-method="filterNode"
       @check="nodeChange"
@@ -49,12 +49,15 @@ const apiDefaultProps = ref({
 });
 
 const apiData = ref<API.ApiVO[]>();
-
+const apiTreeIds = ref([]);
 // 接收父组件传过来的参数
 const acceptParams = async (params: DrawerProps) => {
   apiData.value = (await listAPITree()).data;
-  console.log(params);
   drawerProps.value = params;
+  drawerProps.value.apiIds &&
+    drawerProps.value.apiIds.forEach(item => {
+      apiTreeIds.value.push(item);
+    });
   drawerVisible.value = true;
 };
 
