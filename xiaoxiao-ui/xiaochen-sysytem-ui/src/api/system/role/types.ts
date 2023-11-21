@@ -1,4 +1,4 @@
-// 用户管理模块
+// 角色管理模块
 export namespace Role {
   // 参数接口
   export interface CreateRoleParams {
@@ -55,8 +55,11 @@ export namespace Role {
 
   export interface RoleVO {
     id?: string;
-    authorityCode: string;
-    authorityName: string;
-    children?: any;
+    roleCode: string;
+    roleName: string;
+  }
+  // 响应接口
+  export interface ListPermCodesRes {
+    [key: string]: string[];
   }
 }

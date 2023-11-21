@@ -1,6 +1,7 @@
 import http from "@/config/axios";
 import { SYSTEM_SERVICE_PATH } from "@/api/config/servicePort";
-import { Role, RoleVO } from "@/api/system/role/types";
+import { Role } from "@/api/system/role/types";
+import { ResPage } from "@/api/interface";
 
 export const createRole = (params: Role.CreateRoleParams) => {
   return http.post(SYSTEM_SERVICE_PATH + `/role`, params);
@@ -19,9 +20,17 @@ export const updateRole = (params: Role.UpdateRoleParams) => {
  * @returns
  */
 export const getRoleList = (params: Role.GetRoleListParams) => {
-  return http.post<Role.RoleVO>(SYSTEM_SERVICE_PATH + `/role/list`, params);
+  return http.post<ResPage<Role.RoleVO>>(SYSTEM_SERVICE_PATH + `/role/list`, params);
 };
 
 export const copyRole = (params: Role.CopyRoleParams) => {
   return http.post(SYSTEM_SERVICE_PATH + `/role/copy`, params);
+};
+
+/**
+ * 获取当前角色所有权限字
+ * @returns
+ */
+export const listPermCodes = () => {
+  return http.get<Role.ListPermCodesRes>(`/system/perm_code`);
 };

@@ -57,7 +57,6 @@ public class SysRoleController {
         return ApiResult.success();
     }
 
-
     @PutMapping("")
     public ApiResult updateRole(@Validated(value = UpdateValidation.class) @RequestBody SysRoleDto sysRoleDto) {
         sysRoleService.updateRole(sysRoleDto);

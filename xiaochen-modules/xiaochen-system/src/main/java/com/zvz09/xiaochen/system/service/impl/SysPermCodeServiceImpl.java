@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.util.TreeBuilder;
+import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
 import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.system.api.constant.PermCodeType;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.dto.perm.SysPermCodeDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCode;
@@ -16,13 +18,21 @@ import com.zvz09.xiaochen.system.converter.SysPermCodeTreeConverter;
 import com.zvz09.xiaochen.system.mapper.SysPermCodeMapper;
 import com.zvz09.xiaochen.system.service.ISysPermCodeApiService;
 import com.zvz09.xiaochen.system.service.ISysPermCodeService;
+import com.zvz09.xiaochen.system.service.ISysRolePermCodeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
 
 
 /**
@@ -39,6 +49,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
 
     private final ISysPermCodeApiService sysPermCodeApiService;
+    private final ISysRolePermCodeService sysRolePermCodeService;
 
     @Override
     @Transactional
@@ -47,7 +58,8 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
         SysPermCode sysPermCode =
                 SysPermCode.builder().menuId(menuId)
                         .parentId(parent == null ? 0L : parent.getId())
-                        .permCodeType(0)
+                        .permCode(sysMenuDto.getName())
+                        .permCodeType(PermCodeType.MENU.getType())
                         .showName(sysMenuDto.getTitle())
                         .showOrder(0)
                         .build();
@@ -102,18 +114,11 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
         if (dbData != null) {
             sysPermCode.setId(dbData.getId());
-            sysPermCodeApiService.deleteByPermCodeId(dbData.getId());
         }
 
         this.updateById(sysPermCode);
 
-        if (sysPermCodeDto.getApiIds() != null) {
-            List<SysPermCodeApi> sysPermCodeApiList = new ArrayList<>();
-            sysPermCodeDto.getApiIds().forEach(s -> {
-                sysPermCodeApiList.add(new SysPermCodeApi(sysPermCode.getId(), s));
-            });
-            sysPermCodeApiService.saveBatch(sysPermCodeApiList);
-        }
+
     }
 
     @Override
@@ -129,5 +134,67 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
         return null;
     }
+
+    @Override
+    public Map<String, List<String>> listPermCodes() {
+        List<SysPermCode> sysPermCodeList;
+        Map<String, List<String>> result = new HashMap<>();
+        if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
+            sysPermCodeList = this.list();
+        }else {
+            List<Long> permCodeIds = sysRolePermCodeService.getPermCodeIdByRoleId(SecurityContextHolder.getRoleId());
+
+            if (permCodeIds.isEmpty()) {
+                return result;
+            }
+            sysPermCodeList = list(new LambdaQueryWrapper<SysPermCode>()
+                    .in(SysPermCode::getId, permCodeIds)
+                    .orderByAsc(SysPermCode::getPermCodeType));
+        }
+
+        List<SysPermCode> parentNodes = sysPermCodeList.stream()
+                .filter(t -> Objects.equals(t.getPermCodeType(), PermCodeType.MENU.getType()))
+                .toList();
+
+        List<SysPermCode> childNodes = sysPermCodeList.stream()
+                .filter(t -> !Objects.equals(t.getPermCodeType(), PermCodeType.MENU.getType()))
+                .toList();
+
+        childNodes.forEach(sysPermCode -> {
+            parentNodes.stream()
+                    .filter(t -> Objects.equals(t.getId(), sysPermCode.getParentId()))
+                    .findFirst().ifPresent(parent -> result.computeIfAbsent(parent.getPermCode(), k -> new ArrayList<>())
+                            .add(sysPermCode.getPermCode()));
+        });
+
+        return result;
+    }
+
+    @Override
+    public SysPermCodeVo detail(Long id) {
+        SysPermCode sysPermCode = this.getById(id);
+        if(sysPermCode ==null){
+            return null;
+        }
+        List<Long> apiIds = sysPermCodeApiService.getApiIdByPermCodeId(id);
+        return new SysPermCodeVo(sysPermCode,apiIds);
+    }
+
+    @Override
+    public void bindApis(Long id, List<Long> apiIds) {
+        SysPermCode sysPermCode = this.getById(id);
+        if(sysPermCode ==null){
+            return ;
+        }
+        sysPermCodeApiService.deleteByPermCodeId(id);
+        if (apiIds != null && !apiIds.isEmpty()) {
+            List<SysPermCodeApi> sysPermCodeApiList = new ArrayList<>();
+            apiIds.forEach(s -> {
+                sysPermCodeApiList.add(new SysPermCodeApi(sysPermCode.getId(), s));
+            });
+            sysPermCodeApiService.saveBatch(sysPermCodeApiList);
+        }
+    }
+
 
 }

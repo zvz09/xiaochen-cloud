@@ -49,7 +49,7 @@ export interface TabsState {
 /* AuthState */
 export interface AuthState {
   routeName: string;
-  authButtonList: {
+  authPermCodeList: {
     [key: string]: string[];
   };
   authMenuList: Menu.MenuOptions[];

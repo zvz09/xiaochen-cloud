@@ -25,11 +25,9 @@ const exitMaximize = () => {
   background-color: var(--el-color-info);
   border-radius: 50%;
   opacity: 0.9;
-
   &:hover {
     background-color: var(--el-color-info-dark-2);
   }
-
   .iconfont {
     position: relative;
     top: 46%;

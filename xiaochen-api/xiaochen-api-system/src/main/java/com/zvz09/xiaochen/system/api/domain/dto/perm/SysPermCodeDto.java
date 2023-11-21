@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.system.api.domain.dto.perm;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zvz09.xiaochen.common.web.dto.BaseDto;
+import com.zvz09.xiaochen.system.api.domain.entity.SysPermCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,6 +48,4 @@ public class SysPermCodeDto extends BaseDto {
     @Schema(description = "显示顺序(数值越小，越靠前)")
     private Integer showOrder;
 
-    @Schema(description = "资源ID")
-    private List<Long> apiIds;
 }

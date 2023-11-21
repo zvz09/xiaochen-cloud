@@ -19,8 +19,6 @@ import java.util.List;
  */
 public interface ISysApiService extends IService<SysApi> {
 
-    List<SysApiVo> getAllApis();
-
     void createApi(SysApiDto sysApiDto);
 
     void deleteApi(Long sysApiId);
@@ -30,4 +28,6 @@ public interface ISysApiService extends IService<SysApi> {
     void updateApi(SysApiDto sysApiDto);
 
     void deleteApisByIds(List<Long> ids);
+
+    List<SysApiVo> listTree();
 }

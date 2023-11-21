@@ -49,6 +49,7 @@ public class BaseEntity implements Serializable {
     private LocalDateTime updatedAt;
 
     @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private Boolean deleted;
 }
  

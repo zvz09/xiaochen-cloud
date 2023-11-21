@@ -85,32 +85,27 @@ const handleClickMenu = (menuItem: Menu.MenuOptions | Record<string, any>) => {
     background-color: rgb(0 0 0 / 50%);
     border-radius: 0 !important;
     box-shadow: unset !important;
-
     .el-dialog__header {
       border-bottom: none !important;
     }
   }
-
   :deep(.el-autocomplete) {
     position: absolute;
     top: 100px;
     left: 50%;
     width: 550px;
     transform: translateX(-50%);
-
     .el-input__wrapper {
       background-color: var(--el-bg-color);
     }
   }
 }
-
 .el-autocomplete__popper {
   .el-icon {
     position: relative;
     top: 2px;
     font-size: 16px;
   }
-
   span {
     margin: 0 0 0 10px;
     font-size: 14px;

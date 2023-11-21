@@ -231,7 +231,6 @@ const option: ECOption = {
   width: 100%;
   height: calc(100% - 56px);
 }
-
 .echarts-header {
   box-sizing: border-box;
   display: flex;
@@ -240,7 +239,6 @@ const option: ECOption = {
   line-height: 36px;
   background: url("../images/rankingChart-bg.png") no-repeat;
   background-size: 100% 100%;
-
   span {
     width: 18%;
     margin-left: 4px;
@@ -248,11 +246,9 @@ const option: ECOption = {
     font-weight: bold;
     color: #fdbc52;
     text-align: center;
-
     &:nth-child(2) {
       margin-left: 4px;
     }
-
     &:last-child {
       width: 20%;
       margin-left: 60px;

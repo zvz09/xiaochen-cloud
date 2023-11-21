@@ -76,10 +76,10 @@ public class SysApiController {
         return ApiResult.success();
     }
 
-    @Operation(summary = "查询所有API")
-    @GetMapping("/getAllApis")
-    public ApiResult<List<SysApiVo>> getAllApis() {
-        return ApiResult.success(sysApiService.getAllApis());
+    @Operation(summary = "api 树")
+    @GetMapping("/listTree")
+    public ApiResult<List<SysApiVo>> listTree() {
+        return ApiResult.success(sysApiService.listTree());
     }
 
     @Operation(summary = "删除选中Api")

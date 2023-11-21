@@ -18,4 +18,6 @@ public interface ISysRolePermCodeService extends IService<SysRolePermCode> {
     List<Long> getMenuIdByRoleId(Long roleId);
 
     void deleteByRoleId(Long roleId);
+
+    List<Long> getPermCodeIdByRoleId(Long roleId);
 }

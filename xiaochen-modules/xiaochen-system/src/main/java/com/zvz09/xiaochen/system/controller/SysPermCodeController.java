@@ -15,12 +15,16 @@ import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -62,8 +66,15 @@ public class SysPermCodeController {
         return ApiResult.success();
     }
 
+    @PutMapping("/bind/{id}")
+    @Operation(summary = "绑定权限资源")
+    public ApiResult<String> bindApis(@PathVariable(value = "id") Long id,@RequestBody List<Long> apiIds) {
+        sysPermCodeService.bindApis(id,apiIds);
+        return ApiResult.success();
+    }
+
     /**
-     * 获取用户动态路由
+     * 列表
      */
     @PostMapping("/listTree")
     @Operation(summary = "列表")
@@ -71,5 +82,19 @@ public class SysPermCodeController {
         return ApiResult.success(sysPermCodeService.listTree(basePage));
     }
 
+    @GetMapping("/{id}")
+    @Operation(summary = "详情")
+    public ApiResult<SysPermCodeVo> detail(@PathVariable(value = "id") Long id) {
+        return ApiResult.success(sysPermCodeService.detail(id));
+    }
+
+    /**
+     * 列表
+     */
+    @GetMapping()
+    @Operation(summary = "获取当前角色所有权限字")
+    public ApiResult<Map<String, List<String>>> listPermCodes() {
+        return ApiResult.success(sysPermCodeService.listPermCodes());
+    }
 }
 

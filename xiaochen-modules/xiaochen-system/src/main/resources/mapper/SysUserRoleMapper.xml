@@ -4,7 +4,7 @@
 
     <resultMap id="UserAuthorityMap" type="com.zvz09.xiaochen.system.api.domain.bo.UserRoleBo">
         <result column="user_id" property="userId"/>
-        <result column="authority_id" property="authorityId"/>
+        <result column="role_id" property="roleId"/>
         <result column="username" property="username"/>
         <result column="nick_name" property="nickName"/>
         <result column="side_mode" property="sideMode"/>
@@ -13,13 +13,13 @@
         <result column="active_color" property="activeColor"/>
         <result column="email" property="email"/>
         <result column="enable" property="enable"/>
-        <result column="authority_code" property="authorityCode"/>
-        <result column="authority_name" property="authorityName"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="role_name" property="roleName"/>
     </resultMap>
 
     <sql id="Base_Column">
         SELECT su.id as user_id,
-               sr.id as authority_id,
+               sr.id as role_id,
                su.username,
                su.nick_name,
                su.side_mode,
@@ -29,11 +29,11 @@
                su.phone,
                su.email,
                su.enable,
-               sr.authority_code,
-               sr.authority_name
-        from sys_user_authority ua
+               sr.role_code,
+               sr.role_name
+        from sys_user_role ua
                  left join `xiaochen-cloud`.sys_user su on su.id = ua.sys_user_id
-                 left join sys_role sr on sr.authority_code = ua.sys_authority_code
+                 left join sys_role sr on sr.role_code = ua.sys_role_code
     </sql>
 
     <select id="getByUserIds" resultMap="UserAuthorityMap">
@@ -46,9 +46,9 @@
 
     <select id="getByRoleIds" resultMap="UserAuthorityMap">
         <include refid="Base_Column"/>
-        WHERE ua.sys_authority_code IN
-        <foreach collection="list" item="authorityId" index="index" open="(" close=")" separator=",">
-            #{authorityId}
+        WHERE ua.sys_role_code IN
+        <foreach collection="list" item="roleId" index="index" open="(" close=")" separator=",">
+            #{roleId}
         </foreach>
     </select>
 </mapper>

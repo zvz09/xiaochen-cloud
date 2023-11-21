@@ -8,6 +8,9 @@ import com.zvz09.xiaochen.system.api.domain.dto.perm.SysPermCodeDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCode;
 import com.zvz09.xiaochen.system.api.domain.vo.SysPermCodeVo;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 系统权限字 服务类
@@ -30,4 +33,9 @@ public interface ISysPermCodeService extends IService<SysPermCode> {
 
     IPage<SysPermCodeVo> listTree(BasePage basePage);
 
+    Map<String, List<String>> listPermCodes();
+
+    SysPermCodeVo detail(Long id);
+
+    void bindApis(Long id, List<Long> apiIds);
 }

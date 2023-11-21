@@ -37,7 +37,6 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
   color: var(--el-menu-hover-text-color) !important;
   background-color: transparent !important;
 }
-
 .el-menu--collapse {
   .is-active {
     .el-sub-menu__title {
@@ -46,16 +45,13 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
     }
   }
 }
-
 .el-menu-item {
   &:hover {
     color: var(--el-menu-hover-text-color);
   }
-
   &.is-active {
     color: var(--el-menu-active-color) !important;
     background-color: var(--el-menu-active-bg-color) !important;
-
     &::before {
       position: absolute;
       top: 0;
@@ -66,7 +62,6 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
     }
   }
 }
-
 .vertical,
 .classic,
 .transverse {
@@ -78,7 +73,6 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
     }
   }
 }
-
 .columns {
   .el-menu-item {
     &.is-active {

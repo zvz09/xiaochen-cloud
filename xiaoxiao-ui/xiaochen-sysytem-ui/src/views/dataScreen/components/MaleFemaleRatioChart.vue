@@ -136,13 +136,11 @@ const option: ECOption = {
   width: 100%;
   height: 100%;
   padding: 40px 65px;
-
   .ratio-header {
     display: flex;
     justify-content: space-between;
     width: 100%;
     height: 115px;
-
     .man,
     .woman {
       display: flex;
@@ -152,25 +150,21 @@ const option: ECOption = {
       height: 115px;
       background: url("../images/man-bg.png") no-repeat;
       background-size: 100% 100%;
-
       img {
         width: 60px;
         height: 60px;
         margin-top: 20px;
       }
-
       span {
         margin-top: 2px;
         font-size: 13px;
         color: #ffffff;
       }
     }
-
     .woman {
       background: url("../images/woman-bg.png") no-repeat;
     }
   }
-
   .echarts {
     width: 100%;
     height: calc(100% - 115px);

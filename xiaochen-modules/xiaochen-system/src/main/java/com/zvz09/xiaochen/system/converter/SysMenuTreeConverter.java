@@ -6,6 +6,9 @@ import com.zvz09.xiaochen.system.api.domain.vo.SysMenuVo;
 
 import java.util.List;
 
+/**
+ * @author lizili-YF0033
+ */
 public class SysMenuTreeConverter implements TreeConverter<SysMenu, SysMenuVo> {
 
     @Override

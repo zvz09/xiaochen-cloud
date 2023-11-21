@@ -3,6 +3,8 @@ package com.zvz09.xiaochen.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCodeApi;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统权限字和api接口关联表 服务类
@@ -14,4 +16,6 @@ import com.zvz09.xiaochen.system.api.domain.entity.SysPermCodeApi;
 public interface ISysPermCodeApiService extends IService<SysPermCodeApi> {
 
     void deleteByPermCodeId(Long id);
+
+    List<Long> getApiIdByPermCodeId(Long permCodeId);
 }

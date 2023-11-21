@@ -8,6 +8,7 @@ import com.zvz09.xiaochen.system.service.ISysRolePermCodeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -28,5 +29,12 @@ public class SysRolePermCodeServiceImpl extends ServiceImpl<SysRolePermCodeMappe
     @Override
     public void deleteByRoleId(Long roleId) {
         this.remove(new LambdaQueryWrapper<SysRolePermCode>().eq(SysRolePermCode::getRoleId, roleId));
+    }
+
+    @Override
+    public List<Long> getPermCodeIdByRoleId(Long roleId) {
+        return this.list(new LambdaQueryWrapper<SysRolePermCode>()
+                .eq(SysRolePermCode::getRoleId,roleId)).stream().map(SysRolePermCode::getPermCodeId).collect(Collectors.toList());
+
     }
 }

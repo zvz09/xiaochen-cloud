@@ -177,7 +177,6 @@ const resetPass = async (params: User.ResUserList) => {
 .el-table .warning-row .el-table-fixed-column--left {
   background-color: var(--el-color-warning-light-9);
 }
-
 .el-table .success-row,
 .el-table .success-row .el-table-fixed-column--right,
 .el-table .success-row .el-table-fixed-column--left {

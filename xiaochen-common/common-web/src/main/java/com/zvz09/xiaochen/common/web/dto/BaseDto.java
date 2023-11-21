@@ -37,6 +37,9 @@ public class BaseDto implements Serializable {
     private String id;
 
     public Long getId() {
+        if(id == null){
+            return null;
+        }
         return Long.valueOf(id);
     }
 }

@@ -68,12 +68,10 @@ const { dependencies, devDependencies, version } = pkg;
     font-weight: bold;
     color: var(--el-text-color-primary);
   }
-
   .text {
     font-size: 15px;
     line-height: 25px;
     color: var(--el-text-color-regular);
-
     .el-link {
       font-size: 15px;
     }

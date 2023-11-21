@@ -40,11 +40,22 @@ public class SysPermCodeVo extends BaseVo {
     @Schema(description = "显示顺序(数值越小，越靠前)")
     private Integer showOrder;
 
+    private List<Long> apiIds;
+
     @Schema(description = "子")
     private List<SysPermCodeVo> children;
 
     public SysPermCodeVo(SysPermCode sysPermCode) {
         super(sysPermCode.getId());
+        this.permCode = sysPermCode.getPermCode();
+        this.permCodeType = sysPermCode.getPermCodeType();
+        this.showName = sysPermCode.getShowName();
+        this.showOrder = sysPermCode.getShowOrder();
+    }
+
+    public SysPermCodeVo(SysPermCode sysPermCode, List<Long> apiIds) {
+        super(sysPermCode.getId());
+        this.apiIds = apiIds;
         this.permCode = sysPermCode.getPermCode();
         this.permCodeType = sysPermCode.getPermCodeType();
         this.showName = sysPermCode.getShowName();

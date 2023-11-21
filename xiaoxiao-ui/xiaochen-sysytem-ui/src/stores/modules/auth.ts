@@ -2,20 +2,21 @@ import { defineStore } from "pinia";
 import { AuthState } from "@/stores/interface";
 import { listTree } from "@/api/system/menu";
 import { getAllBreadcrumbList, getFlatMenuList, getShowMenuList } from "@/utils";
+import { listPermCodes } from "@/api/system/role";
 
 export const useAuthStore = defineStore({
   id: "geeker-auth",
   state: (): AuthState => ({
-    // 按钮权限列表
-    authButtonList: {},
+    //权限字列表
+    authPermCodeList: {},
     // 菜单权限列表
     authMenuList: [],
     // 当前页面的 router name，用来做按钮权限筛选
     routeName: ""
   }),
   getters: {
-    // 按钮权限列表
-    authButtonListGet: state => state.authButtonList,
+    // 权限字列表
+    authPermCodeListGet: state => state.authPermCodeList,
     // 菜单权限列表 ==> 这里的菜单没有经过任何处理
     authMenuListGet: state => state.authMenuList,
     // 菜单权限列表 ==> 左侧菜单栏渲染，需要剔除 isHide == true
@@ -26,11 +27,11 @@ export const useAuthStore = defineStore({
     breadcrumbListGet: state => getAllBreadcrumbList(state.authMenuList)
   },
   actions: {
-    /* // Get AuthButtonList
-    async getAuthButtonList() {
-      const { data } = await getAuthButtonListApi();
-      this.authButtonList = data;
-    },*/
+    // Get getAuthPermCodeList
+    async getAuthPermCodeList() {
+      const { data } = await listPermCodes();
+      this.authPermCodeList = data;
+    },
     // Get AuthMenuList
     async getAuthMenuList() {
       const { data } = await listTree();

@@ -181,7 +181,6 @@ const option = {
   width: 100%;
   height: calc(100% - 50px);
 }
-
 .actual-total {
   position: relative;
   display: flex;
@@ -190,7 +189,6 @@ const option = {
   height: 50px;
   margin-top: 10px;
   margin-right: 4px;
-
   .actual-item {
     display: flex;
     align-items: center;
@@ -203,20 +201,17 @@ const option = {
     color: #66ffff;
     background: url("../images/total.png") no-repeat;
     background-size: 100% 100%;
-
     &:last-child {
       margin-right: 0;
       font-size: 22px;
     }
   }
-
   .expect-total {
     position: absolute;
     top: -30px;
     right: 5px;
     font-size: 14px;
     color: #ffffff;
-
     i {
       font-style: normal;
       font-style: oblique;

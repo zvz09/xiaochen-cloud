@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -40,15 +42,6 @@ import java.util.List;
 @Tag(name = "feign-api接口")
 @RequiredArgsConstructor
 public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> implements ISysApiService, RemoteSysApiService {
-
-    @Override
-    public List<SysApiVo> getAllApis() {
-        List<SysApiVo> sysApiVos = new ArrayList<>();
-        List<SysApi> sysApiList = this.list();
-
-        sysApiList.forEach(sysApi -> sysApiVos.add(new SysApiVo(sysApi)));
-        return sysApiVos;
-    }
 
     @Override
     public void createApi(SysApiDto sysApiDto) {
@@ -112,6 +105,37 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         LambdaUpdateWrapper<SysApi> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.in(SysApi::getId, ids).set(SysApi::getDeleted, true);
         this.baseMapper.update(null, lambdaUpdateWrapper);
+    }
+
+    @Override
+    public List<SysApiVo> listTree() {
+        List<SysApi> sysApis = this.list();
+        return buildApiTree(sysApis);
+    }
+
+    public List<SysApiVo> buildApiTree(List<SysApi> apis) {
+        Map<String, List<SysApiVo>> apiObj = new HashMap<>();
+
+        if (apis != null) {
+            for (SysApi sysApi : apis) {
+                String apiGroup = sysApi.getApiGroup();
+                if (apiObj.containsKey(apiGroup)) {
+                    apiObj.get(apiGroup).add(new SysApiVo(sysApi));
+                } else {
+                    apiObj.put(apiGroup, new ArrayList<>());
+                    apiObj.get(apiGroup).add(new SysApiVo(sysApi));
+                }
+            }
+        }
+        List<SysApiVo> apiTree = new ArrayList<>();
+        for (String key : apiObj.keySet()) {
+            SysApiVo sysApiVo = new SysApiVo();
+            sysApiVo.setApiGroup(key);
+            sysApiVo.setDescription(key+"组");
+            sysApiVo.setChildren(apiObj.get(key));
+            apiTree.add(sysApiVo);
+        }
+        return apiTree;
     }
 
     @Override

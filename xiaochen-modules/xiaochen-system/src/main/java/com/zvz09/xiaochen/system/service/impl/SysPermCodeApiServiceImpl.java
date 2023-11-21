@@ -8,6 +8,9 @@ import com.zvz09.xiaochen.system.service.ISysPermCodeApiService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * <p>
  * 系统权限字和api接口关联表 服务实现类
@@ -23,5 +26,11 @@ public class SysPermCodeApiServiceImpl extends ServiceImpl<SysPermCodeApiMapper,
     @Transactional
     public void deleteByPermCodeId(Long id) {
         this.remove(new LambdaQueryWrapper<SysPermCodeApi>().eq(SysPermCodeApi::getPermCodeId, id));
+    }
+
+    @Override
+    public List<Long> getApiIdByPermCodeId(Long permCodeId) {
+        return this.list(new LambdaQueryWrapper<SysPermCodeApi>().eq(SysPermCodeApi::getPermCodeId,permCodeId))
+                .stream().map(SysPermCodeApi::getApiId).collect(Collectors.toList());
     }
 }

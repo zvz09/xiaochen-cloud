@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * SysApiVo
  *
@@ -36,6 +38,9 @@ public class SysApiVo extends BaseVo {
     private String apiGroup;
 
     private String method;
+
+    @Schema(description = "子")
+    private List<SysApiVo> children;
 
     public SysApiVo(SysApi sysApi) {
         super(sysApi.getId());
