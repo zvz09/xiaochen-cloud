@@ -34,12 +34,16 @@ public class BodyCachingWrapperFilter implements Filter {
 
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException, IOException {
-        BodyCachingHttpServletRequestWrapper requestWrapper = new BodyCachingHttpServletRequestWrapper((HttpServletRequest) request);
-        BodyCachingHttpServletResponseWrapper responseWrapper = new BodyCachingHttpServletResponseWrapper((HttpServletResponse) response);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+        if(request.getContentType()!=null && request.getContentType().contains("application/json")){
+            BodyCachingHttpServletRequestWrapper requestWrapper = new BodyCachingHttpServletRequestWrapper((HttpServletRequest) request);
+            BodyCachingHttpServletResponseWrapper responseWrapper = new BodyCachingHttpServletResponseWrapper((HttpServletResponse) response);
+            // 这里用wrapper类代替，以达到可重复读的目的
+            chain.doFilter(requestWrapper, responseWrapper);
+        }else {
+            chain.doFilter(request, response);
+        }
 
-        // 这里用wrapper类代替，以达到可重复读的目的
-        chain.doFilter(requestWrapper, responseWrapper);
     }
 
 }

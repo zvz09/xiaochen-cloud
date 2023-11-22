@@ -12,9 +12,6 @@
       <el-form-item label="用户头像" prop="headerImg">
         <UploadImg v-model:image-url="drawerProps.row!.headerImg" width="135px" height="135px" :file-size="3">
           <template #empty>
-            <el-icon>
-              <Avatar />
-            </el-icon>
             <span>请上传头像</span>
           </template>
           <template #tip> 头像大小不能超过 3M</template>
@@ -70,7 +67,6 @@ import { ElMessage, FormInstance } from "element-plus";
 import { getGenderType } from "@/api/system/user";
 import { User } from "@/api/system/user/types";
 import UploadImg from "@/components/Upload/Img.vue";
-import Avatar from "@/layouts/components/Header/components/Avatar.vue";
 import { Role } from "@/api/system/role/types";
 import { getRoleList } from "@/api/system/role";
 

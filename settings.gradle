@@ -43,4 +43,6 @@ include 'xiaochen-api:xiaochen-api-message'
 findProject(':xiaochen-api:xiaochen-api-message')?.name = 'xiaochen-api-message'
 include 'xiaochen-common:common-auxiliary'
 findProject(':xiaochen-common:common-auxiliary')?.name = 'common-auxiliary'
+include 'xiaochen-modules:xiaochen-file'
+findProject(':xiaochen-modules:xiaochen-file')?.name = 'xiaochen-file'
 

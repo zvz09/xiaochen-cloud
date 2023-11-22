@@ -26,8 +26,8 @@ import java.io.PrintWriter;
  */
 public class BodyCachingHttpServletResponseWrapper extends HttpServletResponseWrapper {
 
-    private ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    private HttpServletResponse response;
+    private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    private final HttpServletResponse response;
 
     public BodyCachingHttpServletResponseWrapper(HttpServletResponse response) {
         super(response);
@@ -51,8 +51,8 @@ public class BodyCachingHttpServletResponseWrapper extends HttpServletResponseWr
 
     private static class ServletOutputStreamWrapper extends ServletOutputStream {
 
-        private ByteArrayOutputStream outputStream;
-        private HttpServletResponse response;
+        private final ByteArrayOutputStream outputStream;
+        private final HttpServletResponse response;
 
         public ServletOutputStreamWrapper(ByteArrayOutputStream outputStream, HttpServletResponse response) {
             this.outputStream = outputStream;

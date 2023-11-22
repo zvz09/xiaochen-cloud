@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="fastRequestCurrentProjectLocalConfig">
+    <option name="domain" value="http://localhost:17400" />
+    <option name="enableEnv" value="test" />
+    <option name="enableProject" value="xiaochen-cloud.xiaochen-modules.xiaochen-file" />
     <option name="initFlag" value="1" />
   </component>
 </project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="fastRequestCurrentParamGroup">
+    <option name="className" value="com.zvz09.xiaochen.file.controller.MinIoController" />
+    <option name="filePath" value="" />
+    <option name="method" value="upload" />
+    <option name="methodDescription" value="上传文件" />
+    <option name="methodType" value="POST" />
+    <option name="module" value="xiaochen-cloud.xiaochen-modules.xiaochen-file" />
+    <option name="originUrl" value="/file/minio/upload" />
+    <option name="requestParamMap">
+      <map>
+        <entry key="file">
+          <value>
+            <Object />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="returnDocument" value="{&quot;code&quot;:&quot;No comment,Type =Number&quot;,&quot;success&quot;:&quot;No comment,Type =Boolean&quot;,&quot;msg&quot;:&quot;No comment,Type =String&quot;,&quot;data&quot;:{&quot;java.lang.String&quot;:&quot;No comment,Type =String&quot;}}" />
+    <option name="url" value="/file/minio/upload" />
+  </component>
+</project>
