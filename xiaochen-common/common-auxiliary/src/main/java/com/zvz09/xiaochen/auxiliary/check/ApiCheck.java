@@ -80,40 +80,52 @@ public class ApiCheck implements ApplicationRunner {
     private void getAllApi() {
         OpenAPI openAPI = myOpenApiResource.getOpenApi();
         openAPI.getPaths().forEach((path, pathItem) -> {
-            Operation operation = null;
-            String method = "", apiGroup = "";
+            List<Operation> operations = new ArrayList<>();
+            List<String> methods = new ArrayList<>();
+            String apiGroup = "";
             if (pathItem.getGet() != null) {
-                operation = pathItem.getGet();
-                method = RequestMethod.GET.toString();
-            } else if (pathItem.getHead() != null) {
-                operation = pathItem.getHead();
-                method = RequestMethod.HEAD.toString();
-            } else if (pathItem.getPost() != null) {
-                operation = pathItem.getPost();
-                method = RequestMethod.POST.toString();
-            } else if (pathItem.getPut() != null) {
-                operation = pathItem.getPut();
-                method = RequestMethod.PUT.toString();
-            } else if (pathItem.getPatch() != null) {
-                operation = pathItem.getPatch();
-                method = RequestMethod.PATCH.toString();
-            } else if (pathItem.getDelete() != null) {
-                operation = pathItem.getDelete();
-                method = RequestMethod.DELETE.toString();
-            } else if (pathItem.getOptions() != null) {
-                operation = pathItem.getOptions();
-                method = RequestMethod.OPTIONS.toString();
-            } else if (pathItem.getTrace() != null) {
-                operation = pathItem.getTrace();
-                method = RequestMethod.TRACE.toString();
+                operations.add(pathItem.getGet());
+                methods.add(RequestMethod.GET.toString());
+            }
+            if (pathItem.getHead() != null) {
+                operations.add(pathItem.getHead());
+                methods.add(RequestMethod.HEAD.toString());
+            }
+            if (pathItem.getPost() != null) {
+                operations.add(pathItem.getPost());
+                methods.add(RequestMethod.POST.toString());
+            }
+            if (pathItem.getPut() != null) {
+                operations.add(pathItem.getPut());
+                methods.add(RequestMethod.PUT.toString());
+            }
+            if (pathItem.getPatch() != null) {
+                operations.add(pathItem.getPatch());
+                methods.add(RequestMethod.PATCH.toString());
+            }
+            if (pathItem.getDelete() != null) {
+                operations.add(pathItem.getDelete());
+                methods.add(RequestMethod.DELETE.toString());
+            }
+            if (pathItem.getOptions() != null) {
+                operations.add(pathItem.getOptions());
+                methods.add(RequestMethod.OPTIONS.toString());
+            }
+            if (pathItem.getTrace() != null) {
+                operations.add(pathItem.getTrace());
+                methods.add(RequestMethod.TRACE.toString());
             }
 
-            if (!path.startsWith(FEIGN_PATH_PREFIX) && operation != null) {
-                String description = operation.getSummary() == null ? path : operation.getSummary();
-                if (operation.getTags() != null && !operation.getTags().isEmpty()) {
-                    apiGroup = operation.getTags().get(0);
+            if (!path.startsWith(FEIGN_PATH_PREFIX) && !operations.isEmpty()) {
+                for (int i = 0;i<operations.size();i++){
+                    Operation operation = operations.get(i);
+                    String description = operation.getSummary() == null ? path : operation.getSummary();
+                    if (operation.getTags() != null && !operation.getTags().isEmpty()) {
+                        apiGroup = operation.getTags().get(0);
+                    }
+                    sysApiList.add(new SysApi(env.getProperty("spring.application.name"), path, description, apiGroup, methods.get(i)));
                 }
-                sysApiList.add(new SysApi(env.getProperty("spring.application.name"), path, description, apiGroup, method));
+
             }
         });
     }

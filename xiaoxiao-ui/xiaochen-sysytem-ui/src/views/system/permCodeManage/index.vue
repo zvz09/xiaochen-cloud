@@ -4,14 +4,37 @@
       <!-- 表格操作 -->
       <template #operation="scope">
         <el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
-        <el-button v-if="scope.row.permCodeType === 0" type="primary" link :icon="Plus" @click="openDrawer('新增', scope.row)">
+        <el-button
+          v-auth="'add'"
+          v-show="scope.row.permCodeType === 0"
+          type="primary"
+          link
+          :icon="Plus"
+          @click="openDrawer('新增', scope.row)"
+        >
           新增
         </el-button>
-        <el-button type="primary" link :icon="EditPen" @click="openApiDrawer('编辑', scope.row)">绑定权限资源 </el-button>
-        <el-button v-if="scope.row.permCodeType !== 0" type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">
+        <el-button v-auth="'bind'" type="primary" link :icon="EditPen" @click="openApiDrawer('编辑', scope.row)">
+          绑定权限资源
+        </el-button>
+        <el-button
+          v-auth="'edit'"
+          v-show="scope.row.permCodeType !== 0"
+          type="primary"
+          link
+          :icon="EditPen"
+          @click="openDrawer('编辑', scope.row)"
+        >
           编辑
         </el-button>
-        <el-button v-if="scope.row.permCodeType !== 0" type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">
+        <el-button
+          v-auth="'delete'"
+          v-show="scope.row.permCodeType !== 0"
+          type="primary"
+          link
+          :icon="Delete"
+          @click="deletePermCode(scope.row)"
+        >
           删除
         </el-button>
       </template>
@@ -83,7 +106,7 @@ const columns = reactive<ColumnProps<PermCode.PermCodeVO>[]>([
 ]);
 
 // 删除权限字信息
-const deleteAccount = async (params: PermCode.PermCodeVO) => {
+const deletePermCode = async (params: PermCode.PermCodeVO) => {
   await useHandleData(deletePermCode, params.id, `删除【${params.showName}】权限字`);
   proTable.value?.getTableList();
 };

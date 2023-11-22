@@ -14,6 +14,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * SysRoleVo
  *
@@ -35,9 +39,24 @@ public class SysRoleVo extends BaseVo {
     @Schema(description = "角色名")
     private String roleName;
 
+    private List<String> permCodeIds;
 
+    private List<SysPermCodeVo> permCodeVos;
     public SysRoleVo(SysRole sysRole) {
         super(sysRole.getId());
+        this.roleCode = sysRole.getRoleCode();
+        this.roleName = sysRole.getRoleName();
+    }
+    public SysRoleVo(SysRole sysRole,List<Long> permCodeIds,List<SysPermCodeVo> permCodeVos) {
+        super(sysRole.getId());
+        if (permCodeIds != null && !permCodeIds.isEmpty()) {
+            this.permCodeIds = permCodeIds.stream()
+                    .map(Object::toString)  // 使用toString方法将Long转换为String
+                    .collect(Collectors.toList());
+        } else {
+            this.permCodeIds = new ArrayList<>();
+        }
+        this.permCodeVos = permCodeVos;
         this.roleCode = sysRole.getRoleCode();
         this.roleName = sysRole.getRoleName();
     }

@@ -41,7 +41,7 @@ public class SysUserVo extends BaseVo {
 
     @Schema(description = "用户昵称")
     private String nickName;
-
+    private Boolean gender;
     private String sideMode;
 
     private String headerImg;
@@ -50,7 +50,7 @@ public class SysUserVo extends BaseVo {
 
     private String activeColor;
 
-    private List<SysRoleVo> authorities;
+    private List<SysRoleVo> roleVos;
 
     private String phone;
 
@@ -70,6 +70,7 @@ public class SysUserVo extends BaseVo {
         super(sysUser.getId());
         this.username = sysUser.getUsername();
         this.nickName = sysUser.getNickName();
+        this.gender = sysUser.getGender();
         this.sideMode = sysUser.getSideMode();
         this.headerImg = sysUser.getHeaderImg();
         this.baseColor = sysUser.getBaseColor();
@@ -83,6 +84,7 @@ public class SysUserVo extends BaseVo {
         super(sysUser.getId());
         this.username = sysUser.getUsername();
         this.nickName = sysUser.getNickName();
+        this.gender = sysUser.getGender();
         this.sideMode = sysUser.getSideMode();
         this.headerImg = sysUser.getHeaderImg();
         this.baseColor = sysUser.getBaseColor();
@@ -93,13 +95,13 @@ public class SysUserVo extends BaseVo {
 
 
         if (sysAuthorities == null) {
-            this.authorities = null;
+            this.roleVos = null;
         } else {
-            List<SysRoleVo> authorities = new ArrayList<>();
+            List<SysRoleVo> roles = new ArrayList<>();
             sysAuthorities.forEach(role -> {
-                authorities.add(new SysRoleVo(role));
+                roles.add(new SysRoleVo(role));
             });
-            this.authorities = authorities;
+            this.roleVos = roles;
         }
     }
 }

@@ -5,6 +5,8 @@ import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import com.zvz09.xiaochen.system.api.domain.dto.role.CopySysRoleDto;
 import com.zvz09.xiaochen.system.api.domain.dto.role.SysRoleDto;
+import com.zvz09.xiaochen.system.api.domain.vo.SysPermCodeVo;
+import com.zvz09.xiaochen.system.api.domain.vo.SysRoleVo;
 import com.zvz09.xiaochen.system.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,24 +43,28 @@ public class SysRoleController {
 
 
     @PostMapping("")
+    @Operation(summary = "创建角色")
     public ApiResult createRole(@Validated @RequestBody SysRoleDto sysRoleDto) {
         sysRoleService.createRole(sysRoleDto);
         return ApiResult.success();
     }
 
     @PostMapping("/copy")
+    @Operation(summary = "复制角色")
     public ApiResult copyRole(@Validated @RequestBody CopySysRoleDto copySysRoleDto) {
         sysRoleService.copyRole(copySysRoleDto);
         return ApiResult.success();
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "根据ID删除角色")
     public ApiResult deleteRole(@PathVariable(value = "id") Long id) {
         sysRoleService.deleteRole(id);
         return ApiResult.success();
     }
 
     @PutMapping("")
+    @Operation(summary = "修改角色")
     public ApiResult updateRole(@Validated(value = UpdateValidation.class) @RequestBody SysRoleDto sysRoleDto) {
         sysRoleService.updateRole(sysRoleDto);
         return ApiResult.success();
@@ -67,6 +74,12 @@ public class SysRoleController {
     @PostMapping("/list")
     public ApiResult getRoleList(@RequestBody BasePage basePage) {
         return ApiResult.success(sysRoleService.getRoleList(basePage));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "详情")
+    public ApiResult<SysRoleVo> detail(@PathVariable(value = "id") Long id) {
+        return ApiResult.success(sysRoleService.detail(id));
     }
 
     @Operation(summary = "绑定权限字")

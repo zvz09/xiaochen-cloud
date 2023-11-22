@@ -26,7 +26,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CasbinRuleServiceImpl extends ServiceImpl<CasbinRuleMapper, CasbinRule> implements ICasbinRuleService {
+
     private final Enforcer enforcer;
+
+    @Override
+    @Transactional
+    public void refreshRule() {
+
+    }
 
 
     @Override

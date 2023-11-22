@@ -122,16 +122,26 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
     @Override
     public IPage<SysPermCodeVo> listTree(BasePage basePage) {
-        if (StringUtils.isBlank(basePage.getKeyword())) {
+        if (basePage == null || StringUtils.isBlank(basePage.getKeyword())) {
             List<SysPermCode> sysPermCodeList = this.list();
             List<SysPermCodeVo> voList = new TreeBuilder<SysPermCode, SysPermCodeVo>(t -> t.getParentId() == 0L)
                     .buildTree(sysPermCodeList, new SysPermCodeTreeConverter());
-            Page<SysPermCodeVo> page = new Page<>(basePage.getPageNum(), voList.size());
+            Page<SysPermCodeVo> page = new Page<>(1, voList.size());
             page.setRecords(voList);
             return page;
         }
 
         return null;
+    }
+
+    @Override
+    public List<SysPermCodeVo> listTree(List<Long> ids) {
+        if(ids == null || ids.isEmpty()){
+            return null;
+        }
+        List<SysPermCode> sysPermCodeList = this.list(new LambdaQueryWrapper<SysPermCode>().in(SysPermCode::getId,ids));
+        return new TreeBuilder<SysPermCode, SysPermCodeVo>(t -> t.getParentId() == 0L)
+                .buildTree(sysPermCodeList, new SysPermCodeTreeConverter());
     }
 
     @Override
@@ -194,6 +204,21 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
             });
             sysPermCodeApiService.saveBatch(sysPermCodeApiList);
         }
+    }
+
+    @Override
+    public void updatePermCode(Long menuId, SysMenuDto sysMenuDto) {
+        SysPermCode sysPermCode =
+                this.getOne(new LambdaQueryWrapper<SysPermCode>()
+                        .eq(SysPermCode::getMenuId,menuId)
+                        .eq(SysPermCode::getPermCodeType,PermCodeType.MENU.getType()));
+        if(sysPermCode == null){
+            return;
+        }
+        sysPermCode.setShowOrder(Math.toIntExact(sysMenuDto.getSort()));
+        sysPermCode.setShowName(sysMenuDto.getTitle());
+        sysPermCode.setPermCode(sysMenuDto.getName());
+        this.updateById(sysPermCode);
     }
 
 

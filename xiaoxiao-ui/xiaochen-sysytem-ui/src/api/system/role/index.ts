@@ -32,5 +32,24 @@ export const copyRole = (params: Role.CopyRoleParams) => {
  * @returns
  */
 export const listPermCodes = () => {
-  return http.get<Role.ListPermCodesRes>(`/system/perm_code`);
+  return http.get<Role.ListPermCodesRes>(SYSTEM_SERVICE_PATH + `/perm_code`);
+};
+
+/**
+ * 绑定权限字
+ * @param {string} id
+ * @param {array} params integer
+ * @returns
+ */
+export const bindPerm = (id: string, params: any[]) => {
+  return http.post(SYSTEM_SERVICE_PATH + `/role/bind/${id}`, params);
+};
+
+/**
+ * 详情
+ * @param {string} id
+ * @returns
+ */
+export const detailRole = (id: string) => {
+  return http.get<Role.RoleVO>(SYSTEM_SERVICE_PATH + `/role/${id}`);
 };

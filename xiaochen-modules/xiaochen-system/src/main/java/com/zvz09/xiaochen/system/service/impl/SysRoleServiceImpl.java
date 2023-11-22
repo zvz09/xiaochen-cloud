@@ -6,18 +6,25 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.core.page.BasePage;
+import com.zvz09.xiaochen.common.core.util.TreeBuilder;
 import com.zvz09.xiaochen.common.web.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.RemoteRoleService;
 import com.zvz09.xiaochen.system.api.constant.FeignPath;
 import com.zvz09.xiaochen.system.api.domain.dto.role.CopySysRoleDto;
 import com.zvz09.xiaochen.system.api.domain.dto.role.SysRoleDto;
+import com.zvz09.xiaochen.system.api.domain.entity.SysPermCode;
 import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysRolePermCode;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUserRole;
+import com.zvz09.xiaochen.system.api.domain.vo.SysPermCodeVo;
 import com.zvz09.xiaochen.system.api.domain.vo.SysRoleVo;
+import com.zvz09.xiaochen.system.converter.SysPermCodeTreeConverter;
+import com.zvz09.xiaochen.system.mapper.SysPermCodeMapper;
 import com.zvz09.xiaochen.system.mapper.SysRoleMapper;
 import com.zvz09.xiaochen.system.mapper.SysUserRoleMapper;
 import com.zvz09.xiaochen.system.service.ICasbinRuleService;
+import com.zvz09.xiaochen.system.service.ISysPermCodeApiService;
+import com.zvz09.xiaochen.system.service.ISysPermCodeService;
 import com.zvz09.xiaochen.system.service.ISysRolePermCodeService;
 import com.zvz09.xiaochen.system.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -53,7 +60,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private final ICasbinRuleService casbinRuleService;
 
     private final ISysRolePermCodeService sysRolePermCodeService;
-
+    private final ISysPermCodeService sysPermCodeService;
 
     @Override
     public List<SysRole> getByRoleCodes(List<String> roleCodes) {
@@ -91,6 +98,20 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             });
             sysRolePermCodeService.saveBatch(rolePermCodes);
         }
+    }
+
+    @Override
+    public SysRoleVo detail(Long id) {
+        SysRole sysRole = this.getById(id);
+        if(sysRole == null){
+            return null;
+        }
+        List<Long> permCodeIds = sysRolePermCodeService.getPermCodeIdByRoleId(id);
+        if(permCodeIds !=null){
+            List<SysPermCodeVo> voList = sysPermCodeService.listTree(permCodeIds);
+            return new SysRoleVo(sysRole,permCodeIds,voList);
+        }
+        return new SysRoleVo(sysRole,new ArrayList<>(),new ArrayList<>());
     }
 
     @Override

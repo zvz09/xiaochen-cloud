@@ -7,6 +7,7 @@ import com.zvz09.xiaochen.system.api.domain.dto.user.SysUserQuery;
 import com.zvz09.xiaochen.system.api.domain.dto.user.UpdateUserDto;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
 import com.zvz09.xiaochen.system.service.ISysUserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,40 +43,54 @@ public class SysUserController {
      * @return ApiResult
      */
     @PostMapping("/list")
+    @Operation(summary = "用户列表")
     public ApiResult<IPage<SysUserVo>> getUserList(@RequestBody SysUserQuery sysUserQuery) {
         return ApiResult.success(sysUserService.getUserList(sysUserQuery));
     }
 
     @PostMapping("/simpleList")
+    @Operation(summary = "用户简要信息列表")
     public ApiResult<IPage<SysUserVo>> simpleList(@RequestBody SysUserQuery sysUserQuery) {
         return ApiResult.success(sysUserService.simpleList(sysUserQuery));
     }
 
 
     @GetMapping("/currentUser")
+    @Operation(summary = "当前用户信息")
     public ApiResult<SysUserVo> currentUser() {
         return ApiResult.success(sysUserService.getUserInfo());
     }
 
+    @PostMapping("")
+    @Operation(summary = "新增用户")
+    public ApiResult<String> createUser(@RequestBody UpdateUserDto updateUserDto) {
+        sysUserService.createUser(updateUserDto);
+        return ApiResult.success();
+    }
+
     @PostMapping("/register")
+    @Operation(summary = "注册用户")
     public ApiResult<String> register(@RequestBody RegisterUserDto registerUserDto) {
         sysUserService.register(registerUserDto);
         return ApiResult.success();
     }
 
     @PostMapping("/resetPassword/{id}")
+    @Operation(summary = "重置密码")
     public ApiResult<String> resetPassword(@PathVariable(value = "id") Long id) {
         sysUserService.resetPassword(id);
         return ApiResult.success();
     }
 
     @PutMapping()
+    @Operation(summary = "更新用户")
     public ApiResult<String> updateUserInfo(@RequestBody UpdateUserDto updateUserDto) {
         sysUserService.updateUserInfo(updateUserDto);
         return ApiResult.success();
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "删除用户")
     public ApiResult<String> deleteUser(@PathVariable(value = "id") Long id) {
         sysUserService.deleteUser(id);
         return ApiResult.success();

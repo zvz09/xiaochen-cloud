@@ -84,6 +84,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             throw new BusinessException("存在重复name，请修改name");
         }
         this.updateById(sysMenuDto.convertedToPo());
+        sysPermCodeService.updatePermCode(sysMenuDto.getId(), sysMenuDto);
     }
 }
 

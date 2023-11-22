@@ -38,4 +38,5 @@ public interface ISysRoleService extends IService<SysRole> {
 
     void bindPerm(Long roleId, List<Long> permIds);
 
+    SysRoleVo detail(Long id);
 }

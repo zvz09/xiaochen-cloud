@@ -1,94 +1,103 @@
-import { AuthorityVO } from "@/api/system/role/types";
+import { Role } from "@/api/system/role/types";
 
-export interface UserVO {
-  id: string;
-  uuid: string;
-  username: string;
-  nickName: string;
-  sideMode: string;
-  headerImg: string;
-  baseColor: string;
-  activeColor: string;
-  authorityId: number;
-  authority: AuthorityVO;
-  authorities?: any;
-  phone: string;
-  email: string;
-  enable: number;
-  sysDepartments?: any;
-  sysPositions?: any;
-}
+export namespace User {
+  // 参数接口
+  export interface GetUserListParams {
+    /*页码 */
+    pageNum?: number;
 
-export interface UpdateUserInfoParams {
-  /* */
-  id: number;
+    /*每页大小 */
+    pageSize?: number;
 
-  /*用户名 */
-  userName?: string;
+    /*关键字 */
+    keyword?: string;
 
-  /*密码 */
-  password?: string;
+    /*用户名 */
+    userName?: string;
 
-  /*昵称 */
-  nickName?: string;
+    /*手机号 */
+    phone?: string;
+  }
+  // 参数接口
+  export interface UpdateUserInfoParams {
+    /* */
+    id: string;
 
-  /*头型地址 */
-  headerImg?: string;
+    /*用户名 */
+    userName?: string;
 
-  /*角色id */
-  authorityId?: number;
+    /*昵称 */
+    nickName?: string;
 
-  /*是否启动 */
-  enable?: number;
+    /*头型地址 */
+    headerImg?: string;
 
-  /*手机号 */
-  phone?: string;
+    /*是否启用 */
+    enable?: number;
 
-  /*邮箱地址 */
-  email?: string;
-}
+    /*手机号 */
+    phone?: string;
 
-// 参数接口
-export interface GetUserListParams {
-  /*页码 */
-  pageNum?: number;
+    /*邮箱地址 */
+    email?: string;
 
-  /*每页大小 */
-  pageSize?: number;
+    /* */
+    roleIds?: string[];
+  }
+  // 参数接口
+  export interface RegisterParams {
+    /*用户名 */
+    userName?: string;
 
-  /*关键字 */
-  keyword?: string;
+    /*密码 */
+    password?: string;
 
-  /*用户名 */
-  userName?: string;
+    /*昵称 */
+    nickName?: string;
 
-  /*手机号 */
-  phone?: string;
-}
+    /*头型地址 */
+    headerImg?: string;
 
-// 参数接口
-export interface RegisterParams {
-  /*用户名 */
-  userName?: string;
+    /*是否启动 */
+    enable?: number;
 
-  /*密码 */
-  password?: string;
+    /*手机号 */
+    phone?: string;
 
-  /*昵称 */
-  nickName?: string;
+    /*邮箱地址 */
+    email?: string;
+  }
+  // 参数接口
+  export interface SimpleListParams {
+    /*页码 */
+    pageNum?: number;
 
-  /*头型地址 */
-  headerImg?: string;
+    /*每页大小 */
+    pageSize?: number;
 
-  /*角色id */
-  authorityId?: number;
+    /*关键字 */
+    keyword?: string;
 
-  /*是否启动 */
-  enable?: number;
+    /*用户名 */
+    userName?: string;
 
-  /*手机号 */
-  phone?: string;
+    /*手机号 */
+    phone?: string;
+  }
 
-  /*邮箱地址 */
-  email?: string;
+  export interface UserVO {
+    id: string;
+    username: string;
+    nickName: string;
+    sideMode: string;
+    headerImg: string;
+    baseColor: string;
+    activeColor: string;
+    roleVos: Role.RoleVO[];
+    phone: string;
+    email: string;
+    enable: number;
+    sysDepartments?: any;
+    sysPositions?: any;
+  }
 }

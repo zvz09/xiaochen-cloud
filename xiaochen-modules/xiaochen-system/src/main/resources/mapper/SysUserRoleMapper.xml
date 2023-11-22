@@ -32,7 +32,7 @@
                sr.role_code,
                sr.role_name
         from sys_user_role ua
-                 left join `xiaochen-cloud`.sys_user su on su.id = ua.sys_user_id
+                 left join sys_user su on su.id = ua.sys_user_id
                  left join sys_role sr on sr.role_code = ua.sys_role_code
     </sql>
 

@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zvz09.xiaochen.system.api.domain.bo.PermCodeApiBo;
 import com.zvz09.xiaochen.system.api.domain.entity.SysPermCodeApi;
 import com.zvz09.xiaochen.system.mapper.SysPermCodeApiMapper;
 import com.zvz09.xiaochen.system.service.ISysPermCodeApiService;
@@ -32,5 +33,10 @@ public class SysPermCodeApiServiceImpl extends ServiceImpl<SysPermCodeApiMapper,
     public List<Long> getApiIdByPermCodeId(Long permCodeId) {
         return this.list(new LambdaQueryWrapper<SysPermCodeApi>().eq(SysPermCodeApi::getPermCodeId, permCodeId))
                 .stream().map(SysPermCodeApi::getApiId).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PermCodeApiBo> getPermCodeApiInfo(List<Long> permCodeIds) {
+        return this.baseMapper.selectByPermCodeIds(permCodeIds);
     }
 }

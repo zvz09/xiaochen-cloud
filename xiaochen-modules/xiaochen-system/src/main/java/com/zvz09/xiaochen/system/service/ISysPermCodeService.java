@@ -33,9 +33,13 @@ public interface ISysPermCodeService extends IService<SysPermCode> {
 
     IPage<SysPermCodeVo> listTree(BasePage basePage);
 
+    List<SysPermCodeVo> listTree(List<Long> ids);
+
     Map<String, List<String>> listPermCodes();
 
     SysPermCodeVo detail(Long id);
 
     void bindApis(Long id, List<Long> apiIds);
+
+    void updatePermCode(Long menuId, SysMenuDto sysMenuDto);
 }

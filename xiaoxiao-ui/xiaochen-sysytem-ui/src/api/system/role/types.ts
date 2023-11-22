@@ -1,4 +1,6 @@
 // 角色管理模块
+import { PermCode } from "@/api/system/permCode/types";
+
 export namespace Role {
   // 参数接口
   export interface CreateRoleParams {
@@ -58,6 +60,8 @@ export namespace Role {
     id?: string;
     roleCode: string;
     roleName: string;
+    permCodeIds: string[];
+    permCodeVos: PermCode.PermCodeVO[];
   }
 
   // 响应接口

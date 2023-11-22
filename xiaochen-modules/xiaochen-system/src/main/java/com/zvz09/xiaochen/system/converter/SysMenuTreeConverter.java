@@ -4,6 +4,7 @@ import com.zvz09.xiaochen.common.core.converter.TreeConverter;
 import com.zvz09.xiaochen.system.api.domain.entity.SysMenu;
 import com.zvz09.xiaochen.system.api.domain.vo.SysMenuVo;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ import java.util.List;
  */
 public class SysMenuTreeConverter implements TreeConverter<SysMenu, SysMenuVo> {
 
+    private final Comparator<SysMenuVo> comparator = Comparator.comparing(SysMenuVo::getSort);
     @Override
     public SysMenuVo convert(SysMenu item) {
         return new SysMenuVo(item);
@@ -23,6 +25,7 @@ public class SysMenuTreeConverter implements TreeConverter<SysMenu, SysMenuVo> {
 
     @Override
     public void setChildren(SysMenuVo parent, List<SysMenuVo> children) {
+        children.sort(comparator);
         parent.setChildren(children);
     }
 }

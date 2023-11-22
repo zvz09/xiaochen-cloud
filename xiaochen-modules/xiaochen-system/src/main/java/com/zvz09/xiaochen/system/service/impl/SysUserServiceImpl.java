@@ -180,4 +180,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         return page.convert(sysUser -> new SysUserVo(sysUser.getId(), sysUser.getNickName()));
     }
+
+    @Override
+    public void createUser(UpdateUserDto updateUserDto) {
+        if (this.count(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, updateUserDto.getUserName())) > 0) {
+            throw new BusinessException("用户名已存在");
+        }
+        SysUser sysUser = updateUserDto.convertedToPo();
+        sysUser.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        this.save(sysUser);
+        List<SysRole> sysRoles = sysRoleService.getByIds(updateUserDto.getRoleIds());
+        if (sysRoles != null) {
+            List<SysUserRole> sysUserRoles = new ArrayList<>();
+            sysRoles.forEach(s -> {
+                sysUserRoles.add(new SysUserRole(sysUser.getId(), s.getRoleCode()));
+            });
+            sysUserRoleService.saveBatch(sysUserRoles);
+        }
+    }
 }

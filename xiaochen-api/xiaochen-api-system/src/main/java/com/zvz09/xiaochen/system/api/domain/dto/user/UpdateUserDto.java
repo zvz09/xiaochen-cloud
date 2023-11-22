@@ -36,6 +36,7 @@ public class UpdateUserDto extends BaseDto {
     private String userName;
     @Schema(description = "昵称")
     private String nickName;
+    private Boolean gender;
     @Schema(description = "头型地址")
     private String headerImg;
     @Schema(description = "是否启用")
@@ -52,6 +53,7 @@ public class UpdateUserDto extends BaseDto {
                 .id(this.getId())
                 .username(this.userName)
                 .nickName(this.nickName)
+                .gender(this.gender)
                 .headerImg(this.headerImg)
                 .enable(this.enable)
                 .phone(this.phone)

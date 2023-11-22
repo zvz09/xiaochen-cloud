@@ -13,6 +13,11 @@ import java.util.List;
 public interface ICasbinRuleService extends IService<CasbinRule> {
 
     /**
+     * 刷新规则
+     */
+    void refreshRule();
+
+    /**
      * 从旧角色拷贝权限
      *
      * @param newRoleCode
