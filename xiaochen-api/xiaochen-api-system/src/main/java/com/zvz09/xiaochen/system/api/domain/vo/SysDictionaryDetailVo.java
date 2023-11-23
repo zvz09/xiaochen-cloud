@@ -27,7 +27,7 @@ public class SysDictionaryDetailVo extends BaseVo {
 
     private Long sort;
 
-    private Long sysDictionaryId;
+    private String tagType;
 
     public SysDictionaryDetailVo(SysDictionaryDetail sysDictionaryDetail) {
         super(sysDictionaryDetail.getId());
@@ -35,6 +35,6 @@ public class SysDictionaryDetailVo extends BaseVo {
         this.value = sysDictionaryDetail.getValue();
         this.status = sysDictionaryDetail.getStatus();
         this.sort = sysDictionaryDetail.getSort();
-        this.sysDictionaryId = sysDictionaryDetail.getSysDictionaryId();
+        this.tagType = sysDictionaryDetail.getTagType();
     }
 }

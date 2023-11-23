@@ -33,7 +33,7 @@ import { createRole, deleteRole, getRoleList, updateRole } from "@/api/system/ro
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
 
-const initParam = reactive({ type: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {

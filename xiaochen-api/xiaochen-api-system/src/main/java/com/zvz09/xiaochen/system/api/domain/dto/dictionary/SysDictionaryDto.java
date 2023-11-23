@@ -31,7 +31,7 @@ public class SysDictionaryDto extends BaseDto {
     @Schema(description = "字典名（中）")
     private String name;
     @Schema(description = "字典名（英）")
-    private String type;
+    private String encode;
     @Schema(description = "状态")
     private Boolean status;
     @Schema(description = "描述")
@@ -41,7 +41,7 @@ public class SysDictionaryDto extends BaseDto {
         return SysDictionary.builder()
                 .id(this.getId())
                 .name(this.name)
-                .type(this.type)
+                .encode(this.encode)
                 .status(this.status)
                 .description(this.description)
                 .build();

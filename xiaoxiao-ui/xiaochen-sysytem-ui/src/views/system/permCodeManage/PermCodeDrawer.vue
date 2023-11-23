@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item label="类型" prop="permCodeType">
         <el-select v-model="drawerProps.row!.permCodeType" placeholder="请选择类型" clearable>
-          <el-option v-for="item in getPermCodeType" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option v-for="item in permCodeTypes" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="排序" prop="showOrder">
@@ -49,8 +49,14 @@
 import { reactive, ref } from "vue";
 import { ElMessage, ElTree, FormInstance } from "element-plus";
 import { PermCode } from "@/api/system/permCode/types";
-import { detailPermCode, getPermCodeType } from "@/api/system/permCode";
+import { detailPermCode } from "@/api/system/permCode";
 import { API } from "@/api/system/api/types";
+import { getDict } from "@/utils/dict";
+
+let permCodeTypes = [];
+getDict("PermCodeType").then(res => {
+  permCodeTypes = res;
+});
 
 const rules = reactive({
   roleCode: [{ required: true, message: "请填写角色编码" }],

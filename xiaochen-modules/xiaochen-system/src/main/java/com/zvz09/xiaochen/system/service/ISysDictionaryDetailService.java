@@ -28,7 +28,9 @@ public interface ISysDictionaryDetailService extends IService<SysDictionaryDetai
 
     void deleteSysDictionaryDetail(Long id);
 
-    IPage<SysDictionaryDetailVo> getByDictionaryType(String sysDictionaryType, BasePage basePage);
+    IPage<SysDictionaryDetailVo> getByDictionaryEncode(String encode, BasePage basePage);
 
-    List<SysDictionaryDetailVo> getByDictionaryType(String type);
+    List<SysDictionaryDetailVo> getByDictionaryEncode(String encode);
+
+    void changeStatus(Long id);
 }

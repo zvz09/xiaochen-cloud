@@ -32,8 +32,8 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         IPage<SysDictionary> dictionaryPage = this.page(new Page<>(sysDictionaryQuery.getPageNum(), sysDictionaryQuery.getPageSize()),
                 new LambdaQueryWrapper<SysDictionary>()
                         .like(StringUtils.isNotBlank(sysDictionaryQuery.getName()), SysDictionary::getName, sysDictionaryQuery.getName())
-                        .like(StringUtils.isNotBlank(sysDictionaryQuery.getType()), SysDictionary::getType, sysDictionaryQuery.getType())
-                        .eq(sysDictionaryQuery.getType() != null, SysDictionary::getType, sysDictionaryQuery.getType()));
+                        .like(StringUtils.isNotBlank(sysDictionaryQuery.getEncode()), SysDictionary::getEncode, sysDictionaryQuery.getEncode())
+                        .eq(sysDictionaryQuery.getStatus() != null, SysDictionary::getStatus, sysDictionaryQuery.getStatus()));
 
 
         return dictionaryPage.convert(SysDictionaryVo::new);
@@ -42,8 +42,8 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
     @Override
     public void createSysDictionary(SysDictionaryDto sysDictionaryDto) {
         if (this.count(new LambdaQueryWrapper<SysDictionary>()
-                .eq(SysDictionary::getType, sysDictionaryDto.getType())) > 0) {
-            throw new BusinessException("存在相同的type，不允许创建");
+                .eq(SysDictionary::getEncode, sysDictionaryDto.getEncode())) > 0) {
+            throw new BusinessException("存在相同的英文编码，不允许创建");
         }
         this.save(sysDictionaryDto.convertedToPo());
     }
@@ -66,5 +66,15 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
 
         this.update(new LambdaUpdateWrapper<SysDictionary>().eq(SysDictionary::getId, id)
                 .set(SysDictionary::getDeleted, true));
+    }
+
+    @Override
+    public void changeStatus(Long id) {
+        SysDictionary sysDictionary = this.getById(id);
+        if (sysDictionary == null) {
+            return;
+        }
+        sysDictionary.setStatus(!sysDictionary.getStatus());
+        this.updateById(sysDictionary);
     }
 }

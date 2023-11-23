@@ -21,7 +21,7 @@ public class SysDictionaryVo extends BaseVo {
 
     private String name;
 
-    private String type;
+    private String encode;
 
     private Boolean status;
 
@@ -30,7 +30,7 @@ public class SysDictionaryVo extends BaseVo {
     public SysDictionaryVo(SysDictionary sysDictionary) {
         super(sysDictionary.getId());
         this.name = sysDictionary.getName();
-        this.type = sysDictionary.getType();
+        this.encode = sysDictionary.getEncode();
         this.status = sysDictionary.getStatus();
         this.description = sysDictionary.getDescription();
     }

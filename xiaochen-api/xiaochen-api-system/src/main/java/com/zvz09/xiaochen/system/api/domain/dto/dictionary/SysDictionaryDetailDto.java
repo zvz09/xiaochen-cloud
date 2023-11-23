@@ -37,6 +37,7 @@ public class SysDictionaryDetailDto extends BaseDto {
     private Boolean status;
     @Schema(description = "启用状态")
     private Long sort;
+    private String tagType;
     @Schema(description = "字典id")
     private Long sysDictionaryId;
 
@@ -47,6 +48,7 @@ public class SysDictionaryDetailDto extends BaseDto {
                 .value(this.value)
                 .status(this.status)
                 .sort(this.sort)
+                .tagType(this.tagType)
                 .sysDictionaryId(this.sysDictionaryId)
                 .build();
     }

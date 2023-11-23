@@ -33,6 +33,7 @@ public class SysDictionaryDetail extends BaseEntity {
     private Boolean status;
 
     private Long sort;
+    private String tagType;
 
     private Long sysDictionaryId;
 }

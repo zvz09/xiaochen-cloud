@@ -54,8 +54,3 @@ export const detailPermCode = (id: string) => {
 export const bindApis = (id: string, params: any[]) => {
   return http.put(SYSTEM_SERVICE_PATH + `/perm_code/bind/${id}`, params);
 };
-
-export const getPermCodeType = [
-  { label: "菜单", value: 0, tagType: "success" },
-  { label: "按钮", value: 1, tagType: "danger" }
-];

@@ -28,7 +28,7 @@ public class SysDictionary extends BaseEntity {
 
     private String name;
 
-    private String type;
+    private String encode;
 
     private Boolean status;
 

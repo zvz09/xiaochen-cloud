@@ -30,7 +30,7 @@ public class SysDictionaryQuery extends BasePage {
     @Schema(description = "字典名（中）")
     private String name;
     @Schema(description = "字典名（英）")
-    private String type;
+    private String encode;
     @Schema(description = "状态")
     private Boolean status;
 }

@@ -24,4 +24,6 @@ public interface ISysDictionaryService extends IService<SysDictionary> {
     void updateSysDictionary(SysDictionaryDto sysDictionaryDto);
 
     void deleteSysDictionary(Long id);
+
+    void changeStatus(Long id);
 }

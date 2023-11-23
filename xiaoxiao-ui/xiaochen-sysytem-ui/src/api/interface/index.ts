@@ -39,7 +39,7 @@ export namespace Login {
   }
 
   export interface ResLogin {
-    user: User.UserVO;
+    user: any;
     token: string;
   }
 

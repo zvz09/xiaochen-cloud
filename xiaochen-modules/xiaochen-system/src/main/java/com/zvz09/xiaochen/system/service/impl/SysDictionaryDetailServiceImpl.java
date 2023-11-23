@@ -99,10 +99,10 @@ public class SysDictionaryDetailServiceImpl extends ServiceImpl<SysDictionaryDet
     }
 
     @Override
-    public IPage<SysDictionaryDetailVo> getByDictionaryType(String sysDictionaryType, BasePage basePage) {
+    public IPage<SysDictionaryDetailVo> getByDictionaryEncode(String encode, BasePage basePage) {
         SysDictionary sysDictionary =
                 this.sysDictionaryService.getOne(new LambdaQueryWrapper<SysDictionary>()
-                        .eq(SysDictionary::getType, sysDictionaryType));
+                        .eq(SysDictionary::getEncode, encode));
         if (sysDictionary == null) {
             return new Page<>(basePage.getPageNum(), basePage.getPageSize());
         }
@@ -115,20 +115,31 @@ public class SysDictionaryDetailServiceImpl extends ServiceImpl<SysDictionaryDet
     }
 
     @Override
-    public List<SysDictionaryDetailVo> getByDictionaryType(String type) {
+    public List<SysDictionaryDetailVo> getByDictionaryEncode(String encode) {
         List<SysDictionaryDetailVo> voList = new ArrayList<>();
         SysDictionary sysDictionary =
                 this.sysDictionaryService.getOne(new LambdaQueryWrapper<SysDictionary>()
-                        .eq(SysDictionary::getType, type));
+                        .eq(SysDictionary::getEncode, encode).eq(SysDictionary::getStatus,true));
         if (sysDictionary == null) {
             return voList;
         }
         List<SysDictionaryDetail> sysDictionaryDetails = this.list(new LambdaQueryWrapper<SysDictionaryDetail>()
-                .eq(SysDictionaryDetail::getSysDictionaryId, sysDictionary.getId()));
+                .eq(SysDictionaryDetail::getSysDictionaryId, sysDictionary.getId())
+                .eq(SysDictionaryDetail::getStatus,true));
 
         sysDictionaryDetails.forEach(sysDictionaryDetail -> {
             voList.add(new SysDictionaryDetailVo(sysDictionaryDetail));
         });
         return voList;
+    }
+
+    @Override
+    public void changeStatus(Long id) {
+        SysDictionaryDetail sysDictionaryDetail = this.getById(id);
+        if (sysDictionaryDetail == null) {
+            return;
+        }
+        sysDictionaryDetail.setStatus(!sysDictionaryDetail.getStatus());
+        this.updateById(sysDictionaryDetail);
     }
 }

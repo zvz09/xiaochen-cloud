@@ -37,7 +37,7 @@ import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { reactive, ref } from "vue";
 import { User } from "@/api/system/user/types";
 import {
-  register,
+  createUser,
   updateUserInfo,
   getUserList,
   deleteUser,
@@ -100,7 +100,7 @@ const getTableList = (params: any) => {
   return getUserList(params);
 };
 
-const initParam = reactive({ type: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {
@@ -117,7 +117,7 @@ const openDrawer = (title: string, row: Partial<User.UserVO> = {}) => {
   const params = {
     title,
     row: { ...row },
-    api: title === "新增" ? register : title === "编辑" ? updateUserInfo : undefined,
+    api: title === "新增" ? createUser : title === "编辑" ? updateUserInfo : undefined,
     getTableList: proTable.value?.getTableList,
     id: row.id
   };
