@@ -9,13 +9,13 @@ import lombok.Getter;
 @Getter
 public enum PermCodeType {
 
-    MENU(0),
-    BUTTON(1),
+    MENU("0"),
+    BUTTON("1"),
     ;
 
-    private final Integer type;
+    private final String type;
 
-    PermCodeType(Integer type) {
+    PermCodeType(String type) {
         this.type = type;
     }
 }

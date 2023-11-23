@@ -29,7 +29,7 @@ export namespace PermCode {
     permCode?: string;
 
     /*类型(0: 菜单 1: UI片段 2: 操作) */
-    permCodeType?: number;
+    permCodeType?: string;
 
     /*显示名称 */
     showName?: string;
@@ -56,7 +56,7 @@ export namespace PermCode {
     permCode?: string;
 
     /*类型(0: 菜单 1: UI片段 2: 操作) */
-    permCodeType?: number;
+    permCodeType?: string;
 
     /*显示名称 */
     showName?: string;
@@ -69,7 +69,7 @@ export namespace PermCode {
     id: string;
     parentId: string;
     permCode: string;
-    permCodeType: number;
+    permCodeType: string;
     showName: string;
     showOrder: number;
     children: PermCodeVO[];

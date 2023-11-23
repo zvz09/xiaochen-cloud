@@ -34,7 +34,7 @@ public class SysPermCodeDto extends BaseDto {
     private String permCode;
 
     @Schema(description = "类型(0: 菜单 1: UI片段 2: 操作)")
-    private Integer permCodeType;
+    private String permCodeType;
 
     @Schema(description = "显示名称")
     private String showName;
