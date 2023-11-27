@@ -16,5 +16,5 @@ export const loginApi = (params: Login.ReqLoginForm) => {
 
 // 用户退出登录
 export const logoutApi = () => {
-  return http.post(AUTH_SERVICE_PATH + `/logout`);
+  return http.post(AUTH_SERVICE_PATH + `/jwt/jsonInBlacklist`);
 };

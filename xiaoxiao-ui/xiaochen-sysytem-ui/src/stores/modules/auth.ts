@@ -5,7 +5,7 @@ import { getAllBreadcrumbList, getFlatMenuList, getShowMenuList } from "@/utils"
 import { listPermCodes } from "@/api/system/role";
 
 export const useAuthStore = defineStore({
-  id: "geeker-auth",
+  id: "xiaochen-auth",
   state: (): AuthState => ({
     //权限字列表
     authPermCodeList: {},

@@ -17,6 +17,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -41,6 +42,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     private final Enforcer enforcer;
     private final IgnoreWhiteProperties ignoreWhiteProperties;
+    private final RedisTemplate<String,String> redisTemplate;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -74,6 +76,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String token = exchange.getRequest().getHeaders().getFirst(LoginConstant.TOKEN_NAME);
         if (StringUtils.isEmpty(token)) {
             return unauthorizedResponse(exchange, "令牌不能为空");
+        }
+
+        if (token != null && Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(LoginConstant.JWT_BLACK_LIST, token))) {
+            return unauthorizedResponse(exchange, "令牌已失效");
         }
 
         Claims claims = JwtUtils.parseToken(token);

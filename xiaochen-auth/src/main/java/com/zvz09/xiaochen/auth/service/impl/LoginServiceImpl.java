@@ -22,10 +22,12 @@ import com.zvz09.xiaochen.system.api.domain.bo.UserRoleBo;
 import com.zvz09.xiaochen.system.api.domain.entity.SysRole;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
 import com.zvz09.xiaochen.system.api.domain.vo.SysUserVo;
+import io.lettuce.core.AbstractRedisClient;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RSet;
 import org.redisson.api.RedissonClient;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -47,15 +49,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginServiceImpl implements ILoginService {
 
-    private final RedissonClient redissonClient;
+    private final RedisTemplate<String,String> redisTemplate;
 
     private final RemoteUserService remoteUserService;
 
-    private final RemoteRoleService remoteRoleService;
 
     private final RemoteUserRoleService remoteUserRoleService;
 
-    private final RemoteRoleMenuService remoteRoleMenuService;
 
     @Override
     public LoginVo doLogin(LoginDto loginDto) {
@@ -110,8 +110,7 @@ public class LoginServiceImpl implements ILoginService {
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
         // 获取请求token
         String token = request.getHeader(LoginConstant.TOKEN_NAME);
-        RSet<String> blacklist = redissonClient.getSet(LoginConstant.JWT_BLACK_LIST);
-        blacklist.add(token);
+        redisTemplate.opsForSet().add(LoginConstant.JWT_BLACK_LIST, token);
     }
 }
  
