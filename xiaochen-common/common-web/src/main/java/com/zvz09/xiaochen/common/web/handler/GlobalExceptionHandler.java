@@ -8,7 +8,7 @@ package com.zvz09.xiaochen.common.web.handler;
 
 import com.zvz09.xiaochen.common.core.response.ApiCode;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;

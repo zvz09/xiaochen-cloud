@@ -2,7 +2,7 @@ package com.zvz09.xiaochen.autocode.engine;
 
 import com.zvz09.xiaochen.autocode.domain.dto.gencode.GenConfig;
 import com.zvz09.xiaochen.autocode.domain.entity.SysAutoCodeTemplate;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;

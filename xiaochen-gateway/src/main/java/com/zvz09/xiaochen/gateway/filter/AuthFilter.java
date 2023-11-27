@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.gateway.filter;
 
 import com.zvz09.xiaochen.common.core.constant.LoginConstant;
 import com.zvz09.xiaochen.common.core.constant.SecurityConstants;
+import com.zvz09.xiaochen.common.core.util.Snowflake;
 import com.zvz09.xiaochen.common.jwt.JwtUtils;
 import com.zvz09.xiaochen.gateway.config.properties.IgnoreWhiteProperties;
 import com.zvz09.xiaochen.gateway.utils.ServletUtils;
@@ -10,6 +11,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.casbin.jcasbin.main.Enforcer;
+import org.slf4j.MDC;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
@@ -17,12 +19,14 @@ import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
+import static com.zvz09.xiaochen.common.core.constant.CommonConstant.TRACE_ID;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 /**
@@ -42,14 +46,22 @@ public class AuthFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpRequest.Builder mutate = request.mutate();
+        ServerHttpResponse response = exchange.getResponse();
 
+        try {
+            String traceId = Snowflake.getSnowflakeId();
+            MDC.put(TRACE_ID, "g-"+traceId);
+            response.getHeaders().add(TRACE_ID,traceId);
+        } catch (Exception e) {
+            log.error("logRequest error", e);
+        }
         URI requestUrl = exchange.getRequiredAttribute(GATEWAY_REQUEST_URL_ATTR);
         Route route = exchange.getRequiredAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
 
         String url = request.getURI().getPath();
         // 跳过不需要验证的路径
         if (StringUtils.matches(url, ignoreWhiteProperties.getWhites())) {
-            return chain.filter(exchange);
+            return chain.filter(exchange.mutate().request(mutate.build()).response(response).build());
         }
 
         // 操作对象
@@ -81,6 +93,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
             return unauthorizedResponse(exchange, "用户权限不足");
         }
 
+        addHeader(mutate, TRACE_ID, MDC.get(TRACE_ID));
         // 设置用户信息到请求
         addHeader(mutate, SecurityConstants.USER_KEY, userkey);
         addHeader(mutate, SecurityConstants.DETAILS_USER_ID, userid);
@@ -89,7 +102,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         addHeader(mutate, SecurityConstants.DETAILS_AUTHORITY_CODE, roleCode);
         // 内部请求来源参数清除
         removeHeader(mutate, SecurityConstants.FROM_SOURCE);
-        return chain.filter(exchange.mutate().request(mutate.build()).build());
+        return chain.filter(exchange.mutate().request(mutate.build()).response(response).build());
     }
 
     private void addHeader(ServerHttpRequest.Builder mutate, String name, Object value) {

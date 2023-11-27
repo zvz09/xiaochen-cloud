@@ -6,3 +6,5 @@ export const PORT2 = "/hooks";
 export const SYSTEM_SERVICE_PATH = "/system";
 
 export const AUTH_SERVICE_PATH = "/auth";
+
+export const LOG_SERVICE_PATH = "/log";

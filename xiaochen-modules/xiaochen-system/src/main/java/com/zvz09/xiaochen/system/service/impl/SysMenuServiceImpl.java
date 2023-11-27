@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.core.util.TreeBuilder;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysMenu;
 import com.zvz09.xiaochen.system.api.domain.vo.SysMenuVo;

@@ -45,4 +45,6 @@ include 'xiaochen-common:common-auxiliary'
 findProject(':xiaochen-common:common-auxiliary')?.name = 'common-auxiliary'
 include 'xiaochen-modules:xiaochen-file'
 findProject(':xiaochen-modules:xiaochen-file')?.name = 'xiaochen-file'
+include 'xiaochen-modules:xiaochen-log-server'
+findProject(':xiaochen-modules:xiaochen-log-server')?.name = 'xiaochen-log-server'
 

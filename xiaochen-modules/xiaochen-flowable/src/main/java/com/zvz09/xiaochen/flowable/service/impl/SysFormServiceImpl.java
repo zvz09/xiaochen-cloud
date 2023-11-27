@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.flowable.domain.dto.SysFormQuery;
 import com.zvz09.xiaochen.flowable.domain.entity.SysDeployForm;
 import com.zvz09.xiaochen.flowable.domain.entity.SysForm;

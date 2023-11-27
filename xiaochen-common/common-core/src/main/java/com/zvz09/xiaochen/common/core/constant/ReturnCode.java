@@ -1,10 +1,10 @@
 /**
  * @projectName xiaochen
  * @package com.zvz09.xiaochen.common.web.annotation
- * @className com.zvz09.xiaochen.common.web.enums.ReturnCode
+ * @className com.zvz09.xiaochen.common.core.constant.ReturnCode
  * @copyright Copyright 2020 Thunisoft, Inc All rights reserved.
  */
-package com.zvz09.xiaochen.common.web.enums;
+package com.zvz09.xiaochen.common.core.constant;
 
 /**
  * ReturnCode

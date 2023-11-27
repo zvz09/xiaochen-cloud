@@ -1,6 +1,6 @@
 package com.zvz09.xiaochen.flowable.utils;
 
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.flowable.domain.dto.ProcessQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

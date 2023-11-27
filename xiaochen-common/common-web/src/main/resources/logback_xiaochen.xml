@@ -31,7 +31,7 @@
     </appender>
 
     <appender name="ELASTIC" class="com.agido.logback.elasticsearch.ElasticsearchAppender">
-        <url>http://127.0.0.1:9200/_bulk</url>
+        <url>http://192.168.191.1:9200/_bulk</url>
         <index>${applicationName}-log-${active}-%date{yyyy-MM-dd}</index>
         <type>${active}</type>
         <properties>
@@ -76,7 +76,6 @@
     <!-- LOG everything at INFO level -->
     <root level="info">
         <appender-ref ref="Console"/>
-        <appender-ref ref="RollingFile"/>
         <appender-ref ref="ELASTIC"/>
     </root>
 </configuration>

@@ -1,7 +1,9 @@
-package com.zvz09.xiaochen.common.web.util;
+package com.zvz09.xiaochen.common.core.util;
 
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.lang.management.ManagementFactory;
@@ -13,10 +15,12 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @author zvz09
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
@@ -162,5 +166,27 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         LocalDateTime localDateTime = LocalDateTime.of(temporalAccessor, LocalTime.of(0, 0, 0));
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.systemDefault());
         return Date.from(zdt.toInstant());
+    }
+
+    private static final  SimpleDateFormat FORMAT = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+    private static final  SimpleDateFormat UTC_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+    // 将Date对象转换为UTC时间字符串
+    public static Date convertStringToDate(String dateString) {
+
+        try {
+            return FORMAT.parse(dateString);
+        } catch (ParseException e) {
+            log.error("日期转换异常", e);
+            throw new BusinessException("时间转换异常");
+        }
+    }
+
+    // 将Date对象转换为UTC时间字符串
+    public static String convertToUtc(Date date) {
+        // 创建一个新的SimpleDateFormat对象，指定时区为UTC
+        UTC_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+        // 格式化Date对象为UTC时间字符串
+        return UTC_FORMAT.format(date);
     }
 }

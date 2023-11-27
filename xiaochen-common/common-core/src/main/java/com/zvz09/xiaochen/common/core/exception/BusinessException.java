@@ -4,9 +4,9 @@
  * @className com.zvz09.xiaochen.common.web.exception.BusinessException
  * @copyright Copyright 2020 Thunisoft, Inc All rights reserved.
  */
-package com.zvz09.xiaochen.common.web.exception;
+package com.zvz09.xiaochen.common.core.exception;
 
-import com.zvz09.xiaochen.common.web.enums.ReturnCode;
+import com.zvz09.xiaochen.common.core.constant.ReturnCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

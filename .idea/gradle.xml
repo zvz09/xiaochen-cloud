@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-autocode" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-file" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-flowable" />
+            <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-log-server" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-message" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-system" />
             <option value="$PROJECT_DIR$/xiaochen-monitor" />

@@ -22,6 +22,9 @@ import java.util.Set;
 
 import static com.zvz09.xiaochen.common.core.constant.Constants.FEIGN_PATH_PREFIX;
 
+/**
+ * @author lizili-YF0033
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -37,22 +40,26 @@ public class ApiCheck implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("**********************检查SysAPi表是否缺少接口配置**********************");
+        try {
+            log.info("**********************检查SysAPi表是否缺少接口配置**********************");
 
-        getAllApi();
+            getAllApi();
 
-        List<SysApi> notInDb = getNotInDbApi();
+            List<SysApi> notInDb = getNotInDbApi();
 
-        if (!notInDb.isEmpty()) {
-            notInDb.forEach(sysApi -> {
-                log.info("**********************数据库缺少：【{}_{}】接口配置:{},Method:{},稍后自动进行插入操作**********************"
-                        , sysApi.getApiGroup(), sysApi.getDescription(), sysApi.getPath(), sysApi.getMethod());
-            });
-            log.error("**********************开始进行补充接口数据信息**********************");
-            remoteSysApiService.saveBatch(notInDb);
-            log.error("**********************补充接口数据信息完毕，请检查角色权限**********************");
+            if (!notInDb.isEmpty()) {
+                notInDb.forEach(sysApi -> {
+                    log.info("**********************数据库缺少：【{}_{}】接口配置:{},Method:{},稍后自动进行插入操作**********************"
+                            , sysApi.getApiGroup(), sysApi.getDescription(), sysApi.getPath(), sysApi.getMethod());
+                });
+                log.error("**********************开始进行补充接口数据信息**********************");
+                remoteSysApiService.saveBatch(notInDb);
+                log.error("**********************补充接口数据信息完毕，请检查角色权限**********************");
+            }
+            log.info("**********************检查SysAPi表是否缺少接口配置完毕**********************");
+        }catch (Exception e){
+            log.error("**********************检查SysAPi表是否缺少接口配置失败！！**********************",e);
         }
-        log.info("**********************检查SysAPi表是否缺少接口配置完毕**********************");
     }
 
     private List<SysApi> getNotInDbApi() {

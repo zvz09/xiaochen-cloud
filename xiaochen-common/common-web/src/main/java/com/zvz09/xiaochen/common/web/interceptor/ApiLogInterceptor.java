@@ -7,7 +7,7 @@
 package com.zvz09.xiaochen.common.web.interceptor;
 
 import com.zvz09.xiaochen.common.web.config.properties.ApiLogProperties;
-import com.zvz09.xiaochen.common.web.util.Snowflake;
+import com.zvz09.xiaochen.common.core.util.Snowflake;
 import com.zvz09.xiaochen.common.web.wrapper.BodyCachingHttpServletRequestWrapper;
 import com.zvz09.xiaochen.common.web.wrapper.BodyCachingHttpServletResponseWrapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,7 +46,7 @@ public class ApiLogInterceptor implements HandlerInterceptor {
             if (request.getHeader(TRACE_ID) != null) {
                 MDC.put(TRACE_ID, request.getHeader(TRACE_ID));
             } else {
-                MDC.put(TRACE_ID, Snowflake.getSnowflakeId());
+                MDC.put(TRACE_ID, "w-"+Snowflake.getSnowflakeId());
             }
             logRequest(request, handler);
         } catch (Exception e) {

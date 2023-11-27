@@ -1,6 +1,6 @@
 package com.zvz09.xiaochen.file.service;
 
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.file.config.MinIoProperties;
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;

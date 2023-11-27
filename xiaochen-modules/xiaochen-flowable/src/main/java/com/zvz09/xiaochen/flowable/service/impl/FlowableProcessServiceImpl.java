@@ -12,8 +12,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.util.JacksonUtil;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
-import com.zvz09.xiaochen.common.web.util.DateUtils;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.util.DateUtils;
 import com.zvz09.xiaochen.flowable.common.constant.ProcessConstants;
 import com.zvz09.xiaochen.flowable.common.constant.TaskConstants;
 import com.zvz09.xiaochen.flowable.common.enums.ProcessStatus;
@@ -687,8 +687,8 @@ public class FlowableProcessServiceImpl implements IFlowableProcessService {
         List<String> list = new ArrayList<>();
         SysUserVo user = remoteUserService.getUserInfo();
         if (ObjectUtil.isNotNull(user)) {
-            if (ObjectUtil.isNotEmpty(user.getAuthorities())) {
-                user.getAuthorities().forEach(roleVo -> list.add(TaskConstants.ROLE_GROUP_PREFIX + roleVo.getRoleCode()));
+            if (ObjectUtil.isNotEmpty(user.getRoleVos())) {
+                user.getRoleVos().forEach(roleVo -> list.add(TaskConstants.ROLE_GROUP_PREFIX + roleVo.getRoleCode()));
             }
         }
         return list;

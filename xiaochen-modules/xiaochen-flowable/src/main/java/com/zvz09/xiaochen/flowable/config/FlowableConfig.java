@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.flowable.config;
 
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
-import com.zvz09.xiaochen.common.web.util.Snowflake;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.util.Snowflake;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.impl.cfg.IdGenerator;
 import org.flowable.spring.SpringProcessEngineConfiguration;

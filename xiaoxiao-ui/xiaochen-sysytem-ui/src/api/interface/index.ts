@@ -18,6 +18,13 @@ export interface ResPage<T> {
   total: number;
 }
 
+export interface ESResPage<T> {
+  list: T[];
+  pageNum: number;
+  pageSize: number;
+  total: number;
+}
+
 // 分页请求参数
 export interface ReqPage {
   pageNum: number;

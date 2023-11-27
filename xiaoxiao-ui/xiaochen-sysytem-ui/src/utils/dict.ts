@@ -21,13 +21,12 @@ export const userStatus = [
 ];
 
 //  获取字典方法 使用示例 getDict('gender').then(res)  或者 async函数下 const res = await getDict('gender')
-export const getDict = (encode: string): Promise<Dictionary.DictionaryDetailVO[]> => {
+export const getDict = (encode: string): Promise<Dictionary.DictionaryDetailVO[] | null> => {
   const dictionaryStore = useDictionaryStore();
   return dictionaryStore.getDictionary(encode);
 };
 
-export const getDictResultData = (encode: string): Promise<ResultData<Dictionary.DictionaryDetailVO[]>> => {
+export const getDictResultData = (encode: string): Promise<ResultData<Dictionary.DictionaryDetailVO[]> | null> => {
   const dictionaryStore = useDictionaryStore();
-  console.log(dictionaryStore.getDictionaryResultData(encode));
   return dictionaryStore.getDictionaryResultData(encode);
 };

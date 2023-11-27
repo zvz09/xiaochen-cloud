@@ -29,4 +29,9 @@ public class Constants {
     public static final String FEIGN_PATH_PREFIX = "/feign";
 
     public static final String SUPER_ADMIN = "888";
+
+    /**
+     * 日志索引前缀
+     */
+    public static final String LOG_INDEX_PREFIX = "xlog";
 }

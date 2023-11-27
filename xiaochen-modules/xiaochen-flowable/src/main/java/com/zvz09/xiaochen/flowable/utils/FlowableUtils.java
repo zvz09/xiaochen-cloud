@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.flowable.utils;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.EndEvent;

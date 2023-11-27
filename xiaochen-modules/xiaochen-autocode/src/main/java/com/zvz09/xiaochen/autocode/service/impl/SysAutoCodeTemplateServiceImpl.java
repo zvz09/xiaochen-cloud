@@ -9,7 +9,7 @@ import com.zvz09.xiaochen.autocode.domain.dto.template.QueryDto;
 import com.zvz09.xiaochen.autocode.domain.entity.SysAutoCodeTemplate;
 import com.zvz09.xiaochen.autocode.mapper.SysAutoCodeTemplateMapper;
 import com.zvz09.xiaochen.autocode.service.ISysAutoCodeTemplateService;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

@@ -2,10 +2,10 @@
 <configuration debug="false">
     <!--定义日志文件的存储地址 -->
     <springProperty scope="context" name="LOG_PATH" source="logging.file.path"/>
-    <springProperty scope="context" name="active" source="spring.application.active"/>
+    <springProperty scope="context" name="active" source="spring.profiles.active"/>
     <springProperty scope="context" name="applicationName" source="spring.application.name"/>
     <property name="log_pattern"
-              value="[%X{traceId}]-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{50}:%L) - %msg%n"/>
+              value="[%X{traceId}]-%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{50}:%L) - %msg%n%ex"/>
 
     <!-- 控制台输出 -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
@@ -30,23 +30,40 @@
     </appender>
 
     <appender name="ELASTIC" class="com.agido.logback.elasticsearch.ElasticsearchAppender">
-        <url>http://127.0.0.1:9200/_bulk</url>
-        <index>${applicationName}-log-${active}-%date{yyyy-MM-dd}</index>
-        <type>${active}</type>
+        <url>http://logSender:123456@192.168.191.1:9200/_bulk</url>
+        <index>xlog-${applicationName}-${active}-%d{yyyy-MM-dd}</index>
+        <authentication class="com.agido.logback.elasticsearch.config.BasicAuthentication" /> <!-- optional -->
         <properties>
             <!-- please note that <property> tags are also supported, esProperty was added for logback-1.3 compatibility -->
+            <esProperty>
+                <name>dateTime</name>
+                <value>%d{yyyy-MM-dd HH:mm:ss.SSS}</value>
+            </esProperty>
+            <esProperty>
+                <name>applicationName</name>
+                <value>${applicationName}</value>
+                <allowEmpty>false</allowEmpty>
+            </esProperty>
             <esProperty>
                 <name>host</name>
                 <value>${HOSTNAME}</value>
                 <allowEmpty>false</allowEmpty>
             </esProperty>
             <esProperty>
-                <name>severity</name>
+                <name>level</name>
                 <value>%level</value>
+            </esProperty>
+            <esProperty>
+                <name>className</name>
+                <value>%class</value>
             </esProperty>
             <esProperty>
                 <name>thread</name>
                 <value>%thread</value>
+            </esProperty>
+            <esProperty>
+                <name>error</name>
+                <value>%ex</value>
             </esProperty>
             <esProperty>
                 <name>traceId</name>
@@ -75,7 +92,6 @@
     <!-- LOG everything at INFO level -->
     <root level="info">
         <appender-ref ref="Console"/>
-        <appender-ref ref="RollingFile"/>
         <appender-ref ref="ELASTIC"/>
     </root>
 </configuration>

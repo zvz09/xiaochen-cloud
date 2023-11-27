@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.common.web.util;
+package com.zvz09.xiaochen.common.core.util;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

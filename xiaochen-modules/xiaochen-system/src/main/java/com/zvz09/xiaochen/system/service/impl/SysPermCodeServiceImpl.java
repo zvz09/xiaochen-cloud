@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.util.TreeBuilder;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
-import com.zvz09.xiaochen.common.web.exception.BusinessException;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.system.api.constant.PermCodeType;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.dto.perm.SysPermCodeDto;
