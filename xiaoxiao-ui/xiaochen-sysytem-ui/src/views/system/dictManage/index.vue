@@ -44,11 +44,11 @@ import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { reactive, ref } from "vue";
 import {
-  listDictionary,
+  changeDictionaryStatus,
   createDictionary,
-  updateDictionary,
   deleteDictionary,
-  changeDictionaryStatus
+  listDictionary,
+  updateDictionary
 } from "@/api/system/dictionary";
 import { useHandleData } from "@/hooks/useHandleData";
 import DictionaryDrawer from "@/views/system/dictManage/DictionaryDrawer.vue";

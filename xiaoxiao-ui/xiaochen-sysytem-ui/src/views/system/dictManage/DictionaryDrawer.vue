@@ -63,9 +63,9 @@ import { useAuthButtons } from "@/hooks/useAuthButtons";
 import { useHandleData } from "@/hooks/useHandleData";
 import {
   changeDictionaryDetailStatus,
-  getDictionaryDetailList,
-  deleteDictionaryDetail,
   createDictionaryDetail,
+  deleteDictionaryDetail,
+  getDictionaryDetailList,
   updateDictionaryDetail
 } from "@/api/system/dictionary";
 

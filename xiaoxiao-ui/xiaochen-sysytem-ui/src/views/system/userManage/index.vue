@@ -38,12 +38,12 @@ import { reactive, ref } from "vue";
 import { User } from "@/api/system/user/types";
 import {
   createUser,
-  updateUserInfo,
-  getUserList,
   deleteUser,
-  resetPassword,
   getEnableType,
-  getGenderType
+  getGenderType,
+  getUserList,
+  resetPassword,
+  updateUserInfo
 } from "@/api/system/user";
 import { useHandleData } from "@/hooks/useHandleData";
 import UserDrawer from "@/views/system/userManage/UserDrawer.vue";

@@ -43,9 +43,8 @@
 import { reactive, ref } from "vue";
 import { ElMessage, ElTree, FormInstance } from "element-plus";
 import { Role } from "@/api/system/role/types";
-import { bindPerm } from "@/api/system/role";
+import { bindPerm, detailRole } from "@/api/system/role";
 import { listTree } from "@/api/system/permCode";
-import { detailRole } from "@/api/system/role";
 import { PermCode } from "@/api/system/permCode/types";
 
 const rules = reactive({

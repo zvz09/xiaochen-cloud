@@ -5,7 +5,6 @@ import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import com.zvz09.xiaochen.system.api.domain.dto.role.CopySysRoleDto;
 import com.zvz09.xiaochen.system.api.domain.dto.role.SysRoleDto;
-import com.zvz09.xiaochen.system.api.domain.vo.SysPermCodeVo;
 import com.zvz09.xiaochen.system.api.domain.vo.SysRoleVo;
 import com.zvz09.xiaochen.system.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
