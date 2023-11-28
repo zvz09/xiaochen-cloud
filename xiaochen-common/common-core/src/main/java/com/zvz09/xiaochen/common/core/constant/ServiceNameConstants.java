@@ -25,4 +25,9 @@ public class ServiceNameConstants {
      * 系统模块的serviceid
      */
     public static final String MESSAGE_SERVICE = "xiaochen-message";
+
+    /**
+     * job管理模块serviceid
+     */
+    public static final String JOB_ADMIN_SERVICE = "xiaochen-job-admin";
 }

@@ -1,0 +1,18 @@
+description = 'xiaochen-job-core'
+
+jar.enabled = true
+bootJar.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    api project(':xiaochen-common:common-core')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.slf4j:slf4j-api:2.0.6'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

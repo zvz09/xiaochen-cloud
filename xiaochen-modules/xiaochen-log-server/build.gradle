@@ -4,6 +4,7 @@ description = 'xiaochen-log-server'
 dependencies {
     implementation project(':xiaochen-common:common-web')
     implementation project(':xiaochen-common:common-auxiliary')
+    implementation project(':xiaochen-job:xiaochen-job-client')
     implementation 'org.dromara.easy-es:easy-es-boot-starter:2.0.0-beta4'
     compileOnly "org.jetbrains:annotations:22.0.0"
 }

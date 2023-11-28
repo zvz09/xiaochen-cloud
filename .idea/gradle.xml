@@ -22,10 +22,14 @@
             <option value="$PROJECT_DIR$/xiaochen-common/common-jwt" />
             <option value="$PROJECT_DIR$/xiaochen-common/common-web" />
             <option value="$PROJECT_DIR$/xiaochen-gateway" />
+            <option value="$PROJECT_DIR$/xiaochen-job" />
+            <option value="$PROJECT_DIR$/xiaochen-job/xiaochen-job-client" />
+            <option value="$PROJECT_DIR$/xiaochen-job/xiaochen-job-core" />
             <option value="$PROJECT_DIR$/xiaochen-modules" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-autocode" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-file" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-flowable" />
+            <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-job-admin" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-log-server" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-message" />
             <option value="$PROJECT_DIR$/xiaochen-modules/xiaochen-system" />

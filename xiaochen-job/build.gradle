@@ -1,0 +1,12 @@
+description = 'xiaochen-job'
+jar.enabled = true
+/* 需要org.springframework.boot插件 不需要打包成可执行的jar*/
+bootJar.enabled = false
+//子项目需要的jar包
+dependencies {
+
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+
