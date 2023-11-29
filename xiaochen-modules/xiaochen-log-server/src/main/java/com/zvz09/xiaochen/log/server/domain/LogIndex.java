@@ -3,16 +3,20 @@ package com.zvz09.xiaochen.log.server.domain;
 import lombok.Data;
 import org.dromara.easyes.annotation.IndexField;
 import org.dromara.easyes.annotation.IndexId;
+import org.dromara.easyes.annotation.IndexName;
 import org.dromara.easyes.annotation.rely.FieldType;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * @author lizili-YF0033
  */
 @Data
+@IndexName("xlog*")
 public class LogIndex implements Serializable {
 
+    @Serial
     private static final long serialVersionUID=1L;
     @IndexId
     private String id;
