@@ -7,12 +7,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.web.util.StringUtils;
-import com.zvz09.xiaochen.job.admin.entity.JobInfo;
+import com.zvz09.xiaochen.job.admin.domain.dto.JobInfoDto;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobInfo;
+import com.zvz09.xiaochen.job.admin.domain.vo.JobInfoVo;
 import com.zvz09.xiaochen.job.admin.mapper.JobInfoMapper;
 import com.zvz09.xiaochen.job.admin.runnable.RunJob;
 import com.zvz09.xiaochen.job.admin.service.DynamicScheduledTaskRegistrar;
 import com.zvz09.xiaochen.job.admin.service.IJobInfoService;
-import com.zvz09.xiaochen.system.api.domain.vo.SysApiVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
     private final DynamicScheduledTaskRegistrar dynamicScheduledTaskRegistrar;
 
     @Override
-    public void createJobInfo(JobInfo jobInfo) {
+    public void createJobInfo(JobInfoDto jobInfoDto) {
+        JobInfo jobInfo = jobInfoDto.convertToJobInfo();
         if(this.count(new LambdaQueryWrapper<JobInfo>()
                 .eq(JobInfo::getJobGroup,jobInfo.getJobGroup())
                 .eq(JobInfo::getExecutorHandler,jobInfo.getExecutorHandler())) > 0){
@@ -57,13 +59,16 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
     }
 
     @Override
-    public IPage<JobInfo> listJobInfoPage(BasePage basePage) {
+    public IPage<JobInfoVo> listJobInfoPage(BasePage basePage) {
         return this.page(new Page<>(basePage.getPageNum(),basePage.getPageSize()),
-                new LambdaQueryWrapper<JobInfo>().like(StringUtils.isNotEmpty(basePage.getKeyword()),JobInfo::getExecutorHandler,basePage.getKeyword()));
+                new LambdaQueryWrapper<JobInfo>()
+                        .like(StringUtils.isNotEmpty(basePage.getKeyword()),JobInfo::getExecutorHandler,basePage.getKeyword()))
+                .convert(JobInfoVo::new);
     }
 
     @Override
-    public void updateJobInfo(JobInfo jobInfo) {
+    public void updateJobInfo(JobInfoDto jobInfoDto) {
+        JobInfo jobInfo = jobInfoDto.convertToJobInfo();
         Optional.ofNullable(this.getById(jobInfo.getId())).ifPresent(j -> {
             this.updateById(jobInfo);
             cancelCronTask(j);

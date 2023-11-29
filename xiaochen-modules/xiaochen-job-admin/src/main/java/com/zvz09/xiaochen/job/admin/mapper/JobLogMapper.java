@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.job.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zvz09.xiaochen.job.admin.entity.JobLog;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobLog;
 
 /**
  * <p>

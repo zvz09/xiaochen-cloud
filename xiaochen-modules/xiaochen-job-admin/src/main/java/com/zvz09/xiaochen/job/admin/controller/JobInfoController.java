@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
-import com.zvz09.xiaochen.job.admin.entity.JobInfo;
+import com.zvz09.xiaochen.job.admin.domain.dto.JobInfoDto;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobInfo;
+import com.zvz09.xiaochen.job.admin.domain.vo.JobInfoVo;
 import com.zvz09.xiaochen.job.admin.service.IJobInfoService;
 import com.zvz09.xiaochen.job.admin.service.ServeInstanceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +43,8 @@ public class JobInfoController {
 
     @Operation(summary = "新增任务信息")
     @PostMapping("/")
-    public ApiResult<String> createJobInfo(@Valid @RequestBody JobInfo jobInfo) {
-        jobInfoService.createJobInfo(jobInfo);
+    public ApiResult<String> createJobInfo(@Valid @RequestBody JobInfoDto jobInfoDto) {
+        jobInfoService.createJobInfo(jobInfoDto);
         return ApiResult.success();
     }
 
@@ -55,15 +56,15 @@ public class JobInfoController {
     }
 
     @Operation(summary = "列表查询")
-    @GetMapping("/list")
-    public ApiResult<Page<JobInfo>> listJobInfoPage(BasePage basePage) {
+    @PostMapping("/list")
+    public ApiResult<Page<JobInfoVo>> listJobInfoPage(@RequestBody BasePage basePage) {
         return ApiResult.success(jobInfoService.listJobInfoPage(basePage));
     }
 
     @Operation(summary = "根据ID更新任务信息")
     @PostMapping("/update")
-    public ApiResult<String> updateJobInfo(@RequestBody @Validated(value = {UpdateValidation.class, Default.class}) JobInfo jobInfo) {
-        jobInfoService.updateJobInfo(jobInfo);
+    public ApiResult<String> updateJobInfo(@RequestBody @Validated(value = {UpdateValidation.class, Default.class})  JobInfoDto jobInfoDto) {
+        jobInfoService.updateJobInfo(jobInfoDto);
         return ApiResult.success();
     }
 

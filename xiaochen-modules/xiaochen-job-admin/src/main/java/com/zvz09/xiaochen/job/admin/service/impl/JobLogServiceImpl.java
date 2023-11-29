@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.job.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zvz09.xiaochen.job.admin.entity.JobLog;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobLog;
 import com.zvz09.xiaochen.job.admin.mapper.JobLogMapper;
 import com.zvz09.xiaochen.job.admin.service.IJobLogService;
 import org.springframework.stereotype.Service;

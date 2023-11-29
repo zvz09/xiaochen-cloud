@@ -3,8 +3,9 @@ package com.zvz09.xiaochen.job.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zvz09.xiaochen.common.core.page.BasePage;
-import com.zvz09.xiaochen.job.admin.entity.JobInfo;
-import com.zvz09.xiaochen.system.api.domain.vo.SysApiVo;
+import com.zvz09.xiaochen.job.admin.domain.dto.JobInfoDto;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobInfo;
+import com.zvz09.xiaochen.job.admin.domain.vo.JobInfoVo;
 
 /**
  * <p>
@@ -16,13 +17,13 @@ import com.zvz09.xiaochen.system.api.domain.vo.SysApiVo;
  */
 public interface IJobInfoService extends IService<JobInfo> {
 
-    void createJobInfo(JobInfo jobInfo);
+    void createJobInfo(JobInfoDto jobInfoDto);
 
     void deleteJobInfo(Long id);
 
-    IPage<JobInfo> listJobInfoPage(BasePage basePage);
+    IPage<JobInfoVo> listJobInfoPage(BasePage basePage);
 
-    void updateJobInfo(JobInfo jobInfo);
+    void updateJobInfo(JobInfoDto jobInfoDto);
 
     void changeStatusJob(Long id);
 

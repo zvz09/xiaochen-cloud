@@ -1,37 +1,16 @@
-package com.zvz09.xiaochen.job.admin.entity;
+package com.zvz09.xiaochen.job.admin.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.zvz09.xiaochen.common.web.entity.BaseEntity;
+import com.zvz09.xiaochen.common.web.vo.BaseVo;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author zvz09
- * @since 2023-11-28
- */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
-@TableName("job_info")
-@Schema(description = "")
-public class JobInfo extends BaseEntity {
-
+public class JobInfoVo extends BaseVo {
 
     @Schema(description ="微服务名")
     private String jobGroup;
@@ -85,4 +64,26 @@ public class JobInfo extends BaseEntity {
 
     @Schema(description ="调度状态：0-停止，1-运行")
     private Boolean triggerStatus;
+
+    public JobInfoVo(JobInfo jobInfo) {
+        super(jobInfo.getId());
+        this.jobGroup = jobInfo.getJobGroup();
+        this.jobDesc = jobInfo.getJobDesc();
+        this.author = jobInfo.getAuthor();
+        this.alarmEmail = jobInfo.getAlarmEmail();
+        this.scheduleConf = jobInfo.getScheduleConf();
+        this.scheduleType = jobInfo.getScheduleType();
+        this.misfireStrategy = jobInfo.getMisfireStrategy();
+        this.executorRouteStrategy = jobInfo.getExecutorRouteStrategy();
+        this.executorHandler = jobInfo.getExecutorHandler();
+        this.executorParam = jobInfo.getExecutorParam();
+        this.executorBlockStrategy = jobInfo.getExecutorBlockStrategy();
+        this.executorTimeout = jobInfo.getExecutorTimeout();
+        this.executorFailRetryCount = jobInfo.getExecutorFailRetryCount();
+        this.glueType = jobInfo.getGlueType();
+        this.glueSource = jobInfo.getGlueSource();
+        this.glueRemark = jobInfo.getGlueRemark();
+        this.glueUpdatetime = jobInfo.getGlueUpdatetime();
+        this.triggerStatus = jobInfo.getTriggerStatus();
+    }
 }

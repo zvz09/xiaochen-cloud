@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.job.admin.entity;
+package com.zvz09.xiaochen.job.admin.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

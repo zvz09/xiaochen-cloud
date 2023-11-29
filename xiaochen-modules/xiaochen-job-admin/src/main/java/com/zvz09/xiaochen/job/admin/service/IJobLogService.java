@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.job.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zvz09.xiaochen.job.admin.entity.JobLog;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobLog;
 
 /**
  * <p>

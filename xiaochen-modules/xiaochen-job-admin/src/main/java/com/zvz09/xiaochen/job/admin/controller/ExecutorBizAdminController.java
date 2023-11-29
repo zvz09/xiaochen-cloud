@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.job.admin.controller;
 
 import com.zvz09.xiaochen.common.core.response.ApiResult;
-import com.zvz09.xiaochen.job.admin.entity.JobLog;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobLog;
 import com.zvz09.xiaochen.job.admin.service.IJobLogService;
 import com.zvz09.xiaochen.job.core.ExecutorBizAdmin;
 import com.zvz09.xiaochen.job.core.constant.FeignPath;
@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
 
 /**
  * @author lizili-YF0033

@@ -1,9 +1,7 @@
 package com.zvz09.xiaochen.job.admin.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.zvz09.xiaochen.job.admin.entity.JobInfo;
-import com.zvz09.xiaochen.job.admin.runnable.RunJob;
-import com.zvz09.xiaochen.job.admin.service.DynamicScheduledTaskRegistrar;
+import com.zvz09.xiaochen.job.admin.domain.entity.JobInfo;
 import com.zvz09.xiaochen.job.admin.service.IJobInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
