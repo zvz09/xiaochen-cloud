@@ -37,6 +37,9 @@ public class ApiResult<T> implements Serializable {
     @Schema(description = "响应结果数据")
     private T data;
 
+    public ApiResult() {
+    }
+
     public static ApiResult success() {
         return success(null);
     }

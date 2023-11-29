@@ -35,7 +35,7 @@ public class BodyCachingWrapperFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        if(request.getContentType()!=null && request.getContentType().contains("application/json")){
+        if(request.getContentType()!=null && !request.getContentType().contains("boundary")){
             BodyCachingHttpServletRequestWrapper requestWrapper = new BodyCachingHttpServletRequestWrapper((HttpServletRequest) request);
             BodyCachingHttpServletResponseWrapper responseWrapper = new BodyCachingHttpServletResponseWrapper((HttpServletResponse) response);
             // 这里用wrapper类代替，以达到可重复读的目的

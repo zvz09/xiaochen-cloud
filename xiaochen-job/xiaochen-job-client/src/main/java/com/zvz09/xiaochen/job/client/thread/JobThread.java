@@ -1,6 +1,7 @@
 package com.zvz09.xiaochen.job.client.thread;
 
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.job.client.config.ClientHelper;
 import com.zvz09.xiaochen.job.client.executor.JobExecutor;
 import com.zvz09.xiaochen.job.client.handler.IJobHandler;
 import com.zvz09.xiaochen.job.core.ExecutorBizAdmin;
@@ -10,6 +11,7 @@ import com.zvz09.xiaochen.job.core.model.HandleCallbackParam;
 import com.zvz09.xiaochen.job.core.model.TriggerParam;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -22,6 +24,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static com.zvz09.xiaochen.common.core.constant.CommonConstant.TRACE_ID;
+
 
 /**
  * handler thread
@@ -30,7 +34,7 @@ import java.util.concurrent.TimeoutException;
 @Slf4j
 public class JobThread extends Thread{
 
-	private final int jobId;
+	private final Long jobId;
 	@Getter
 	private IJobHandler handler;
 	private final LinkedBlockingQueue<TriggerParam> triggerQueue;
@@ -41,13 +45,10 @@ public class JobThread extends Thread{
 
     private boolean running = false;    // if running job
 	private int idleTimes = 0;			// idel times
-
-	private  final ExecutorBizAdmin executorBizAdmin;
 	private final JobExecutor jobExecutor;
-	public JobThread(int jobId, IJobHandler handler, ExecutorBizAdmin executorBizAdmin, JobExecutor jobExecutor) {
+	public JobThread(Long jobId, IJobHandler handler,JobExecutor jobExecutor) {
 		this.jobId = jobId;
 		this.handler = handler;
-		this.executorBizAdmin = executorBizAdmin;
 		this.jobExecutor = jobExecutor;
 		this.triggerQueue = new LinkedBlockingQueue<TriggerParam>();
 		this.triggerLogIdSet = Collections.synchronizedSet(new HashSet<Long>());
@@ -117,6 +118,7 @@ public class JobThread extends Thread{
 				// to check toStop signal, we need cycle, so wo cannot use queue.take(), instand of poll(timeout)
 				triggerParam = triggerQueue.poll(3L, TimeUnit.SECONDS);
 				if (triggerParam!=null) {
+					MDC.put(TRACE_ID, triggerParam.getLogTraceId());
 					running = true;
 					idleTimes = 0;
 					triggerLogIdSet.remove(triggerParam.getLogId());
@@ -205,39 +207,44 @@ public class JobThread extends Thread{
 				XiaoChenJobHelper.log("<br>----------- JobThread Exception:" + errorMsg + "<br>----------- xiaochen-job job execute end(error) -----------");
 			} finally {
                 if(triggerParam != null) {
+					MDC.remove(TRACE_ID);
                     // callback handler info
                     if (!toStop) {
                         // commonm
-						executorBizAdmin.callback(new HandleCallbackParam(
+						ApiResult<String> result = ClientHelper.getClientHelper().getExecutorBizAdmin().callback(new HandleCallbackParam(
                         		triggerParam.getLogId(),
 								triggerParam.getLogDateTime(),
 								XiaoChenJobContext.getXxlJobContext().getHandleCode(),
 								XiaoChenJobContext.getXxlJobContext().getHandleMsg() )
+
 						);
+						log.info("**********result:{}",result);
                     } else {
                         // is killed
-						executorBizAdmin.callback(new HandleCallbackParam(
+						ApiResult<String> result = ClientHelper.getClientHelper().getExecutorBizAdmin().callback(new HandleCallbackParam(
                         		triggerParam.getLogId(),
 								triggerParam.getLogDateTime(),
 								XiaoChenJobContext.HANDLE_CODE_FAIL,
 								stopReason + " [job running, killed]" )
 						);
+						log.info("**********result:{}",result);
                     }
                 }
             }
         }
 
 		// callback trigger request in queue
-		while(triggerQueue !=null && triggerQueue.size()>0){
+		while(triggerQueue !=null && !triggerQueue.isEmpty()){
 			TriggerParam triggerParam = triggerQueue.poll();
 			if (triggerParam!=null) {
 				// is killed
-				executorBizAdmin.callback(new HandleCallbackParam(
+				ApiResult<String> result = ClientHelper.getClientHelper().getExecutorBizAdmin().callback(new HandleCallbackParam(
 						triggerParam.getLogId(),
 						triggerParam.getLogDateTime(),
 						XiaoChenJobContext.HANDLE_CODE_FAIL,
 						stopReason + " [job not executed, in the job queue, killed.]")
 				);
+				log.info("**********result:{}",result);
 			}
 		}
 

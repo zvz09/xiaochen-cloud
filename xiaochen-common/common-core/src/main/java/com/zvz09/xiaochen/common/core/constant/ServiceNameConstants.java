@@ -30,4 +30,11 @@ public class ServiceNameConstants {
      * job管理模块serviceid
      */
     public static final String JOB_ADMIN_SERVICE = "xiaochen-job-admin";
+
+    /**
+     * 日志管理模块serviceid
+     */
+    public static final String JOB_LOG_SERVER = "xiaochen-log-server";
+
+
 }

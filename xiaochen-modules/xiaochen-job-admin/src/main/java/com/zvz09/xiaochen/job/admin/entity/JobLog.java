@@ -3,12 +3,11 @@ package com.zvz09.xiaochen.job.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -32,7 +31,7 @@ public class JobLog implements Serializable {
     private String jobGroup;
 
     @Schema(description ="任务，主键ID")
-    private Integer jobId;
+    private Long jobId;
 
     @Schema(description ="执行器地址，本次执行的地址")
     private String executorAddress;
@@ -69,5 +68,7 @@ public class JobLog implements Serializable {
 
     @Schema(description ="告警状态：0-默认、1-无需告警、2-告警成功、3-告警失败")
     private Integer alarmStatus;
+
+    private String logTraceId;
 
 }

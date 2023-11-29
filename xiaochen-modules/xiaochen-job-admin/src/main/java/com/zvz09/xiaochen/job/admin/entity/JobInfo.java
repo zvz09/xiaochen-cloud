@@ -3,10 +3,17 @@ package com.zvz09.xiaochen.job.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zvz09.xiaochen.common.web.entity.BaseEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 
 /**
  * <p>
@@ -16,24 +23,20 @@ import lombok.Data;
  * @author zvz09
  * @since 2023-11-28
  */
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 @TableName("job_info")
 @Schema(description = "")
-public class JobInfo implements Serializable {
+public class JobInfo extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
 
     @Schema(description ="微服务名")
     private String jobGroup;
 
     private String jobDesc;
-
-    private LocalDateTime addTime;
-
-    private LocalDateTime updateTime;
 
     @Schema(description ="作者")
     private String author;
@@ -81,5 +84,5 @@ public class JobInfo implements Serializable {
     private LocalDateTime glueUpdatetime;
 
     @Schema(description ="调度状态：0-停止，1-运行")
-    private Integer triggerStatus;
+    private Boolean triggerStatus;
 }

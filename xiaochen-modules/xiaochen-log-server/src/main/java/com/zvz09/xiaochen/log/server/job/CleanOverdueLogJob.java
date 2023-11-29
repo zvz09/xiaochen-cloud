@@ -13,6 +13,6 @@ public class CleanOverdueLogJob {
 
     @XiaoChenJob("cleanOverdueLog")
     public void cleanOverdueLog() {
-        log.info("Clean overdue log job start");
+        log.info("*****************************Clean overdue log job start**************************************");
     }
 }
