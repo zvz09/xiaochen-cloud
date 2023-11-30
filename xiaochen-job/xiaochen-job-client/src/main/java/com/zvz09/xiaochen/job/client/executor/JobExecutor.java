@@ -4,7 +4,6 @@ package com.zvz09.xiaochen.job.client.executor;
 import com.zvz09.xiaochen.job.client.handler.IJobHandler;
 import com.zvz09.xiaochen.job.client.handler.impl.MethodJobHandler;
 import com.zvz09.xiaochen.job.client.thread.JobThread;
-import com.zvz09.xiaochen.job.core.ExecutorBizAdmin;
 import com.zvz09.xiaochen.job.core.annotation.XiaoChenJob;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

@@ -5,6 +5,7 @@ dependencies {
     implementation project(':xiaochen-common:common-jwt')
     implementation project(':xiaochen-common:common-web')
     implementation project(':xiaochen-common:common-auxiliary')
+    implementation project(':xiaochen-job:xiaochen-job-client')
     implementation project(':xiaochen-api:xiaochen-api-system')
 }
 

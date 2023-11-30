@@ -2,8 +2,6 @@ package com.zvz09.xiaochen.job.admin.route;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.zvz09.xiaochen.job.core.model.TriggerParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 

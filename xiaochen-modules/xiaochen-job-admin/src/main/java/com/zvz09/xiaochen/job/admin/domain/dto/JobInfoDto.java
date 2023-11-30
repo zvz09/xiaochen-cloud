@@ -2,9 +2,7 @@ package com.zvz09.xiaochen.job.admin.domain.dto;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zvz09.xiaochen.common.web.dto.BaseDto;
-import com.zvz09.xiaochen.common.web.entity.BaseEntity;
 import com.zvz09.xiaochen.job.admin.domain.entity.JobInfo;
-import com.zvz09.xiaochen.system.api.domain.entity.SysDepartment;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

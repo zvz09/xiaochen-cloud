@@ -54,4 +54,6 @@ include 'xiaochen-job:xiaochen-job-core'
 findProject(':xiaochen-job:xiaochen-job-core')?.name = 'xiaochen-job-core'
 include 'xiaochen-job:xiaochen-job-client'
 findProject(':xiaochen-job:xiaochen-job-client')?.name = 'xiaochen-job-client'
+include 'xiaochen-common:common-lock'
+findProject(':xiaochen-common:common-lock')?.name = 'common-lock'
 

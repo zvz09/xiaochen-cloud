@@ -1,6 +1,10 @@
 package com.zvz09.xiaochen.job.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.job.admin.domain.entity.JobLog;
 import com.zvz09.xiaochen.job.admin.mapper.JobLogMapper;
 import com.zvz09.xiaochen.job.admin.service.IJobLogService;
@@ -17,4 +21,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> implements IJobLogService {
 
+
+    @Override
+    public IPage<JobLog> listJobLogPage(Long jobId,BasePage basePage) {
+        return this.page(new Page<>(basePage.getPageNum(),basePage.getPageSize()),
+                new LambdaQueryWrapper<JobLog>().eq(JobLog::getJobId,jobId));
+    }
 }

@@ -22,7 +22,6 @@ dependencies {
     api 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
     api 'com.baomidou:mybatis-plus-boot-starter'
     api 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter'
-    api 'org.redisson:redisson-spring-boot-starter'
     api 'cn.hutool:hutool-all'
     api 'com.agido:logback-elasticsearch-appender'
     api 'com.alibaba:druid-spring-boot-starter'

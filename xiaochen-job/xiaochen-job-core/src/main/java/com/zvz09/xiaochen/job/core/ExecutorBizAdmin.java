@@ -6,7 +6,6 @@ import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.job.core.constant.FeignPath;
 import com.zvz09.xiaochen.job.core.model.HandleCallbackParam;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

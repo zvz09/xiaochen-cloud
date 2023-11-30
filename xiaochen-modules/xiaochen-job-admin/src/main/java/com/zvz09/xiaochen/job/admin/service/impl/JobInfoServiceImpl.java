@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.job.admin.service.impl;
 
+import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,9 +15,11 @@ import com.zvz09.xiaochen.job.admin.mapper.JobInfoMapper;
 import com.zvz09.xiaochen.job.admin.runnable.RunJob;
 import com.zvz09.xiaochen.job.admin.service.DynamicScheduledTaskRegistrar;
 import com.zvz09.xiaochen.job.admin.service.IJobInfoService;
+import com.zvz09.xiaochen.job.admin.service.ServeInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,6 +36,7 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
 
     private static final String TASK_NAME_FORMAT = "%s-%s";
 
+    private final ServeInstanceService serveInstanceService;
 
     private final DynamicScheduledTaskRegistrar dynamicScheduledTaskRegistrar;
 
@@ -63,7 +67,10 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
         return this.page(new Page<>(basePage.getPageNum(),basePage.getPageSize()),
                 new LambdaQueryWrapper<JobInfo>()
                         .like(StringUtils.isNotEmpty(basePage.getKeyword()),JobInfo::getExecutorHandler,basePage.getKeyword()))
-                .convert(JobInfoVo::new);
+                .convert(jobInfo -> {
+                    List<Instance> instances =  serveInstanceService.getServiceInstances(jobInfo.getJobGroup());
+                    return new JobInfoVo(jobInfo,instances);
+                });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.job.admin.domain.vo;
 
+import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.zvz09.xiaochen.common.web.vo.BaseVo;
 import com.zvz09.xiaochen.job.admin.domain.entity.JobInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -65,7 +68,10 @@ public class JobInfoVo extends BaseVo {
     @Schema(description ="调度状态：0-停止，1-运行")
     private Boolean triggerStatus;
 
-    public JobInfoVo(JobInfo jobInfo) {
+    @Schema(description ="执行者地址")
+    private List<String> executorAddress;
+
+    public JobInfoVo(JobInfo jobInfo, List<Instance> instances) {
         super(jobInfo.getId());
         this.jobGroup = jobInfo.getJobGroup();
         this.jobDesc = jobInfo.getJobDesc();
@@ -85,5 +91,14 @@ public class JobInfoVo extends BaseVo {
         this.glueRemark = jobInfo.getGlueRemark();
         this.glueUpdatetime = jobInfo.getGlueUpdatetime();
         this.triggerStatus = jobInfo.getTriggerStatus();
+        if (instances != null){
+            List<String> executorAddress = new ArrayList<>();
+            instances.forEach(instance -> {
+                executorAddress.add(String.format("http://%s:%d", instance.getIp(), instance.getPort()));
+            });
+            this.executorAddress = executorAddress;
+        }else {
+            this.executorAddress = new ArrayList<>();
+        }
     }
 }
