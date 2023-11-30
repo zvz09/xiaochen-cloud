@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
-import com.zvz09.xiaochen.flowable.domain.dto.FlowableCopyDto;
+import com.zvz09.xiaochen.flowable.domain.dto.FlowableCopyQuery;
 import com.zvz09.xiaochen.flowable.domain.dto.FlowableTaskDto;
 import com.zvz09.xiaochen.flowable.domain.entity.FlowableCopy;
 import com.zvz09.xiaochen.flowable.domain.vo.FlowableCopyVo;
@@ -70,11 +69,11 @@ public class FlowableCopyServiceImpl extends ServiceImpl<FlowableCopyMapper, Flo
     }
 
     @Override
-    public Page<FlowableCopyVo> selectPageList(FlowableCopyDto flowableCopyDto, BasePage basePage) {
-        LambdaQueryWrapper<FlowableCopy> lqw = buildQueryWrapper(flowableCopyDto);
+    public Page<FlowableCopyVo> selectPageList(FlowableCopyQuery flowableCopyQuery) {
+        LambdaQueryWrapper<FlowableCopy> lqw = buildQueryWrapper(flowableCopyQuery);
         lqw.orderByDesc(FlowableCopy::getCreatedAt);
-        Page<FlowableCopy> result = baseMapper.selectPage(new Page<>(basePage.getPageNum(), basePage.getPageSize()), lqw);
-        Page<FlowableCopyVo> flowableCopyVoPage = new Page<>(basePage.getPageNum(), basePage.getPageSize());
+        Page<FlowableCopy> result = baseMapper.selectPage(new Page<>(flowableCopyQuery.getPageNum(), flowableCopyQuery.getPageSize()), lqw);
+        Page<FlowableCopyVo> flowableCopyVoPage = new Page<>(flowableCopyQuery.getPageNum(), flowableCopyQuery.getPageSize());
         List<FlowableCopyVo> voList = new ArrayList<>();
         result.getRecords().forEach(flowableCopy -> {
             voList.add(new FlowableCopyVo(flowableCopy));
@@ -84,8 +83,8 @@ public class FlowableCopyServiceImpl extends ServiceImpl<FlowableCopyMapper, Flo
     }
 
     @Override
-    public List<FlowableCopyVo> selectList(FlowableCopyDto flowableCopyDto) {
-        LambdaQueryWrapper<FlowableCopy> lqw = buildQueryWrapper(flowableCopyDto);
+    public List<FlowableCopyVo> selectList(FlowableCopyQuery flowableCopyQuery) {
+        LambdaQueryWrapper<FlowableCopy> lqw = buildQueryWrapper(flowableCopyQuery);
         lqw.orderByDesc(FlowableCopy::getCreatedAt);
         List<FlowableCopy> flowableCopyList = baseMapper.selectList(lqw);
 
@@ -96,11 +95,11 @@ public class FlowableCopyServiceImpl extends ServiceImpl<FlowableCopyMapper, Flo
         return flowableCopyVoList;
     }
 
-    private LambdaQueryWrapper<FlowableCopy> buildQueryWrapper(FlowableCopyDto dto) {
+    private LambdaQueryWrapper<FlowableCopy> buildQueryWrapper(FlowableCopyQuery query) {
         LambdaQueryWrapper<FlowableCopy> lqw = Wrappers.lambdaQuery();
-        lqw.eq(dto.getUserId() != null, FlowableCopy::getUserId, dto.getUserId());
-        lqw.like(StringUtils.isNotBlank(dto.getProcessName()), FlowableCopy::getProcessName, dto.getProcessName());
-        lqw.like(StringUtils.isNotBlank(dto.getOriginatorName()), FlowableCopy::getOriginatorName, dto.getOriginatorName());
+        lqw.eq(query.getUserId() != null, FlowableCopy::getUserId, query.getUserId());
+        lqw.like(StringUtils.isNotBlank(query.getProcessName()), FlowableCopy::getProcessName, query.getProcessName());
+        lqw.like(StringUtils.isNotBlank(query.getOriginatorName()), FlowableCopy::getOriginatorName, query.getOriginatorName());
         return lqw;
     }
 }

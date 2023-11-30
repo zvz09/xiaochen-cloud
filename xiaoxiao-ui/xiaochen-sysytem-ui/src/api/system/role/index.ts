@@ -20,7 +20,7 @@ export const updateRole = (params: Role.UpdateRoleParams) => {
  * @returns
  */
 export const getRoleList = (params: Role.GetRoleListParams) => {
-  return http.post<ResPage<Role.RoleVO>>(SYSTEM_SERVICE_PATH + `/role/list`, params);
+  return http.post<ResPage<Role.RoleVO>>(SYSTEM_SERVICE_PATH + `/role/page`, params);
 };
 
 export const copyRole = (params: Role.CopyRoleParams) => {

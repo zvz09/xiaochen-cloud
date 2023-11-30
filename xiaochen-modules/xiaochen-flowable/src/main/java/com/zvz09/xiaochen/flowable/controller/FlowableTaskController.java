@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,9 +60,9 @@ public class FlowableTaskController {
      *
      * @param taskId 流程任务Id
      */
-    @GetMapping(value = "/processVariables")
+    @GetMapping(value = "/{taskId}/processVariables")
     @Operation(summary = "获取流程变量")
-    public ApiResult processVariables(String taskId) {
+    public ApiResult processVariables(@PathVariable(value = "taskId") String taskId) {
         return ApiResult.success(flowableTaskService.getProcessVariables(taskId));
     }
 
@@ -165,10 +166,10 @@ public class FlowableTaskController {
      *
      * @param processId 任务ID
      */
-    @RequestMapping("/diagram")
+    @RequestMapping("/{processId}/diagram")
     @Operation(summary = "生成流程图")
     public void genProcessDiagram(HttpServletResponse response,
-                                  String processId) {
+                                  @PathVariable(value = "processId") String processId) {
         InputStream inputStream = flowableTaskService.diagram(processId);
         OutputStream os = null;
         BufferedImage image = null;

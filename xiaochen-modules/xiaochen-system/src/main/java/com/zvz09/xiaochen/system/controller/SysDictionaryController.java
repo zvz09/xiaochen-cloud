@@ -35,7 +35,7 @@ public class SysDictionaryController {
 
     private final ISysDictionaryService sysDictionaryService;
 
-    @PostMapping("/list")
+    @PostMapping("/page")
     @Operation(summary = "字典列表")
     public ApiResult<IPage<SysDictionaryVo>> getSysDictionaryList(@RequestBody SysDictionaryQuery sysDictionaryQuery) {
         return ApiResult.success(sysDictionaryService.getSysDictionaryList(sysDictionaryQuery));

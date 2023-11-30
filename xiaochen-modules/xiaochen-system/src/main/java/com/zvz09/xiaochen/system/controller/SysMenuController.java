@@ -65,7 +65,7 @@ public class SysMenuController {
     /**
      * 获取用户动态路由
      */
-    @GetMapping("/listTree")
+    @GetMapping("/tree")
     public ApiResult<List<SysMenuVo>> listTree() {
         return ApiResult.success(sysMenuService.listTree());
     }

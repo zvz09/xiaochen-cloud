@@ -76,7 +76,7 @@ public class SysPermCodeController {
     /**
      * 列表
      */
-    @PostMapping("/listTree")
+    @PostMapping("/tree")
     @Operation(summary = "列表")
     public ApiResult<IPage<SysPermCodeVo>> listTree(@RequestBody(required = false) BasePage basePage) {
         return ApiResult.success(sysPermCodeService.listTree(basePage));

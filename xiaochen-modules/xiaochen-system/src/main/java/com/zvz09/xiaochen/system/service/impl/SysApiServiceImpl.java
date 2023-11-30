@@ -64,20 +64,6 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
     }
 
     @Override
-    public IPage<SysApiVo> getApiPage(SysApiQuery sysApiQuery) {
-        LambdaQueryWrapper<SysApi> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(StringUtils.isNotEmpty(sysApiQuery.getPath()), SysApi::getPath, sysApiQuery.getKeyword());
-        queryWrapper.like(StringUtils.isNotEmpty(sysApiQuery.getDescription()), SysApi::getDescription, sysApiQuery.getDescription());
-        queryWrapper.like(StringUtils.isNotEmpty(sysApiQuery.getApiGroup()), SysApi::getApiGroup, sysApiQuery.getApiGroup());
-        queryWrapper.eq(StringUtils.isNotEmpty(sysApiQuery.getMethod()), SysApi::getMethod, sysApiQuery.getMethod());
-        queryWrapper.orderByAsc(SysApi::getId);
-
-        IPage<SysApi> sysApiPage = this.page(new Page<>(sysApiQuery.getPageNum(), sysApiQuery.getPageSize()), queryWrapper);
-
-        return sysApiPage.convert(SysApiVo::new);
-    }
-
-    @Override
     public void updateApi(SysApiDto sysApiDto) {
         if (this.getOne(new LambdaQueryWrapper<SysApi>()
                 .eq(SysApi::getPath, sysApiDto.getPath())

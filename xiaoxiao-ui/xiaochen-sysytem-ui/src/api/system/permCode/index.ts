@@ -12,7 +12,7 @@ import { ResPage } from "@/api/interface";
  * @returns
  */
 export const listTree = (params: PermCode.ListTreeParams) => {
-  return http.post<ResPage<PermCode.PermCodeVO>>(SYSTEM_SERVICE_PATH + `/perm_code/listTree`, params);
+  return http.post<ResPage<PermCode.PermCodeVO>>(SYSTEM_SERVICE_PATH + `/perm_code/tree`, params);
 };
 
 /**

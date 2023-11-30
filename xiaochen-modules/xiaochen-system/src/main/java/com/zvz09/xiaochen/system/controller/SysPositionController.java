@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,36 +42,36 @@ public class SysPositionController {
 
 
     @Operation(summary = "新增岗位")
-    @PostMapping("/createPosition")
+    @PostMapping("")
     public ApiResult<String> createPosition(@Valid @RequestBody PositionDto positionDto) {
         SysPositionService.createPosition(positionDto);
         return ApiResult.success();
     }
 
     @Operation(summary = "删除选中岗位")
-    @DeleteMapping("/deletePositionByIds")
+    @DeleteMapping("")
     public ApiResult<String> deletePositionByIds(@RequestBody List<Long> ids) {
         SysPositionService.deletePositionByIds(ids);
         return ApiResult.success();
     }
 
     @Operation(summary = "删除岗位")
-    @DeleteMapping("/deletePosition")
-    public ApiResult<String> deletePosition(@Parameter(description = "id") Long id) {
+    @DeleteMapping("/{id}")
+    public ApiResult<String> deletePosition(@PathVariable(value = "id") Long id) {
         SysPositionService.deletePosition(id);
         return ApiResult.success();
     }
 
     @Operation(summary = "根据ID更新岗位")
-    @PutMapping("/updatePosition")
+    @PutMapping("")
     public ApiResult<String> updatePosition(@RequestBody @Validated(value = {UpdateValidation.class, Default.class}) PositionDto positionDto) {
         SysPositionService.updatePosition(positionDto);
         return ApiResult.success();
     }
 
     @Operation(summary = "分页查询岗位")
-    @GetMapping("/getPositionList")
-    public ApiResult getPositionList(QueryDto queryDto) {
+    @PostMapping("/page")
+    public ApiResult getPositionList(@RequestBody QueryDto queryDto) {
         return ApiResult.success(SysPositionService.getPositionList(queryDto));
     }
 

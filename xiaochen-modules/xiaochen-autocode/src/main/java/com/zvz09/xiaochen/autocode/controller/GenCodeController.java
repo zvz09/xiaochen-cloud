@@ -45,15 +45,14 @@ public class GenCodeController {
     private final IGenCodeService genCodeService;
 
     @Operation(summary = "验证代码模板")
-    @PostMapping("/verifyAutoCodeTemplate")
+    @PostMapping("/verify")
     public ApiResult<String> verifyAutoCodeTemplate(@Valid @RequestBody AutoCodeTemplateDto autoCodeTemplateDto) {
         return ApiResult.success(genCodeService.verifyAutoCodeTemplate(autoCodeTemplateDto));
     }
 
     @Operation(summary = "解析建表SQL")
-    @PostMapping("/parseCreateSql")
+    @PostMapping("/parseSql")
     public ApiResult<GenConfig> parseCreateSql(@Valid @RequestBody CreateSqlDto createSqlDto) {
-
         return ApiResult.success(genCodeService.parseCreateSql(createSqlDto));
     }
 

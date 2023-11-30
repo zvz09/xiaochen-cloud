@@ -70,7 +70,7 @@ public class SysRoleController {
     }
 
     @Operation(summary = "角色列表")
-    @PostMapping("/list")
+    @PostMapping("/page")
     public ApiResult getRoleList(@RequestBody BasePage basePage) {
         return ApiResult.success(sysRoleService.getRoleList(basePage));
     }

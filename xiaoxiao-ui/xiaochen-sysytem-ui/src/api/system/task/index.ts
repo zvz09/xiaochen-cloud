@@ -86,7 +86,7 @@ export const changeStatus = (id: string) => {
  * @returns
  */
 export const listJobInfoPage = (params: Task.ListParams) => {
-  return http.post<ResPage<Task.JobInfoVo>>(JOB_SERVICE_PATH + `/jobinfo/list`, params);
+  return http.post<ResPage<Task.JobInfoVo>>(JOB_SERVICE_PATH + `/jobinfo/page`, params);
 };
 
 /**

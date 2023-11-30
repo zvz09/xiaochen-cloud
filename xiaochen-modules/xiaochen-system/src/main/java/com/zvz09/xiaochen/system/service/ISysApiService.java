@@ -23,8 +23,6 @@ public interface ISysApiService extends IService<SysApi> {
 
     void deleteApi(Long sysApiId);
 
-    IPage<SysApiVo> getApiPage(SysApiQuery sysApiQuery);
-
     void updateApi(SysApiDto sysApiDto);
 
     void deleteApisByIds(List<Long> ids);

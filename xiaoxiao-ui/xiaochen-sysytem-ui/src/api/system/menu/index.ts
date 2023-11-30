@@ -5,7 +5,7 @@ import { SYSTEM_SERVICE_PATH } from "@/api/config/servicePort";
 
 // 获取菜单列表
 export const listTree = () => {
-  return http.get<MenuVO[]>(SYSTEM_SERVICE_PATH + `/menu/listTree`, {}, { loading: false });
+  return http.get<MenuVO[]>(SYSTEM_SERVICE_PATH + `/menu/tree`, {}, { loading: false });
 };
 
 /**

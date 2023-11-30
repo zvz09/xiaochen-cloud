@@ -33,7 +33,7 @@ public class JobLogController {
 
     private final IJobLogService jobLogService;
     @Operation(summary = "列表查询")
-    @PostMapping("/{jobId}/list")
+    @PostMapping("/{jobId}/page")
     public ApiResult<Page<JobLog>> listJobLogPage(@PathVariable(value = "jobId")Long jobId, @RequestBody BasePage basePage) {
         return ApiResult.success(jobLogService.listJobLogPage(jobId,basePage));
     }

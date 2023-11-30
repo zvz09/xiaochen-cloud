@@ -69,7 +69,7 @@ public class SysDepartmentController {
     }
 
     @Operation(summary = "列表查询")
-    @GetMapping()
+    @GetMapping("/tree")
     public ApiResult<List<SysDepartmentVo>> getDepartmentTree() {
         return ApiResult.success(sysDepartmentService.getDepartmentTree());
     }

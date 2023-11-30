@@ -11,17 +11,16 @@ import com.zvz09.xiaochen.flowable.domain.vo.ListenerVo;
 import com.zvz09.xiaochen.flowable.service.IFlowableModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,18 +40,18 @@ public class FlowableModelController {
     /**
      * 查询流程模型列表
      */
-    @GetMapping("/list")
+    @PostMapping("/page")
     @Operation(summary = "查询流程模型列表")
-    public ApiResult<Page<FlowableModelVo>> list(FlowableModelQuery flowableModelQuery) {
+    public ApiResult<Page<FlowableModelVo>> page(@RequestBody FlowableModelQuery flowableModelQuery) {
         return ApiResult.success(flowableModelService.list(flowableModelQuery));
     }
 
     /**
      * 查询流程模型列表
      */
-    @GetMapping("/historyList")
+    @PostMapping("/{modelKey}/historyList")
     @Operation(summary = "查询流程模型列表")
-    public ApiResult<Page<FlowableModelVo>> historyList(String modelKey, BasePage basePage) {
+    public ApiResult<Page<FlowableModelVo>> historyList(@PathVariable(value = "modelKey") String modelKey, @RequestBody BasePage basePage) {
         return ApiResult.success(flowableModelService.historyList(modelKey, basePage));
     }
 
@@ -61,9 +60,9 @@ public class FlowableModelController {
      *
      * @param modelId 模型主键
      */
-    @GetMapping(value = "/getInfo")
+    @GetMapping(value = "/{modelId}")
     @Operation(summary = "获取流程模型详细信息")
-    public ApiResult<FlowableModelVo> getInfo(@NotNull(message = "主键不能为空") String modelId) {
+    public ApiResult<FlowableModelVo> getInfo(@PathVariable(value = "modelId") String modelId) {
         return ApiResult.success(flowableModelService.getModel(modelId));
     }
 
@@ -72,9 +71,9 @@ public class FlowableModelController {
      *
      * @param modelId 模型主键
      */
-    @GetMapping(value = "/getBpmnXml")
+    @GetMapping(value = "{modelId}/getBpmnXml")
     @Operation(summary = "获取流程表单详细信息")
-    public ApiResult<String> getBpmnXml(@NotNull(message = "主键不能为空") String modelId) {
+    public ApiResult<String> getBpmnXml(@PathVariable(value = "modelId") String modelId) {
         return ApiResult.success(flowableModelService.queryBpmnXmlById(modelId));
     }
 
@@ -114,9 +113,9 @@ public class FlowableModelController {
      * @param modelId
      * @return
      */
-    @PostMapping("/latest")
+    @PostMapping("{modelId}/latest")
     @Operation(summary = "设为最新流程模型")
-    public ApiResult<?> latest(@RequestParam String modelId) {
+    public ApiResult<?> latest(@PathVariable(value = "modelId") String modelId) {
         flowableModelService.latestModel(modelId);
         return ApiResult.success();
     }
@@ -138,9 +137,9 @@ public class FlowableModelController {
      *
      * @param modelId 流程模型主键
      */
-    @PostMapping("/deploy")
+    @PostMapping("{modelId}/deploy")
     @Operation(summary = "部署流程模型")
-    public ApiResult<Boolean> deployModel(@RequestParam String modelId) {
+    public ApiResult<Boolean> deployModel(@PathVariable(value = "modelId") String modelId) {
         return ApiResult.success(flowableModelService.deployModel(modelId));
     }
 

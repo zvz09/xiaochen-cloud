@@ -14,7 +14,7 @@ import { ResPage } from "@/api/interface";
  * @returns
  */
 export const getUserList = (params: User.GetUserListParams) => {
-  return http.post<ResPage<User.UserVO>>(SYSTEM_SERVICE_PATH + `/user/list`, params);
+  return http.post<ResPage<User.UserVO>>(SYSTEM_SERVICE_PATH + `/user/page`, params);
 };
 
 /**

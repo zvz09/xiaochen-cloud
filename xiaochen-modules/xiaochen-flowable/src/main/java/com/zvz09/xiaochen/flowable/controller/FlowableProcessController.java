@@ -1,10 +1,9 @@
 package com.zvz09.xiaochen.flowable.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
-import com.zvz09.xiaochen.flowable.domain.dto.FlowableCopyDto;
+import com.zvz09.xiaochen.flowable.domain.dto.FlowableCopyQuery;
 import com.zvz09.xiaochen.flowable.domain.dto.ProcessQuery;
 import com.zvz09.xiaochen.flowable.domain.dto.StartProcessDto;
 import com.zvz09.xiaochen.flowable.domain.vo.FlowableCopyVo;
@@ -20,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,27 +44,27 @@ public class FlowableProcessController {
      *
      * @param processQuery 查询参数
      */
-    @GetMapping(value = "/list")
+    @PostMapping(value = "/page")
     @Operation(summary = "查询可发起流程列表")
-    public ApiResult<Page<FlowableDeployVo>> startProcessList(ProcessQuery processQuery) {
+    public ApiResult<Page<FlowableDeployVo>> startProcessList(@RequestBody ProcessQuery processQuery) {
         return ApiResult.success(flowableProcessService.selectPageStartProcessList(processQuery));
     }
 
     /**
      * 我发起的流程
      */
-    @GetMapping(value = "/ownList")
+    @PostMapping(value = "/own/page")
     @Operation(summary = "我发起的流程")
-    public ApiResult<Page<FlowableTaskVo>> ownProcessList(ProcessQuery processQuery) {
+    public ApiResult<Page<FlowableTaskVo>> ownProcessList(@RequestBody ProcessQuery processQuery) {
         return ApiResult.success(flowableProcessService.selectPageOwnProcessList(processQuery));
     }
 
     /**
      * 获取待办列表
      */
-    @GetMapping(value = "/todoList")
+    @PostMapping(value = "/todo/page")
     @Operation(summary = "获取待办列表")
-    public ApiResult<Page<FlowableTaskVo>> todoProcessList(ProcessQuery processQuery) {
+    public ApiResult<Page<FlowableTaskVo>> todoProcessList(@RequestBody ProcessQuery processQuery) {
         return ApiResult.success(flowableProcessService.selectPageTodoProcessList(processQuery));
     }
 
@@ -73,18 +73,18 @@ public class FlowableProcessController {
      *
      * @param processQuery 流程业务对象
      */
-    @GetMapping(value = "/receiptedList")
+    @PostMapping(value = "/receipted/page")
     @Operation(summary = "获取待签列表")
-    public ApiResult<Page<FlowableTaskVo>> receiptedProcessList(ProcessQuery processQuery) {
+    public ApiResult<Page<FlowableTaskVo>> receiptedProcessList(@RequestBody ProcessQuery processQuery) {
         return ApiResult.success(flowableProcessService.selectPageReceiptedProcessList(processQuery));
     }
 
     /**
      * 获取已办列表
      */
-    @GetMapping(value = "/finishedList")
+    @PostMapping(value = "/finished/page")
     @Operation(summary = "获取已办列表")
-    public ApiResult<Page<FlowableTaskVo>> finishedProcessList(ProcessQuery processQuery) {
+    public ApiResult<Page<FlowableTaskVo>> finishedProcessList(@RequestBody ProcessQuery processQuery) {
         return ApiResult.success(flowableProcessService.selectPageFinishedProcessList(processQuery));
     }
 
@@ -94,10 +94,10 @@ public class FlowableProcessController {
      * @param definitionId 流程定义id
      * @param deployId     流程部署id
      */
-    @GetMapping("/getProcessForm")
+    @GetMapping("{definitionId}/{deployId}/form")
     @Operation(summary = "查询流程部署关联表单信息")
-    public ApiResult<SysFormVo> getForm(@RequestParam(value = "definitionId") String definitionId,
-                                        @RequestParam(value = "deployId") String deployId,
+    public ApiResult<SysFormVo> getForm(@PathVariable(value = "definitionId") String definitionId,
+                                        @PathVariable(value = "deployId") String deployId,
                                         @RequestParam(value = "procInsId", required = false) String procInsId) {
         return ApiResult.success(flowableProcessService.selectFormContent(definitionId, deployId, procInsId));
     }
@@ -132,9 +132,9 @@ public class FlowableProcessController {
      *
      * @param processDefId 流程定义ID
      */
-    @GetMapping("/bpmnXml")
+    @GetMapping("{processDefId}/bpmnXml")
     @Operation(summary = "读取xml文件")
-    public ApiResult<String> getBpmnXml(String processDefId) {
+    public ApiResult<String> getBpmnXml(@PathVariable(value = "processDefId") String processDefId) {
         return ApiResult.success(flowableProcessService.queryBpmnXmlById(processDefId));
     }
 
@@ -144,9 +144,10 @@ public class FlowableProcessController {
      * @param procInsId 流程实例ID
      * @param taskId    任务ID
      */
-    @GetMapping("/detail")
+    @GetMapping("{procInsId}/{taskId}/detail")
     @Operation(summary = "查询流程详情信息")
-    public ApiResult<FlowableDetailVo> detail(String procInsId, String taskId) {
+    public ApiResult<FlowableDetailVo> detail(@PathVariable(value = "procInsId") String procInsId,
+                                              @PathVariable(value = "taskId") String taskId) {
         return ApiResult.success(flowableProcessService.queryProcessDetail(procInsId, taskId));
     }
 
@@ -156,10 +157,10 @@ public class FlowableProcessController {
      * @param copyBo    流程抄送对象
      * @param pageQuery 分页参数
      */
-    @GetMapping(value = "/copyList")
+    @PostMapping(value = "/copy/page")
     @Operation(summary = "获取抄送列表")
-    public ApiResult<Page<FlowableCopyVo>> copyProcessList(FlowableCopyDto flowableCopyDto, BasePage pageQuery) {
-        flowableCopyDto.setUserId(SecurityContextHolder.getUserId());
-        return ApiResult.success(flowableCopyService.selectPageList(flowableCopyDto, pageQuery));
+    public ApiResult<Page<FlowableCopyVo>> copyProcessList(@RequestBody FlowableCopyQuery flowableCopyQuery) {
+        flowableCopyQuery.setUserId(SecurityContextHolder.getUserId());
+        return ApiResult.success(flowableCopyService.selectPageList(flowableCopyQuery));
     }
 }

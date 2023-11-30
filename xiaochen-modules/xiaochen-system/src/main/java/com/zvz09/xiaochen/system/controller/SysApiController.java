@@ -56,19 +56,6 @@ public class SysApiController {
         return ApiResult.success();
     }
 
-    @Operation(summary = "列表查询")
-    @GetMapping("/getApiList")
-    public ApiResult<Page<SysApiVo>> getApiPage(SysApiQuery sysApiQuery) {
-        return ApiResult.success(sysApiService.getApiPage(sysApiQuery));
-    }
-
-
-    @Operation(summary = "根据ID查询API")
-    @GetMapping("/getApiById")
-    public ApiResult<SysApi> getApiById(@Parameter(description = "id") Long id) {
-        return ApiResult.success(sysApiService.getById(id));
-    }
-
     @Operation(summary = "根据ID更新API")
     @PostMapping("/updateApi")
     public ApiResult<String> updateApi(@RequestBody @Validated(value = {UpdateValidation.class, Default.class}) SysApiDto sysApiDto) {

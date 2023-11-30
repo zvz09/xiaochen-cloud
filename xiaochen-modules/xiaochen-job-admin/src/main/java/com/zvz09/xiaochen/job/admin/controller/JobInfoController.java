@@ -54,7 +54,7 @@ public class JobInfoController {
     }
 
     @Operation(summary = "列表查询")
-    @PostMapping("/list")
+    @PostMapping("/page")
     public ApiResult<Page<JobInfoVo>> listJobInfoPage(@RequestBody BasePage basePage) {
         return ApiResult.success(jobInfoService.listJobInfoPage(basePage));
     }

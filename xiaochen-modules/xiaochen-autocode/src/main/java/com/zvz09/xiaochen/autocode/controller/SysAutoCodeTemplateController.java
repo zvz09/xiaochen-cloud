@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,42 +44,42 @@ public class SysAutoCodeTemplateController {
 
 
     @Operation(summary = "新增代码模板")
-    @PostMapping("/createAutoCodeTemplate")
+    @PostMapping()
     public ApiResult<String> createAutoCodeTemplate(@Valid @RequestBody AutoCodeTemplateDto autoCodeTemplateDto) {
         sysAutoCodeTemplateService.createAutoCodeTemplate(autoCodeTemplateDto);
         return ApiResult.success();
     }
 
     @Operation(summary = "删除选中代码模板")
-    @DeleteMapping("/deleteAutoCodeTemplateByIds")
+    @DeleteMapping()
     public ApiResult<String> deleteAutoCodeTemplateByIds(@RequestBody List<Long> ids) {
         sysAutoCodeTemplateService.deleteAutoCodeTemplateByIds(ids);
         return ApiResult.success();
     }
 
     @Operation(summary = "删除代码模板")
-    @DeleteMapping("/deleteAutoCodeTemplate")
-    public ApiResult<String> deleteAutoCodeTemplate(@Parameter(description = "id") Long id) {
+    @DeleteMapping("/{id}")
+    public ApiResult<String> deleteAutoCodeTemplate(@PathVariable(value = "id") Long id) {
         sysAutoCodeTemplateService.deleteAutoCodeTemplate(id);
         return ApiResult.success();
     }
 
     @Operation(summary = "根据ID更新代码模板")
-    @PutMapping("/updateAutoCodeTemplate")
+    @PutMapping()
     public ApiResult<String> updateAutoCodeTemplate(@RequestBody @Validated(value = {UpdateValidation.class, Default.class}) AutoCodeTemplateDto autoCodeTemplateDto) {
         sysAutoCodeTemplateService.updateAutoCodeTemplate(autoCodeTemplateDto);
         return ApiResult.success();
     }
 
-    @Operation(summary = "根据ID更新代码模板")
-    @GetMapping("/getAutoCodeTemplateList")
-    public ApiResult getAutoCodeTemplateList(QueryDto queryDto) {
+    @Operation(summary = "分页查询")
+    @PostMapping("/page")
+    public ApiResult getAutoCodeTemplateList(@RequestBody QueryDto queryDto) {
         return ApiResult.success(sysAutoCodeTemplateService.getAutoCodeTemplateList(queryDto));
     }
 
     @Operation(summary = "根据ID查询代码模板详情")
-    @GetMapping("/getAutoCodeTemplateDetail")
-    public ApiResult getAutoCodeTemplateDetail(@Parameter(description = "id") Long id) {
+    @GetMapping("/{id}")
+    public ApiResult getAutoCodeTemplateDetail(@PathVariable(value = "id") Long id) {
         return ApiResult.success(sysAutoCodeTemplateService.getAutoCodeTemplateDetail(id));
     }
 

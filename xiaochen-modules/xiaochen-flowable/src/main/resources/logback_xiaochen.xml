@@ -32,7 +32,7 @@
     <appender name="ELASTIC" class="com.agido.logback.elasticsearch.ElasticsearchAppender">
         <url>http://logSender:123456@192.168.191.1:9200/_bulk</url>
         <index>xlog-${applicationName}-${active}-%d{yyyy-MM-dd}</index>
-        <authentication class="com.agido.logback.elasticsearch.config.BasicAuthentication" /> <!-- optional -->
+        <authentication class="com.agido.logback.elasticsearch.config.BasicAuthentication"/> <!-- optional -->
         <properties>
             <!-- please note that <property> tags are also supported, esProperty was added for logback-1.3 compatibility -->
             <esProperty>

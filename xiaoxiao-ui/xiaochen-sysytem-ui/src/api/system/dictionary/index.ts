@@ -61,7 +61,7 @@ export const changeDictionaryStatus = (id: string) => {
  * @returns
  */
 export const listDictionary = (params: Dictionary.GetSysDictionaryListParams) => {
-  return http.post<ResPage<Dictionary.DictionaryVO>>(SYSTEM_SERVICE_PATH + `/dictionary/list`, params);
+  return http.post<ResPage<Dictionary.DictionaryVO>>(SYSTEM_SERVICE_PATH + `/dictionary/page`, params);
 };
 
 /**
@@ -131,7 +131,7 @@ export const getByDictionaryEncode = (encode: string, params: Dictionary.GetByDi
  * @returns
  */
 export const getDictionaryDetailList = (params: Dictionary.GetSysDictionaryDetailListParams) => {
-  return http.post<ResPage<Dictionary.DictionaryDetailVO>>(SYSTEM_SERVICE_PATH + `/dictionary_detail/list`, params);
+  return http.post<ResPage<Dictionary.DictionaryDetailVO>>(SYSTEM_SERVICE_PATH + `/dictionary_detail/page`, params);
 };
 
 /**

@@ -14,10 +14,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -40,18 +41,18 @@ public class FlowableDeployController {
      * 查询流程部署列表
      */
 
-    @GetMapping("/list")
+    @PostMapping("/page")
     @Operation(summary = "查询流程部署列表")
-    public ApiResult<Page<FlowableDeployVo>> list(ProcessQuery processQuery) {
+    public ApiResult<Page<FlowableDeployVo>> list(@RequestBody ProcessQuery processQuery) {
         return ApiResult.success(flowableDeployService.queryPageList(processQuery));
     }
 
     /**
      * 查询流程部署版本列表
      */
-    @GetMapping("/publishList")
+    @PostMapping("/{processKey}/page")
     @Operation(summary = "查询流程部署版本列表")
-    public ApiResult<Page<FlowableDeployVo>> publishList(@RequestParam String processKey, BasePage basePage) {
+    public ApiResult<Page<FlowableDeployVo>> publishList(@PathVariable(value = "processKey") String processKey, @RequestBody BasePage basePage) {
         return ApiResult.success(flowableDeployService.queryPublishList(processKey, basePage));
     }
 
@@ -61,9 +62,10 @@ public class FlowableDeployController {
      * @param state        状态（active:激活 suspended:挂起）
      * @param definitionId 流程定义ID
      */
-    @PutMapping(value = "/changeState")
+    @PutMapping(value = "/{definitionId}/{state}")
     @Operation(summary = "激活或挂起流程")
-    public ApiResult<Void> changeState(@RequestParam String state, @RequestParam String definitionId) {
+    public ApiResult<Void> changeState(@PathVariable(value = "definitionId") String definitionId,
+                                       @PathVariable(value = "state") String state) {
         flowableDeployService.updateState(definitionId, state);
         return ApiResult.success();
     }
@@ -74,9 +76,9 @@ public class FlowableDeployController {
      * @param definitionId 流程定义ID
      * @return
      */
-    @GetMapping("/bpmnXml")
+    @GetMapping("/{definitionId}/bpmnXml")
     @Operation(summary = "读取xml文件")
-    public ApiResult<String> getBpmnXml(String definitionId) {
+    public ApiResult<String> getBpmnXml(@PathVariable(value = "definitionId") String definitionId) {
         return ApiResult.success(flowableDeployService.queryBpmnXmlById(definitionId));
     }
 
@@ -97,9 +99,9 @@ public class FlowableDeployController {
      *
      * @param deployId 流程部署id
      */
-    @GetMapping("/form")
+    @GetMapping("/{deployId}/form")
     @Operation(summary = "查询流程部署关联表单信息")
-    public ApiResult<String> deployFormInfo(String deployId) {
+    public ApiResult<String> deployFormInfo(@PathVariable(value = "deployId") String deployId) {
         SysDeployForm sysDeployForm = sysDeployFormService.selectDeployFormByDeployId(deployId);
         if (Objects.isNull(sysDeployForm)) {
             return ApiResult.fail("请先配置流程表单");

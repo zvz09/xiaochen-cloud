@@ -42,7 +42,7 @@ public class SysUserController {
      *
      * @return ApiResult
      */
-    @PostMapping("/list")
+    @PostMapping("/page")
     @Operation(summary = "用户列表")
     public ApiResult<IPage<SysUserVo>> getUserList(@RequestBody SysUserQuery sysUserQuery) {
         return ApiResult.success(sysUserService.getUserList(sysUserQuery));
