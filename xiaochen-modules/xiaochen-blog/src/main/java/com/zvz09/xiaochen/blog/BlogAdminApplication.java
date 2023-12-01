@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.job.admin;
+package com.zvz09.xiaochen.blog;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -24,10 +24,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients(basePackages = "com.zvz09.xiaochen")
 @MapperScan(basePackages = "com.zvz09.xiaochen.**.mapper")
 @SpringBootApplication
-public class JobAdminApplication {
+public class BlogAdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(JobAdminApplication.class, args);
-        System.out.println("Job管理服务模块启动成功   ლ(´ڡ`ლ)ﾞ");
+        SpringApplication.run(BlogAdminApplication.class, args);
+        System.out.println("博客管理服务模块启动成功   ლ(´ڡ`ლ)ﾞ");
     }
 
 }

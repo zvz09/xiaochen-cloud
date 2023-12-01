@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * 网关启动程序
+ * 启动程序
  *
  * @author zvz09
  */
