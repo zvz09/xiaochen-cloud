@@ -1,6 +1,8 @@
 package com.zvz09.xiaochen.blog.strategy;
 
 import com.zvz09.xiaochen.blog.strategy.impl.CSDNParser;
+import com.zvz09.xiaochen.blog.strategy.impl.CloudTencentParser;
+import com.zvz09.xiaochen.blog.strategy.impl.CnblogParser;
 import com.zvz09.xiaochen.blog.strategy.impl.JueJinParser;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import lombok.Getter;
@@ -12,30 +14,28 @@ import lombok.Getter;
 @Getter
 public enum ReptileType {
 
-    JUEJIN("juejin",new JueJinParser()),
-    CSDN("csdn",new CSDNParser())
+    CLOUD_TENCENT("https://cloud.tencent.com",new CloudTencentParser()),
+    CNBLOG("https://www.cnblogs.com",new CnblogParser()),
+    JUEJIN("https://juejin.cn",new JueJinParser()),
+    CSDN("https://blog.csdn.net",new CSDNParser())
     ;
 
-    private final String name;
+    private final String baseUrl;
     private final ReptileDataParserStrategy strategy;
 
-    ReptileType(String name, ReptileDataParserStrategy strategy) {
-        this.name = name;
+    ReptileType(String baseUrl, ReptileDataParserStrategy strategy) {
+        this.baseUrl = baseUrl;
         this.strategy = strategy;
     }
 
     //这里有一个 根据code 获得对于Strategy方法
-    public static ReptileType getByName(String name){
+    public static ReptileType getByUrl(String url){
         for (ReptileType value : ReptileType.values()) {
-            if (value.name.equals(name)) {
+            if (url.startsWith(value.baseUrl)){
                 return value;
             }
         }
-        throw new BusinessException(String.format("该类型%s，暂不支持",name));
+        throw new BusinessException(String.format("该网站%s，暂不支持",url));
     }
-
-
-
-
 
 }

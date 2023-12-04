@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
-import com.vladsch.flexmark.util.data.MutableDataSet;
 import com.zvz09.xiaochen.blog.domain.dto.ArticleDTO;
 import com.zvz09.xiaochen.blog.domain.entity.Article;
 import com.zvz09.xiaochen.blog.domain.entity.ArticleTag;
@@ -17,6 +15,7 @@ import com.zvz09.xiaochen.blog.mapper.CategoryMapper;
 import com.zvz09.xiaochen.blog.mapper.TagsMapper;
 import com.zvz09.xiaochen.blog.service.IArticleService;
 import com.zvz09.xiaochen.blog.service.IArticleTagService;
+import com.zvz09.xiaochen.blog.strategy.ReptileType;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
@@ -25,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -168,19 +166,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ArticleDTO reptile(String url) {
-        ArticleDTO dto = new ArticleDTO();
         try {
             Document document = Jsoup.connect(url).get();
-            dto.setTitle(document.title());
-            Element articleElement = document.getElementsByTag("article").get(0);
-            MutableDataSet options = new MutableDataSet();
-            String markdown = FlexmarkHtmlConverter.builder(options).build().convert(articleElement);
-            dto.setContent(markdown);
+            ReptileType reptileType = ReptileType.getByUrl(url);
+            return reptileType.getStrategy().parseData(document);
         } catch (IOException e) {
             log.error("爬取页面异常",e);
             throw new BusinessException("爬取页面异常");
         }
-        return dto;
     }
 
     @Override

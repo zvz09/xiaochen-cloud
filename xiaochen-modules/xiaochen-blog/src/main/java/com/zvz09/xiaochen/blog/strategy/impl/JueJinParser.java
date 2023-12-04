@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * 掘金
  * @author lizili-YF0033
  */
+@Component
 public class JueJinParser implements ReptileDataParserStrategy {
 
 
