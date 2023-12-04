@@ -1,9 +1,110 @@
 <template>
   <div class="table-box">
     <ProTable ref="proTable" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback">
-      <!--      &lt;!&ndash; 菜单操作 &ndash;&gt;
-      <template #operation="scope"> </template>-->
+      <!-- 表格 header 按钮 -->
+      <template #tableHeader>
+        <el-button v-auth="'add'" type="primary" :icon="CirclePlus" @click="addTaskInfo()">新增定时任务</el-button>
+      </template>
+
+      <template #schedule="scope"> {{ scope.row.scheduleType.toUpperCase() }}: {{ scope.row.scheduleConf }} </template>
+      <template #executor="scope"> {{ scope.row.glueType.toUpperCase() }}: {{ scope.row.executorHandler }} </template>
+      <template #address="scope">
+        <el-button v-if="scope.row.executorAddress.length > 0" type="primary" link @click="showAddress(scope.row)">
+          查看 （{{ scope.row.executorAddress.length }}）
+        </el-button>
+        <p v-else>无</p>
+      </template>
+      <!-- 菜单操作 -->
+      <template #operation="scope">
+        <el-button v-auth="'run'" type="primary" link :icon="EditPen">执行一次</el-button>
+        <el-button v-auth="'edit'" type="primary" link :icon="EditPen" @click="updateTaskInfo(scope.row)">编辑</el-button>
+        <el-button v-auth="'delete'" type="primary" link :icon="Delete">删除</el-button>
+      </template>
     </ProTable>
+    <el-dialog v-model="addressDialogVisible" title="任务执行机器列表">
+      <ul>
+        <li v-for="address in addressData" :key="address">
+          {{ address }}
+        </li>
+      </ul>
+    </el-dialog>
+
+    <el-dialog v-model="taskInfoVisible" :title="taskInfoTitle">
+      <el-form ref="taskInfoFormRef" label-width="140px" label-suffix=" :" :rules="rules" :model="taskInfoFormData">
+        <el-divider content-position="left">基础配置</el-divider>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="微服务名" prop="jobGroup">
+              <el-input v-model="taskInfoFormData.jobGroup" placeholder="请填写微服务名" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="负责人" prop="author">
+              <el-input v-model="taskInfoFormData.author" clearable></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="任务描述" prop="jobDesc">
+          <el-input type="textarea" v-model="taskInfoFormData.jobDesc" placeholder="请填写任务描述" clearable></el-input>
+        </el-form-item>
+        <el-divider content-position="left">调度配置</el-divider>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="调度类型" prop="scheduleType">
+              <el-select v-model="taskInfoFormData.scheduleType" placeholder="调度类型" clearable>
+                <el-option v-for="item in scheduleTypes" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="taskInfoFormData.scheduleType" prop="scheduleConf">
+              <el-input v-model="taskInfoFormData.scheduleConf" clearable></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-divider content-position="left">任务配置</el-divider>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="运行模式" prop="glueType">
+              <el-select v-model="taskInfoFormData.glueType" placeholder="调度类型" clearable>
+                <el-option v-for="item in glueTypes" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="JobHandler" prop="executorHandler">
+              <el-input v-model="taskInfoFormData.executorHandler" clearable></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="任务参数" prop="executorParam">
+          <el-input type="textarea" v-model="taskInfoFormData.executorParam" placeholder="任务参数" clearable></el-input>
+        </el-form-item>
+        <el-divider content-position="left">高级配置</el-divider>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="路由策略" prop="executorRouteStrategy">
+              <el-select v-model="taskInfoFormData.executorRouteStrategy" placeholder="调度类型" clearable>
+                <el-option v-for="item in executorRouteStrategies" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="调度过期策略" prop="misfireStrategy">
+              <el-select v-model="taskInfoFormData.misfireStrategy" placeholder="调度类型" clearable>
+                <el-option v-for="item in misfireStrategies" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closeDialog">取 消</el-button>
+          <el-button type="primary" @click="enterDialog">确 定</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -11,9 +112,14 @@
 import { reactive, ref } from "vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { listJobInfoPage } from "@/api/system/task";
+import { listJobInfoPage, updateJobInfo, createJobInfo, changeStatus } from "@/api/system/task";
 import { ResPage } from "@/api/interface";
 import { Task } from "@/api/system/task/types";
+import { getDictResultData } from "@/utils/dict";
+import { CirclePlus, Delete, EditPen } from "@element-plus/icons-vue";
+import { ElMessage, FormInstance, FormRules } from "element-plus";
+import { useAuthButtons } from "@/hooks/useAuthButtons";
+import { useHandleData } from "@/hooks/useHandleData";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
@@ -32,6 +138,8 @@ const dataCallback = (data: ResPage<Task.JobInfoVo>) => {
 const getTableList = (params: any) => {
   return listJobInfoPage(params);
 };
+// 页面按钮权限（按钮权限既可以使用 hooks，也可以直接使用 v-auth 指令，指令适合直接绑定在按钮上，hooks 适合根据按钮权限显示不同的内容）
+const { BUTTONS } = useAuthButtons();
 
 // 表格配置项
 const columns = reactive<ColumnProps<Task.JobInfoVo>[]>([
@@ -40,29 +148,116 @@ const columns = reactive<ColumnProps<Task.JobInfoVo>[]>([
     label: "微服务名"
   },
   {
-    prop: "author",
-    label: "作者"
+    prop: "jobDesc",
+    label: "任务描述"
   },
   {
-    prop: "scheduleType",
+    prop: "schedule",
     label: "调度类型"
   },
   {
-    prop: "scheduleConf",
-    label: "调度配置"
+    prop: "executor",
+    label: "运行模式",
+    width: 280
   },
   {
-    prop: "misfireStrategy",
-    label: "调度过期策略"
+    prop: "author",
+    label: "负责人"
   },
   {
-    prop: "executorRouteStrategy",
-    label: "执行器路由策略"
+    prop: "triggerStatus",
+    label: "状态",
+    tag: true,
+    enum: () => getDictResultData("TaskStatus"),
+    fieldNames: { label: "label", value: "value" }
   },
   {
-    prop: "executorHandler",
-    label: "执行器任务handler"
+    prop: "triggerStatus",
+    label: "状态",
+    render: scope => {
+      return (
+        <>
+          {BUTTONS.value.taskStatus ? (
+            <el-switch
+              model-value={scope.row.triggerStatus}
+              active-text={scope.row.triggerStatus ? "运行" : "停止"}
+              onClick={() => changeTaskStatus(scope.row)}
+            />
+          ) : (
+            <el-tag type={scope.row.triggerStatus ? "success" : "danger"}>{scope.row.triggerStatus ? "运行" : "停止"}</el-tag>
+          )}
+        </>
+      );
+    }
+  },
+  {
+    prop: "address",
+    label: "执行器地址"
   },
   { prop: "operation", label: "操作", fixed: "right", width: 330 }
 ]);
+
+const changeTaskStatus = async (row: Task.JobInfoVo) => {
+  await useHandleData(changeStatus, row.id, `切换【${row.jobDesc}】定时任务状态`);
+  proTable.value?.getTableList();
+};
+
+const addressDialogVisible = ref(false);
+const addressData = ref<string[]>([]);
+const showAddress = (jobInfoVo: Task.JobInfoVo) => {
+  addressData.value = jobInfoVo.executorAddress;
+  addressDialogVisible.value = true;
+};
+
+const taskInfoFormRef = ref<FormInstance>();
+const taskInfoVisible = ref(false);
+const taskInfoTitle = ref("新增定时任务");
+const taskInfoFormData = ref<Task.JobInfoParams>({});
+
+const rules = reactive<FormRules>({
+  jobGroup: [{ required: true, message: "请填写微服务名", trigger: "blur" }],
+  jobDesc: [{ required: true, message: "请填写任务描述", trigger: "blur" }],
+  scheduleType: [{ required: true, message: "请选择调度类型", trigger: "blur" }],
+  scheduleConf: [{ required: true, message: "请输入调度配置", trigger: "blur" }],
+  glueType: [{ required: true, message: "请选择调度类型", trigger: "blur" }],
+  executorHandler: [{ required: true, message: "请输入JobHandler", trigger: "blur" }]
+});
+
+const scheduleTypes = [
+  { label: "Cron", value: "Cron" },
+  { label: "固定速度", value: "固定速度" }
+];
+const glueTypes = [{ label: "BEAN", value: "BEAN" }];
+const executorRouteStrategies = [{ label: "第一个", value: "FIRST" }];
+const misfireStrategies = [{ label: "忽略", value: "DO_NOTHING" }];
+const addTaskInfo = () => {
+  taskInfoTitle.value = "新增定时任务";
+  taskInfoFormData.value = { scheduleType: "Cron" };
+  taskInfoVisible.value = true;
+};
+const updateTaskInfo = (jobInfoVo: Task.JobInfoVo) => {
+  taskInfoTitle.value = "修改定时任务";
+  taskInfoFormData.value = { ...jobInfoVo };
+  taskInfoVisible.value = true;
+};
+
+//关闭弹窗
+const closeDialog = () => {
+  taskInfoVisible.value = false;
+};
+//弹窗提交
+const enterDialog = async () => {
+  taskInfoFormRef.value?.validate(async valid => {
+    if (valid) {
+      if (taskInfoFormData.value.id) {
+        await updateJobInfo(taskInfoFormData.value);
+      } else {
+        await createJobInfo(taskInfoFormData.value);
+      }
+      ElMessage.success(taskInfoFormData.value.id ? "编辑成功" : "添加成功!");
+      taskInfoVisible.value = false;
+      proTable.value?.getTableList();
+    }
+  });
+};
 </script>

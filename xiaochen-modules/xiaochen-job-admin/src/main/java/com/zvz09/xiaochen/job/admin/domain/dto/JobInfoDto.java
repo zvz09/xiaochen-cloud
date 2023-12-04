@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SuperBuilder
 @TableName("job_info")
-@Schema(description = "")
+@Schema()
 public class JobInfoDto extends BaseDto {
 
 
@@ -80,9 +80,6 @@ public class JobInfoDto extends BaseDto {
     @Schema(description ="GLUE更新时间")
     private LocalDateTime glueUpdatetime;
 
-    @Schema(description ="调度状态：0-停止，1-运行")
-    private Boolean triggerStatus;
-
     public JobInfo convertToJobInfo() {
         JobInfo result = new JobInfo();
         result.setJobGroup(this.getJobGroup());
@@ -102,7 +99,6 @@ public class JobInfoDto extends BaseDto {
         result.setGlueSource(this.getGlueSource());
         result.setGlueRemark(this.getGlueRemark());
         result.setGlueUpdatetime(this.getGlueUpdatetime());
-        result.setTriggerStatus(this.getTriggerStatus());
         return result;
     }
 }

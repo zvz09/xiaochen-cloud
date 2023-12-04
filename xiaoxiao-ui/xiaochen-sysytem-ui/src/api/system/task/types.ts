@@ -87,5 +87,6 @@ export namespace Task {
     glueRemark: string;
     glueUpdatetime?: any;
     triggerStatus: boolean;
+    executorAddress: string[];
   }
 }
