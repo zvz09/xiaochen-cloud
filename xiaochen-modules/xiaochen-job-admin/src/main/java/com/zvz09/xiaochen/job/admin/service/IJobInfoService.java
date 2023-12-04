@@ -30,4 +30,6 @@ public interface IJobInfoService extends IService<JobInfo> {
     void registerCronTask(JobInfo jobInfo);
 
     void cancelCronTask(JobInfo jobInfo);
+
+    void runJobInfo(Long id);
 }

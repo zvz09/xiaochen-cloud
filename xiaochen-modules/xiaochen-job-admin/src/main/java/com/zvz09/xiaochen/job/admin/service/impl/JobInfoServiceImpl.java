@@ -112,4 +112,12 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
         );
     }
 
+    @Override
+    public void runJobInfo(Long id) {
+        Optional.ofNullable(this.getById(id)).ifPresent(jobInfo -> {
+            RunJob runJob = new RunJob(jobInfo);
+            runJob.run();
+        });
+    }
+
 }

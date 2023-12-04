@@ -56,8 +56,29 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="taskInfoFormData.scheduleType" prop="scheduleConf">
+          <el-col v-show="taskInfoFormData.scheduleType === 'Cron'" :span="12">
+            <el-form-item label="Cron" prop="scheduleConf">
+              <!--              <el-input v-model="taskInfoFormData.scheduleConf" clearable></el-input>-->
+              <el-input v-model:visible="state.cronPopover" placeholder="cron表达式...">
+                <template #append>
+                  <el-popover v-model="taskInfoFormData.scheduleConf" width="700px">
+                    <noVue3Cron
+                      :cron-value="taskInfoFormData.scheduleConf"
+                      @change="changeCron"
+                      @close="state.cronPopover = false"
+                      max-height="400px"
+                      i18n="cn"
+                    ></noVue3Cron>
+                    <template #reference>
+                      <el-button @click="state.cronPopover = !state.cronPopover">设置</el-button>
+                    </template>
+                  </el-popover>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col v-show="taskInfoFormData.scheduleType === '固定速度'" :span="12">
+            <el-form-item label="固定速度" prop="scheduleConf">
               <el-input v-model="taskInfoFormData.scheduleConf" clearable></el-input>
             </el-form-item>
           </el-col>
@@ -110,6 +131,8 @@
 
 <script setup lang="tsx" name="timingTask">
 import { reactive, ref } from "vue";
+import { noVue3Cron } from "no-vue3-cron";
+import "no-vue3-cron/lib/noVue3Cron.css"; // 引入样式
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { listJobInfoPage, updateJobInfo, createJobInfo, changeStatus } from "@/api/system/task";
@@ -230,6 +253,15 @@ const scheduleTypes = [
 const glueTypes = [{ label: "BEAN", value: "BEAN" }];
 const executorRouteStrategies = [{ label: "第一个", value: "FIRST" }];
 const misfireStrategies = [{ label: "忽略", value: "DO_NOTHING" }];
+
+const state = reactive({
+  cronPopover: false
+});
+
+const changeCron = (val: string) => {
+  taskInfoFormData.value.scheduleConf = val;
+};
+
 const addTaskInfo = () => {
   taskInfoTitle.value = "新增定时任务";
   taskInfoFormData.value = { scheduleType: "Cron" };
