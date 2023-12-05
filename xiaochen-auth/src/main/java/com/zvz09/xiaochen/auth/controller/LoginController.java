@@ -10,6 +10,9 @@ import com.zvz09.xiaochen.auth.dto.LoginDto;
 import com.zvz09.xiaochen.auth.service.ILoginService;
 import com.zvz09.xiaochen.auth.vo.LoginVo;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.OperationLog;
+import com.zvz09.xiaochen.common.log.constant.OperationLogType;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,8 @@ public class LoginController {
 
     private final ILoginService loginService;
 
+    @Operation(summary = "登录")
+    @OperationLog(type = OperationLogType.LOGIN,bizNo= "{#loginDto.username}")
     @PostMapping("/login")
     public ApiResult<LoginVo> login(@RequestBody LoginDto loginDto) {
 
@@ -42,7 +47,9 @@ public class LoginController {
         return ApiResult.success(loginVo);
     }
 
+    @Operation(summary = "登出")
     @PostMapping("/jwt/jsonInBlacklist")
+    @OperationLog(type = OperationLogType.LOGOUT)
     public ApiResult jsonInBlacklist() {
         loginService.jsonInBlacklist();
         return ApiResult.success();

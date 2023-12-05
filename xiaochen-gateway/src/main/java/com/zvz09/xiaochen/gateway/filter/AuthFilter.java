@@ -5,6 +5,7 @@ import com.zvz09.xiaochen.common.core.constant.SecurityConstants;
 import com.zvz09.xiaochen.common.core.util.Snowflake;
 import com.zvz09.xiaochen.common.jwt.JwtUtils;
 import com.zvz09.xiaochen.gateway.config.properties.IgnoreWhiteProperties;
+import com.zvz09.xiaochen.gateway.utils.IpUtil;
 import com.zvz09.xiaochen.gateway.utils.ServletUtils;
 import com.zvz09.xiaochen.gateway.utils.StringUtils;
 import io.jsonwebtoken.Claims;
@@ -58,6 +59,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
             log.error("logRequest error", e);
         }
         URI requestUrl = exchange.getRequiredAttribute(GATEWAY_REQUEST_URL_ATTR);
+        String remoteAddr = IpUtil.getRemoteIpAddress(request);
         Route route = exchange.getRequiredAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
 
         String url = request.getURI().getPath();
@@ -70,7 +72,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String obj = requestUrl.getPath();
         // 获取请求方法
         String act = request.getMethod().name();
-        log.info("用户ip:{},访问路径:{},请求类型：{},后端服务名:{}", requestUrl.getHost(), requestUrl.getPath(), act, route.getId());
+        log.info("用户ip:{},访问路径:{},请求类型：{},后端服务名:{}",remoteAddr, requestUrl.getPath(), act, route.getId());
 
         // 获取请求头中token
         String token = exchange.getRequest().getHeaders().getFirst(LoginConstant.TOKEN_NAME);
@@ -101,6 +103,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
         addHeader(mutate, TRACE_ID, MDC.get(TRACE_ID));
         // 设置用户信息到请求
+        addHeader(mutate,SecurityConstants.REMOTE_IP,remoteAddr);
         addHeader(mutate, SecurityConstants.USER_KEY, userkey);
         addHeader(mutate, SecurityConstants.DETAILS_USER_ID, userid);
         addHeader(mutate, SecurityConstants.DETAILS_USERNAME, username);

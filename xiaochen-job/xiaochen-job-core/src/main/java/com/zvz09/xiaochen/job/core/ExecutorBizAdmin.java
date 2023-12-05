@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @FeignClient(contextId = "ExecutorBizAdmin", path = FeignPath.JOB_ADMIN, value = ServiceNameConstants.JOB_ADMIN_SERVICE)
 public interface ExecutorBizAdmin {

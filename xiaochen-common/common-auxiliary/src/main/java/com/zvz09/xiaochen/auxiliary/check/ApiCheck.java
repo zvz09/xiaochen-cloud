@@ -23,7 +23,7 @@ import java.util.Set;
 import static com.zvz09.xiaochen.common.core.constant.Constants.FEIGN_PATH_PREFIX;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Slf4j
 @Component

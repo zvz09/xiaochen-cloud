@@ -45,6 +45,14 @@ public class SecurityContextHolder {
         THREAD_LOCAL.set(threadLocalMap);
     }
 
+    public static String getRemoteIp() {
+        return Convert.toStr(get(SecurityConstants.REMOTE_IP), "未知");
+    }
+
+    public static void setRemoteIp(String account) {
+        set(SecurityConstants.REMOTE_IP, account);
+    }
+
     public static Long getUserId() {
         return Convert.toLong(get(SecurityConstants.DETAILS_USER_ID), 0L);
     }

@@ -10,7 +10,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Slf4j
 @Component

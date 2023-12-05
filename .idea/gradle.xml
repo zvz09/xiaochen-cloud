@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/xiaochen-common/common-core" />
             <option value="$PROJECT_DIR$/xiaochen-common/common-jwt" />
             <option value="$PROJECT_DIR$/xiaochen-common/common-lock" />
+            <option value="$PROJECT_DIR$/xiaochen-common/common-log" />
             <option value="$PROJECT_DIR$/xiaochen-common/common-web" />
             <option value="$PROJECT_DIR$/xiaochen-gateway" />
             <option value="$PROJECT_DIR$/xiaochen-job" />

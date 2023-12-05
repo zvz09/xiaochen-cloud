@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Configuration(proxyBeanMethods = false)
 public class MyOpenApiResourceConfiguration {

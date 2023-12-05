@@ -3,7 +3,7 @@ package com.zvz09.xiaochen.common.core.converter;
 import java.util.List;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public interface TreeConverter<T, V> {
     V convert(T item);

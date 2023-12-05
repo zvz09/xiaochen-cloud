@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * 用户角色信息聚合
  *
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Data
 public class UserRoleBo {

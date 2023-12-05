@@ -45,9 +45,6 @@ public class Article extends BaseEntity {
     @Schema(description ="文章内容")
     private String content;
 
-    @Schema(description ="文章内容md版")
-    private String contentMd;
-
     @Schema(description ="阅读方式 0无需验证 1：评论阅读 2：点赞阅读 3：扫码阅读")
     private Integer readType;
 

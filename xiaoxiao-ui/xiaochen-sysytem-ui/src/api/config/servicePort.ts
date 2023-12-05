@@ -10,3 +10,5 @@ export const AUTH_SERVICE_PATH = "/auth";
 export const LOG_SERVICE_PATH = "/log";
 
 export const JOB_SERVICE_PATH = "/job";
+
+export const BLOG_SERVICE_PATH = "/blog";

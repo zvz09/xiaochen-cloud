@@ -10,7 +10,7 @@ import java.util.Random;
 
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public class ExecutorRouteRandom extends ExecutorRouter {
 

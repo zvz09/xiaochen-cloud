@@ -15,7 +15,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import java.util.Locale;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public class MyOpenApiResource extends OpenApiResource {
 

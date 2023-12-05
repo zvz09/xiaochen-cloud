@@ -58,4 +58,6 @@ include 'xiaochen-common:common-lock'
 findProject(':xiaochen-common:common-lock')?.name = 'common-lock'
 include 'xiaochen-modules:xiaochen-blog'
 findProject(':xiaochen-modules:xiaochen-blog')?.name = 'xiaochen-blog'
+include 'xiaochen-common:common-log'
+findProject(':xiaochen-common:common-log')?.name = 'common-log'
 

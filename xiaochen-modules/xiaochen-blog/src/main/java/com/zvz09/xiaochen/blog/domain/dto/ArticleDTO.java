@@ -12,12 +12,11 @@ import java.util.List;
  */
 @Data
 public class ArticleDTO {
-    private Long id;
+    private String id;
     private String title;
     private String avatar;
     private String summary;
     private String content;
-    private String contentMd;
 
     private String keywords;
     private Integer readType;
@@ -42,7 +41,6 @@ public class ArticleDTO {
         result.setAvatar(item.getAvatar());
         result.setSummary(item.getSummary());
         result.setContent(item.getContent());
-        result.setContentMd(item.getContentMd());
         result.setReadType(item.getReadType());
         result.setIsStick(item.getIsStick());
         result.setIsPublish(item.getIsPublish());
@@ -51,7 +49,9 @@ public class ArticleDTO {
         result.setIsCarousel(item.getIsCarousel());
         result.setIsRecommend(item.getIsRecommend());
         result.setKeywords(item.getKeywords());
-        result.setId(item.getId());
+        if(item.getId()!=null){
+            result.setId(Long.valueOf(item.getId()));
+        }
         return result;
     }
 }

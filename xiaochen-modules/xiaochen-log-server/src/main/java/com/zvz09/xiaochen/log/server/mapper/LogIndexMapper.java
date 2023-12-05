@@ -4,7 +4,7 @@ import com.zvz09.xiaochen.log.server.domain.LogIndex;
 import org.dromara.easyes.core.core.BaseEsMapper;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public interface LogIndexMapper extends BaseEsMapper<LogIndex> {
 }

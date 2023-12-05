@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public class CloudTencentParser implements ReptileDataParserStrategy {
     @Override

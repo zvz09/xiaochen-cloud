@@ -27,6 +27,7 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor {
             return true;
         }
 
+        SecurityContextHolder.setRemoteIp(ServletUtils.getHeader(request, SecurityConstants.REMOTE_IP));
         SecurityContextHolder.setUserId(ServletUtils.getHeader(request, SecurityConstants.DETAILS_USER_ID));
         SecurityContextHolder.setUserName(ServletUtils.getHeader(request, SecurityConstants.DETAILS_USERNAME));
         SecurityContextHolder.setUserKey(ServletUtils.getHeader(request, SecurityConstants.USER_KEY));

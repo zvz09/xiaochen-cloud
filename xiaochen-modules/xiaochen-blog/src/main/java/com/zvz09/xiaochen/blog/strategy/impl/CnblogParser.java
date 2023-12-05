@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 博客园
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Component
 public class CnblogParser implements ReptileDataParserStrategy {

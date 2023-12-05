@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import java.util.Collections;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  * @version 1.0
  * @date 2023-01-03 18:06
  */

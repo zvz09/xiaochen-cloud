@@ -1,6 +1,7 @@
 package com.zvz09.xiaochen.blog.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -27,6 +28,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,7 +62,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public IPage<Article> selectArticleList(BasePage basePage) {
         return this.page(new Page<>(basePage.getPageNum(), basePage.getPageSize()),
                 new LambdaQueryWrapper<Article>()
-                        .like(StringUtils.isNotBlank(basePage.getKeyword()), Article::getTitle, basePage.getKeyword()));
+                        .like(StringUtils.isNotBlank(basePage.getKeyword()), Article::getTitle, basePage.getKeyword())
+                        .select(Article::getId,Article::getTitle,Article::getAvatar,
+                                Article::getIsStick,Article::getIsPublish,
+                                Article::getIsOriginal,Article::getOriginalUrl,Article::getQuantity,
+                                Article::getIsRecommend
+                                ));
     }
 
     @Override
@@ -178,9 +185,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public String randomImg() {
-        /*String result = restTemplate.getForObject(IMG_URL_API, String.class);
-        return JSON.parseObject(result).get("imgurl").toString();*/
-        return null;
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(IMG_URL_API, String.class);
+        return JSON.parseObject(result).get("imgurl").toString();
     }
 
     /**
@@ -209,6 +216,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return
      */
     private Long savaCategory(String categoryName) {
+        if(StringUtils.isEmpty(categoryName)){
+            return 0L;
+        }
         Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().eq(Category::getName, categoryName));
         if (category == null) {
             category = Category.builder().name(categoryName).sort(0).build();

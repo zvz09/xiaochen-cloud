@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.lock.function;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @FunctionalInterface
 public interface LockingFunction {
