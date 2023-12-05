@@ -1829,14 +1829,12 @@ packages:
       '@vue/shared': 3.3.7
       estree-walker: 2.0.2
       source-map-js: 1.0.2
-    dev: false
 
   /@vue/compiler-dom@3.3.7:
     resolution: {integrity: sha512-0LwkyJjnUPssXv/d1vNJ0PKfBlDoQs7n81CbO6Q0zdL7H1EzqYRrTVXDqdBVqro0aJjo/FOa1qBAPVI4PGSHBw==}
     dependencies:
       '@vue/compiler-core': 3.3.7
       '@vue/shared': 3.3.7
-    dev: false
 
   /@vue/compiler-sfc@3.2.47:
     resolution: {integrity: sha512-rog05W+2IFfxjMcFw10tM9+f7i/+FFpZJJ5XHX72NP9eC2uRD+42M3pYcQqDXVYoj74kHMSEdQ/WmCjt8JFksQ==}
@@ -1918,7 +1916,6 @@ packages:
 
   /@vue/shared@3.3.7:
     resolution: {integrity: sha512-N/tbkINRUDExgcPTBvxNkvHGu504k8lzlNQRITVnm6YjOjwa4r0nnbd4Jb01sNpur5hAllyRJzSK5PvB9PPwRg==}
-    dev: false
 
   /@wangeditor/basic-modules@1.1.7(@wangeditor/core@1.1.19)(dom7@3.0.0)(lodash.throttle@4.1.1)(nanoid@3.3.4)(slate@0.72.8)(snabbdom@3.5.1):
     resolution: {integrity: sha512-cY9CPkLJaqF05STqfpZKWG4LpxTMeGSIIF1fHvfm/mz+JXatCagjdkbxdikOuKYlxDdeqvOeBmsUBItufDLXZg==}
@@ -3072,7 +3069,6 @@ packages:
 
   /estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
-    dev: false
 
   /esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -4679,7 +4675,6 @@ packages:
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /source-map-resolve@0.5.3:
     resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
@@ -6752,7 +6747,7 @@ packages:
     version: 3.3.7
     dependencies:
       '@babel/parser': registry.npmmirror.com/@babel/parser@7.23.0
-      '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.7
+      '@vue/shared': 3.3.7
       estree-walker: registry.npmmirror.com/estree-walker@2.0.2
       source-map-js: registry.npmmirror.com/source-map-js@1.0.2
 
@@ -6803,8 +6798,8 @@ packages:
     name: '@vue/compiler-ssr'
     version: 3.3.7
     dependencies:
-      '@vue/compiler-dom': registry.npmmirror.com/@vue/compiler-dom@3.3.7
-      '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.7
+      '@vue/compiler-dom': 3.3.7
+      '@vue/shared': 3.3.7
 
   registry.npmmirror.com/@vue/devtools-api@6.5.0:
     resolution: {integrity: sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.5.0.tgz}
@@ -6852,8 +6847,8 @@ packages:
     version: 3.3.7
     dependencies:
       '@babel/parser': registry.npmmirror.com/@babel/parser@7.23.0
-      '@vue/compiler-core': registry.npmmirror.com/@vue/compiler-core@3.3.7
-      '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.7
+      '@vue/compiler-core': 3.3.7
+      '@vue/shared': 3.3.7
       estree-walker: registry.npmmirror.com/estree-walker@2.0.2
       magic-string: registry.npmmirror.com/magic-string@0.30.5
 
@@ -6862,7 +6857,7 @@ packages:
     name: '@vue/reactivity'
     version: 3.3.7
     dependencies:
-      '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.7
+      '@vue/shared': 3.3.7
 
   registry.npmmirror.com/@vue/runtime-core@3.3.7:
     resolution: {integrity: sha512-LHq9du3ubLZFdK/BP0Ysy3zhHqRfBn80Uc+T5Hz3maFJBGhci1MafccnL3rpd5/3wVfRHAe6c+PnlO2PAavPTQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/@vue/runtime-core/-/runtime-core-3.3.7.tgz}
@@ -6870,7 +6865,7 @@ packages:
     version: 3.3.7
     dependencies:
       '@vue/reactivity': registry.npmmirror.com/@vue/reactivity@3.3.7
-      '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.7
+      '@vue/shared': 3.3.7
 
   registry.npmmirror.com/@vue/runtime-dom@3.3.7:
     resolution: {integrity: sha512-PFQU1oeJxikdDmrfoNQay5nD4tcPNYixUBruZzVX/l0eyZvFKElZUjW4KctCcs52nnpMGO6UDK+jF5oV4GT5Lw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/@vue/runtime-dom/-/runtime-dom-3.3.7.tgz}

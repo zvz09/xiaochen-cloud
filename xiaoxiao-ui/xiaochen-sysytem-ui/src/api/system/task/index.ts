@@ -96,3 +96,25 @@ export const listJobInfoPage = (params: Task.ListParams) => {
 export const getAllServices = () => {
   return http.post(JOB_SERVICE_PATH + `/jobinfo/listServices`);
 };
+
+/**
+ * 运行一次
+ * @param {string} id
+ * @returns
+ */
+export const runJobInfo = (id: string) => {
+  return http.post(JOB_SERVICE_PATH + `/jobinfo/run/${id}`);
+};
+
+/**
+ * 列表查询
+ * @param {string} jobId
+ * @param {object} params BasePage
+ * @param {number} params.pageNum 页码
+ * @param {number} params.pageSize 每页大小
+ * @param {string} params.keyword 关键字
+ * @returns
+ */
+export const listJobLogPage = (jobId: string, params: Task.ListJobLogPageParams) => {
+  return http.post<ResPage<Task.TaskLogVo>>(JOB_SERVICE_PATH + `/jobLog/${jobId}/page`, params);
+};

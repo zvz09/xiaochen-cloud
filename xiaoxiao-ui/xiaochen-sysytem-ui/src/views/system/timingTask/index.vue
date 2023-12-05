@@ -8,17 +8,30 @@
 
       <template #schedule="scope"> {{ scope.row.scheduleType.toUpperCase() }}: {{ scope.row.scheduleConf }} </template>
       <template #executor="scope"> {{ scope.row.glueType.toUpperCase() }}: {{ scope.row.executorHandler }} </template>
-      <template #address="scope">
-        <el-button v-if="scope.row.executorAddress.length > 0" type="primary" link @click="showAddress(scope.row)">
-          查看 （{{ scope.row.executorAddress.length }}）
-        </el-button>
-        <p v-else>无</p>
-      </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button v-auth="'run'" type="primary" link :icon="EditPen">执行一次</el-button>
-        <el-button v-auth="'edit'" type="primary" link :icon="EditPen" @click="updateTaskInfo(scope.row)">编辑</el-button>
-        <el-button v-auth="'delete'" type="primary" link :icon="Delete">删除</el-button>
+        <el-dropdown :hide-on-click="false">
+          <el-button type="primary" link :icon="Setting">操作</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>
+                <el-button v-auth="'run'" type="primary" link @click="runTask(scope.row)">执行一次</el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button type="primary" link @click="openLogDrawer(scope.row)">查看日志</el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button type="primary" link @click="showAddress(scope.row)"> 注册节点 </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item divided>
+                <el-button v-auth="'edit'" type="primary" link @click="updateTaskInfo(scope.row)">编辑</el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button v-auth="'delete'" type="primary" link @click="deleteTask(scope.row)">删除</el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
     </ProTable>
     <el-dialog v-model="addressDialogVisible" title="任务执行机器列表">
@@ -27,6 +40,7 @@
           {{ address }}
         </li>
       </ul>
+      <span v-show="addressData.length === 0">无</span>
     </el-dialog>
 
     <el-dialog v-model="taskInfoVisible" :title="taskInfoTitle">
@@ -59,18 +73,18 @@
           <el-col v-show="taskInfoFormData.scheduleType === 'Cron'" :span="12">
             <el-form-item label="Cron" prop="scheduleConf">
               <!--              <el-input v-model="taskInfoFormData.scheduleConf" clearable></el-input>-->
-              <el-input v-model:visible="state.cronPopover" placeholder="cron表达式...">
+              <el-input v-model="taskInfoFormData.scheduleConf" placeholder="cron表达式...">
                 <template #append>
-                  <el-popover v-model="taskInfoFormData.scheduleConf" width="700px">
+                  <el-popover v-model:visible="cronState.cronPopover" width="700px">
                     <noVue3Cron
                       :cron-value="taskInfoFormData.scheduleConf"
                       @change="changeCron"
-                      @close="state.cronPopover = false"
+                      @close="cronState.cronPopover = false"
                       max-height="400px"
                       i18n="cn"
                     ></noVue3Cron>
                     <template #reference>
-                      <el-button @click="state.cronPopover = !state.cronPopover">设置</el-button>
+                      <el-button @click="cronState.cronPopover = !cronState.cronPopover">设置</el-button>
                     </template>
                   </el-popover>
                 </template>
@@ -126,6 +140,8 @@
         </div>
       </template>
     </el-dialog>
+
+    <TaskLogDrawer ref="drawerRef" />
   </div>
 </template>
 
@@ -135,14 +151,14 @@ import { noVue3Cron } from "no-vue3-cron";
 import "no-vue3-cron/lib/noVue3Cron.css"; // 引入样式
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { listJobInfoPage, updateJobInfo, createJobInfo, changeStatus } from "@/api/system/task";
+import { listJobInfoPage, updateJobInfo, createJobInfo, changeStatus, runJobInfo, deleteJobInfo } from "@/api/system/task";
 import { ResPage } from "@/api/interface";
 import { Task } from "@/api/system/task/types";
-import { getDictResultData } from "@/utils/dict";
-import { CirclePlus, Delete, EditPen } from "@element-plus/icons-vue";
+import { CirclePlus, Setting } from "@element-plus/icons-vue";
 import { ElMessage, FormInstance, FormRules } from "element-plus";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 import { useHandleData } from "@/hooks/useHandleData";
+import TaskLogDrawer from "@/views/system/timingTask/TaskLogDrawer.vue";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
@@ -172,16 +188,18 @@ const columns = reactive<ColumnProps<Task.JobInfoVo>[]>([
   },
   {
     prop: "jobDesc",
-    label: "任务描述"
+    label: "任务描述",
+    width: 260
   },
   {
     prop: "schedule",
-    label: "调度类型"
+    label: "调度类型",
+    width: 260
   },
   {
     prop: "executor",
     label: "运行模式",
-    width: 280
+    width: 260
   },
   {
     prop: "author",
@@ -190,13 +208,7 @@ const columns = reactive<ColumnProps<Task.JobInfoVo>[]>([
   {
     prop: "triggerStatus",
     label: "状态",
-    tag: true,
-    enum: () => getDictResultData("TaskStatus"),
-    fieldNames: { label: "label", value: "value" }
-  },
-  {
-    prop: "triggerStatus",
-    label: "状态",
+    width: 200,
     render: scope => {
       return (
         <>
@@ -213,15 +225,21 @@ const columns = reactive<ColumnProps<Task.JobInfoVo>[]>([
       );
     }
   },
-  {
-    prop: "address",
-    label: "执行器地址"
-  },
-  { prop: "operation", label: "操作", fixed: "right", width: 330 }
+  { prop: "operation", label: "操作", fixed: "right", width: 200 }
 ]);
 
 const changeTaskStatus = async (row: Task.JobInfoVo) => {
   await useHandleData(changeStatus, row.id, `切换【${row.jobDesc}】定时任务状态`);
+  proTable.value?.getTableList();
+};
+
+const deleteTask = async (row: Task.JobInfoVo) => {
+  await useHandleData(deleteJobInfo, row.id, `删除【${row.jobDesc}】定时任务`);
+  proTable.value?.getTableList();
+};
+
+const runTask = async (row: Task.JobInfoVo) => {
+  await useHandleData(runJobInfo, row.id, `运行一次【${row.jobDesc}】定时任务`);
   proTable.value?.getTableList();
 };
 
@@ -254,11 +272,11 @@ const glueTypes = [{ label: "BEAN", value: "BEAN" }];
 const executorRouteStrategies = [{ label: "第一个", value: "FIRST" }];
 const misfireStrategies = [{ label: "忽略", value: "DO_NOTHING" }];
 
-const state = reactive({
+const cronState = reactive({
   cronPopover: false
 });
-
-const changeCron = (val: string) => {
+const changeCron = (val: any) => {
+  if (typeof val !== "string") return false;
   taskInfoFormData.value.scheduleConf = val;
 };
 
@@ -291,5 +309,16 @@ const enterDialog = async () => {
       proTable.value?.getTableList();
     }
   });
+};
+
+// 打开 drawer(新增、查看、编辑)
+const drawerRef = ref<InstanceType<typeof TaskLogDrawer> | null>(null);
+const openLogDrawer = (jobInfoVo: Task.JobInfoVo) => {
+  console.log("xxxxxxxxxxxx" + drawerRef.value);
+  const params = {
+    title: jobInfoVo.jobDesc,
+    taskId: jobInfoVo.id
+  };
+  drawerRef.value?.acceptParams(params);
 };
 </script>

@@ -89,4 +89,34 @@ export namespace Task {
     triggerStatus: boolean;
     executorAddress: string[];
   }
+  // 参数接口
+  export interface ListJobLogPageParams {
+    /*页码 */
+    pageNum?: number;
+
+    /*每页大小 */
+    pageSize?: number;
+
+    /*关键字 */
+    keyword?: string;
+  }
+
+  export interface TaskLogVo {
+    id: string;
+    jobGroup: string;
+    jobId: number;
+    executorAddress?: any;
+    executorHandler: string;
+    executorParam: string;
+    executorShardingParam?: any;
+    executorFailRetryCount: number;
+    triggerTime: string;
+    triggerCode: number;
+    triggerMsg: string;
+    handleTime?: any;
+    handleCode?: any;
+    handleMsg?: any;
+    alarmStatus: number;
+    logTraceId: string;
+  }
 }

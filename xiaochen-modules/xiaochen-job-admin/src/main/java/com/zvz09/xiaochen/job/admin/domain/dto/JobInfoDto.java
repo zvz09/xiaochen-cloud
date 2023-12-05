@@ -82,6 +82,7 @@ public class JobInfoDto extends BaseDto {
 
     public JobInfo convertToJobInfo() {
         JobInfo result = new JobInfo();
+        result.setId(this.getId());
         result.setJobGroup(this.getJobGroup());
         result.setJobDesc(this.getJobDesc());
         result.setAuthor(this.getAuthor());

@@ -66,7 +66,7 @@ public class JobInfoController {
         return ApiResult.success();
     }
 
-    @Operation(summary = "根据ID更新任务信息")
+    @Operation(summary = "运行一次")
     @PostMapping("/run/{id}")
     public ApiResult<String> runJobInfo(@PathVariable(value = "id") Long id) {
         jobInfoService.runJobInfo(id);
@@ -75,7 +75,7 @@ public class JobInfoController {
 
     @Operation(summary = "更新任务调度状态")
     @PutMapping("/status/{id}")
-    public ApiResult<String> stopJobInfo(@PathVariable(value = "id") Long id) {
+    public ApiResult<String> changeStatusJob(@PathVariable(value = "id") Long id) {
         jobInfoService.changeStatusJob(id);
         return ApiResult.success();
     }
