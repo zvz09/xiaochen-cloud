@@ -10,6 +10,9 @@ import com.zvz09.xiaochen.job.admin.mapper.JobLogMapper;
 import com.zvz09.xiaochen.job.admin.service.IJobLogService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * <p>
  *  服务实现类
@@ -26,5 +29,12 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
     public IPage<JobLog> listJobLogPage(Long jobId,BasePage basePage) {
         return this.page(new Page<>(basePage.getPageNum(),basePage.getPageSize()),
                 new LambdaQueryWrapper<JobLog>().eq(JobLog::getJobId,jobId));
+    }
+
+    @Override
+    public void deleteByTime(LocalDateTime dateTime) {
+        DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String operationTimeStr = dateTime.format(aFormatter);
+        this.baseMapper.deleteByTime(operationTimeStr);
     }
 }

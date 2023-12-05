@@ -13,4 +13,5 @@ import com.zvz09.xiaochen.job.admin.domain.entity.JobLog;
  */
 public interface JobLogMapper extends BaseMapper<JobLog> {
 
+    void deleteByTime(String operationTimeStr);
 }
