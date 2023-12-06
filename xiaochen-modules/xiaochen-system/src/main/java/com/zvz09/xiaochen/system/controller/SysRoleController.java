@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.system.controller;
 
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import com.zvz09.xiaochen.system.api.domain.dto.role.CopySysRoleDto;
 import com.zvz09.xiaochen.system.api.domain.dto.role.SysRoleDto;
@@ -43,6 +44,7 @@ public class SysRoleController {
 
     @PostMapping("")
     @Operation(summary = "创建角色")
+    @BizNo(spEl = "{#sysRoleDto.roleName}")
     public ApiResult createRole(@Validated @RequestBody SysRoleDto sysRoleDto) {
         sysRoleService.createRole(sysRoleDto);
         return ApiResult.success();
@@ -50,6 +52,7 @@ public class SysRoleController {
 
     @PostMapping("/copy")
     @Operation(summary = "复制角色")
+    @BizNo(spEl = "{#sysRoleDto.role.roleName}")
     public ApiResult copyRole(@Validated @RequestBody CopySysRoleDto copySysRoleDto) {
         sysRoleService.copyRole(copySysRoleDto);
         return ApiResult.success();
@@ -57,6 +60,7 @@ public class SysRoleController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "根据ID删除角色")
+    @BizNo(spEl = "{#id}")
     public ApiResult deleteRole(@PathVariable(value = "id") Long id) {
         sysRoleService.deleteRole(id);
         return ApiResult.success();

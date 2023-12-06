@@ -4,9 +4,9 @@ import com.zvz09.xiaochen.autocode.domain.dto.template.AutoCodeTemplateDto;
 import com.zvz09.xiaochen.autocode.domain.dto.template.QueryDto;
 import com.zvz09.xiaochen.autocode.service.ISysAutoCodeTemplateService;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
@@ -45,6 +45,7 @@ public class SysAutoCodeTemplateController {
 
     @Operation(summary = "新增代码模板")
     @PostMapping()
+    @BizNo(spEl = "{#autoCodeTemplateDto.name}")
     public ApiResult<String> createAutoCodeTemplate(@Valid @RequestBody AutoCodeTemplateDto autoCodeTemplateDto) {
         sysAutoCodeTemplateService.createAutoCodeTemplate(autoCodeTemplateDto);
         return ApiResult.success();
@@ -52,6 +53,7 @@ public class SysAutoCodeTemplateController {
 
     @Operation(summary = "删除选中代码模板")
     @DeleteMapping()
+    @BizNo(spEl = "{#ids}")
     public ApiResult<String> deleteAutoCodeTemplateByIds(@RequestBody List<Long> ids) {
         sysAutoCodeTemplateService.deleteAutoCodeTemplateByIds(ids);
         return ApiResult.success();
@@ -59,6 +61,7 @@ public class SysAutoCodeTemplateController {
 
     @Operation(summary = "删除代码模板")
     @DeleteMapping("/{id}")
+    @BizNo(spEl = "{#id}")
     public ApiResult<String> deleteAutoCodeTemplate(@PathVariable(value = "id") Long id) {
         sysAutoCodeTemplateService.deleteAutoCodeTemplate(id);
         return ApiResult.success();
@@ -66,6 +69,7 @@ public class SysAutoCodeTemplateController {
 
     @Operation(summary = "根据ID更新代码模板")
     @PutMapping()
+    @BizNo(spEl = "{#autoCodeTemplateDto.name}")
     public ApiResult<String> updateAutoCodeTemplate(@RequestBody @Validated(value = {UpdateValidation.class, Default.class}) AutoCodeTemplateDto autoCodeTemplateDto) {
         sysAutoCodeTemplateService.updateAutoCodeTemplate(autoCodeTemplateDto);
         return ApiResult.success();
@@ -79,6 +83,7 @@ public class SysAutoCodeTemplateController {
 
     @Operation(summary = "根据ID查询代码模板详情")
     @GetMapping("/{id}")
+    @BizNo(spEl = "{#id}")
     public ApiResult getAutoCodeTemplateDetail(@PathVariable(value = "id") Long id) {
         return ApiResult.success(sysAutoCodeTemplateService.getAutoCodeTemplateDetail(id));
     }

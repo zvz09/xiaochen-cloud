@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author zvz09
@@ -22,9 +22,9 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
 
     @Override
     public void deleteByArticleIds(List<Long> articleIds) {
-        if(articleIds == null || articleIds.isEmpty()){
+        if (articleIds == null || articleIds.isEmpty()) {
             return;
         }
-        this.remove(new LambdaQueryWrapper<ArticleTag>().in(ArticleTag::getArticleId,articleIds));
+        this.remove(new LambdaQueryWrapper<ArticleTag>().in(ArticleTag::getArticleId, articleIds));
     }
 }

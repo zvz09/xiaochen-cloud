@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * CSDN
+ *
  * @author zvz09
  */
 @Component
@@ -30,10 +31,10 @@ public class CSDNParser implements ReptileDataParserStrategy {
         String markdown = FlexmarkHtmlConverter.builder(options).build().convert(articleElement);
         dto.setContent(markdown);
         Elements tagElements = document.getElementsByClass("tag-link");
-        if(tagElements!=null){
+        if (tagElements != null) {
             List<String> tags = new ArrayList<>();
             tagElements.forEach(item -> {
-                if(StringUtils.isNotBlank(item.text())){
+                if (StringUtils.isNotBlank(item.text())) {
                     tags.add(item.text());
                 }
             });

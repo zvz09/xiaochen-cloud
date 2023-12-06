@@ -63,11 +63,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return this.page(new Page<>(basePage.getPageNum(), basePage.getPageSize()),
                 new LambdaQueryWrapper<Article>()
                         .like(StringUtils.isNotBlank(basePage.getKeyword()), Article::getTitle, basePage.getKeyword())
-                        .select(Article::getId,Article::getTitle,Article::getAvatar,
-                                Article::getIsStick,Article::getIsPublish,
-                                Article::getIsOriginal,Article::getOriginalUrl,Article::getQuantity,
+                        .select(Article::getId, Article::getTitle, Article::getAvatar,
+                                Article::getIsStick, Article::getIsPublish,
+                                Article::getIsOriginal, Article::getOriginalUrl, Article::getQuantity,
                                 Article::getIsRecommend
-                                ));
+                        ));
     }
 
     @Override
@@ -178,7 +178,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             ReptileType reptileType = ReptileType.getByUrl(url);
             return reptileType.getStrategy().parseData(document);
         } catch (IOException e) {
-            log.error("爬取页面异常",e);
+            log.error("爬取页面异常", e);
             throw new BusinessException("爬取页面异常");
         }
     }
@@ -216,7 +216,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return
      */
     private Long savaCategory(String categoryName) {
-        if(StringUtils.isEmpty(categoryName)){
+        if (StringUtils.isEmpty(categoryName)) {
             return 0L;
         }
         Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().eq(Category::getName, categoryName));

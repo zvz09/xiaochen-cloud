@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.flowable.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
 import com.zvz09.xiaochen.flowable.domain.dto.FlowableCopyQuery;
 import com.zvz09.xiaochen.flowable.domain.dto.ProcessQuery;
@@ -109,6 +110,7 @@ public class FlowableProcessController {
      */
     @PostMapping("/start")
     @Operation(summary = "根据流程定义id启动流程实例")
+    @BizNo(spEl = "{#StartProcessDto.processDefId}")
     public ApiResult<Void> start(@RequestBody StartProcessDto startProcessDto) {
         flowableProcessService.startProcessByDefId(startProcessDto.getProcessDefId(), startProcessDto.getVariables());
         return ApiResult.success();
@@ -122,6 +124,7 @@ public class FlowableProcessController {
      */
     @DeleteMapping("/instance")
     @Operation(summary = "删除流程实例")
+    @BizNo(spEl = "{#instanceIds}")
     public ApiResult<Void> delete(@RequestBody String[] instanceIds) {
         flowableProcessService.deleteProcessByIds(instanceIds);
         return ApiResult.success();

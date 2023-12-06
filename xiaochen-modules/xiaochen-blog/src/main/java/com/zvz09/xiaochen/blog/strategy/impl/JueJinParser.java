@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * 掘金
+ *
  * @author zvz09
  */
 @Component
@@ -30,10 +31,10 @@ public class JueJinParser implements ReptileDataParserStrategy {
         String markdown = FlexmarkHtmlConverter.builder(options).build().convert(articleElement);
         dto.setContent(markdown);
         Elements tagElements = document.getElementsByAttributeValue("itemprop", "keywords");
-        if(tagElements!=null){
+        if (tagElements != null) {
             List<String> tags = new ArrayList<>();
             tagElements.forEach(item -> {
-                if(StringUtils.isNotBlank(item.attr("content"))){
+                if (StringUtils.isNotBlank(item.attr("content"))) {
                     tags.addAll(List.of(item.attr("content").split(",")));
                 }
             });

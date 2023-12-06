@@ -1,32 +1,33 @@
 package com.zvz09.xiaochen.common.log.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.zvz09.xiaochen.common.log.constants.LogConstant;
 import lombok.Data;
+import org.dromara.easyes.annotation.IndexName;
 
-import java.util.Date;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 操作日志记录表
-
+ * @author lizili-YF0033
  */
 @Data
-public class OperationLog {
+@IndexName(LogConstant.OPERATION_LOG_INDEX)
+public class OperationLog implements Serializable {
 
-    /**
-     * 主键Id。
-     */
-    private Long logId;
+    @Serial
+    private static final long serialVersionUID=1L;
 
     /**
      * 日志描述。
      */
     private String description;
-
-    /**
-     * 操作类型。
-     * 常量值定义可参考SysOperationLogType对象。
-     */
-    private Integer operationType;
 
     /**
      * 接口所在服务名称。
@@ -92,20 +93,15 @@ public class OperationLog {
      */
     private String errorMsg;
 
-
     /**
      * 操作员Id。
      */
     private Long operatorId;
+
     /**
      * 操作员名称。
      */
     private String operatorName;
-
-    /**
-     * 操作时间。
-     */
-    private Date operationTime;
 
     /**
      * 业务类型
@@ -120,13 +116,15 @@ public class OperationLog {
     /**
      * 操作开始时间。
      */
-    @TableField(exist = false)
-    private String operationTimeStart;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class) // 反序列化
+    @JsonSerialize(using = LocalDateTimeSerializer.class) // 序列化
+    private LocalDateTime operationTimeStart;
 
     /**
      * 操作结束时间。
      */
-    @TableField(exist = false)
-    private String operationTimeEnd;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class) // 反序列化
+    @JsonSerialize(using = LocalDateTimeSerializer.class) // 序列化
+    private LocalDateTime operationTimeEnd;
 
 }

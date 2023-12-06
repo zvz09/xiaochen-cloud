@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.flowable.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.flowable.domain.dto.SysFormQuery;
 import com.zvz09.xiaochen.flowable.domain.entity.SysForm;
 import com.zvz09.xiaochen.flowable.service.ISysDeployFormService;
@@ -77,6 +78,7 @@ public class SysFormController {
      */
     @PostMapping()
     @Operation(summary = "新增流程表单")
+    @BizNo(spEl = "{#sysForm.formName}")
     public ApiResult add(@RequestBody SysForm sysForm) {
         sysFormService.insertSysForm(sysForm);
         return ApiResult.success();
@@ -87,6 +89,7 @@ public class SysFormController {
      */
     @PutMapping()
     @Operation(summary = "修改流程表单")
+    @BizNo(spEl = "{#sysForm.formName}")
     public ApiResult edit(@RequestBody SysForm sysForm) {
         sysFormService.updateSysForm(sysForm);
         return ApiResult.success();
@@ -97,6 +100,7 @@ public class SysFormController {
      */
     @DeleteMapping()
     @Operation(summary = "删除流程表单")
+    @BizNo(spEl = "{#formIds}")
     public ApiResult remove(Long[] formIds) {
         sysFormService.deleteSysFormByIds(formIds);
         return ApiResult.success();
@@ -107,6 +111,7 @@ public class SysFormController {
      */
     @DeleteMapping("/{formId}")
     @Operation(summary = "删除流程表单")
+    @BizNo(spEl = "{#formId}")
     public ApiResult remove(@PathVariable(value = "formId") Long formId) {
         sysFormService.deleteSysFormById(formId);
         return ApiResult.success();

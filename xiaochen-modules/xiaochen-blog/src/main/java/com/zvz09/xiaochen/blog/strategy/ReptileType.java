@@ -14,11 +14,10 @@ import lombok.Getter;
 @Getter
 public enum ReptileType {
 
-    CLOUD_TENCENT("https://cloud.tencent.com",new CloudTencentParser()),
-    CNBLOG("https://www.cnblogs.com",new CnblogParser()),
-    JUEJIN("https://juejin.cn",new JueJinParser()),
-    CSDN("https://blog.csdn.net",new CSDNParser())
-    ;
+    CLOUD_TENCENT("https://cloud.tencent.com", new CloudTencentParser()),
+    CNBLOG("https://www.cnblogs.com", new CnblogParser()),
+    JUEJIN("https://juejin.cn", new JueJinParser()),
+    CSDN("https://blog.csdn.net", new CSDNParser());
 
     private final String baseUrl;
     private final ReptileDataParserStrategy strategy;
@@ -29,13 +28,13 @@ public enum ReptileType {
     }
 
     //这里有一个 根据code 获得对于Strategy方法
-    public static ReptileType getByUrl(String url){
+    public static ReptileType getByUrl(String url) {
         for (ReptileType value : ReptileType.values()) {
-            if (url.startsWith(value.baseUrl)){
+            if (url.startsWith(value.baseUrl)) {
                 return value;
             }
         }
-        throw new BusinessException(String.format("该网站%s，暂不支持",url));
+        throw new BusinessException(String.format("该网站%s，暂不支持", url));
     }
 
 }

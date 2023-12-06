@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zvz09.xiaochen.blog.domain.entity.Tags;
 import com.zvz09.xiaochen.blog.service.ITagsService;
 import com.zvz09.xiaochen.common.core.page.BasePage;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -50,30 +51,35 @@ public class TagsController {
 
     @GetMapping("/{id}")
     @Operation(summary = "标签详情")
+    @BizNo(spEl = "{#id}")
     public Tags getTagsById(@PathVariable(value = "id") Long id) {
         return tagsService.getTagsById(id);
     }
 
     @PutMapping
     @Operation(summary = "修改标签")
+    @BizNo(spEl = "{#tags.name}")
     public void update(@RequestBody Tags tags) {
         tagsService.updateTag(tags);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除标签")
+    @BizNo(spEl = "{#id}")
     public void deleteById(@PathVariable(value = "id") Long id) {
         tagsService.deleteById(id);
     }
 
     @DeleteMapping()
     @Operation(summary = "批量删除标签")
+    @BizNo(spEl = "{#ids}")
     public void deleteBatch(@RequestBody List<Long> ids) {
         tagsService.deleteBatch(ids);
     }
 
     @RequestMapping(value = "/{id}/top", method = RequestMethod.GET)
     @Operation(summary = "置顶标签")
+    @BizNo(spEl = "{#id}")
     public void top(@PathVariable(value = "id") Long id) {
         tagsService.top(id);
     }

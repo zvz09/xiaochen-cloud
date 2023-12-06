@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zvz09.xiaochen.blog.domain.entity.Category;
 import com.zvz09.xiaochen.blog.service.ICategoryService;
 import com.zvz09.xiaochen.common.core.page.BasePage;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,46 +35,53 @@ import java.util.List;
 public class CategoryController {
 
     private final ICategoryService blogCategoryService;
+
     @PostMapping("/page")
     @Operation(summary = "分类列表")
-    public IPage<Category> page(@RequestBody BasePage basePage){
+    public IPage<Category> page(@RequestBody BasePage basePage) {
         return blogCategoryService.selectCategoryList(basePage);
     }
 
-   @GetMapping("/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "分类详情")
-    public Category getCategoryById(@PathVariable(value = "id") Long id){
+    @BizNo(spEl = "{#id}")
+    public Category getCategoryById(@PathVariable(value = "id") Long id) {
         return blogCategoryService.getCategoryById(id);
     }
 
     @PostMapping
     @Operation(summary = "新增分类")
-    public void insertCategory(@RequestBody Category category){
-         blogCategoryService.insertCategory(category);
+    @BizNo(spEl = "{#category.name}")
+    public void insertCategory(@RequestBody Category category) {
+        blogCategoryService.insertCategory(category);
     }
 
     @PutMapping
     @Operation(summary = "修改分类")
-    public void update(@RequestBody Category category){
-         blogCategoryService.updateCategory(category);
+    @BizNo(spEl = "{#category.name}")
+    public void update(@RequestBody Category category) {
+        blogCategoryService.updateCategory(category);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除分类")
-    public void deleteCategory(@PathVariable(value = "id") Long id){
-         blogCategoryService.deleteCategory(id);
+    @BizNo(spEl = "{#id}")
+    public void deleteCategory(@PathVariable(value = "id") Long id) {
+        blogCategoryService.deleteCategory(id);
     }
 
     @DeleteMapping
     @Operation(summary = "批量删除分类")
-    public void deleteBatch(@RequestBody List<Long> ids){
-         blogCategoryService.deleteBatch(ids);
+    @BizNo(spEl = "{#ids}")
+    public void deleteBatch(@RequestBody List<Long> ids) {
+        blogCategoryService.deleteBatch(ids);
     }
 
     @PutMapping("/{id}/top")
     @Operation(summary = "置顶分类")
-    public void top(@PathVariable(value = "id")Long id){
-         blogCategoryService.top(id);
+    @BizNo(spEl = "{#id}")
+    public void top(@PathVariable(value = "id") Long id) {
+        blogCategoryService.top(id);
     }
 
 }

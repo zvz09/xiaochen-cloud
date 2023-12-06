@@ -26,13 +26,13 @@ import lombok.experimental.SuperBuilder;
 @Schema(description = "博客标签表")
 public class Tags extends BaseEntity {
 
-    
-    @Schema(description ="标签名称")
+
+    @Schema(description = "标签名称")
     private String name;
 
     private Integer clickVolume;
 
-    @Schema(description ="排序")
+    @Schema(description = "排序")
     private Integer sort;
 
 }

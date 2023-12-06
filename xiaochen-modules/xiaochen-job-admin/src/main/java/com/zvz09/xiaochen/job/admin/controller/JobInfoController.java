@@ -3,6 +3,7 @@ package com.zvz09.xiaochen.job.admin.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import com.zvz09.xiaochen.job.admin.domain.dto.JobInfoDto;
 import com.zvz09.xiaochen.job.admin.domain.vo.JobInfoVo;
@@ -41,6 +42,7 @@ public class JobInfoController {
 
     @Operation(summary = "新增任务信息")
     @PostMapping("/")
+    @BizNo(spEl = "jobInfoDto.jobDesc")
     public ApiResult<String> createJobInfo(@Valid @RequestBody JobInfoDto jobInfoDto) {
         jobInfoService.createJobInfo(jobInfoDto);
         return ApiResult.success();
@@ -48,6 +50,7 @@ public class JobInfoController {
 
     @Operation(summary = "删除任务信息")
     @DeleteMapping("/{id}")
+    @BizNo(spEl = "{#id}")
     public ApiResult<String> deleteJobInfo(@PathVariable(value = "id") Long id) {
         jobInfoService.deleteJobInfo(id);
         return ApiResult.success();
@@ -68,6 +71,7 @@ public class JobInfoController {
 
     @Operation(summary = "运行一次")
     @PostMapping("/run/{id}")
+    @BizNo(spEl = "{#id}")
     public ApiResult<String> runJobInfo(@PathVariable(value = "id") Long id) {
         jobInfoService.runJobInfo(id);
         return ApiResult.success();
@@ -75,6 +79,7 @@ public class JobInfoController {
 
     @Operation(summary = "更新任务调度状态")
     @PutMapping("/status/{id}")
+    @BizNo(spEl = "{#id}")
     public ApiResult<String> changeStatusJob(@PathVariable(value = "id") Long id) {
         jobInfoService.changeStatusJob(id);
         return ApiResult.success();

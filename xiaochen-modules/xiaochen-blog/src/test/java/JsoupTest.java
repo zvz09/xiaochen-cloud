@@ -17,7 +17,7 @@ public class JsoupTest {
         MutableDataSet options = new MutableDataSet();
         String markdown = FlexmarkHtmlConverter.builder(options).build().convert(article);
         System.out.println("********************" + markdown);
-        Elements tags = doc.getElementsByAttributeValue("itemprop","keywords");
+        Elements tags = doc.getElementsByAttributeValue("itemprop", "keywords");
         tags.forEach(item -> {
             System.out.println("XXXXXXXXXXX" + item.attr("content"));
         });

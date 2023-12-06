@@ -9,6 +9,7 @@ package com.zvz09.xiaochen.common.core.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import java.util.Map;
  * @description jackson 工具类
  * @date 2023/8/30 17:33
  */
+@Slf4j
 public class JacksonUtil {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -33,6 +35,7 @@ public class JacksonUtil {
         try {
             subject = OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
+            log.error("JSON 解析异常",e);
             throw new RuntimeException("系统异常");
         }
         return subject;
@@ -42,6 +45,7 @@ public class JacksonUtil {
         try {
             return OBJECT_MAPPER.readValue(writeValueAsString(object), Map.class); //json转换成map
         } catch (JsonProcessingException e) {
+            log.error("JSON 转换异常",e);
             throw new RuntimeException("JSON 转换异常");
         }
     }
@@ -50,6 +54,7 @@ public class JacksonUtil {
         try {
             return OBJECT_MAPPER.readValue(jsonString, valueType);
         } catch (JsonProcessingException e) {
+            log.error("JSON 转换异常",e);
             throw new RuntimeException("JSON 转换异常");
         }
     }

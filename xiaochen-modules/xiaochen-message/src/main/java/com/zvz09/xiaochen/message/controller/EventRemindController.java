@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.message.controller;
 
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.message.service.IEventRemindService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,6 +47,7 @@ public class EventRemindController {
 
     @Operation(summary = "确认消息")
     @PostMapping("/confirm")
+    @BizNo(spEl = "{#ids}")
     public ApiResult confirm(@RequestBody List<Long> ids) {
         eventRemindService.confirm(ids);
         return ApiResult.success();

@@ -1,9 +1,13 @@
 package com.zvz09.xiaochen.log.server.controller;
 
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;
 import com.zvz09.xiaochen.log.server.domain.LogIndex;
-import com.zvz09.xiaochen.log.server.domain.QueryBody;
-import com.zvz09.xiaochen.log.server.service.EsService;
+import com.zvz09.xiaochen.log.server.domain.LogQueryBody;
+import com.zvz09.xiaochen.log.server.domain.OperationLogQueryBody;
+import com.zvz09.xiaochen.log.server.service.LogEasyEsService;
+import com.zvz09.xiaochen.log.server.service.OperationLogEasyEsService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +25,24 @@ import java.io.IOException;
  */
 @Slf4j
 @RestController
-@RequestMapping("/log/server")
-@Tag(name = "日子搜索")
+@RequestMapping("")
+@Tag(name = "日志查询")
 @RequiredArgsConstructor
 public class LogController {
 
-    private final EsService esService ;
+    private final LogEasyEsService logEasyEsService;
 
-    @PostMapping("/page")
-    public ApiResult<EsPageInfo<LogIndex>> page(@Valid @RequestBody QueryBody queryBody) throws IOException {
-        return ApiResult.success(esService.page(queryBody));
+    private final OperationLogEasyEsService operationLogEasyEsService;
+
+    @PostMapping("/log/page")
+    @Operation(summary = "系统日志搜索")
+    public ApiResult<EsPageInfo<LogIndex>> logPage(@Valid @RequestBody LogQueryBody logQueryBody) throws IOException {
+        return ApiResult.success(logEasyEsService.page(logQueryBody));
     }
 
-
+    @PostMapping("/operation_log/page")
+    @Operation(summary = "操作日志搜索")
+    public ApiResult<EsPageInfo<OperationLog>> operationLogPage(@Valid @RequestBody OperationLogQueryBody queryBody) throws IOException {
+        return ApiResult.success(operationLogEasyEsService.page(queryBody));
+    }
 }

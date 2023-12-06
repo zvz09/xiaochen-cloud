@@ -49,7 +49,7 @@ public class ArticleDTO {
         result.setIsCarousel(item.getIsCarousel());
         result.setIsRecommend(item.getIsRecommend());
         result.setKeywords(item.getKeywords());
-        if(item.getId()!=null){
+        if (item.getId() != null) {
             result.setId(Long.valueOf(item.getId()));
         }
         return result;

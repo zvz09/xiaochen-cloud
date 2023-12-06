@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zvz09
@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 @Data
 @TableName("blog_article_tag")
-@Schema(description ="BlogArticleTag对象")
+@Schema(description = "BlogArticleTag对象")
 public class ArticleTag implements Serializable {
 
     @Serial
@@ -28,10 +28,10 @@ public class ArticleTag implements Serializable {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(description ="文章id")
+    @Schema(description = "文章id")
     private Long articleId;
 
-    @Schema(description ="标签id")
+    @Schema(description = "标签id")
     private Long tagId;
 
     public ArticleTag(Long articleId, Long tagId) {

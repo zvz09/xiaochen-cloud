@@ -1,6 +1,7 @@
 package com.zvz09.xiaochen.file.controller;
 
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.file.service.MinioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,6 +40,7 @@ public class MinIoController {
 
     @Operation(summary = "删除文件")
     @GetMapping(value = "/delete")
+    @BizNo(spEl = "{#fileName}")
     public ApiResult delete(@RequestParam("fileName") String fileName) {
         minioService.remove(fileName);
         return ApiResult.success();

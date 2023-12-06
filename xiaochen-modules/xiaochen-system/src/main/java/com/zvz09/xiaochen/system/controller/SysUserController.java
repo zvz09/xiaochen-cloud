@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.system.api.domain.dto.user.RegisterUserDto;
 import com.zvz09.xiaochen.system.api.domain.dto.user.SysUserQuery;
 import com.zvz09.xiaochen.system.api.domain.dto.user.UpdateUserDto;
@@ -63,6 +64,7 @@ public class SysUserController {
 
     @PostMapping("")
     @Operation(summary = "新增用户")
+    @BizNo(spEl = "{#updateUserDto.userName}")
     public ApiResult<String> createUser(@RequestBody UpdateUserDto updateUserDto) {
         sysUserService.createUser(updateUserDto);
         return ApiResult.success();
@@ -70,6 +72,7 @@ public class SysUserController {
 
     @PostMapping("/register")
     @Operation(summary = "注册用户")
+    @BizNo(spEl = "{#registerUserDto.userName}")
     public ApiResult<String> register(@RequestBody RegisterUserDto registerUserDto) {
         sysUserService.register(registerUserDto);
         return ApiResult.success();
@@ -77,6 +80,7 @@ public class SysUserController {
 
     @PostMapping("/resetPassword/{id}")
     @Operation(summary = "重置密码")
+    @BizNo(spEl = "{#id}")
     public ApiResult<String> resetPassword(@PathVariable(value = "id") Long id) {
         sysUserService.resetPassword(id);
         return ApiResult.success();
@@ -84,6 +88,7 @@ public class SysUserController {
 
     @PutMapping()
     @Operation(summary = "更新用户")
+    @BizNo(spEl = "{#updateUserDto.userName}")
     public ApiResult<String> updateUserInfo(@RequestBody UpdateUserDto updateUserDto) {
         sysUserService.updateUserInfo(updateUserDto);
         return ApiResult.success();
@@ -91,6 +96,7 @@ public class SysUserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除用户")
+    @BizNo(spEl = "{#id}")
     public ApiResult<String> deleteUser(@PathVariable(value = "id") Long id) {
         sysUserService.deleteUser(id);
         return ApiResult.success();

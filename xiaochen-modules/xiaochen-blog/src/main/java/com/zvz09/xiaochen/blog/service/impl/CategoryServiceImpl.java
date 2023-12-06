@@ -28,9 +28,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public IPage<Category> selectCategoryList(BasePage basePage) {
-       return  this.page(new Page<>(basePage.getPageNum(),basePage.getPageSize()),
-               new LambdaQueryWrapper<Category>()
-                       .like(StringUtils.isNotBlank(basePage.getKeyword()), Category::getName,basePage.getKeyword()));
+        return this.page(new Page<>(basePage.getPageNum(), basePage.getPageSize()),
+                new LambdaQueryWrapper<Category>()
+                        .like(StringUtils.isNotBlank(basePage.getKeyword()), Category::getName, basePage.getKeyword()));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public void insertCategory(Category category) {
-        if(this.count(new LambdaQueryWrapper<Category>().eq(Category::getName, category.getName())) >0){
+        if (this.count(new LambdaQueryWrapper<Category>().eq(Category::getName, category.getName())) > 0) {
             throw new BusinessException("该分类名称已存在");
         }
         this.save(category);
@@ -48,7 +48,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public void updateCategory(Category category) {
-        if(this.getById(category.getId())!=null){
+        if (this.getById(category.getId()) != null) {
             this.updateById(category);
         }
     }
@@ -61,7 +61,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Transactional
     public void deleteBatch(List<Long> ids) {
-        if(ids!=null && !ids.isEmpty()){
+        if (ids != null && !ids.isEmpty()) {
             this.removeBatchByIds(ids);
         }
     }

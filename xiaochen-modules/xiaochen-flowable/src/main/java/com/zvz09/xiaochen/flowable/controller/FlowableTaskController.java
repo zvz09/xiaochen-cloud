@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.flowable.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.flowable.domain.dto.FlowableTaskDto;
 import com.zvz09.xiaochen.flowable.service.IFlowableTaskService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,6 +41,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/stopProcess")
     @Operation(summary = "取消申请")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult stopProcess(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.stopProcess(dto);
         return ApiResult.success();
@@ -50,6 +52,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/revokeProcess")
     @Operation(summary = "撤回流程")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult revokeProcess(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.revokeProcess(dto);
         return ApiResult.success();
@@ -71,6 +74,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/complete")
     @Operation(summary = "审批任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult complete(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.complete(dto);
         return ApiResult.success();
@@ -81,6 +85,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/reject")
     @Operation(summary = "拒绝任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult taskReject(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.taskReject(dto);
         return ApiResult.success();
@@ -91,6 +96,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/return")
     @Operation(summary = "退回任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult taskReturn(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.taskReturn(dto);
         return ApiResult.success();
@@ -110,6 +116,7 @@ public class FlowableTaskController {
      */
     @DeleteMapping(value = "/delete")
     @Operation(summary = "删除任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult delete(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.deleteTask(dto);
         return ApiResult.success();
@@ -120,6 +127,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/receipted")
     @Operation(summary = "签收任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult receipted(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.receipted(dto);
         return ApiResult.success();
@@ -130,6 +138,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/unReceipted")
     @Operation(summary = "取消签收任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult unReceipted(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.unReceipted(dto);
         return ApiResult.success();
@@ -140,6 +149,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/delegate")
     @Operation(summary = "委派任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult delegate(@RequestBody FlowableTaskDto dto) {
         if (ObjectUtil.hasNull(dto.getTaskId(), dto.getUserId())) {
             return ApiResult.fail("参数错误！");
@@ -153,6 +163,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/transfer")
     @Operation(summary = "转办任务")
+    @BizNo(spEl = "{#dto.taskId}")
     public ApiResult transfer(@RequestBody FlowableTaskDto dto) {
         if (ObjectUtil.hasNull(dto.getTaskId(), dto.getUserId())) {
             return ApiResult.fail("参数错误！");

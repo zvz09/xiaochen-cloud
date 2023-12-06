@@ -3,6 +3,7 @@ package com.zvz09.xiaochen.flowable.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import com.zvz09.xiaochen.flowable.domain.dto.FlowableModelDto;
 import com.zvz09.xiaochen.flowable.domain.dto.FlowableModelQuery;
@@ -62,6 +63,7 @@ public class FlowableModelController {
      */
     @GetMapping(value = "/{modelId}")
     @Operation(summary = "获取流程模型详细信息")
+    @BizNo(spEl = "{#modelId}")
     public ApiResult<FlowableModelVo> getInfo(@PathVariable(value = "modelId") String modelId) {
         return ApiResult.success(flowableModelService.getModel(modelId));
     }
@@ -73,6 +75,7 @@ public class FlowableModelController {
      */
     @GetMapping(value = "{modelId}/getBpmnXml")
     @Operation(summary = "获取流程表单详细信息")
+    @BizNo(spEl = "{#modelId}")
     public ApiResult<String> getBpmnXml(@PathVariable(value = "modelId") String modelId) {
         return ApiResult.success(flowableModelService.queryBpmnXmlById(modelId));
     }
@@ -82,6 +85,7 @@ public class FlowableModelController {
      */
     @PostMapping("/add")
     @Operation(summary = "新增流程模型")
+    @BizNo(spEl = "{#flowableModelDto.modelName}")
     public ApiResult<Void> add(@RequestBody FlowableModelDto flowableModelDto) {
         flowableModelService.insertModel(flowableModelDto);
         return ApiResult.success();
@@ -92,6 +96,7 @@ public class FlowableModelController {
      */
     @PutMapping("/edit")
     @Operation(summary = "修改流程模型")
+    @BizNo(spEl = "{#flowableModelDto.modelName}")
     public ApiResult<Void> edit(@Validated(UpdateValidation.class) @RequestBody FlowableModelDto flowableModelDto) {
         flowableModelService.updateModel(flowableModelDto);
         return ApiResult.success();
@@ -102,6 +107,7 @@ public class FlowableModelController {
      */
     @PostMapping("/save")
     @Operation(summary = "保存流程模型")
+    @BizNo(spEl = "{#flowableModelDto.modelName}")
     public ApiResult<String> save(@RequestBody FlowableModelDto flowableModelDto) {
         flowableModelService.saveModel(flowableModelDto);
         return ApiResult.success();
@@ -115,6 +121,7 @@ public class FlowableModelController {
      */
     @PostMapping("{modelId}/latest")
     @Operation(summary = "设为最新流程模型")
+    @BizNo(spEl = "{#modelId}")
     public ApiResult<?> latest(@PathVariable(value = "modelId") String modelId) {
         flowableModelService.latestModel(modelId);
         return ApiResult.success();
@@ -127,6 +134,7 @@ public class FlowableModelController {
      */
     @DeleteMapping("/remove")
     @Operation(summary = "删除流程模型")
+    @BizNo(spEl = "{#modelIds}")
     public ApiResult<String> remove(@RequestBody List<String> modelIds) {
         flowableModelService.deleteByIds(modelIds);
         return ApiResult.success();
@@ -139,6 +147,7 @@ public class FlowableModelController {
      */
     @PostMapping("{modelId}/deploy")
     @Operation(summary = "部署流程模型")
+    @BizNo(spEl = "{#modelId}")
     public ApiResult<Boolean> deployModel(@PathVariable(value = "modelId") String modelId) {
         return ApiResult.success(flowableModelService.deployModel(modelId));
     }

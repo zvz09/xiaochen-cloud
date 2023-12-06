@@ -18,5 +18,5 @@ import { ESResPage } from "@/api/interface";
  * @returns
  */
 export const logPage = (params: Log.PageParams) => {
-  return http.post<ESResPage<Log.LogVO>>(LOG_SERVICE_PATH + `/log/server/page`, params);
+  return http.post<ESResPage<Log.LogVO>>(LOG_SERVICE_PATH + `/log/page`, params);
 };

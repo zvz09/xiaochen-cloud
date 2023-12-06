@@ -28,14 +28,14 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements IT
 
     @Override
     public IPage<Tags> listTags(BasePage basePage) {
-        return  this.page(new Page<>(basePage.getPageNum(),basePage.getPageSize()),
+        return this.page(new Page<>(basePage.getPageNum(), basePage.getPageSize()),
                 new LambdaQueryWrapper<Tags>()
-                        .like(StringUtils.isNotBlank(basePage.getKeyword()), Tags::getName,basePage.getKeyword()));
+                        .like(StringUtils.isNotBlank(basePage.getKeyword()), Tags::getName, basePage.getKeyword()));
     }
 
     @Override
     public void insertTag(Tags tags) {
-        if(this.count(new LambdaQueryWrapper<Tags>().eq(Tags::getName, tags.getName())) >0){
+        if (this.count(new LambdaQueryWrapper<Tags>().eq(Tags::getName, tags.getName())) > 0) {
             throw new BusinessException("该分类名称已存在");
         }
         this.save(tags);
@@ -48,7 +48,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements IT
 
     @Override
     public void updateTag(Tags tags) {
-        if(this.getById(tags.getId())!=null){
+        if (this.getById(tags.getId()) != null) {
             this.updateById(tags);
         }
     }
@@ -61,7 +61,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements IT
     @Override
     @Transactional
     public void deleteBatch(List<Long> ids) {
-        if(ids!=null && !ids.isEmpty()){
+        if (ids != null && !ids.isEmpty()) {
             this.removeBatchByIds(ids);
         }
     }

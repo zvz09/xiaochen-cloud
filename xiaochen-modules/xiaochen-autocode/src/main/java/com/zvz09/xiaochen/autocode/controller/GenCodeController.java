@@ -12,6 +12,7 @@ import com.zvz09.xiaochen.autocode.domain.dto.template.AutoCodeTemplateDto;
 import com.zvz09.xiaochen.autocode.domain.vo.PreviewCodeVo;
 import com.zvz09.xiaochen.autocode.service.IGenCodeService;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.ServletOutputStream;
@@ -46,6 +47,7 @@ public class GenCodeController {
 
     @Operation(summary = "验证代码模板")
     @PostMapping("/verify")
+    @BizNo(spEl = "{#autoCodeTemplateDto.name}")
     public ApiResult<String> verifyAutoCodeTemplate(@Valid @RequestBody AutoCodeTemplateDto autoCodeTemplateDto) {
         return ApiResult.success(genCodeService.verifyAutoCodeTemplate(autoCodeTemplateDto));
     }
@@ -58,13 +60,14 @@ public class GenCodeController {
 
     @Operation(summary = "预览代码")
     @PostMapping("/previewCode")
-    public ApiResult<List<PreviewCodeVo>> previewCode(@Valid @RequestBody GenConfig genConfig) {
 
+    public ApiResult<List<PreviewCodeVo>> previewCode(@Valid @RequestBody GenConfig genConfig) {
         return ApiResult.success(genCodeService.previewCode(genConfig));
     }
 
     @Operation(summary = "下载代码")
     @PostMapping("/downloadCode")
+
     public void downloadCode(HttpServletResponse response, @Valid @RequestBody GenConfig genConfig) throws IOException {
         byte[] data = genCodeService.downloadCode(genConfig);
         response.reset();

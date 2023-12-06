@@ -3,6 +3,7 @@ package com.zvz09.xiaochen.flowable.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.flowable.domain.dto.ProcessQuery;
 import com.zvz09.xiaochen.flowable.domain.entity.SysDeployForm;
 import com.zvz09.xiaochen.flowable.domain.vo.FlowableDeployVo;
@@ -43,6 +44,7 @@ public class FlowableDeployController {
 
     @PostMapping("/page")
     @Operation(summary = "查询流程部署列表")
+    @BizNo(spEl = "{#processQuery.processName}")
     public ApiResult<Page<FlowableDeployVo>> list(@RequestBody ProcessQuery processQuery) {
         return ApiResult.success(flowableDeployService.queryPageList(processQuery));
     }
@@ -64,6 +66,7 @@ public class FlowableDeployController {
      */
     @PutMapping(value = "/{definitionId}/{state}")
     @Operation(summary = "激活或挂起流程")
+    @BizNo(spEl = "{#definitionId}")
     public ApiResult<Void> changeState(@PathVariable(value = "definitionId") String definitionId,
                                        @PathVariable(value = "state") String state) {
         flowableDeployService.updateState(definitionId, state);
@@ -89,6 +92,7 @@ public class FlowableDeployController {
      */
     @DeleteMapping()
     @Operation(summary = "删除流程部署")
+    @BizNo(spEl = "{#deployIds}")
     public ApiResult<String> remove(@RequestBody List<String> deployIds) {
         flowableDeployService.deleteByIds(deployIds);
         return ApiResult.success();
@@ -101,6 +105,7 @@ public class FlowableDeployController {
      */
     @GetMapping("/{deployId}/form")
     @Operation(summary = "查询流程部署关联表单信息")
+    @BizNo(spEl = "{#deployId}")
     public ApiResult<String> deployFormInfo(@PathVariable(value = "deployId") String deployId) {
         SysDeployForm sysDeployForm = sysDeployFormService.selectDeployFormByDeployId(deployId);
         if (Objects.isNull(sysDeployForm)) {

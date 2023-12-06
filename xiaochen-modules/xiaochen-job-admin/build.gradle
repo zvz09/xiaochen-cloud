@@ -3,6 +3,7 @@ description = 'xiaochen-job-admin'
 //子项目需要的jar包
 dependencies {
     api project(':xiaochen-job:xiaochen-job-core')
+    implementation project(':xiaochen-common:common-log')
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation project(':xiaochen-common:common-auxiliary')
     api project(':xiaochen-common:common-web')

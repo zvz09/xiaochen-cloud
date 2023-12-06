@@ -5,6 +5,7 @@ dependencies {
     implementation project(':xiaochen-job:xiaochen-job-core')
     implementation project(':xiaochen-common:common-auxiliary')
     implementation project(':xiaochen-common:common-web')
+    implementation project(':xiaochen-common:common-log')
     implementation 'org.jsoup:jsoup:1.17.1'
     implementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
 }

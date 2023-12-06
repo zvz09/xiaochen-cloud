@@ -26,15 +26,15 @@ import lombok.experimental.SuperBuilder;
 @Schema(description = "博客分类表")
 public class Category extends BaseEntity {
 
-    @Schema(description ="分类名称")
+    @Schema(description = "分类名称")
     private String name;
 
     private Integer clickVolume;
 
-    @Schema(description ="排序")
+    @Schema(description = "排序")
     private Integer sort;
 
-    @Schema(description ="图标")
+    @Schema(description = "图标")
     private String icon;
 
 }

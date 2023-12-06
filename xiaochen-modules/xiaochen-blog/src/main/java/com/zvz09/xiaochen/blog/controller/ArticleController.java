@@ -6,6 +6,7 @@ import com.zvz09.xiaochen.blog.domain.dto.ArticleDTO;
 import com.zvz09.xiaochen.blog.domain.entity.Article;
 import com.zvz09.xiaochen.blog.service.IArticleService;
 import com.zvz09.xiaochen.common.core.page.BasePage;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -44,18 +45,21 @@ public class ArticleController {
 
     @GetMapping(value = "/{id}")
     @Operation(summary = "文章详情")
+    @BizNo(spEl = "{#id}")
     public Article selectArticleById(@PathVariable(value = "id") Long id) {
         return articleService.selectArticleById(id);
     }
 
     @PostMapping(value = "")
     @Operation(summary = "保存文章")
+    @BizNo(spEl = "{#articleDTO.title}")
     public void insertArticle(@RequestBody ArticleDTO articleDTO) {
         articleService.insertArticle(articleDTO);
     }
 
     @PutMapping("")
     @Operation(summary = "修改文章")
+    @BizNo(spEl = "{#articleDTO.title}")
     public void updateArticle(@RequestBody ArticleDTO articleDTO) {
         articleService.updateArticle(articleDTO);
     }
@@ -63,32 +67,37 @@ public class ArticleController {
 
     @DeleteMapping(value = "")
     @Operation(summary = "批量删除文章")
+    @BizNo(spEl = "{#ids}")
     public void deleteBatchArticle(@RequestBody List<Long> ids) {
         articleService.deleteBatchArticle(ids);
     }
 
     @PutMapping(value = "/{id}/top")
     @Operation(summary = "置顶文章")
+    @BizNo(spEl = "{#id}")
     public void topArticle(@PathVariable(value = "id") Long id) {
         articleService.topArticle(id);
     }
 
     @PutMapping(value = "/{id}/pubOrShelf")
     @Operation(summary = "发布或下架文章")
+    @BizNo(spEl = "{#id}")
     public void psArticle(@PathVariable(value = "id") Long id) {
         articleService.psArticle(id);
     }
 
     @PostMapping(value = "/baiduSeo")
     @Operation(summary = "批量文章SEO(TODO)")
+    @BizNo(spEl = "{#ids}")
     public void seoBatch(@RequestBody List<Long> ids) {
         articleService.seoBatch(ids);
     }
 
     @GetMapping(value = "/reptile")
     @Operation(summary = "文章爬虫(TODO)")
+    @BizNo(spEl = "{#url}")
     public ArticleDTO reptile(String url) {
-       return articleService.reptile(url);
+        return articleService.reptile(url);
     }
 
     @GetMapping(value = "/randomImg")

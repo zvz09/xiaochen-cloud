@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
-import com.zvz09.xiaochen.common.core.util.Snowflake;
+import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;
 import com.zvz09.xiaochen.common.log.service.RabbitmqService;
 import com.zvz09.xiaochen.common.log.util.ContextUtil;
@@ -38,7 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -109,7 +109,7 @@ public class OperationLogAspect {
 
         OperationLog operationLog = this.buildSysOperationLog(joinPoint, params);;
 
-        Object result;
+        Object result = null;
         log.info("开始请求，url={}, reqData={}", request.getRequestURI(), params);
         try {
             // 调用原来的方法
@@ -122,14 +122,14 @@ public class OperationLogAspect {
                         request.getRequestURI(), elapse, params, respData);
             }
             log.info("请求完成, url={}，elapse={}ms, respData={}", request.getRequestURI(), elapse, respData);
-        } catch (Exception e) {
+            operationLog.setSuccess(true);
+        } catch (Throwable e) {
             operationLog.setSuccess(false);
             operationLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, MAX_LENGTH));
-            log.error("请求报错，url={}, reqData={}, error={}", request.getRequestURI(), params, e.getMessage());
             throw e;
         } finally {
             operationLog.setElapse(System.currentTimeMillis() - start);
-            operationLog.setOperationTimeEnd(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            operationLog.setOperationTimeEnd(LocalDateTime.now());
             rabbitmqService.sendLog(operationLog);
         }
         return result;
@@ -137,7 +137,7 @@ public class OperationLogAspect {
 
     private OperationLog buildSysOperationLog(
             ProceedingJoinPoint joinPoint,
-            String params) throws Exception {
+            String params){
         HttpServletRequest request = ContextUtil.getHttpRequest();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -154,30 +154,31 @@ public class OperationLogAspect {
             evaluationContext.setVariable(parameterNames[i], args[i]);
         }
 
-        com.zvz09.xiaochen.common.log.annotation.OperationLog operationLogAnnotation = getAnnotation(joinPoint, com.zvz09.xiaochen.common.log.annotation.OperationLog.class);
+        BizNo bizNoAnnotation = getAnnotation(joinPoint, BizNo.class);
         Operation operationAnnotation = getAnnotation(joinPoint,Operation.class);
 
         OperationLog operationLog = new OperationLog();
-        operationLog.setOperationTimeStart(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        operationLog.setLogId(Long.valueOf(Snowflake.getSnowflakeId()));
+        operationLog.setOperationTimeStart(LocalDateTime.now());
         operationLog.setTraceId(MDC.get(TRACE_ID));
         if(operationAnnotation !=null){
             operationLog.setDescription(operationAnnotation.summary());
         }else {
             operationLog.setDescription(method.getName());
         }
-        operationLog.setOperationType(operationLogAnnotation.type());
+
         operationLog.setServiceName(this.serviceName);
         operationLog.setApiClass(joinPoint.getTarget().getClass().getName());
         operationLog.setApiMethod(operationLog.getApiClass() + "." + joinPoint.getSignature().getName());
         operationLog.setRequestMethod(request.getMethod());
         operationLog.setRequestUrl(request.getRequestURI());
-        operationLog.setBizNo(StringUtils.isNotBlank(operationLogAnnotation.bizNo()) ?
-                getSpELValue(evaluationContext, operationLogAnnotation.bizNo(), String.class) : null);
+
+        if(bizNoAnnotation !=null){
+            operationLog.setBizNo(StringUtils.isNotBlank(bizNoAnnotation.spEl()) ?
+                    getSpELValue(evaluationContext, bizNoAnnotation.spEl(), String.class) : null);
+        }
         operationLog.setBusinessType(getBusinessType(joinPoint));
         operationLog.setRequestIp(SecurityContextHolder.getRemoteIp());
 
-        operationLog.setOperationTime(new Date());
         if (params != null) {
             if (params.length() <= MAX_LENGTH) {
                 operationLog.setRequestArguments(params);
@@ -228,11 +229,11 @@ public class OperationLogAspect {
         }
     }
 
-    private com.zvz09.xiaochen.common.log.annotation.OperationLog getOperationLogAnnotation(JoinPoint joinPoint) {
+    private BizNo getOperationLogAnnotation(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
-        return method.getAnnotation(com.zvz09.xiaochen.common.log.annotation.OperationLog.class);
+        return method.getAnnotation(BizNo.class);
     }
 
     private <T extends Annotation> T getAnnotation(JoinPoint joinPoint, Class<T> clazz) {
