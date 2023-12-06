@@ -11,6 +11,6 @@ import java.util.List;
 public class EsPage<V> {
     private Long total;
     private Integer current = 1;
-    private Integer pageSize = 10;
+    private Integer size = 10;
     private List<V> records;
 }

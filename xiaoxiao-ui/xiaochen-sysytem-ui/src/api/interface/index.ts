@@ -19,7 +19,7 @@ export interface ResPage<T> {
 }
 
 export interface ESResPage<T> {
-  list: T[];
+  records: T[];
   pageNum: number;
   pageSize: number;
   total: number;

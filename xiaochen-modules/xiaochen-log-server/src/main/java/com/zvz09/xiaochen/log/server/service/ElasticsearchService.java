@@ -231,7 +231,7 @@ public class ElasticsearchService<T> {
             // 构建EsPage
             EsPage esPage = new EsPage();
             esPage.setCurrent(c);
-            esPage.setPageSize(p);
+            esPage.setSize(p);
 
             SearchResponse<T> response = elasticsearchClient.search(searchRequest, clazz);
 

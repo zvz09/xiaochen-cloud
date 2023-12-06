@@ -5,6 +5,8 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.message.BasicHeader;
@@ -34,8 +36,11 @@ public class ElasticsearchConfig {
 
     @Bean
     public ElasticsearchTransport transport(RestClient restClient){
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(
+                DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return new RestClientTransport(
-                restClient, new JacksonJsonpMapper());
+                restClient, new JacksonJsonpMapper(objectMapper));
     }
 
     @Bean

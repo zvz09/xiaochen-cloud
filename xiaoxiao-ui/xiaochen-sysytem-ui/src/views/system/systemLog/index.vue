@@ -2,9 +2,10 @@
   <div class="table-box">
     <ProTable ref="proTable" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback">
       <template #traceId="scope">
-        <el-button type="primary" link @click="queryByTraceId(scope.row.traceId)">
+        <el-button v-if="scope.row.traceId" type="primary" link @click="queryByTraceId(scope.row.traceId)">
           {{ scope.row.traceId }}
         </el-button>
+        <span v-else> - </span>
       </template>
 
       <!-- 菜单操作 -->
@@ -52,7 +53,7 @@ import { Log } from "@/api/system/log/types";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { logPage } from "@/api/system/log";
-import { ESResPage } from "@/api/interface";
+import { ResPage } from "@/api/interface";
 import { getDateTimeBeforeMinutes, getFormattedDateTime } from "@/utils/date";
 import { getDictResultData } from "@/utils/dict";
 import { View } from "@element-plus/icons-vue";
@@ -62,12 +63,12 @@ const proTable = ref<ProTableInstance>();
 
 const initParam = reactive({ id: "", traceId: "" });
 
-const dataCallback = (data: ESResPage<Log.LogVO>) => {
+const dataCallback = (data: ResPage<Log.LogVO>) => {
   return {
-    list: data.list,
+    list: data.records,
     total: data.total,
-    pageNum: data.pageNum,
-    pageSize: data.pageSize
+    pageNum: data.current,
+    pageSize: data.size
   };
 };
 
