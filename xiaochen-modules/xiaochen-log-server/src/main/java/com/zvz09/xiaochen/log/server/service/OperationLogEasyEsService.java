@@ -11,15 +11,13 @@ import com.zvz09.xiaochen.log.server.domain.dto.EsPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Slf4j
 @Service

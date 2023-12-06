@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.core.util.DateUtils;
 import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;
 import com.zvz09.xiaochen.common.log.service.RabbitmqService;
@@ -38,8 +39,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class OperationLogAspect {
     /**
      * 错误信息、请求参数和应答结果字符串的最大长度。
      */
-    private static final int MAX_LENGTH = 2000;
+    private static final int MAX_LENGTH = 5000;
 
     /**
      * 需要被SpEl解析的模板前缀和后缀 { expression  }
@@ -129,7 +128,7 @@ public class OperationLogAspect {
             throw e;
         } finally {
             operationLog.setElapse(System.currentTimeMillis() - start);
-            operationLog.setOperationTimeEnd(LocalDateTime.now());
+            operationLog.setOperationTimeEnd(DateUtils.convertToUtc(new Date()));
             rabbitmqService.sendLog(operationLog);
         }
         return result;
@@ -158,7 +157,7 @@ public class OperationLogAspect {
         Operation operationAnnotation = getAnnotation(joinPoint,Operation.class);
 
         OperationLog operationLog = new OperationLog();
-        operationLog.setOperationTimeStart(LocalDateTime.now());
+        operationLog.setOperationTimeStart(DateUtils.convertToUtc(new Date()));
         operationLog.setTraceId(MDC.get(TRACE_ID));
         if(operationAnnotation !=null){
             operationLog.setDescription(operationAnnotation.summary());

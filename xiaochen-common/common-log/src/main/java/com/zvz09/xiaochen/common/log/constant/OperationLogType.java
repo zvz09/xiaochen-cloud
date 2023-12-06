@@ -1,8 +1,5 @@
 package com.zvz09.xiaochen.common.log.constant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 操作日志类型常量字典对象。
  *

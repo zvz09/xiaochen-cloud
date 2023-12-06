@@ -1,21 +1,15 @@
 package com.zvz09.xiaochen.common.log.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.zvz09.xiaochen.common.log.constants.LogConstant;
 import lombok.Data;
 import org.dromara.easyes.annotation.IndexName;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 操作日志记录表
- * @author lizili-YF0033
+ * @author zvz09
  */
 @Data
 @IndexName(LogConstant.OPERATION_LOG_INDEX)
@@ -116,15 +110,11 @@ public class OperationLog implements Serializable {
     /**
      * 操作开始时间。
      */
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class) // 反序列化
-    @JsonSerialize(using = LocalDateTimeSerializer.class) // 序列化
-    private LocalDateTime operationTimeStart;
+    private String operationTimeStart;
 
     /**
      * 操作结束时间。
      */
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class) // 反序列化
-    @JsonSerialize(using = LocalDateTimeSerializer.class) // 序列化
-    private LocalDateTime operationTimeEnd;
+    private String operationTimeEnd;
 
 }

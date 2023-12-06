@@ -4,7 +4,7 @@ import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;
 import org.dromara.easyes.core.core.BaseEsMapper;
 
 /**
- * @author lizili-YF0033
+ * @author zvz09
  */
 public interface OperationLogIndexMapper extends BaseEsMapper<OperationLog> {
 }
