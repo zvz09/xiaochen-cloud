@@ -57,7 +57,7 @@ export namespace Dictionary {
   // 参数接口
   export interface DictionaryVO {
     /* */
-    id: string;
+    id?: string;
 
     /*字典名（中） */
     name?: string;
@@ -75,13 +75,13 @@ export namespace Dictionary {
   // 参数接口
   export interface DictionaryDetailVO {
     /* */
-    id: string;
+    id?: string;
 
     /*展示值 */
-    label?: string;
+    label: string;
 
     /*字典值 */
-    value?: string;
+    value: string;
 
     /*启用状态 */
     status?: boolean;
@@ -93,6 +93,6 @@ export namespace Dictionary {
     tagType?: string;
 
     /*字典id */
-    sysDictionaryId?: number;
+    sysDictionaryId?: string;
   }
 }

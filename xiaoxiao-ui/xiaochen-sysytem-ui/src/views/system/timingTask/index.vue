@@ -76,13 +76,13 @@
               <el-input v-model="taskInfoFormData.scheduleConf" placeholder="cron表达式...">
                 <template #append>
                   <el-popover v-model:visible="cronState.cronPopover" width="700px">
-                    <noVue3Cron
+                    <NoVue3Cron
                       :cron-value="taskInfoFormData.scheduleConf"
                       @change="changeCron"
                       @close="cronState.cronPopover = false"
                       max-height="400px"
                       i18n="cn"
-                    ></noVue3Cron>
+                    ></NoVue3Cron>
                     <template #reference>
                       <el-button @click="cronState.cronPopover = !cronState.cronPopover">设置</el-button>
                     </template>
@@ -147,7 +147,7 @@
 
 <script setup lang="tsx" name="timingTask">
 import { reactive, ref } from "vue";
-import { noVue3Cron } from "no-vue3-cron";
+import NoVue3Cron from "@/components/no-vue3-cron/index.vue";
 import "no-vue3-cron/lib/noVue3Cron.css"; // 引入样式
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";

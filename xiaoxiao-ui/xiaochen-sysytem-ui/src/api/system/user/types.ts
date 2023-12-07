@@ -21,7 +21,7 @@ export namespace User {
   // 参数接口
   export interface UpdateUserInfoParams {
     /* */
-    id: string;
+    id?: string;
 
     /*用户名 */
     userName?: string;

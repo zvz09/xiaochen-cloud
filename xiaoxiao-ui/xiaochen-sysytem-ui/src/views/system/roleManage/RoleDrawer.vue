@@ -6,9 +6,9 @@
       label-width="100px"
       label-suffix=" :"
       :rules="rules"
-      :disabled="isView"
+      :disabled="isView === 'true'"
       :model="drawerProps.row"
-      :hide-required-asterisk="isView"
+      :hide-required-asterisk="isView === 'true'"
     >
       <el-form-item label="角色编码" prop="roleCode">
         <el-input v-model="drawerProps.row!.roleCode" placeholder="请填写角色编码" clearable></el-input>
@@ -46,23 +46,18 @@ import { Role } from "@/api/system/role/types";
 import { bindPerm, detailRole } from "@/api/system/role";
 import { listTree } from "@/api/system/permCode";
 import { PermCode } from "@/api/system/permCode/types";
+import { ResultData } from "@/api/interface";
+import { TreeOptionProps } from "element-plus/es/components/tree/src/tree.type";
 
 const rules = reactive({
   roleCode: [{ required: true, message: "请填写角色编码" }],
   roleName: [{ required: true, message: "请填写角色名称" }]
 });
 
-const isView = ref(false);
-interface DrawerProps {
-  title: string;
-  row: Partial<Role.RoleVO>;
-  api?: (params: any) => Promise<any>;
-  getTableList?: () => void;
-  id: string;
-}
+const isView = ref("false");
 
 const drawerVisible = ref(false);
-const drawerProps = ref<DrawerProps>({
+const drawerProps = ref<PermCode.DrawerProps>({
   title: "",
   row: {},
   id: ""
@@ -72,21 +67,21 @@ const permCodeData = ref<PermCode.PermCodeVO[]>();
 const permCodeTreeIds = ref<string[]>();
 
 // 接收父组件传过来的参数
-const acceptParams = async (params: DrawerProps) => {
+const acceptParams = async (params: PermCode.DrawerProps) => {
   drawerProps.value = params;
   if (drawerProps.value.title == "绑定权限字" && drawerProps.value.row.id) {
     let data = (await detailRole(drawerProps.value.row.id)).data;
     permCodeData.value = (await listTree({})).data.records;
     permCodeTreeIds.value = data.permCodeIds;
     drawerProps.value.id = drawerProps.value.row.id;
-    isView.value = false;
+    isView.value = "false";
   } else if (drawerProps.value.title == "查看" && drawerProps.value.row.id) {
     let data = (await detailRole(drawerProps.value.row.id)).data;
     permCodeData.value = data.permCodeVos;
     permCodeTreeIds.value = data.permCodeIds;
-    isView.value = true;
+    isView.value = "true";
   } else if (drawerProps.value.title == "编辑") {
-    isView.value = false;
+    isView.value = "false";
   }
   drawerVisible.value = true;
 };
@@ -115,12 +110,12 @@ const bindHandleSubmit = async () => {
     checkArr.forEach(item => {
       ids.push(item);
     });
-  await bindPerm(drawerProps.value.id, ids);
+  await bindPerm(<string>drawerProps.value.id, ids);
   ElMessage.success({ message: `设置成功` });
   drawerVisible.value = false;
 };
 
-const treeDefaultProps = ref({
+const treeDefaultProps = ref<TreeOptionProps>({
   children: "children",
   label: "showName",
   disabled: () => {

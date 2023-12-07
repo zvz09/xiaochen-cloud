@@ -52,8 +52,10 @@ import { PermCode } from "@/api/system/permCode/types";
 import { detailPermCode } from "@/api/system/permCode";
 import { API } from "@/api/system/api/types";
 import { getDict } from "@/utils/dict";
+import { TreeOptionProps } from "element-plus/es/components/tree/src/tree.type";
+import { Dictionary } from "@/api/system/dictionary/types";
 
-let permCodeTypes = [];
+let permCodeTypes: Dictionary.DictionaryDetailVO[] | null = [];
 getDict("PermCodeType").then(res => {
   permCodeTypes = res;
 });
@@ -78,14 +80,16 @@ const drawerProps = ref<DrawerProps>({
   row: {}
 });
 const apiData = ref<API.ApiVO[]>();
-const apiTreeIds = ref([]);
+const apiTreeIds = ref<string[]>([]);
 // 接收父组件传过来的参数
 const acceptParams = async (params: DrawerProps) => {
   drawerProps.value = params;
   if (drawerProps.value.title == "查看" && drawerProps.value.row.id) {
     let data = (await detailPermCode(drawerProps.value.row.id)).data;
     apiData.value = data.apiVos;
-    apiTreeIds.value = data.apiIds;
+    if (data.apiIds) {
+      apiTreeIds.value = data.apiIds;
+    }
   }
   if (drawerProps.value.title == "新增") {
     let parentId = params.row.id;
@@ -113,11 +117,11 @@ const handleSubmit = () => {
 };
 
 const apiTreeRef = ref<InstanceType<typeof ElTree>>();
-const apiDefaultProps = ref({
+const apiDefaultProps = ref<TreeOptionProps>({
   children: "children",
   label: "description",
   disabled: () => {
-    return true;
+    return "true";
   }
 });
 defineExpose({

@@ -25,23 +25,24 @@ import { ElMessage, ElTree } from "element-plus";
 import { listAPITree } from "@/api/system/api";
 import { bindApis } from "@/api/system/permCode";
 import { API } from "@/api/system/api/types";
+import { TreeOptionProps } from "element-plus/es/components/tree/src/tree.type";
 
 interface DrawerProps {
   title: string;
-  isView: boolean;
-  id: string;
-  apiIds: number[];
+  isView: string;
+  id: string | undefined;
+  apiIds: string[] | undefined;
 }
 
 const drawerVisible = ref(false);
 const drawerProps = ref<DrawerProps>({
-  isView: false,
+  isView: "false",
   title: "",
   id: "",
   apiIds: []
 });
 
-const apiDefaultProps = ref({
+const apiDefaultProps = ref<TreeOptionProps>({
   children: "children",
   label: "description",
   disabled: () => {
@@ -50,9 +51,9 @@ const apiDefaultProps = ref({
 });
 
 const apiData = ref<API.ApiVO[]>();
-const apiTreeIds = ref([]);
+const apiTreeIds = ref<string[]>([""]);
 // 接收父组件传过来的参数
-const acceptParams = async (params: DrawerProps) => {
+const acceptParams = async (params: { isView: string; id: string | undefined; title: string; apiIds: string[] | undefined }) => {
   apiData.value = (await listAPITree()).data;
   drawerProps.value = params;
   drawerProps.value.apiIds &&
@@ -78,7 +79,7 @@ const handleSubmit = async () => {
     checkArr.forEach(item => {
       ids.push(item.id);
     });
-  await bindApis(drawerProps.value.id, ids);
+  await bindApis(<string>drawerProps.value.id, ids);
   ElMessage.success({ message: `设置成功` });
   drawerVisible.value = false;
 };

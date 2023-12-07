@@ -1,6 +1,6 @@
 # Tomcat
 server:
-  port: 17600
+  port: 17610
 # Spring
 spring:
   application:

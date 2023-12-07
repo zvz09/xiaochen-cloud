@@ -18,15 +18,10 @@
         </UploadImg>
       </el-form-item>
       <el-form-item label="登录名" prop="username">
-        <el-input v-model="updateUserInfoParams!.username" placeholder="请填写用户姓名" clearable></el-input>
+        <el-input v-model="updateUserInfoParams!.userName" placeholder="请填写用户姓名" clearable></el-input>
       </el-form-item>
       <el-form-item label="昵称" prop="nickName">
         <el-input v-model="updateUserInfoParams!.nickName" placeholder="请填写昵称" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="性别" prop="gender">
-        <el-select v-model="updateUserInfoParams!.gender" placeholder="请选择性别" clearable>
-          <el-option v-for="item in getGenderType" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
         <el-input v-model="updateUserInfoParams!.phone" placeholder="请填写手机号" clearable></el-input>
@@ -44,7 +39,7 @@
           placeholder="请选择角色"
           style="width: 240px"
         >
-          <el-option v-for="item in ruleOptions" :key="item.id" :label="item.roleName" :value="item.id" />
+          <el-option v-for="item in ruleOptions" :key="item.id" :label="item.roleName" :value="item.id as string" />
         </el-select>
       </el-form-item>
     </el-form>
@@ -106,7 +101,7 @@ const acceptParams = (params: DrawerProps) => {
   }
   drawerProps.value.row.roleVos &&
     drawerProps.value.row.roleVos.forEach((role: Role.RoleVO) => {
-      updateUserInfoParams.value?.roleIds?.push(role.id);
+      updateUserInfoParams.value?.roleIds?.push(<string>role.id);
     });
   if (drawerProps.value.title == "查看" && drawerProps.value.row.id) {
     isView.value = true;

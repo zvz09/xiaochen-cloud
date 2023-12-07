@@ -33,7 +33,7 @@
           type="primary"
           link
           :icon="Delete"
-          @click="deletePermCode(scope.row)"
+          @click="deletePermCodeInfo(scope.row)"
         >
           删除
         </el-button>
@@ -107,7 +107,7 @@ const columns = reactive<ColumnProps<PermCode.PermCodeVO>[]>([
 ]);
 
 // 删除权限字信息
-const deletePermCode = async (params: PermCode.PermCodeVO) => {
+const deletePermCodeInfo = async (params: PermCode.PermCodeVO) => {
   await useHandleData(deletePermCode, params.id, `删除【${params.showName}】权限字`);
   proTable.value?.getTableList();
 };
@@ -126,10 +126,10 @@ const openDrawer = async (title: string, row: Partial<PermCode.PermCodeVO> = {})
   drawerRef.value?.acceptParams(params);
 };
 const openApiDrawer = async (title: string, row: Partial<PermCode.PermCodeVO> = {}) => {
-  let data = (await detailPermCode(row.id)).data;
+  let data = (await detailPermCode(row.id as string)).data;
   const params = {
     title,
-    isView: title === "查看",
+    isView: title === "查看" ? "true" : "false",
     apiIds: data.apiIds,
     id: row.id
   };

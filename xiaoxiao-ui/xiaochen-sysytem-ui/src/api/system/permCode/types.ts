@@ -1,5 +1,6 @@
 // 权限字管理模块
 import { API } from "@/api/system/api/types";
+import { Role } from "@/api/system/role/types";
 
 export namespace PermCode {
   // 参数接口
@@ -76,5 +77,13 @@ export namespace PermCode {
     /*资源ID */
     apiIds?: string[];
     apiVos?: API.ApiVO[];
+  }
+
+  export interface DrawerProps {
+    title: string;
+    row: Partial<Role.RoleVO>;
+    api?: (params: any) => Promise<any>;
+    getTableList?: () => void;
+    id?: string;
   }
 }

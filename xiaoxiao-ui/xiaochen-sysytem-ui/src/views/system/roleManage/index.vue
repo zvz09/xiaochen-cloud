@@ -29,6 +29,7 @@ import RoleDrawer from "@/views/system/roleManage/RoleDrawer.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import { createRole, deleteRole, getRoleList, updateRole } from "@/api/system/role";
+import { PermCode } from "@/api/system/permCode/types";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
@@ -73,13 +74,13 @@ const deleteAccount = async (params: Role.RoleVO) => {
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof RoleDrawer> | null>(null);
 const openDrawer = (title: string, row: Partial<Role.RoleVO> = {}) => {
-  const params = {
-    title,
+  const params = reactive<PermCode.DrawerProps>({
+    title: title,
     row: { ...row },
     api: title === "新增" ? createRole : title === "编辑" ? updateRole : undefined,
     getTableList: proTable.value?.getTableList,
     id: row.id
-  };
+  });
   drawerRef.value?.acceptParams(params);
 };
 </script>

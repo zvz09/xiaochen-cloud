@@ -147,19 +147,19 @@ const dataCallback = (data: any) => {
 // 接收父组件传过来的参数
 const acceptParams = (params: DrawerProps) => {
   drawerProps.value = params;
-  initParam.value.sysDictionaryId = drawerProps.value.row.id;
+  initParam.value.sysDictionaryId = drawerProps.value.row.id as string;
   drawerVisible.value = true;
 };
 
 // 删除字典项信息
 const deleteInfo = async (params: Dictionary.DictionaryDetailVO) => {
-  await useHandleData(deleteDictionaryDetail, params.id, `删除【${params.name}】字典`);
+  await useHandleData(deleteDictionaryDetail, params.id, `删除【${params.label}】字典`);
   proTable.value?.getTableList();
 };
 
 // 切换字典项状态
 const changeStatus = async (row: Dictionary.DictionaryDetailVO) => {
-  await useHandleData(changeDictionaryDetailStatus, row.id, `切换【${row.name}】字典状态`);
+  await useHandleData(changeDictionaryDetailStatus, row.id, `切换【${row.label}】字典状态`);
   proTable.value?.getTableList();
 };
 
@@ -167,27 +167,17 @@ const formRef = ref<FormInstance>();
 const dialogFormVisible = ref(false);
 const dialogTitle = ref("新增菜单");
 
-const tagTypes = reactive([
-  {
-    value: "",
-    label: "默认"
-  },
-  {
-    value: "success",
-    label: "success"
-  },
-  {
-    value: "info",
-    label: "info"
-  },
-  {
-    value: "warning",
-    label: "warning"
-  },
-  {
-    value: "danger",
-    label: "danger"
-  }
+interface TagTypeItem {
+  value: "" | "success" | "info" | "warning" | "danger";
+  label: string;
+}
+
+const tagTypes = reactive<TagTypeItem[]>([
+  { value: "", label: "默认" },
+  { value: "success", label: "success" },
+  { value: "info", label: "info" },
+  { value: "warning", label: "warning" },
+  { value: "danger", label: "danger" }
 ]);
 
 const rules = reactive<FormRules>({
@@ -207,7 +197,7 @@ const formData = ref<Dictionary.DictionaryDetailVO>({
 const openDialog = (title: string, row: Partial<Dictionary.DictionaryDetailVO> = {}) => {
   dialogTitle.value = title;
   if (row) {
-    formData.value = { ...row };
+    formData.value = Object.assign({}, formData.value, row);
   }
   formData.value.sysDictionaryId = drawerProps.value.row.id;
   dialogFormVisible.value = true;

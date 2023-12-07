@@ -161,7 +161,7 @@ const columns: ColumnProps[] = [
   { prop: "operation", label: "操作", width: 300, fixed: "right" }
 ];
 
-const delMenu = (id: number) => {
+const delMenu = (id: string) => {
   ElMessageBox.confirm("此操作将永久删除所有角色下该菜单, 是否继续?", "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
