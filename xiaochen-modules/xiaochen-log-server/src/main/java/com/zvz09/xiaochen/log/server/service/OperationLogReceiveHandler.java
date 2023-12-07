@@ -1,7 +1,6 @@
 package com.zvz09.xiaochen.log.server.service;
 
 
-import co.elastic.clients.elasticsearch.ElasticsearchAsyncClient;
 import com.rabbitmq.client.Channel;
 import com.zvz09.xiaochen.common.core.util.JacksonUtil;
 import com.zvz09.xiaochen.common.log.config.RabbitmqConfig;
@@ -22,15 +21,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OperationLogReceiveHandler {
 
-    private final ElasticsearchAsyncClient elasticsearchAsyncClient;
+    private final ElasticsearchService<OperationLog> elasticsearchService;
 
     //监听队列
     @RabbitListener(queues = {RabbitmqConfig.QUEUE_INFORM_LOG})
     public void receiveLog(String msg, Message message, Channel channel){
         OperationLog operationLog = JacksonUtil.readValue(msg,OperationLog.class);
-        elasticsearchAsyncClient.index(i -> i.index(LogConstant.OPERATION_LOG_INDEX)
-                .id(operationLog.getTraceId())
-                .document(operationLog));
+        elasticsearchService.document
+                .createOrUpdate(LogConstant.OPERATION_LOG_INDEX,operationLog.getTraceId(),operationLog);
     }
 
 }

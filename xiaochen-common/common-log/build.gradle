@@ -10,7 +10,6 @@ repositories {
 dependencies {
     api 'org.springframework.boot:spring-boot-starter-amqp'
     implementation project(':xiaochen-common:common-web')
-    implementation 'org.dromara.easy-es:easy-es-annotation:2.0.0-beta4'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

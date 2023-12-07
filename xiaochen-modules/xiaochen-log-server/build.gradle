@@ -8,7 +8,6 @@ dependencies {
     implementation project(':xiaochen-common:common-log')
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'co.elastic.clients:elasticsearch-java:8.11.1'
-    implementation 'org.dromara.easy-es:easy-es-boot-starter:2.0.0-beta4'
     compileOnly "org.jetbrains:annotations:22.0.0"
 }
 

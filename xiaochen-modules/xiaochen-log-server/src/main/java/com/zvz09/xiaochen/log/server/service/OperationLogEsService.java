@@ -22,9 +22,9 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OperationLogEasyEsService {
+public class OperationLogEsService {
 
-    private final ElasticsearchService elasticsearchService;
+    private final ElasticsearchService<OperationLog> elasticsearchService;
 
     public EsPage<OperationLog> page(OperationLogQueryBody  queryBody) {
         SearchRequest.Builder searchRequestBuilder = new SearchRequest.Builder();

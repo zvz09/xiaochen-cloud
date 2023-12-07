@@ -18,16 +18,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ElasticsearchConfig {
 
-    @Value("${easy-es.address}")
-    private String serverUrl;
+    @Value("${es.address}")
+    private String address;
 
-    @Value("${easy-es.api-key}")
+    @Value("${es.api-key}")
     private String apiKey;
 
     @Bean
     public RestClient restClient(){
         return RestClient
-                .builder(HttpHost.create(serverUrl))
+                .builder(HttpHost.create(address))
                 .setDefaultHeaders(new Header[]{
                         new BasicHeader("Authorization", "ApiKey " + apiKey)
                 })

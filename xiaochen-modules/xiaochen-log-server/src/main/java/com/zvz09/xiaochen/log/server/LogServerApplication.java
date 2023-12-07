@@ -1,6 +1,5 @@
 package com.zvz09.xiaochen.log.server;
 
-import org.dromara.easyes.starter.register.EsMapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -19,7 +18,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableDiscoveryClient
 @ComponentScan("com.zvz09.xiaochen")
 @EnableAsync(proxyTargetClass = true)
-@EsMapperScan("com.zvz09.xiaochen.log.server.mapper")
 @EnableFeignClients(basePackages = "com.zvz09.xiaochen")
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class LogServerApplication {

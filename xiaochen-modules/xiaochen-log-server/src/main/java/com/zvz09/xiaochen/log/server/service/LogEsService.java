@@ -6,17 +6,12 @@ import co.elastic.clients.json.JsonData;
 import com.zvz09.xiaochen.common.core.constant.Constants;
 import com.zvz09.xiaochen.common.core.util.DateUtils;
 import com.zvz09.xiaochen.common.log.constants.LogConstant;
-import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;
 import com.zvz09.xiaochen.log.server.domain.LogIndex;
 import com.zvz09.xiaochen.log.server.domain.LogQueryBody;
 import com.zvz09.xiaochen.log.server.domain.dto.EsPage;
-import com.zvz09.xiaochen.log.server.mapper.LogIndexMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.easyes.core.biz.EsPageInfo;
-import org.dromara.easyes.core.conditions.select.LambdaEsQueryChainWrapper;
-import org.dromara.easyes.core.core.EsWrappers;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +23,9 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LogEasyEsService {
+public class LogEsService {
 
-    private final ElasticsearchService elasticsearchService;
+    private final ElasticsearchService<LogIndex> elasticsearchService;
 
     public EsPage<LogIndex> page(LogQueryBody queryBody) {
         SearchRequest.Builder searchRequestBuilder = new SearchRequest.Builder();

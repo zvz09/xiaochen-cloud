@@ -1,16 +1,17 @@
 package com.zvz09.xiaochen.log.server.job;
 
+import co.elastic.clients.elasticsearch.indices.IndexState;
 import com.zvz09.xiaochen.common.core.constant.Constants;
 import com.zvz09.xiaochen.job.core.annotation.XiaoChenJob;
-import com.zvz09.xiaochen.log.server.mapper.LogIndexMapper;
+import com.zvz09.xiaochen.log.server.domain.LogIndex;
+import com.zvz09.xiaochen.log.server.service.ElasticsearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.client.indices.GetIndexResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author zvz09
@@ -20,7 +21,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class CleanOverdueLogJob {
 
-    private final LogIndexMapper logIndexMapper;
+    private final ElasticsearchService<LogIndex> elasticsearchService;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     @XiaoChenJob("cleanOverdueLog")
     public void cleanOverdueLog() {
@@ -33,11 +34,13 @@ public class CleanOverdueLogJob {
 
         String formattedDate = dateTime180DaysAgo.format(dateFormatter);
 
-        GetIndexResponse indexResponse = logIndexMapper.getIndex(String.format("%s*%s",Constants.LOG_INDEX_PREFIX,formattedDate));
-        if(indexResponse!=null){
-           Set<String> indexSet = indexResponse.getAliases().keySet();
-            indexSet.forEach(logIndexMapper::deleteIndex);
+
+        Map<String, IndexState> result = elasticsearchService.index.query(String.format("%s*%s", Constants.LOG_INDEX_PREFIX,formattedDate));
+
+        if(result!=null){
+            result.keySet().forEach(elasticsearchService.index::delete);
         }
+
         log.info("*****************************Clean overdue log job end **************************************");
     }
 }

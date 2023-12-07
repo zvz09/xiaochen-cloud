@@ -1,8 +1,6 @@
 package com.zvz09.xiaochen.common.log.domain.entity;
 
-import com.zvz09.xiaochen.common.log.constants.LogConstant;
 import lombok.Data;
-import org.dromara.easyes.annotation.IndexName;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -12,7 +10,6 @@ import java.io.Serializable;
  * @author zvz09
  */
 @Data
-@IndexName(LogConstant.OPERATION_LOG_INDEX)
 public class OperationLog implements Serializable {
 
     @Serial
