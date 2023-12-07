@@ -147,8 +147,7 @@
 
 <script setup lang="tsx" name="timingTask">
 import { reactive, ref } from "vue";
-import NoVue3Cron from "@/components/no-vue3-cron/index.vue";
-import "no-vue3-cron/lib/noVue3Cron.css"; // 引入样式
+import NoVue3Cron from "@/components/Vue3Corn/index.vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { listJobInfoPage, updateJobInfo, createJobInfo, changeStatus, runJobInfo, deleteJobInfo } from "@/api/system/task";

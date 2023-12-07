@@ -49,7 +49,7 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
             throw new BusinessException("已存在相同任务");
         }
         this.save(jobInfo);
-        if(jobInfo.getTriggerStatus()){
+        if(jobInfo.getTriggerStatus()!=null && jobInfo.getTriggerStatus()){
             registerCronTask(jobInfo);
         }
     }
@@ -79,7 +79,7 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
         Optional.ofNullable(this.getById(jobInfo.getId())).ifPresent(j -> {
             this.updateById(jobInfo);
             cancelCronTask(j);
-            if(jobInfo.getTriggerStatus()){
+            if(jobInfo.getTriggerStatus()!=null && jobInfo.getTriggerStatus()){
                 registerCronTask(jobInfo);
             }
         });

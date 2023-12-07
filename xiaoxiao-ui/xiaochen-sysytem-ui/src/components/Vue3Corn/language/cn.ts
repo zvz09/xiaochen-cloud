@@ -1,4 +1,6 @@
-export default {
+import { Translations } from "@/components/Vue3Corn/types";
+
+const translations: Translations = {
   Seconds: {
     name: "秒",
     every: "每一秒钟",
@@ -52,3 +54,4 @@ export default {
   Save: "保存",
   Close: "关闭"
 };
+export default translations;
