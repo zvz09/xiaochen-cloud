@@ -105,7 +105,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
 
         SysPermCode sysPermCode =
                 SysPermCode.builder().menuId(menuId)
-                        .parentId(parent == null ? 0L : parent.getId())
+                        .parentId(parent.getId())
                         .permCode(sysPermCodeDto.getPermCode())
                         .permCodeType(sysPermCodeDto.getPermCodeType())
                         .showName(sysPermCodeDto.getShowName())
@@ -128,6 +128,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
                     .buildTree(sysPermCodeList, new SysPermCodeTreeConverter());
             Page<SysPermCodeVo> page = new Page<>(1, voList.size());
             page.setRecords(voList);
+            page.setTotal(voList.size());
             return page;
         }
 
@@ -169,12 +170,10 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
                 .filter(t -> !Objects.equals(t.getPermCodeType(), PermCodeType.MENU.getType()))
                 .toList();
 
-        childNodes.forEach(sysPermCode -> {
-            parentNodes.stream()
-                    .filter(t -> Objects.equals(t.getId(), sysPermCode.getParentId()))
-                    .findFirst().ifPresent(parent -> result.computeIfAbsent(parent.getPermCode(), k -> new ArrayList<>())
-                            .add(sysPermCode.getPermCode()));
-        });
+        childNodes.forEach(sysPermCode -> parentNodes.stream()
+                .filter(t -> Objects.equals(t.getId(), sysPermCode.getParentId()))
+                .findFirst().ifPresent(parent -> result.computeIfAbsent(parent.getPermCode(), k -> new ArrayList<>())
+                        .add(sysPermCode.getPermCode())));
 
         return result;
     }
@@ -199,9 +198,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
         sysPermCodeApiService.deleteByPermCodeId(id);
         if (apiIds != null && !apiIds.isEmpty()) {
             List<SysPermCodeApi> sysPermCodeApiList = new ArrayList<>();
-            apiIds.forEach(s -> {
-                sysPermCodeApiList.add(new SysPermCodeApi(sysPermCode.getId(), s));
-            });
+            apiIds.forEach(s -> sysPermCodeApiList.add(new SysPermCodeApi(sysPermCode.getId(), s)));
             sysPermCodeApiService.saveBatch(sysPermCodeApiList);
         }
     }

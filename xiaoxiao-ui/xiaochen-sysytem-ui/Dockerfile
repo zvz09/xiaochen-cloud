@@ -6,7 +6,7 @@ COPY . .
 RUN pnpm && pnpm build:pro
 
 FROM nginx:alpine
-LABEL MAINTAINER="SliverHorn@sliver_horn@qq.com"
+LABEL MAINTAINER="zvz09"
 
 COPY .docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/my.conf
 COPY --from=0 /xiaochen-web/dist /usr/share/nginx/html

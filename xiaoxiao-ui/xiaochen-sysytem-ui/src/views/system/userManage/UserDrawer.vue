@@ -59,7 +59,6 @@
 <script setup lang="ts" name="UserDrawer">
 import { reactive, ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
-import { getGenderType } from "@/api/system/user";
 import { User } from "@/api/system/user/types";
 import UploadImg from "@/components/Upload/Img.vue";
 import { Role } from "@/api/system/role/types";
@@ -101,7 +100,7 @@ const acceptParams = (params: DrawerProps) => {
   }
   drawerProps.value.row.roleVos &&
     drawerProps.value.row.roleVos.forEach((role: Role.RoleVO) => {
-      updateUserInfoParams.value?.roleIds?.push(<string>role.id);
+      updateUserInfoParams.value?.roleIds?.push(role.id as string);
     });
   if (drawerProps.value.title == "查看" && drawerProps.value.row.id) {
     isView.value = true;

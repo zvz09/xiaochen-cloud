@@ -42,11 +42,9 @@
 <script setup lang="ts" name="RoleDrawer">
 import { reactive, ref } from "vue";
 import { ElMessage, ElTree, FormInstance } from "element-plus";
-import { Role } from "@/api/system/role/types";
 import { bindPerm, detailRole } from "@/api/system/role";
 import { listTree } from "@/api/system/permCode";
 import { PermCode } from "@/api/system/permCode/types";
-import { ResultData } from "@/api/interface";
 import { TreeOptionProps } from "element-plus/es/components/tree/src/tree.type";
 
 const rules = reactive({
@@ -110,7 +108,7 @@ const bindHandleSubmit = async () => {
     checkArr.forEach(item => {
       ids.push(item);
     });
-  await bindPerm(<string>drawerProps.value.id, ids);
+  await bindPerm(drawerProps.value.id as string, ids);
   ElMessage.success({ message: `设置成功` });
   drawerVisible.value = false;
 };

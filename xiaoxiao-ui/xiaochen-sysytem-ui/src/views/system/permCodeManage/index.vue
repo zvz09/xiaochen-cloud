@@ -125,7 +125,7 @@ const openDrawer = async (title: string, row: Partial<PermCode.PermCodeVO> = {})
   };
   drawerRef.value?.acceptParams(params);
 };
-const openApiDrawer = async (title: string, row: Partial<PermCode.PermCodeVO> = {}) => {
+const openApiDrawer = async (title: string, row: PermCode.PermCodeVO) => {
   let data = (await detailPermCode(row.id as string)).data;
   const params = {
     title,

@@ -30,7 +30,7 @@ import { TreeOptionProps } from "element-plus/es/components/tree/src/tree.type";
 interface DrawerProps {
   title: string;
   isView: string;
-  id: string | undefined;
+  id: string;
   apiIds: string[] | undefined;
 }
 
@@ -53,7 +53,7 @@ const apiDefaultProps = ref<TreeOptionProps>({
 const apiData = ref<API.ApiVO[]>();
 const apiTreeIds = ref<string[]>([""]);
 // 接收父组件传过来的参数
-const acceptParams = async (params: { isView: string; id: string | undefined; title: string; apiIds: string[] | undefined }) => {
+const acceptParams = async (params: { isView: string; id: string; title: string; apiIds: string[] | undefined }) => {
   apiData.value = (await listAPITree()).data;
   drawerProps.value = params;
   drawerProps.value.apiIds &&
@@ -79,7 +79,7 @@ const handleSubmit = async () => {
     checkArr.forEach(item => {
       ids.push(item.id);
     });
-  await bindApis(<string>drawerProps.value.id, ids);
+  await bindApis(drawerProps.value.id, ids);
   ElMessage.success({ message: `设置成功` });
   drawerVisible.value = false;
 };
