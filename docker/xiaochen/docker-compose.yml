@@ -21,6 +21,8 @@ services:
     build: auth
     image: xiaochen-auth:laster
     container_name: xiaochen-auth
+    networks:
+      - share_fly
     environment:
       SPRING_CLOUD_NACOS_CONFIG_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
       SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
@@ -34,6 +36,8 @@ services:
     build: monitor
     image: xiaochen-monitor:latest
     container_name: xiaochen-monitor
+    networks:
+      - share_fly
     environment:
       SPRING_CLOUD_NACOS_CONFIG_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
       SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
@@ -47,6 +51,8 @@ services:
     build: modules/system
     image: xiaochen-system:latest
     container_name: xiaochen-system
+    networks:
+      - share_fly
     environment:
       SPRING_CLOUD_NACOS_CONFIG_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
       SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
@@ -60,6 +66,8 @@ services:
     build: modules/file
     image: xiaochen-file:latest
     container_name: xiaochen-file
+    networks:
+      - share_fly
     environment:
       SPRING_CLOUD_NACOS_CONFIG_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
       SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
