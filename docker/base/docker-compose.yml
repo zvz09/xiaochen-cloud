@@ -8,6 +8,8 @@ services:
       - mysql/mysql.env
     ports:
       - "3306:3306"
+    networks:
+      - share_fly
     volumes:
       - ./mysql/conf:/etc/mysql/conf.d
       - ./mysql/logs:/logs
@@ -25,6 +27,8 @@ services:
     ports:
       - "8848:8848"
       - "9848:9848"
+    networks:
+      - share_fly
     depends_on:
       mysql:
         condition: service_healthy
@@ -34,6 +38,8 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - share_fly
     volumes:
       - ./redis/data:/data
     restart: always
@@ -44,6 +50,8 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+    networks:
+      - share_fly
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: 5tgbhu8
@@ -53,8 +61,14 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+    networks:
+      - share_fly
     volumes:
       - /minio/data:/data
     environment:
       MINIO_ROOT_USER: minio_root
       MINIO_ROOT_PASSWORD: minio_123456
+
+networks:
+  share_fly:
+    external: true
