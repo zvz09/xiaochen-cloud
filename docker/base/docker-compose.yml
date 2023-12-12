@@ -1,12 +1,27 @@
 version: "3.8"
 services:
+  mysql:
+    container_name: mysql
+    build: ./mysql/image
+    image: xiaochen-mysql:5.7.40
+    env_file:
+      - mysql/mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
   nacos:
     image: nacos/nacos-server:v2.3.0
     container_name: nacos-standalone-mysql
     env_file:
       - nacos/nacos-standlone-mysql.env
-    volumes:
-      - ./standalone-logs/:/home/nacos/logs
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -14,22 +29,32 @@ services:
       mysql:
         condition: service_healthy
     restart: always
-  mysql:
-    container_name: mysql
-    build:
-      context: .
-      dockerfile: image/mysql/Dockerfile
-    image: example/mysql:8.0.30
-    env_file:
-      - ../env/mysql.env
-    volumes:
-      - ./mysql:/var/lib/mysql
+  redis:
+    image: redis
+    container_name: redis
     ports:
-      - "3306:3306"
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      interval: 5s
-      timeout: 10s
-      retries: 10
-
-
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+    restart: always
+    command: redis-server --requirepass 159874123
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: 5tgbhu8
+  minio:
+    image: bitnami/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - /minio/data:/data
+    environment:
+      MINIO_ROOT_USER: minio_root
+      MINIO_ROOT_PASSWORD: minio_123456
