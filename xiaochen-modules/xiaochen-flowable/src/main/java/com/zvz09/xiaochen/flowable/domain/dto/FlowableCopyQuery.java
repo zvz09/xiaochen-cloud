@@ -1,12 +1,14 @@
 package com.zvz09.xiaochen.flowable.domain.dto;
 
 import com.zvz09.xiaochen.common.core.page.BasePage;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author zvz09
  */
-@Data
+@Getter
+@Setter
 public class FlowableCopyQuery extends BasePage {
 
     /**
