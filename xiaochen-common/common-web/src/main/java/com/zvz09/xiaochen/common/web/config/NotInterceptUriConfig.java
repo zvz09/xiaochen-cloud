@@ -27,17 +27,14 @@ public class NotInterceptUriConfig {
     public List<PathPattern> notInterceptUriPatternList(NotInterceptUriProperties properties) {
         List<PathPattern> pathPatternList = new ArrayList<>();
         if (properties != null && properties.getUrlConfigs() != null) {
-            properties.getUrlConfigs().forEach(urlConfig -> {
-                pathPatternList.add(PathPatternParser.defaultInstance.parse(urlConfig.getUrl()));
-            });
+            properties.getUrlConfigs().forEach(urlConfig -> pathPatternList.add(PathPatternParser.defaultInstance.parse(urlConfig.getUrl())));
         }
-        Arrays.asList(Constants.EXCLUDE_PATH_PATTERNS).forEach(path -> {
-            pathPatternList.add(PathPatternParser.defaultInstance.parse(path));
-        });
+        Arrays.asList(Constants.EXCLUDE_PATH_PATTERNS).forEach(path -> pathPatternList.add(PathPatternParser.defaultInstance.parse(path)));
 
         // /feign 开头的为内部调用不包装返回体
         pathPatternList.add(PathPatternParser.defaultInstance.parse(FEIGN_PATH_PREFIX + "/**"));
-
+        //监控相关接口不做包装
+        pathPatternList.add(PathPatternParser.defaultInstance.parse( "/actuator/**"));
         return pathPatternList;
     }
 }

@@ -6,7 +6,7 @@ copy_module_jar() {
     destination_directory="$3"
 
     echo "Begin copy $module_name"
-    cp "$source_directory/build/libs/$module_name-0.0.1-SNAPSHOT.jar" "$destination_directory/"
+    cp -f "$source_directory/build/libs/$module_name-0.0.1-SNAPSHOT.jar" "$destination_directory/"
 }
 
 # Usage example

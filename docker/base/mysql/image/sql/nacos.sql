@@ -27,6 +27,7 @@ USE nacos;
 /******************************************/
 /*   表名称 = config_info                  */
 /******************************************/
+drop table if exists `config_info`;
 CREATE TABLE `config_info` (
                                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
                                `data_id` varchar(255) NOT NULL COMMENT 'data_id',
@@ -52,6 +53,7 @@ CREATE TABLE `config_info` (
 /******************************************/
 /*   表名称 = config_info_aggr             */
 /******************************************/
+drop table if exists `config_info_aggr`;
 CREATE TABLE `config_info_aggr` (
                                     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
                                     `data_id` varchar(255) NOT NULL COMMENT 'data_id',
@@ -69,6 +71,7 @@ CREATE TABLE `config_info_aggr` (
 /******************************************/
 /*   表名称 = config_info_beta             */
 /******************************************/
+drop table if exists `config_info_beta`;
 CREATE TABLE `config_info_beta` (
                                     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
                                     `data_id` varchar(255) NOT NULL COMMENT 'data_id',
@@ -90,6 +93,7 @@ CREATE TABLE `config_info_beta` (
 /******************************************/
 /*   表名称 = config_info_tag              */
 /******************************************/
+drop table if exists `config_info_tag`;
 CREATE TABLE `config_info_tag` (
                                    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
                                    `data_id` varchar(255) NOT NULL COMMENT 'data_id',
@@ -110,6 +114,7 @@ CREATE TABLE `config_info_tag` (
 /******************************************/
 /*   表名称 = config_tags_relation         */
 /******************************************/
+drop table if exists `config_tags_relation`;
 CREATE TABLE `config_tags_relation` (
                                         `id` bigint(20) NOT NULL COMMENT 'id',
                                         `tag_name` varchar(128) NOT NULL COMMENT 'tag_name',
@@ -126,6 +131,7 @@ CREATE TABLE `config_tags_relation` (
 /******************************************/
 /*   表名称 = group_capacity               */
 /******************************************/
+drop table if exists `group_capacity`;
 CREATE TABLE `group_capacity` (
                                   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                   `group_id` varchar(128) NOT NULL DEFAULT '' COMMENT 'Group ID，空字符表示整个集群',
@@ -144,6 +150,7 @@ CREATE TABLE `group_capacity` (
 /******************************************/
 /*   表名称 = his_config_info              */
 /******************************************/
+drop table if exists `his_config_info`;
 CREATE TABLE `his_config_info` (
                                    `id` bigint(20) unsigned NOT NULL COMMENT 'id',
                                    `nid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'nid, 自增标识',
@@ -169,6 +176,7 @@ CREATE TABLE `his_config_info` (
 /******************************************/
 /*   表名称 = tenant_capacity              */
 /******************************************/
+drop table if exists `tenant_capacity`;
 CREATE TABLE `tenant_capacity` (
                                    `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                    `tenant_id` varchar(128) NOT NULL DEFAULT '' COMMENT 'Tenant ID',
@@ -184,7 +192,7 @@ CREATE TABLE `tenant_capacity` (
                                    UNIQUE KEY `uk_tenant_id` (`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='租户容量信息表';
 
-
+drop table if exists `tenant_info`;
 CREATE TABLE `tenant_info` (
                                `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
                                `kp` varchar(128) NOT NULL COMMENT 'kp',
@@ -199,18 +207,19 @@ CREATE TABLE `tenant_info` (
                                KEY `idx_tenant_id` (`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='tenant_info';
 
+drop table if exists `users`;
 CREATE TABLE `users` (
                          `username` varchar(50) NOT NULL PRIMARY KEY COMMENT 'username',
                          `password` varchar(500) NOT NULL COMMENT 'password',
                          `enabled` boolean NOT NULL COMMENT 'enabled'
 );
-
+drop table if exists `roles`;
 CREATE TABLE `roles` (
                          `username` varchar(50) NOT NULL COMMENT 'username',
                          `role` varchar(50) NOT NULL COMMENT 'role',
                          UNIQUE INDEX `idx_user_role` (`username` ASC, `role` ASC) USING BTREE
 );
-
+drop table if exists `permissions`;
 CREATE TABLE `permissions` (
                                `role` varchar(50) NOT NULL COMMENT 'role',
                                `resource` varchar(128) NOT NULL COMMENT 'resource',
@@ -233,7 +242,7 @@ INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, 
           enabled: true
       routes:
         # 认证中心
-        - id: ruoyi-auth
+        - id: xiaochen-auth
           uri: lb://xiaochen-auth
           predicates:
             - Path=/auth/**

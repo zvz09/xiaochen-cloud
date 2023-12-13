@@ -2,7 +2,7 @@ description = 'xiaochen-monitor'
 
 //子项目需要的jar包
 dependencies {
-    implementation 'de.codecentric:spring-boot-admin-starter-server:3.1.5'
+    implementation 'de.codecentric:spring-boot-admin-starter-server:3.1.8'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
