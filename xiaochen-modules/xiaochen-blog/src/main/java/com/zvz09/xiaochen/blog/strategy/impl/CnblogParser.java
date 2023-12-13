@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CnblogParser implements ReptileDataParserStrategy {
     @Override
+    public String getBaseUrl() {
+        return "https://www.cnblogs.com";
+    }
+
+    @Override
     public ArticleDTO parseData(Document document) {
         ArticleDTO dto = new ArticleDTO();
         dto.setTitle(document.title());

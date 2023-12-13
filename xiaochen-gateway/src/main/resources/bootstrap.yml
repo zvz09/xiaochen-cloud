@@ -16,13 +16,13 @@ spring:
         username: 'nacos'
         password: 'nacos'
         server-addr: '127.0.0.1:8848'
-        namespace: '0c709398-4a48-4c72-8d8d-cfd49671ca1a'
+        namespace: 'f144b10b-ab75-4f5a-8e57-a13af514cf10'
       config:
         # 配置中心地址
         username: 'nacos'
         password: 'nacos'
         server-addr: '127.0.0.1:8848'
-        namespace: '0c709398-4a48-4c72-8d8d-cfd49671ca1a'
+        namespace: 'f144b10b-ab75-4f5a-8e57-a13af514cf10'
         # 配置文件格式
         file-extension: yml
         # 共享配置
@@ -39,7 +39,7 @@ spring:
         ds:
           nacos:
             #读取哪个命名空间的配置(要和上面的nacos.config.namespace配置一致，否则会读不到文件。如果默认public，则可以不写)
-            namespace: 0c709398-4a48-4c72-8d8d-cfd49671ca1a'
+            namespace: f144b10b-ab75-4f5a-8e57-a13af514cf10'
             server-addr: nacos:8848
             username: 'nacos'
             password: 'nacos'

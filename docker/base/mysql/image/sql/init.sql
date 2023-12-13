@@ -498,6 +498,32 @@ CREATE TABLE `user_system_notice`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
+drop table if exists `blog_reptile_document`;
+CREATE TABLE `blog_reptile_document` (
+                                         `id` bigint(20) NOT NULL,
+                                         `created_at` datetime DEFAULT NULL,
+                                         `updated_at` datetime DEFAULT NULL,
+                                         `deleted` tinyint(4) DEFAULT NULL,
+                                         `url` varchar(5000) DEFAULT NULL COMMENT 'url',
+                                         `content` mediumtext COMMENT '文章内容',
+                                         PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='爬取的原始数据';
+
+
+drop table if exists `blog_reptile_class`;
+CREATE TABLE `blog_reptile_class` (
+                                      `id` bigint(20) NOT NULL,
+                                      `created_at` datetime DEFAULT NULL,
+                                      `updated_at` datetime DEFAULT NULL,
+                                      `deleted` tinyint(4) DEFAULT NULL,
+                                      `class_name` varchar(500) DEFAULT NULL COMMENT '类名',
+                                      `content` mediumtext COMMENT '类内容',
+                                      PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='爬取数据类';
+
+
+
+
 
 INSERT INTO `xiaochen-cloud`.sys_user (id, created_at, updated_at, deleted, uuid, username, password, nick_name, gender,
                                        side_mode, header_img, base_color, active_color, authority_id, phone, email,
@@ -555,3 +581,55 @@ INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, p
 INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, perm_code_type, show_name, show_order, created_at, updated_at, deleted) VALUES (1731580436622118913, 1729851011777597441, 1729851012285108225, 'edit', '1', '编辑', 3, '2023-12-04 15:45:22', '2023-12-04 15:45:22', 0);
 INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, perm_code_type, show_name, show_order, created_at, updated_at, deleted) VALUES (1731580493803065345, 1729851011777597441, 1729851012285108225, 'delete', '1', '删除', 4, '2023-12-04 15:45:36', '2023-12-04 15:45:36', 0);
 INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, perm_code_type, show_name, show_order, created_at, updated_at, deleted) VALUES (1731602641573679105, 1729851011777597441, 1729851012285108225, 'taskStatus', '1', '切换状态', 5, '2023-12-04 17:13:36', '2023-12-04 17:13:36', 0);
+
+INSERT INTO `xiaochen-cloud`.blog_reptile_class (id, created_at, updated_at, deleted, class_name, content) VALUES (1, '2023-12-13 16:56:37', '2023-12-13 16:56:38', 1, 'JueJinParser', 'package com.zvz09.xiaochen.blog.strategy.impl;
+
+import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+import com.zvz09.xiaochen.blog.domain.dto.ArticleDTO;
+import com.zvz09.xiaochen.blog.strategy.ReptileDataParserStrategy;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 掘金
+ *
+ * @author zvz09
+ */
+@Component
+public class JueJinParser implements ReptileDataParserStrategy {
+
+
+    @Override
+    public String getBaseUrl() {
+        return "https://juejin.cn";
+    }
+
+    @Override
+    public ArticleDTO parseData(Document document) {
+        ArticleDTO dto = new ArticleDTO();
+        dto.setTitle(document.title());
+        Element articleElement = document.getElementById("article-root");
+        MutableDataSet options = new MutableDataSet();
+        String markdown = FlexmarkHtmlConverter.builder(options).build().convert(articleElement);
+        dto.setContent(markdown);
+        Elements tagElements = document.getElementsByAttributeValue("itemprop", "keywords");
+        if (tagElements != null) {
+            List<String> tags = new ArrayList<>();
+            tagElements.forEach(item -> {
+                if (StringUtils.isNotBlank(item.attr("content"))) {
+                    tags.addAll(List.of(item.attr("content").split(",")));
+                }
+            });
+            dto.setTags(tags);
+        }
+        return dto;
+    }
+}
+');

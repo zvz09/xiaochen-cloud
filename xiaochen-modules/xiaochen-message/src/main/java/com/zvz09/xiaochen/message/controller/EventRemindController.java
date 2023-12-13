@@ -34,7 +34,7 @@ public class EventRemindController {
     private final IEventRemindService eventRemindService;
 
     @Operation(summary = "根据类型获取消息")
-    @GetMapping("/page/byType")
+    @PostMapping("/page/byType")
     public ApiResult getByType(@RequestParam(required = false) String type, @RequestParam(required = false) Boolean state, BasePage basePage) {
         return ApiResult.success(eventRemindService.getByType(type, state, basePage));
     }

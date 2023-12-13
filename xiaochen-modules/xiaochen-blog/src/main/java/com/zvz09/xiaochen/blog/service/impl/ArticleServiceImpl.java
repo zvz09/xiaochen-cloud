@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.blog.service.impl;
 
+import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -10,13 +11,15 @@ import com.zvz09.xiaochen.blog.domain.dto.ArticleDTO;
 import com.zvz09.xiaochen.blog.domain.entity.Article;
 import com.zvz09.xiaochen.blog.domain.entity.ArticleTag;
 import com.zvz09.xiaochen.blog.domain.entity.Category;
+import com.zvz09.xiaochen.blog.domain.entity.ReptileDocument;
 import com.zvz09.xiaochen.blog.domain.entity.Tags;
 import com.zvz09.xiaochen.blog.mapper.ArticleMapper;
 import com.zvz09.xiaochen.blog.mapper.CategoryMapper;
 import com.zvz09.xiaochen.blog.mapper.TagsMapper;
 import com.zvz09.xiaochen.blog.service.IArticleService;
 import com.zvz09.xiaochen.blog.service.IArticleTagService;
-import com.zvz09.xiaochen.blog.strategy.ReptileType;
+import com.zvz09.xiaochen.blog.service.IReptileDocumentService;
+import com.zvz09.xiaochen.blog.strategy.ReptileService;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
@@ -53,6 +56,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private final CategoryMapper categoryMapper;
     private final TagsMapper tagsMapper;
     private final IArticleTagService articleTagService;
+    private final ReptileService reptileService;
+    private final IReptileDocumentService reptileDocumentService;
 
 
     @Value("${baidu.url:http://data.zz.baidu.com/urls?site=www.shiyit.com&token=aw5iVpNEB9aQJOYZ}")
@@ -174,9 +179,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ArticleDTO reptile(String url) {
         try {
-            Document document = Jsoup.connect(url).get();
-            ReptileType reptileType = ReptileType.getByUrl(url);
-            return reptileType.getStrategy().parseData(document);
+            Document document = null;
+            ReptileDocument reptileDocument = reptileDocumentService.getByUrl(url);
+            if(reptileDocument!= null && StringUtils.isNotBlank(reptileDocument.getContent())){
+                document = Jsoup.parse(reptileDocument.getContent());
+            }else {
+                document = Jsoup.connect(url).get();
+                reptileDocumentService.add(url,document);
+            }
+            return reptileService.execute(url,document);
         } catch (IOException e) {
             log.error("爬取页面异常", e);
             throw new BusinessException("爬取页面异常");

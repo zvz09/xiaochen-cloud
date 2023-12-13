@@ -21,6 +21,10 @@ import java.util.List;
 @Component
 public class CSDNParser implements ReptileDataParserStrategy {
 
+    @Override
+    public String getBaseUrl() {
+        return "https://blog.csdn.net";
+    }
 
     @Override
     public ArticleDTO parseData(Document document) {

@@ -8,5 +8,13 @@ import org.jsoup.nodes.Document;
  */
 public interface ReptileDataParserStrategy {
 
+    String getBaseUrl();
+    default boolean  isMatch(String url){
+        if (url.startsWith(getBaseUrl())) {
+            return true;
+        }else {
+            return false;
+        }
+    }
     ArticleDTO parseData(Document document);
 }
