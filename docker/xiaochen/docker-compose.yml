@@ -1,5 +1,27 @@
 version: '3.8'
 services:
+  sentinel-dashboard:
+    image: bladex/sentinel-dashboard
+    container_name: sentinel-dashboard
+    ports:
+      - "8858:8858"
+  xiaochen-monitor:
+    build: monitor
+    image: xiaochen-monitor:latest
+    container_name: xiaochen-monitor
+    ports:
+      - "17000:17000"
+    networks:
+      - share_fly
+    environment:
+      SPRING_CLOUD_NACOS_CONFIG_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
+      SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
+      SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: "nacos:8848"
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: "nacos:8848"
+      SPRING_CLOUD_NACOS_CONFIG_USERNAME: "nacos"
+      SPRING_CLOUD_NACOS_DISCOVERY_USERNAME: "nacos"
+      SPRING_CLOUD_NACOS_CONFIG_PASSWORD: "nacos"
+      SPRING_CLOUD_NACOS_DISCOVERY_PASSWORD: "nacos"
   xiaochen-gateway:
     build: gateway
     image: xiaochen-gateway:latest
@@ -21,21 +43,6 @@ services:
     build: auth
     image: xiaochen-auth:laster
     container_name: xiaochen-auth
-    networks:
-      - share_fly
-    environment:
-      SPRING_CLOUD_NACOS_CONFIG_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
-      SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
-      SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: "nacos:8848"
-      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: "nacos:8848"
-      SPRING_CLOUD_NACOS_CONFIG_USERNAME: "nacos"
-      SPRING_CLOUD_NACOS_DISCOVERY_USERNAME: "nacos"
-      SPRING_CLOUD_NACOS_CONFIG_PASSWORD: "nacos"
-      SPRING_CLOUD_NACOS_DISCOVERY_PASSWORD: "nacos"
-  xiaochen-monitor:
-    build: monitor
-    image: xiaochen-monitor:latest
-    container_name: xiaochen-monitor
     networks:
       - share_fly
     environment:
