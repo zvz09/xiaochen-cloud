@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,8 +125,11 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
     public IPage<SysPermCodeVo> listTree(BasePage basePage) {
         if (basePage == null || StringUtils.isBlank(basePage.getKeyword())) {
             List<SysPermCode> sysPermCodeList = this.list();
+            if(sysPermCodeList == null || !sysPermCodeList.isEmpty()){
+                return new Page<>(1, 0);
+            }
             List<SysPermCodeVo> voList = new TreeBuilder<SysPermCode, SysPermCodeVo>(t -> t.getParentId() == 0L)
-                    .buildTree(sysPermCodeList, new SysPermCodeTreeConverter());
+                    .buildTree(sysPermCodeList, new SysPermCodeTreeConverter(),Comparator.comparing(SysPermCodeVo::getShowOrder));
             Page<SysPermCodeVo> page = new Page<>(1, voList.size());
             page.setRecords(voList);
             page.setTotal(voList.size());
@@ -142,7 +146,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
         }
         List<SysPermCode> sysPermCodeList = this.list(new LambdaQueryWrapper<SysPermCode>().in(SysPermCode::getId,ids));
         return new TreeBuilder<SysPermCode, SysPermCodeVo>(t -> t.getParentId() == 0L)
-                .buildTree(sysPermCodeList, new SysPermCodeTreeConverter());
+                .buildTree(sysPermCodeList, new SysPermCodeTreeConverter(),Comparator.comparing(SysPermCodeVo::getShowOrder));
     }
 
     @Override

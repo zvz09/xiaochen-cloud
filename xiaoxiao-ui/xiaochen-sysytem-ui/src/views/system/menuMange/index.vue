@@ -192,7 +192,6 @@ const dialogTitle = ref("新增菜单");
 
 const rules = reactive<FormRules>({
   path: [{ required: true, message: "请输入菜单name", trigger: "blur" }],
-  component: [{ required: true, message: "请输入文件路径", trigger: "blur" }],
   "meta.title": [{ required: true, message: "请输入菜单展示名称", trigger: "blur" }]
 });
 

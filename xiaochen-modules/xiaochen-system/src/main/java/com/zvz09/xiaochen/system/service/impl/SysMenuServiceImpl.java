@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
@@ -39,7 +40,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenuVo> listTree() {
         List<SysMenu> menuList = new ArrayList<>();
-        if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
+        menuList = this.list();
+        /*if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
             menuList = this.list();
         } else {
             List<Long> menuIds = this.sysRolePermCodeService.getMenuIdByRoleId(SecurityContextHolder.getRoleId());
@@ -48,9 +50,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
             menuList = this.list(new LambdaQueryWrapper<SysMenu>().in(SysMenu::getId, menuIds)
                     .orderByAsc(SysMenu::getSort));
-        }
+        }*/
+        Comparator<SysMenuVo> customComparator = Comparator.comparing(SysMenuVo::getSort);
         return new TreeBuilder<SysMenu, SysMenuVo>(t -> t.getParentId() == 0L)
-                .buildTree(menuList, new SysMenuTreeConverter());
+                .buildTree(menuList, new SysMenuTreeConverter(),customComparator);
 
     }
 
