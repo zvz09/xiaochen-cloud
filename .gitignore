@@ -1,5 +1,9 @@
 .gradle
+.fastRequest/
 build/
+docker/base/mysql/data/
+docker/base/redis/data/
+docker/**/*.jar
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
