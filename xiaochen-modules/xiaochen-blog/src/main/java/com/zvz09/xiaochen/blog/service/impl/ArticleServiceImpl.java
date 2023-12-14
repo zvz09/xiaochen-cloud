@@ -176,6 +176,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public void reptile(String url) {
         try {
             Document document = null;
@@ -190,12 +191,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             if(reptileDocument!= null && articleDTO !=null){
                 reptileDocument.setStatus(true);
                 reptileDocumentService.updateById(reptileDocument);
-            }
-            if(this.count(new LambdaQueryWrapper<Article>().eq(Article::getOriginalUrl,url)) <= 0){
-                articleDTO.setIsOriginal(true);
-                articleDTO.setOriginalUrl(url);
-                articleDTO.setIsPublish(false);
-                this.insertArticle(articleDTO);
+                if(this.count(new LambdaQueryWrapper<Article>().eq(Article::getOriginalUrl,url)) <= 0){
+                    articleDTO.setIsOriginal(true);
+                    articleDTO.setOriginalUrl(url);
+                    articleDTO.setIsPublish(false);
+                    this.insertArticle(articleDTO);
+                }
             }
         } catch (IOException e) {
             log.error("爬取页面异常", e);
