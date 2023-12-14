@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @author zvz09
  */
 @Configuration
-public class RabbitmqConfig {
+public class LogRabbitMqConfig {
 
 
     public static final String EXCHANGE_TOPICS="exchange_topics_operation_log";

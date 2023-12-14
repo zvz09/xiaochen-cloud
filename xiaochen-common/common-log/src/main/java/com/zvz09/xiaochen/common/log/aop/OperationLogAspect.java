@@ -7,7 +7,7 @@ import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.common.core.util.DateUtils;
 import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;
-import com.zvz09.xiaochen.common.log.service.RabbitmqService;
+import com.zvz09.xiaochen.common.log.service.LogRabbitMqService;
 import com.zvz09.xiaochen.common.log.util.ContextUtil;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +61,7 @@ public class OperationLogAspect {
     private String serviceName;
 
     private final ApplicationContext applicationContext;
-    private final RabbitmqService rabbitmqService;
+    private final LogRabbitMqService logRabbitMqService;
 
     /**
      * 错误信息、请求参数和应答结果字符串的最大长度。
@@ -129,7 +129,7 @@ public class OperationLogAspect {
         } finally {
             operationLog.setElapse(System.currentTimeMillis() - start);
             operationLog.setOperationTimeEnd(DateUtils.convertToUtc(new Date()));
-            rabbitmqService.sendLog(operationLog);
+            logRabbitMqService.sendLog(operationLog);
         }
         return result;
     }

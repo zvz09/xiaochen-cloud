@@ -35,7 +35,9 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -91,7 +93,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //添加分类
         Long categoryId = savaCategory(articleDTO.getCategoryName());
         //添加标签
-        List<Long> tagList = getTagsList(articleDTO);
+        Set<Long> tagList = getTagsSet(articleDTO);
 
         blogArticle.setCategoryId(categoryId);
 
@@ -115,7 +117,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //添加分类
         Long categoryId = savaCategory(articleDTO.getCategoryName());
         //添加标签
-        List<Long> tagList = getTagsList(articleDTO);
+        Set<Long> tagList = getTagsSet(articleDTO);
 
         blogArticle = ArticleDTO.convertToArticle(articleDTO);
         blogArticle.setCategoryId(categoryId);
@@ -217,8 +219,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @param article
      * @return
      */
-    private List<Long> getTagsList(ArticleDTO article) {
-        List<Long> tagList = new ArrayList<>();
+    private Set<Long> getTagsSet(ArticleDTO article) {
+        Set<Long> tagList = new HashSet<>();
         article.getTags().forEach(item -> {
             Tags tags = tagsMapper.selectOne(new LambdaQueryWrapper<Tags>().eq(Tags::getName, item));
             if (tags == null) {
