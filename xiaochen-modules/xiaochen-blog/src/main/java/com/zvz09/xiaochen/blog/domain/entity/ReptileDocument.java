@@ -33,5 +33,7 @@ public class ReptileDocument extends BaseEntity {
     @Schema(description ="文章内容")
     private String content;
 
+    private Boolean status;
+
 
 }

@@ -23,30 +23,37 @@ async function getCurrentTab() {
 
 chrome.action.onClicked.addListener(async (tab) => {
     getCurrentTab().then((tab) =>{
-        var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-        httpRequest.open('GET', 'url', true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-        httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-        /**
-         * 获取数据后的处理程序
-         */
-        httpRequest.onreadystatechange = function () {
-            if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-                chrome.notifications.create(
-                    Math.random()+'',  // id
-                    {
-                        //type, iconUrl, title and message
-                        type:"basic",
-                        iconUrl: "icon128.png",
-                        title: tab.title,
-                        message: "收藏："+tab.url+"成功！",
-                        contextMessage:tab.url
-                    },
-                    ()=>{
-                        console.log(tab.url);
-                    }
-                );
-            }
-        };
+        // 使用 fetch 发送 GET 请求
+        fetch('http://localhost:17700/article/reptile?url='+tab.url)
+            .then(response => {
+                // 确保请求成功
+                if (response.ok) {
+                    chrome.notifications.create(
+                        Math.random()+'',  // id
+                        {
+                            //type, iconUrl, title and message
+                            type:"basic",
+                            iconUrl: "icon128.png",
+                            title: tab.title,
+                            message: "收藏："+tab.url+"成功！",
+                            contextMessage:tab.url
+                        },
+                        ()=>{
+                            console.log(tab.url);
+                        }
+                    );
+                }
+                // 处理响应数据，返回一个 Promise 对象
+                return response.text();
+            })
+            .then(data => {
+                // 处理响应数据
+                console.log(data);
+            })
+            .catch(error => {
+                // 处理错误
+                console.error("发生错误：", error);
+            });
     })
 
 });

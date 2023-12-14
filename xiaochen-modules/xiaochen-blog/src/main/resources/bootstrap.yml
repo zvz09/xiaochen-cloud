@@ -8,20 +8,20 @@ spring:
     name: xiaochen-blog
   profiles:
     # 环境配置
-    active: dev
+    active: prod
   cloud:
     nacos:
       discovery:
         username: 'nacos'
-        password: 'nacos'
-        server-addr: '127.0.0.1:8848'
-        namespace: 'f144b10b-ab75-4f5a-8e57-a13af514cf10'
+        password: '!QAZ2wsx'
+        server-addr: '192.168.191.1:8848'
+        namespace: 'd286a7d5-f8ad-40b6-a561-1680437002b1'
       config:
         # 配置中心地址
         username: 'nacos'
-        password: 'nacos'
-        server-addr: '127.0.0.1:8848'
-        namespace: 'f144b10b-ab75-4f5a-8e57-a13af514cf10'
+        password: '!QAZ2wsx'
+        server-addr: '192.168.191.1:8848'
+        namespace: 'd286a7d5-f8ad-40b6-a561-1680437002b1'
         # 配置文件格式
         file-extension: yml
         # 共享配置

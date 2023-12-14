@@ -506,8 +506,9 @@ CREATE TABLE `blog_reptile_document` (
                                          `deleted` tinyint(4) DEFAULT NULL,
                                          `url` varchar(5000) DEFAULT NULL COMMENT 'url',
                                          `content` mediumtext COMMENT '文章内容',
+                                         `status` tinyint(1) DEFAULT NULL COMMENT '状态 true 成功 fasle 解析失败',
                                          PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='爬取的原始数据';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='爬取的原始数据'
 
 
 drop table if exists `blog_reptile_class`;

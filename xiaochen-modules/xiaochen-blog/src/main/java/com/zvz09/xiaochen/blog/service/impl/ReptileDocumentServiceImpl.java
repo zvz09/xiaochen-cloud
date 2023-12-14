@@ -20,15 +20,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReptileDocumentServiceImpl extends ServiceImpl<ReptileDocumentMapper, ReptileDocument> implements IReptileDocumentService {
 
-    @Async
     @Override
-    public void add(String url, Document document) {
+    public ReptileDocument add(String url, Document document) {
         ReptileDocument reptileDocument = ReptileDocument
                 .builder()
                 .url(url)
                 .content(document.toString())
                 .build();
         this.save(reptileDocument);
+       return reptileDocument;
     }
 
     @Override

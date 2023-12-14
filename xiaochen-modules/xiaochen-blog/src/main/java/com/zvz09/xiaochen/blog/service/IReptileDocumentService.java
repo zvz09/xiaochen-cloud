@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
  */
 public interface IReptileDocumentService extends IService<ReptileDocument> {
 
-    void add(String url, Document document);
+    ReptileDocument add(String url, Document document);
 
     ReptileDocument getByUrl(String url);
 }

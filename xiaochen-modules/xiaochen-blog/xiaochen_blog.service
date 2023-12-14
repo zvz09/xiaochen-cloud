@@ -1,0 +1,14 @@
+[Unit]
+Description=xiaochen-blog-0.0.1-SNAPSHOT.jar包服务程序
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+User=root
+Group=root
+
+ExecStart=java  -server -Xms1024m -Xmx2048m -Dspring.profiles.active=production  -jar /root/xiaochen/xiaochen-blog-0.0.1-SNAPSHOT.jar
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+
+[Install]
+WantedBy=multi-user.target

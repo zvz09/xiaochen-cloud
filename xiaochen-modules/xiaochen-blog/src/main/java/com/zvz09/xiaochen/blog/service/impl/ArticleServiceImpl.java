@@ -185,9 +185,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 document = Jsoup.parse(reptileDocument.getContent());
             }else {
                 document = Jsoup.connect(url).get();
-                reptileDocumentService.add(url,document);
+                reptileDocument = reptileDocumentService.add(url,document);
             }
-            return reptileService.execute(url,document);
+            ArticleDTO articleDTO = reptileService.execute(url,document);
+            if(reptileDocument!= null && articleDTO !=null){
+                reptileDocument.setStatus(true);
+                reptileDocumentService.updateById(reptileDocument);
+            }
+            return articleDTO;
         } catch (IOException e) {
             log.error("爬取页面异常", e);
             throw new BusinessException("爬取页面异常");
