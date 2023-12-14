@@ -34,7 +34,7 @@ public interface IArticleService extends IService<Article> {
 
     void seoBatch(List<Long> ids);
 
-    ArticleDTO reptile(String url);
+    void reptile(String url);
 
     String randomImg();
 }

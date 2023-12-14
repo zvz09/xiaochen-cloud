@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.blog.mapper;
 
-import com.zvz09.xiaochen.blog.domain.entity.ReptileClass;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zvz09.xiaochen.blog.domain.entity.ReptileClass;
 
 /**
  * <p>

@@ -1,6 +1,5 @@
 package com.zvz09.xiaochen.blog.service.impl;
 
-import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -177,7 +176,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ArticleDTO reptile(String url) {
+    public void reptile(String url) {
         try {
             Document document = null;
             ReptileDocument reptileDocument = reptileDocumentService.getByUrl(url);
@@ -192,7 +191,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 reptileDocument.setStatus(true);
                 reptileDocumentService.updateById(reptileDocument);
             }
-            return articleDTO;
+            if(this.count(new LambdaQueryWrapper<Article>().eq(Article::getOriginalUrl,url)) <= 0){
+                articleDTO.setIsOriginal(true);
+                articleDTO.setOriginalUrl(url);
+                articleDTO.setIsPublish(false);
+                this.insertArticle(articleDTO);
+            }
         } catch (IOException e) {
             log.error("爬取页面异常", e);
             throw new BusinessException("爬取页面异常");
