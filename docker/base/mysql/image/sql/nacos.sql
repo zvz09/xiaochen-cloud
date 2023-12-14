@@ -776,4 +776,582 @@ knife4j:
     language: zh_cn
 ', '3c46852c901c8df1ae296d2e8712179b', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', null, null, null, 'text', null, '');
 
+INSERT INTO nacos.tenant_info (id, kp, tenant_id, tenant_name, tenant_desc, create_source, gmt_create, gmt_modified)
+VALUES (2, '1', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', 'local', 'local', 'nacos', 1702517097804, 1702517097804);
+
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-gateway', 'DEFAULT_GROUP', 'spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+      routes:
+        # 认证中心
+        - id: ruoyi-auth
+          uri: lb://xiaochen-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+        # 系统模块
+        - id: xiaochen-system
+          uri: lb://xiaochen-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+        # 系统日志
+        - id: xiaochen-log-server
+          uri: lb://xiaochen-log-server
+          predicates:
+            - Path=/log/**
+          filters:
+            - StripPrefix=1
+        # 代码生成
+        - id: xiaochen-autocode
+          uri: lb://xiaochen-autocode
+          predicates:
+            - Path=/autocode/**
+          filters:
+            - StripPrefix=1
+        # 工作流模块
+        - id: xiaochen-flowable
+          uri: lb://xiaochen-flowable
+          predicates:
+            - Path=/flowable/**
+          # filters:
+          #  - StripPrefix=1
+        # 消息模块
+        - id: xiaochen-message
+          uri: lb://xiaochen-message
+          predicates:
+            - Path=/message/**
+          filters:
+            - StripPrefix=1
+        # jobAdmin模块
+        - id: xiaochen-job-admin
+          uri: lb://xiaochen-job-admin
+          predicates:
+            - Path=/job/**
+          filters:
+            - StripPrefix=1
+
+knife4j:
+  gateway:
+    enabled: true
+    # 指定服务发现的模式聚合微服务文档，并且是默认`default`分组
+    strategy: discover
+    discover:
+      enabled: true
+      # 指定版本号(Swagger2|OpenAPI3)
+      version: openapi3
+      # 需要排除的微服务(eg:网关服务)
+      excluded-services:
+        - xiaochen-gateway
+        - xiaochen-monitor
+# 安全配置
+security:
+  ignore:
+    whites:
+      - /logout
+      - /login
+      - /register
+      - /v3/api-docs/**
+      - /swagger-resources/**
+      - /doc.html
+      - /swagger-ui.html/**
+      - /swagger-ui/**
+                  ', 'd5979cb4c121d7b7fc3177c9de3d5609', '2023-12-12 20:55:15', '2023-12-12 21:25:23', 'nacos',
+        '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-system', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: xiaochen
+    password: \'!QAZ2wsx#EDC\'
+
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.system.controller
+        - com.zvz09.xiaochen.system.service.impl
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', 'bffc3ffe3affd4fff1b0ed98a1e7b8e7', '2023-12-12 20:55:15', '2023-12-12 21:28:29', 'nacos', '172.27.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('application-dev.yml', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 159874123
+      lettuce:
+        pool:
+          max-active: 20  # 最大连接数，负值表示没有限制，默认8
+          max-wait: -1    # 最大阻塞等待时间，负值表示没限制，默认-1
+          max-idle: 8     # 最大空闲连接，默认8
+          min-idle: 0     # 最小空闲连接，默认0
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: 5tgbhu8
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+logging:
+  config: classpath:logback_xiaochen.xml
+  file:
+    path: datacenter', 'd20a5d35728ca8bb6e57d4a98f55e87b', '2023-12-12 20:55:15', '2023-12-12 21:26:20', 'nacos',
+        '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-auth', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 159874123
+  application:
+    name: xiaochen-auth
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.auth.controller
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', 'ffcb1a8d37703eb3dba45d2733fee269', '2023-12-12 20:55:15', '2023-12-12 21:29:08', 'nacos', '172.27.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('sentinel-xiaochen-gateway', 'DEFAULT_GROUP', '[
+    {
+        "resource": "xiaochen-auth",
+        "count": 500,
+        "grade": 1,
+        "limitApp": "default",
+        "strategy": 0,
+        "controlBehavior": 0
+    },
+	{
+        "resource": "xiaochen-system",
+        "count": 1000,
+        "grade": 1,
+        "limitApp": "default",
+        "strategy": 0,
+        "controlBehavior": 0
+    },
+	{
+        "resource": "xiaochen-autocode",
+        "count": 1000,
+        "grade": 1,
+        "limitApp": "default",
+        "strategy": 0,
+        "controlBehavior": 0
+    },
+	{
+        "resource": "xiaochen-flowable",
+        "count": 1000,
+        "grade": 1,
+        "limitApp": "default",
+        "strategy": 0,
+        "controlBehavior": 0
+    }
+]', 'c8d34ab45d764cea74afbaafab695da6', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-monitor', 'DEFAULT_GROUP', '# spring
+spring:
+  security:
+    user:
+      name: xiaoxiao
+      password: 123456
+  boot:
+    admin:
+      ui:
+        title: 筱筱服务状态监控
+', 'ea0e34f11491f0feb902b8fd4128d412', '2023-12-12 20:55:15', '2023-12-12 21:29:23', 'nacos', '172.27.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-autocode', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: xiaochen
+    password: \'!QAZ2wsx#EDC\'
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 159874123
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.autocode.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', '14395e5df07af34f7bc7f3b126bba787', '2023-12-12 20:55:15', '2023-12-12 21:30:06', 'nacos', '172.27.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-message', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: xiaochen
+    password: \'!QAZ2wsx#EDC\'
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 159874123
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.message.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', 'e554d0cffd76ac5b9a06a9b901dd06f5', '2023-12-12 20:55:15', '2023-12-12 21:30:46', 'nacos', '172.27.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-flowable', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.191.1:3306/flowable?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: flowable
+    password: thhmDjcX7N5mbfDZ
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.flowable.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', 'abfed7dbc5e4434707870ea13bc0c7d5', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-file', 'DEFAULT_GROUP', 'spring:
+  # 配置文件上传大小限制
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+# ====================== ↓↓↓↓↓↓ MinIO文件服务器 ↓↓↓↓↓↓ ======================
+minio:
+  base-url: http://minio:9000
+  endpoint: http://minio:9000
+  access-key: ny4mqHlQhfHjKJK8DuWd
+  secret-key: vG37rc9VCzqmsznY6xEN0ugLNwPULhkvgzKZ9JGM
+  bucket-name: xiaochen
+
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.file.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', '406edb946386ee25f89a138e2fba00ab', '2023-12-12 20:55:15', '2023-12-12 21:31:38', 'nacos', '172.27.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-log-server', 'DEFAULT_GROUP', '
+es:
+  address : 192.168.191.1:9200
+  api-key: cldYMFBJd0JTOUpnd0FhOTJmV2o6Wi0yaFM1Wk5UUnFlZDliLXlNMnJxQQ==
+
+#不记录日志请求路径集合
+api:
+  log:
+    exclude-url:
+      - /log/server/page
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.log.server.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', '578db5f00a6ec2cd45e2a063c02dfee9', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-job-admin', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: xiaochen
+    password: !QAZ2wsx#EDC
+
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.job.admin.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', 'c3a65afce0b69fca64d1cf554d14ac02', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
+VALUES ('xiaochen-blog', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: xiaochen
+    password: !QAZ2wsx#EDC
+
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.blog.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', '3c46852c901c8df1ae296d2e8712179b', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
+        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
 

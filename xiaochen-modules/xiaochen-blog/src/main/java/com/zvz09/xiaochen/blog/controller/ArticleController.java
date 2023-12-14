@@ -94,7 +94,7 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/reptile")
-    @Operation(summary = "文章爬虫(TODO)")
+    @Operation(summary = "文章爬虫")
     @BizNo(spEl = "{#url}")
     public ArticleDTO reptile(String url) {
         return articleService.reptile(url);
