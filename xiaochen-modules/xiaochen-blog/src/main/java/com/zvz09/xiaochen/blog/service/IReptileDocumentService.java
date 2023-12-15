@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.zvz09.xiaochen.blog.domain.entity.ReptileDocument;
+import com.zvz09.xiaochen.common.web.service.BaseService;
 import org.jsoup.nodes.Document;
 
 /**
@@ -12,9 +12,11 @@ import org.jsoup.nodes.Document;
  * @author zvz09
  * @since 2023-12-13
  */
-public interface IReptileDocumentService extends IService<ReptileDocument> {
+public interface IReptileDocumentService extends BaseService<ReptileDocument> {
 
     ReptileDocument add(String url, Document document);
 
     ReptileDocument getByUrl(String url);
+
+    long countNotParsed();
 }

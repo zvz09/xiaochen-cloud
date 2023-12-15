@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(name = "自动生成代码模板", description = "")
-public class AutoCodeTemplateDto extends BaseDto {
+public class AutoCodeTemplateDto extends BaseDto<SysAutoCodeTemplate> {
     @Schema(description = "模板名称")
     private String name;
 

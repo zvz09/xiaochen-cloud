@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(name = "接口信息", description = "")
-public class SysApiDto extends BaseDto {
+public class SysApiDto extends BaseDto<SysApi> {
 
     @Schema(description = "api路径")
     @NotBlank(message = "api路径不能为空")

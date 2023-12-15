@@ -7,6 +7,8 @@
 package com.zvz09.xiaochen.common.web.vo;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,10 +34,7 @@ public class BaseVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private String id;
-
-    public BaseVo(Long id) {
-        this.id = String.valueOf(id);
-    }
+    @JsonSerialize(using = ToStringSerializer.class) //雪花算法id 返给前端转为 string类型
+    private Long id;
 }
  

@@ -29,7 +29,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUserDto extends BaseDto {
+public class UpdateUserDto extends BaseDto<SysUser> {
 
 
     @Schema(description = "用户名")

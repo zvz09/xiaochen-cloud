@@ -1,8 +1,8 @@
 package com.zvz09.xiaochen.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zvz09.xiaochen.common.core.annotation.BizNo;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
-import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.system.api.domain.dto.user.RegisterUserDto;
 import com.zvz09.xiaochen.system.api.domain.dto.user.SysUserQuery;
 import com.zvz09.xiaochen.system.api.domain.dto.user.UpdateUserDto;

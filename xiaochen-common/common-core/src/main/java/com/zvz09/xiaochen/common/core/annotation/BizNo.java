@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.common.log.annotation;
+package com.zvz09.xiaochen.common.core.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

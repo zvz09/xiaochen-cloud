@@ -27,7 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "SysDictionaryDetailDto")
-public class SysDictionaryDetailDto extends BaseDto {
+public class SysDictionaryDetailDto extends BaseDto<SysDictionaryDetail> {
 
     @Schema(description = "展示值")
     private String label;

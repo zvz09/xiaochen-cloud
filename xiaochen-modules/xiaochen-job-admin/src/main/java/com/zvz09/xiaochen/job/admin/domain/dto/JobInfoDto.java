@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @TableName("job_info")
 @Schema()
-public class JobInfoDto extends BaseDto {
+public class JobInfoDto extends BaseDto<JobInfo> {
 
 
     @Schema(description ="微服务名")
@@ -80,7 +80,8 @@ public class JobInfoDto extends BaseDto {
     @Schema(description ="GLUE更新时间")
     private LocalDateTime glueUpdatetime;
 
-    public JobInfo convertToJobInfo() {
+    @Override
+    public JobInfo convertedToPo() {
         JobInfo result = new JobInfo();
         result.setId(this.getId());
         result.setJobGroup(this.getJobGroup());
@@ -102,4 +103,5 @@ public class JobInfoDto extends BaseDto {
         result.setGlueUpdatetime(this.getGlueUpdatetime());
         return result;
     }
+
 }

@@ -30,6 +30,9 @@ public class ReptileDocument extends BaseEntity {
     @Schema(description ="url")
     private String url;
 
+    @Schema(description ="标题")
+    private String title;
+
     @Schema(description ="文章内容")
     private String content;
 

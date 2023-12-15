@@ -16,7 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class DepartmentDto extends BaseDto {
+public class DepartmentDto extends BaseDto<SysDepartment> {
 
     @Schema(description = "父部门id")
     private Long parentId;

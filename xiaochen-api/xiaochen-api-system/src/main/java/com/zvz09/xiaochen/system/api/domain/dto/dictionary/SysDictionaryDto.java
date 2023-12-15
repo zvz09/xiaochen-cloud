@@ -27,7 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "SysDictionaryDto")
-public class SysDictionaryDto extends BaseDto {
+public class SysDictionaryDto extends BaseDto<SysDictionary> {
     @Schema(description = "字典名（中）")
     private String name;
     @Schema(description = "字典名（英）")

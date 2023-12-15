@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Schema(name = "菜单新建/修改请求体")
-public class SysMenuDto extends BaseDto {
+public class SysMenuDto extends BaseDto<SysMenu> {
 
     @Schema(description = "父id")
     private String parentId;

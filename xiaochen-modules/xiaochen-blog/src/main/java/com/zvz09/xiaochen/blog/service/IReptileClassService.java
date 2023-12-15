@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.zvz09.xiaochen.blog.domain.entity.ReptileClass;
+import com.zvz09.xiaochen.common.web.service.BaseService;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.zvz09.xiaochen.blog.domain.entity.ReptileClass;
  * @author zvz09
  * @since 2023-12-13
  */
-public interface IReptileClassService extends IService<ReptileClass> {
+public interface IReptileClassService extends BaseService<ReptileClass> {
 
 }

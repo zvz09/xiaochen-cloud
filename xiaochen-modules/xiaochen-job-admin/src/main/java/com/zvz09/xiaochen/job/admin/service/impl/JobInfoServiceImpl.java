@@ -42,7 +42,7 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
 
     @Override
     public void createJobInfo(JobInfoDto jobInfoDto) {
-        JobInfo jobInfo = jobInfoDto.convertToJobInfo();
+        JobInfo jobInfo = jobInfoDto.convertedToPo();
         if(this.count(new LambdaQueryWrapper<JobInfo>()
                 .eq(JobInfo::getJobGroup,jobInfo.getJobGroup())
                 .eq(JobInfo::getExecutorHandler,jobInfo.getExecutorHandler())) > 0){
@@ -75,7 +75,7 @@ public class JobInfoServiceImpl extends ServiceImpl<JobInfoMapper, JobInfo> impl
 
     @Override
     public void updateJobInfo(JobInfoDto jobInfoDto) {
-        JobInfo jobInfo = jobInfoDto.convertToJobInfo();
+        JobInfo jobInfo = jobInfoDto.convertedToPo();
         Optional.ofNullable(this.getById(jobInfo.getId())).ifPresent(j -> {
             this.updateById(jobInfo);
             cancelCronTask(j);

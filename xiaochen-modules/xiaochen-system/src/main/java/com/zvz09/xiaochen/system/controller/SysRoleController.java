@@ -1,8 +1,8 @@
 package com.zvz09.xiaochen.system.controller;
 
+import com.zvz09.xiaochen.common.core.annotation.BizNo;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
-import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.common.web.validation.UpdateValidation;
 import com.zvz09.xiaochen.system.api.domain.dto.role.CopySysRoleDto;
 import com.zvz09.xiaochen.system.api.domain.dto.role.SysRoleDto;

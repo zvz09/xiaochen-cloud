@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PositionDto extends BaseDto {
+public class PositionDto extends BaseDto<SysPosition> {
 
     @Schema(description = "岗位编码")
     @NotBlank(message = "岗位编码不能为空")

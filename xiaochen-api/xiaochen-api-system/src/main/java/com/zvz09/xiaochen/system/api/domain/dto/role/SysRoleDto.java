@@ -28,7 +28,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "SysRoleDto")
-public class SysRoleDto extends BaseDto {
+public class SysRoleDto extends BaseDto<SysRole> {
 
     @Schema(description = "角色编码")
     @NotBlank(message = "角色编码不能为空")

@@ -28,7 +28,7 @@ import java.io.Serializable;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseDto implements Serializable {
+public abstract class BaseDto<E> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -42,5 +42,7 @@ public class BaseDto implements Serializable {
         }
         return Long.valueOf(id);
     }
+
+    public abstract E convertedToPo();
 }
  

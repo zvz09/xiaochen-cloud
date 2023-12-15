@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.file.controller;
 
+import com.zvz09.xiaochen.common.core.annotation.BizNo;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
-import com.zvz09.xiaochen.common.log.annotation.BizNo;
 import com.zvz09.xiaochen.file.service.MinioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
