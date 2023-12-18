@@ -11,6 +11,6 @@ export const LOG_SERVICE_PATH = "/log";
 
 export const JOB_SERVICE_PATH = "/job";
 
-export const BLOG_SERVICE_PATH = "/blog";
+export const NOTE_SERVICE_PATH = "/note";
 
 export const MESSAGE_SERVICE_PATH = "/message";

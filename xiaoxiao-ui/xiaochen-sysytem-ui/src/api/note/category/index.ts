@@ -1,5 +1,5 @@
 import http from "@/config/axios";
-import { BLOG_SERVICE_PATH } from "@/api/config/servicePort";
+import { NOTE_SERVICE_PATH } from "@/api/config/servicePort";
 import { Category } from "@/api/note/category/types";
 import { ResPage } from "@/api/interface";
 
@@ -12,7 +12,7 @@ import { ResPage } from "@/api/interface";
  * @returns
  */
 export const pageCategory = (params: Category.PageParams) => {
-  return http.post<ResPage<Category.CategoryDTO>>(BLOG_SERVICE_PATH + `/category/page`, params);
+  return http.post<ResPage<Category.CategoryDTO>>(NOTE_SERVICE_PATH + `/category/page`, params);
 };
 
 /**
@@ -21,7 +21,7 @@ export const pageCategory = (params: Category.PageParams) => {
  * @returns
  */
 export const topCategory = (id: string) => {
-  return http.put(BLOG_SERVICE_PATH + `/category/${id}/top`);
+  return http.put(NOTE_SERVICE_PATH + `/category/${id}/top`);
 };
 
 /**
@@ -30,7 +30,7 @@ export const topCategory = (id: string) => {
  * @returns
  */
 export const deleteCategory = (id: string) => {
-  return http.delete(BLOG_SERVICE_PATH + `/category/${id}`);
+  return http.delete(NOTE_SERVICE_PATH + `/category/${id}`);
 };
 
 /**
@@ -39,7 +39,7 @@ export const deleteCategory = (id: string) => {
  * @returns
  */
 export const getCategoryById = (id: string) => {
-  return http.get<Category.CategoryDTO>(BLOG_SERVICE_PATH + `/category/${id}`);
+  return http.get<Category.CategoryDTO>(NOTE_SERVICE_PATH + `/category/${id}`);
 };
 
 /**
@@ -48,7 +48,7 @@ export const getCategoryById = (id: string) => {
  * @returns
  */
 export const deleteCategoryBatch = (params: string[]) => {
-  return http.delete(BLOG_SERVICE_PATH + `/category`, params);
+  return http.delete(NOTE_SERVICE_PATH + `/category`, params);
 };
 
 /**
@@ -65,7 +65,7 @@ export const deleteCategoryBatch = (params: string[]) => {
  * @returns
  */
 export const updateCategory = (params: Category.CategoryDTO) => {
-  return http.put(BLOG_SERVICE_PATH + `/category`, params);
+  return http.put(NOTE_SERVICE_PATH + `/category`, params);
 };
 
 /**
@@ -82,5 +82,5 @@ export const updateCategory = (params: Category.CategoryDTO) => {
  * @returns
  */
 export const insertCategory = (params: Category.CategoryDTO) => {
-  return http.post(BLOG_SERVICE_PATH + `/category`, params);
+  return http.post(NOTE_SERVICE_PATH + `/category`, params);
 };

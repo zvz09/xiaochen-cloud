@@ -1,5 +1,5 @@
 import http from "@/config/axios";
-import { BLOG_SERVICE_PATH } from "@/api/config/servicePort";
+import { NOTE_SERVICE_PATH } from "@/api/config/servicePort";
 import { Tags } from "@/api/note/tags/types";
 import { ResPage } from "@/api/interface";
 
@@ -12,7 +12,7 @@ import { ResPage } from "@/api/interface";
  * @returns
  */
 export const pageTags = (params: Tags.ListParams) => {
-  return http.post<ResPage<Tags.TagsDTO>>(BLOG_SERVICE_PATH + `/tags/page`, params);
+  return http.post<ResPage<Tags.TagsDTO>>(NOTE_SERVICE_PATH + `/tags/page`, params);
 };
 
 /**
@@ -21,7 +21,7 @@ export const pageTags = (params: Tags.ListParams) => {
  * @returns
  */
 export const topTag = (id: string) => {
-  return http.get(BLOG_SERVICE_PATH + `/tags/${id}/top`);
+  return http.get(NOTE_SERVICE_PATH + `/tags/${id}/top`);
 };
 
 /**
@@ -30,7 +30,7 @@ export const topTag = (id: string) => {
  * @returns
  */
 export const deleteTagById = (id: string) => {
-  return http.delete(BLOG_SERVICE_PATH + `/tags/${id}`);
+  return http.delete(NOTE_SERVICE_PATH + `/tags/${id}`);
 };
 
 /**
@@ -39,7 +39,7 @@ export const deleteTagById = (id: string) => {
  * @returns
  */
 export const getTagsById = (id: string) => {
-  return http.get<Tags.TagsDTO>(BLOG_SERVICE_PATH + `/tags/${id}`);
+  return http.get<Tags.TagsDTO>(NOTE_SERVICE_PATH + `/tags/${id}`);
 };
 
 /**
@@ -48,7 +48,7 @@ export const getTagsById = (id: string) => {
  * @returns
  */
 export const deleteTagBatch = (params: string[]) => {
-  return http.delete(BLOG_SERVICE_PATH + `/tags`, params);
+  return http.delete(NOTE_SERVICE_PATH + `/tags`, params);
 };
 
 /**
@@ -64,7 +64,7 @@ export const deleteTagBatch = (params: string[]) => {
  * @returns
  */
 export const updateTag = (params: Tags.TagsDTO) => {
-  return http.put(BLOG_SERVICE_PATH + `/tags`, params);
+  return http.put(NOTE_SERVICE_PATH + `/tags`, params);
 };
 /**
  * 新增标签
@@ -79,5 +79,5 @@ export const updateTag = (params: Tags.TagsDTO) => {
  * @returns
  */
 export const insertTag = (params: Tags.TagsDTO) => {
-  return http.post(BLOG_SERVICE_PATH + `/tags`, params);
+  return http.post(NOTE_SERVICE_PATH + `/tags`, params);
 };

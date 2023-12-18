@@ -236,6 +236,7 @@ function resetForm() {
 const addMenu = (parentId: string) => {
   dialogTitle.value = parentId == "0" ? "新增根菜单" : "新增子菜单";
   menuForm.parentId = parentId;
+  resetForm();
   dialogFormVisible.value = true;
 };
 // 修改菜单方法

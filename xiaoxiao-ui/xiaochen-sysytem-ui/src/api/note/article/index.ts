@@ -1,5 +1,5 @@
 import http from "@/config/axios";
-import { BLOG_SERVICE_PATH } from "@/api/config/servicePort";
+import { NOTE_SERVICE_PATH } from "@/api/config/servicePort";
 import { Article } from "@/api/note/article/types";
 import { ResPage } from "@/api/interface";
 
@@ -25,7 +25,7 @@ import { ResPage } from "@/api/interface";
  * @returns
  */
 export const insertArticle = (params: Article.ArticleDTO) => {
-  return http.post(BLOG_SERVICE_PATH + `/article`, params);
+  return http.post(NOTE_SERVICE_PATH + `/article`, params);
 };
 
 /**
@@ -50,7 +50,7 @@ export const insertArticle = (params: Article.ArticleDTO) => {
  * @returns
  */
 export const updateArticle = (params: Article.ArticleDTO) => {
-  return http.put(BLOG_SERVICE_PATH + `/article`, params);
+  return http.put(NOTE_SERVICE_PATH + `/article`, params);
 };
 
 /**
@@ -59,7 +59,7 @@ export const updateArticle = (params: Article.ArticleDTO) => {
  * @returns
  */
 export const deleteBatchArticle = (params: string[]) => {
-  return http.delete(BLOG_SERVICE_PATH + `/article`, params);
+  return http.delete(NOTE_SERVICE_PATH + `/article`, params);
 };
 
 /**
@@ -68,7 +68,7 @@ export const deleteBatchArticle = (params: string[]) => {
  * @returns
  */
 export const selectArticleById = (id: string) => {
-  return http.get(BLOG_SERVICE_PATH + `/article/${id}`);
+  return http.get(NOTE_SERVICE_PATH + `/article/${id}`);
 };
 
 /**
@@ -77,7 +77,7 @@ export const selectArticleById = (id: string) => {
  * @returns
  */
 export const topArticle = (id: string) => {
-  return http.put(BLOG_SERVICE_PATH + `/article/${id}/top`);
+  return http.put(NOTE_SERVICE_PATH + `/article/${id}/top`);
 };
 
 /**
@@ -89,7 +89,7 @@ export const topArticle = (id: string) => {
  * @returns
  */
 export const selectArticleList = (params: Article.SelectArticleListParams) => {
-  return http.post<ResPage<Article.ArticleVO>>(BLOG_SERVICE_PATH + `/article/page`, params);
+  return http.post<ResPage<Article.ArticleVO>>(NOTE_SERVICE_PATH + `/article/page`, params);
 };
 
 /**
@@ -98,5 +98,5 @@ export const selectArticleList = (params: Article.SelectArticleListParams) => {
  * @returns
  */
 export const reptile = (url: string) => {
-  return http.get<Article.ArticleDTO>(BLOG_SERVICE_PATH + `/article/reptile?url=${url}`);
+  return http.get<Article.ArticleDTO>(NOTE_SERVICE_PATH + `/article/reptile?url=${url}`);
 };

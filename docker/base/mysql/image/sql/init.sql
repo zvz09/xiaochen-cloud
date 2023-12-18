@@ -18,14 +18,11 @@ CREATE TABLE `note_article`
     `summary`      varchar(255) NOT NULL DEFAULT '' COMMENT '文章简介',
     `content`      mediumtext COMMENT '文章内容',
     `read_type`    int(2)                DEFAULT '0' COMMENT '阅读方式 0无需验证 1：评论阅读 2：点赞阅读 3：扫码阅读',
-    `is_stick`     int(11)               DEFAULT '0' COMMENT '是否置顶 0否 1是',
-    `is_publish`   int(11)               DEFAULT '0' COMMENT '是否发布 0：下架 1：发布',
-    `is_original`  int(11)               DEFAULT '1' COMMENT '是否原创  0：转载 1:原创',
+    `stick`     int(11)               DEFAULT '0' COMMENT '是否置顶 0否 1是',
+    `original`  int(11)               DEFAULT '1' COMMENT '是否原创  0：转载 1:原创',
     `original_url` varchar(255)          DEFAULT NULL COMMENT '转载地址',
     `quantity`     bigint(20)            DEFAULT '0' COMMENT '文章阅读量',
-    `is_carousel`  int(11)               DEFAULT '0' COMMENT '是否首页轮播',
-    `is_recommend` int(11)               DEFAULT '0' COMMENT '是否推荐',
-    `keywords`     varchar(200)          DEFAULT NULL COMMENT '关键词',
+    `recommend` int(11)               DEFAULT '0' COMMENT '是否推荐',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

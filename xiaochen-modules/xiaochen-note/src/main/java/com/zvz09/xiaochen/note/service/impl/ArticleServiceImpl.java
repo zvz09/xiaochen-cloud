@@ -173,7 +173,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 reptileDocument.setStatus(true);
                 reptileDocumentService.updateById(reptileDocument);
                 if(this.count(new LambdaQueryWrapper<Article>().eq(Article::getOriginalUrl,url)) <= 0){
-                    articleDTO.setOriginal(true);
+                    articleDTO.setOriginal(false);
                     articleDTO.setOriginalUrl(url);
                     this.insertArticle(articleDTO);
                 }
