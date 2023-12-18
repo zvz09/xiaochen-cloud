@@ -10,11 +10,7 @@ public interface ReptileDataParserStrategy {
 
     String getBaseUrl();
     default boolean  isMatch(String url){
-        if (url.startsWith(getBaseUrl())) {
-            return true;
-        }else {
-            return false;
-        }
+        return url.startsWith(getBaseUrl());
     }
     ArticleDTO parseData(Document document);
 }
