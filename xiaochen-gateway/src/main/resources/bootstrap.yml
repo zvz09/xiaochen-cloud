@@ -28,6 +28,28 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+    sentinel:
+      filter:
+        enabled: false
+      #心跳启动
+      eager: true
+      transport:
+        #sentinel控制台访问路径
+        dashboard: 127.0.0.1:8858
+      #sentinel数据源配置(从哪里获取限流规则)
+      datasource:
+        ds:
+          nacos:
+            #读取哪个命名空间的配置(要和上面的nacos.config.namespace配置一致，否则会读不到文件。如果默认public，则可以不写)
+            namespace: ${spring.cloud.nacos.config.namespace}
+            server-addr: ${spring.cloud.nacos.config.server-addr}
+            username: ${spring.cloud.nacos.config.username}
+            password: ${spring.cloud.nacos.config.password}
+            #限流规则配置文件的名称
+            dataId: sentinel-xiaochen-gateway
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: gw-flow
 
 casbin:
   #是否启用Casbin，默认情况下处于启用状态。

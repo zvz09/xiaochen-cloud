@@ -5,7 +5,7 @@ server:
 spring:
   application:
     # 应用名称
-    name: xiaochen-blog
+    name: xiaochen-note
   profiles:
     # 环境配置
     active: dev

@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zvz09.xiaochen.blog.mapper.ArticleMapper">
+<mapper namespace="com.zvz09.xiaochen.note.mapper.ArticleMapper">
+
+    <resultMap id="ArticleVOMap" type="com.zvz09.xiaochen.note.domain.vo.ArticleVO">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="title" property="title"/>
+        <result column="avatar" property="avatar"/>
+        <result column="summary" property="summary"/>
+        <result column="read_type" property="readType"/>
+        <result column="stick" property="stick"/>
+        <result column="original" property="original"/>
+        <result column="original_url" property="originalUrl"/>
+        <result column="quantity" property="quantity"/>
+        <result column="recommend" property="recommend"/>
+    </resultMap>
+
+    <select id="getPage" resultMap="ArticleVOMap">
+        select na.id,
+               na.user_id,
+               nc.name as categoryName,
+               na.title,
+               na.avatar,
+               na.summary,
+               na.read_type,
+               na.stick,
+               na.original,
+               na.original_url,
+               na.quantity,
+               na.recommend
+        from note_article na
+                 left join note_category nc
+                           on na.category_id = nc.id
+            ${ew.customSqlSegment}
+        order by na.updated_at desc
+    </select>
 
 </mapper>

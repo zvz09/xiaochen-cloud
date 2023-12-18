@@ -28,7 +28,7 @@ public class CodeGenerator {
                                     "D:\\code\\xiaochen-cloud\\xiaochen-modules\\xiaochen-blog\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("blog_reptile_document", "blog_reptile_class"); // 设置需要生成的表名
+                    builder.addInclude("note_reptile_document", "note_reptile_class"); // 设置需要生成的表名
 
                 })
                 .execute();

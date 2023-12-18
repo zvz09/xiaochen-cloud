@@ -7,6 +7,7 @@ dependencies {
     implementation project(':xiaochen-common:common-web')
     implementation project(':xiaochen-common:common-log')
     implementation project(':xiaochen-common:common-lock')
+    implementation project(':xiaochen-api:xiaochen-api-system')
     implementation 'org.jsoup:jsoup:1.17.1'
     implementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
 }

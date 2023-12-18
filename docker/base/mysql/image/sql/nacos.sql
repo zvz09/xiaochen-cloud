@@ -362,7 +362,7 @@ INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, 
     redis:
       host: redis
       port: 6379
-      password: 159874123
+      password:
       lettuce:
         pool:
           max-active: 20  # 最大连接数，负值表示没有限制，默认8
@@ -393,7 +393,7 @@ INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, 
     redis:
       host: redis
       port: 6379
-      password: 159874123
+      password:
   application:
     name: xiaochen-auth
 
@@ -481,7 +481,7 @@ INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, 
     redis:
       host: 127.0.0.1
       port: 6379
-      password: 159874123
+      password:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -530,7 +530,7 @@ INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, 
     redis:
       host: 127.0.0.1
       port: 6379
-      password: 159874123
+      password:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -737,7 +737,7 @@ knife4j:
   setting:
     language: zh_cn
 ', 'c3a65afce0b69fca64d1cf554d14ac02', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', null, null, null, 'text', null, '');
-INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (26, 'xiaochen-blog', 'DEFAULT_GROUP', 'spring:
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (26, 'xiaochen-note', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
@@ -767,7 +767,7 @@ springdoc:
     - group: \'default\'
       paths-to-match: \'/**\'
       packages-to-scan:
-        - com.zvz09.xiaochen.blog.controller
+        - com.zvz09.xiaochen.note.controller
 
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
@@ -916,7 +916,7 @@ VALUES ('application-dev.yml', 'DEFAULT_GROUP', 'spring:
     redis:
       host: 127.0.0.1
       port: 6379
-      password: 159874123
+      password:
       lettuce:
         pool:
           max-active: 20  # 最大连接数，负值表示没有限制，默认8
@@ -950,7 +950,7 @@ VALUES ('xiaochen-auth', 'DEFAULT_GROUP', 'spring:
     redis:
       host: 127.0.0.1
       port: 6379
-      password: 159874123
+      password:
   application:
     name: xiaochen-auth
 
@@ -1047,7 +1047,7 @@ VALUES ('xiaochen-autocode', 'DEFAULT_GROUP', 'spring:
     redis:
       host: 127.0.0.1
       port: 6379
-      password: 159874123
+      password:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -1099,7 +1099,7 @@ VALUES ('xiaochen-message', 'DEFAULT_GROUP', 'spring:
     redis:
       host: 127.0.0.1
       port: 6379
-      password: 159874123
+      password:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -1315,7 +1315,7 @@ knife4j:
         'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
 INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-blog', 'DEFAULT_GROUP', 'spring:
+VALUES ('xiaochen-note', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
@@ -1345,7 +1345,7 @@ springdoc:
     - group: \'default\'
       paths-to-match: \'/**\'
       packages-to-scan:
-        - com.zvz09.xiaochen.blog.controller
+        - com.zvz09.xiaochen.note.controller
 
 # knife4j的增强配置，不需要增强可以不配
 knife4j:

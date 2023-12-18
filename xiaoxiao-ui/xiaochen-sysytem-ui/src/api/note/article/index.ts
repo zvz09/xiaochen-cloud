@@ -72,30 +72,12 @@ export const selectArticleById = (id: string) => {
 };
 
 /**
- * 发布或下架文章
- * @param {string} id
- * @returns
- */
-export const pubOrShelfArticle = (id: string) => {
-  return http.put(BLOG_SERVICE_PATH + `/article/${id}/pubOrShelf`);
-};
-
-/**
  * 置顶文章
  * @param {string} id
  * @returns
  */
 export const topArticle = (id: string) => {
   return http.put(BLOG_SERVICE_PATH + `/article/${id}/top`);
-};
-
-/**
- * 批量文章SEO(TODO)
- * @param {array} params integer
- * @returns
- */
-export const seoBatch = (params: string[]) => {
-  return http.post(BLOG_SERVICE_PATH + `/article/baiduSeo`, params);
 };
 
 /**
@@ -108,14 +90,6 @@ export const seoBatch = (params: string[]) => {
  */
 export const selectArticleList = (params: Article.SelectArticleListParams) => {
   return http.post<ResPage<Article.ArticleVO>>(BLOG_SERVICE_PATH + `/article/page`, params);
-};
-
-/**
- * 随机获取一张图片(TODO)
- * @returns
- */
-export const randomImg = () => {
-  return http.get<string>(BLOG_SERVICE_PATH + `/article/randomImg`);
 };
 
 /**

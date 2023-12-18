@@ -71,6 +71,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    public Map<Long,SysUser> getByIds(List<Long> ids) {
+        List<SysUser> sysUsers = this.listByIds(ids);
+        Map<Long,SysUser> map = new HashMap<>();
+        sysUsers.forEach(sysUser -> map.put(sysUser.getId(),sysUser));
+        return map;
+    }
+
+    @Override
     public IPage<SysUserVo> getUserList(SysUserQuery sysUserQuery) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StringUtils.isNotBlank(sysUserQuery.getUserName()), SysUser::getUsername, sysUserQuery.getUserName());
@@ -92,9 +100,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             roleMap = new HashMap<>();
         }
 
-        return page.convert(sysUser -> {
-            return new SysUserVo(sysUser, roleMap.get(sysUser.getId()));
-        });
+        return page.convert(sysUser -> new SysUserVo(sysUser, roleMap.get(sysUser.getId())));
     }
 
     @Override
@@ -113,9 +119,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<SysRole> sysRole = new ArrayList<>();
 
         if (userRoleBos != null && !userRoleBos.isEmpty()) {
-            userRoleBos.forEach(userRoleBo -> {
-                sysRole.add(userRoleBo.convertedToRole());
-            });
+            userRoleBos.forEach(userRoleBo -> sysRole.add(userRoleBo.convertedToRole()));
         }
 
         return new SysUserVo(sysUser, sysRole);
@@ -150,9 +154,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<SysRole> sysRoles = sysRoleService.getByIds(updateUserDto.getRoleIds());
         if (sysRoles != null) {
             List<SysUserRole> sysUserRoles = new ArrayList<>();
-            sysRoles.forEach(s -> {
-                sysUserRoles.add(new SysUserRole(updateUserDto.getId(), s.getRoleCode()));
-            });
+            sysRoles.forEach(s -> sysUserRoles.add(new SysUserRole(updateUserDto.getId(), s.getRoleCode())));
             sysUserRoleService.saveBatch(sysUserRoles);
         }
         this.updateById(updateUserDto.convertedToPo());
@@ -192,9 +194,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<SysRole> sysRoles = sysRoleService.getByIds(updateUserDto.getRoleIds());
         if (sysRoles != null) {
             List<SysUserRole> sysUserRoles = new ArrayList<>();
-            sysRoles.forEach(s -> {
-                sysUserRoles.add(new SysUserRole(sysUser.getId(), s.getRoleCode()));
-            });
+            sysRoles.forEach(s -> sysUserRoles.add(new SysUserRole(sysUser.getId(), s.getRoleCode())));
             sysUserRoleService.saveBatch(sysUserRoles);
         }
     }

@@ -43,7 +43,7 @@ services:
     volumes:
       - ./redis/data:/data
     restart: always
-    command: redis-server --requirepass 159874123
+    command: redis-server
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq

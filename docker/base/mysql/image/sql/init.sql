@@ -4,8 +4,8 @@ CREATE USER 'xiaochen'@'%' IDENTIFIED BY '!QAZ2wsx#EDC';
 GRANT ALL PRIVILEGES ON `xiaochen-cloud`.* TO 'xiaochen'@'%';
 
 USE `xiaochen-cloud`;
-drop table if exists `blog_article`;
-CREATE TABLE `blog_article`
+drop table if exists `note_article`;
+CREATE TABLE `note_article`
 (
     `id`           bigint(20)   NOT NULL,
     `created_at`   datetime              DEFAULT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE `blog_article`
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC COMMENT ='博客文章表';
 
-drop table if exists `blog_article_tag`;
-CREATE TABLE `blog_article_tag`
+drop table if exists `note_article_tag`;
+CREATE TABLE `note_article_tag`
 (
     `id`         bigint(20) NOT NULL,
     `article_id` bigint(20) NOT NULL COMMENT '文章id',
@@ -43,8 +43,8 @@ CREATE TABLE `blog_article_tag`
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC;
 
-drop table if exists `blog_category`;
-CREATE TABLE `blog_category`
+drop table if exists `note_category`;
+CREATE TABLE `note_category`
 (
     `id`           bigint(20)  NOT NULL,
     `created_at`   datetime             DEFAULT NULL,
@@ -60,8 +60,8 @@ CREATE TABLE `blog_category`
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC COMMENT ='博客分类表';
 
-drop table if exists `blog_tags`;
-CREATE TABLE `blog_tags`
+drop table if exists `note_tags`;
+CREATE TABLE `note_tags`
 (
     `id`           bigint(20)  NOT NULL,
     `created_at`   datetime             DEFAULT NULL,
@@ -498,8 +498,8 @@ CREATE TABLE `user_system_notice`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-drop table if exists `blog_reptile_document`;
-CREATE TABLE `blog_reptile_document` (
+drop table if exists `note_reptile_document`;
+CREATE TABLE `note_reptile_document` (
                                          `id` bigint(20) NOT NULL,
                                          `created_at` datetime DEFAULT NULL,
                                          `updated_at` datetime DEFAULT NULL,
@@ -508,11 +508,11 @@ CREATE TABLE `blog_reptile_document` (
                                          `content` mediumtext COMMENT '文章内容',
                                          `status` tinyint(1) DEFAULT NULL COMMENT '状态 true 成功 fasle 解析失败',
                                          PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='爬取的原始数据'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='爬取的原始数据';
 
 
-drop table if exists `blog_reptile_class`;
-CREATE TABLE `blog_reptile_class` (
+drop table if exists `note_reptile_class`;
+CREATE TABLE `note_reptile_class` (
                                       `id` bigint(20) NOT NULL,
                                       `created_at` datetime DEFAULT NULL,
                                       `updated_at` datetime DEFAULT NULL,
@@ -583,12 +583,12 @@ INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, p
 INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, perm_code_type, show_name, show_order, created_at, updated_at, deleted) VALUES (1731580493803065345, 1729851011777597441, 1729851012285108225, 'delete', '1', '删除', 4, '2023-12-04 15:45:36', '2023-12-04 15:45:36', 0);
 INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, perm_code_type, show_name, show_order, created_at, updated_at, deleted) VALUES (1731602641573679105, 1729851011777597441, 1729851012285108225, 'taskStatus', '1', '切换状态', 5, '2023-12-04 17:13:36', '2023-12-04 17:13:36', 0);
 
-INSERT INTO `xiaochen-cloud`.blog_reptile_class (id, created_at, updated_at, deleted, class_name, content) VALUES (1, '2023-12-13 16:56:37', '2023-12-13 16:56:38', 1, 'JueJinParser', 'package com.zvz09.xiaochen.blog.strategy.impl;
+INSERT INTO `xiaochen-cloud`.note_reptile_class (id, created_at, updated_at, deleted, class_name, content) VALUES (1, '2023-12-13 16:56:37', '2023-12-13 16:56:38', 1, 'JueJinParser', 'package com.zvz09.xiaochen.note.strategy.impl;
 
 import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
 import com.vladsch.flexmark.util.data.MutableDataSet;
-import com.zvz09.xiaochen.blog.domain.dto.ArticleDTO;
-import com.zvz09.xiaochen.blog.strategy.ReptileDataParserStrategy;
+import com.zvz09.xiaochen.note.domain.dto.ArticleDTO;
+import com.zvz09.xiaochen.note.strategy.ReptileDataParserStrategy;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

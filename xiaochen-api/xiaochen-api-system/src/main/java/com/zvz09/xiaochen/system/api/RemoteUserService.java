@@ -8,6 +8,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 服务类
@@ -31,6 +34,9 @@ public interface RemoteUserService {
 
     @GetMapping("/getById")
     SysUser getById(@RequestParam(name = "id") Long id);
+
+    @GetMapping("/getByIds")
+    Map<Long,SysUser> getByIds(@RequestParam(name = "id") List<Long> ids);
 
     @GetMapping("/getUserInfo")
     SysUserVo getUserInfo();

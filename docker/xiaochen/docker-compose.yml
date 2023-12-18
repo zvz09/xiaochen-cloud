@@ -5,6 +5,7 @@ services:
     container_name: sentinel-dashboard
     ports:
       - "8858:8858"
+      - "8719:8719"
   xiaochen-monitor:
     build: monitor
     image: xiaochen-monitor:latest
