@@ -1,6 +1,6 @@
 import http from "@/config/axios";
 import { BLOG_SERVICE_PATH } from "@/api/config/servicePort";
-import { Category } from "@/api/blog/category/types";
+import { Category } from "@/api/note/category/types";
 import { ResPage } from "@/api/interface";
 
 /**

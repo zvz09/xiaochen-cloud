@@ -1,4 +1,4 @@
-description = 'xiaochen-blog'
+description = 'xiaochen-note'
 
 //子项目需要的jar包
 dependencies {
