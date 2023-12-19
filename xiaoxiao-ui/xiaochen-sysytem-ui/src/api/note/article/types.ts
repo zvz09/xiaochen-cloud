@@ -83,4 +83,12 @@ export namespace Article {
     /*关键字 */
     keyword?: string;
   }
+
+  export interface DrawerProps {
+    title: string;
+    row: Partial<Article.ArticleVO>;
+    api?: (params: any) => Promise<any>;
+    getTableList?: () => void;
+    id?: string;
+  }
 }

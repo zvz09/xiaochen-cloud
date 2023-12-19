@@ -5,6 +5,16 @@
       <template #tableHeader>
         <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增笔记</el-button>
       </template>
+
+      <!-- 来源 -->
+      <template #originalUrl="scope">
+        <el-link :href="scope.row.originalUrl" target="success">{{ scope.row.originalUrl }}</el-link>
+      </template>
+
+      <!-- 表格操作 -->
+      <template #operation="scope">
+        <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
+      </template>
     </ProTable>
     <ArticleDrawer ref="drawerRef" />
   </div>
@@ -15,10 +25,9 @@ import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { reactive, ref } from "vue";
 import { Article } from "@/api/note/article/types";
-import { selectArticleList } from "@/api/note/article";
+import { selectArticleList, insertArticle, updateArticle } from "@/api/note/article";
 import ArticleDrawer from "@/views/note/articleManage/ArticleDrawer.vue";
-import { CirclePlus } from "@element-plus/icons-vue";
-import { User } from "@/api/system/user/types";
+import { CirclePlus, EditPen } from "@element-plus/icons-vue";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
@@ -68,9 +77,15 @@ const dataCallback = (data: any) => {
 
 const drawerRef = ref<InstanceType<typeof ArticleDrawer> | null>(null);
 
-const openDrawer = (title: string, row: Partial<User.UserVO> = {}) => {
+const openDrawer = (title: string, row: Partial<Article.ArticleVO> = {}) => {
   console.log(row);
-  const params = {};
+  const params = reactive<Article.DrawerProps>({
+    title: title,
+    row: { ...row },
+    api: title === "新增" ? insertArticle : title === "编辑" ? updateArticle : undefined,
+    getTableList: proTable.value?.getTableList,
+    id: row.id
+  });
   drawerRef.value?.acceptParams(params);
 };
 </script>

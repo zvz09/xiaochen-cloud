@@ -77,8 +77,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<Long> userIds = new ArrayList<>();
         articleVOIPage.getRecords().forEach(articleVO -> userIds.add(articleVO.getUserId()));
 
-        Map<Long, SysUser> userMap = remoteUserService.getByIds(userIds);
-        articleVOIPage.getRecords().forEach(articleVO -> articleVO.setUserName(userMap.get(articleVO.getUserId()) == null ?"未知":userMap.get(articleVO.getUserId()).getNickName()));
+        if(!userIds.isEmpty()){
+            Map<Long, SysUser> userMap = remoteUserService.getByIds(userIds);
+            articleVOIPage.getRecords().forEach(articleVO -> articleVO.setUserName(userMap.get(articleVO.getUserId()) == null ?"未知":userMap.get(articleVO.getUserId()).getNickName()));
+        }
 
         return articleVOIPage;
     }

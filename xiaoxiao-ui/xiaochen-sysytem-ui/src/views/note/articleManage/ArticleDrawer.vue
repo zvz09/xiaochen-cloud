@@ -1,36 +1,62 @@
 <template>
-  <!-- 指定一个容器 -->
-  <div v-show="drawer" id="vditor"></div>
+  <el-drawer v-model="drawer" size="100%" :title="`${drawerProps.title}`" destroy-on-close>
+    <!-- 富文本编辑器 -->
+    <VueVditor v-model="contentStr" :options="options" @after="handleAfter" class="editor"></VueVditor>
+    <template #footer>
+      <el-button @click="drawer = false">取消</el-button>
+      <el-button type="primary" @click="submit">确定</el-button>
+    </template>
+  </el-drawer>
 </template>
 <script setup lang="tsx" name="ArticleDrawer">
-// 1.1 引入Vditor 构造函数
 import Vditor from "vditor";
-// 1.2 引入样式
+import VueVditor from "@/components/VueVditor/index.vue";
 import "vditor/dist/index.css";
 import { ref } from "vue";
-import { User } from "@/api/system/user/types";
+import { Article } from "@/api/note/article/types";
 
-// 2. 获取DOM引用
-const vditor = ref();
+const contentStr = ref("");
+let vueEditor: Vditor | null = null;
 
-interface DrawerProps {
-  title: string;
-  row: Partial<User.UserVO>;
-  api?: (params: any) => Promise<any>;
-  getTableList?: () => void;
+function handleAfter(editor: Vditor) {
+  vueEditor = editor;
 }
+
+const drawerProps = ref<Article.DrawerProps>({
+  title: "",
+  row: {},
+  id: ""
+});
 
 const drawer = ref(false);
 
 // 接收父组件传过来的参数
-const acceptParams = (params: DrawerProps) => {
-  console.log(params);
+const acceptParams = (params: Article.DrawerProps) => {
+  drawerProps.value = params;
   drawer.value = true;
-  vditor.value = new Vditor("vditor", {
-    height: "100vh",
-    width: "100vw"
-  });
 };
+
+const options: IOptions = {
+  // theme: 'dark',
+  // preview: {
+  // theme: {
+  //   current: 'dark'
+  // },
+  // },
+  // 模拟上传
+  upload: {
+    url: "/aaa",
+    handler(files: File[]) {
+      console.log(files);
+      vueEditor?.insertValue("![](https://gitee.com/letwrong/Picture/raw/master/20210331155321.jpg)");
+      return "上传成功";
+    }
+  }
+};
+
+function submit() {
+  console.log("--------" + vueEditor?.getValue());
+}
 
 defineExpose({
   acceptParams
