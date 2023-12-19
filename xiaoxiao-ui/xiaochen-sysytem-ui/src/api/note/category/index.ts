@@ -12,7 +12,7 @@ import { ResPage } from "@/api/interface";
  * @returns
  */
 export const pageCategory = (params: Category.PageParams) => {
-  return http.post<ResPage<Category.CategoryDTO>>(NOTE_SERVICE_PATH + `/category/page`, params);
+  return http.post<ResPage<Category.CategoryVO>>(NOTE_SERVICE_PATH + `/category/page`, params);
 };
 
 /**

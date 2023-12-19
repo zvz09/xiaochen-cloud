@@ -50,9 +50,6 @@ export default defineComponent({
         after() {
           emit("after", toRaw(contentEditor.value));
         },
-        input(value: string) {
-          emit("update:modelValue", value);
-        },
         focus(value: string) {
           emit("focus", value);
         },
@@ -73,8 +70,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       newVal => {
-        console.log(newVal);
-        //contentEditor.value?.setValue(newVal);
+        contentEditor.value?.setValue(newVal);
       }
     );
     return {

@@ -10,6 +10,17 @@ export namespace Tags {
     /*排序 */
     sort?: number;
   }
+
+  export interface TagsVO {
+    /* */
+    id: string;
+    /*标签名称 */
+    name: string;
+    /* */
+    clickVolume?: number;
+    /*排序 */
+    sort?: number;
+  }
   export interface ListParams {
     /*页码 */
     pageNum?: number;

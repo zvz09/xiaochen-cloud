@@ -12,7 +12,7 @@ import { ResPage } from "@/api/interface";
  * @returns
  */
 export const pageTags = (params: Tags.ListParams) => {
-  return http.post<ResPage<Tags.TagsDTO>>(NOTE_SERVICE_PATH + `/tags/page`, params);
+  return http.post<ResPage<Tags.TagsVO>>(NOTE_SERVICE_PATH + `/tags/page`, params);
 };
 
 /**

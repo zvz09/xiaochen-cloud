@@ -15,6 +15,22 @@ export namespace Category {
     icon?: string;
   }
 
+  export interface CategoryVO {
+    /* */
+    id: string;
+    /*分类名称 */
+    name: string;
+
+    /* */
+    clickVolume?: number;
+
+    /*排序 */
+    sort?: number;
+
+    /*图标 */
+    icon?: string;
+  }
+
   // 参数接口
   export interface PageParams {
     /*页码 */

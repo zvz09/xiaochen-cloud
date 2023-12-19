@@ -55,7 +55,7 @@ export namespace Article {
     updatedAt?: any;
     deleted?: any;
     userId?: any;
-    categoryId?: any;
+    categoryName?: string;
     title: string;
     avatar?: any;
     summary?: any;
@@ -69,7 +69,7 @@ export namespace Article {
     quantity: number;
     isCarousel?: any;
     isRecommend?: any;
-    keywords?: any;
+    tags?: any;
   }
 
   // 参数接口

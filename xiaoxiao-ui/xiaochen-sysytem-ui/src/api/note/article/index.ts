@@ -68,7 +68,7 @@ export const deleteBatchArticle = (params: string[]) => {
  * @returns
  */
 export const selectArticleById = (id: string) => {
-  return http.get(NOTE_SERVICE_PATH + `/article/${id}`);
+  return http.get<Article.ArticleVO>(NOTE_SERVICE_PATH + `/article/${id}`);
 };
 
 /**

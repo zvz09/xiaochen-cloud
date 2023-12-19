@@ -78,7 +78,6 @@ const dataCallback = (data: any) => {
 const drawerRef = ref<InstanceType<typeof ArticleDrawer> | null>(null);
 
 const openDrawer = (title: string, row: Partial<Article.ArticleVO> = {}) => {
-  console.log(row);
   const params = reactive<Article.DrawerProps>({
     title: title,
     row: { ...row },
