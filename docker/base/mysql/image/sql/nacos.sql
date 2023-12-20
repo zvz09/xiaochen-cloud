@@ -232,6 +232,7 @@ INSERT INTO users (username, password, enabled) VALUES ('nacos', '$2a$10$EuWPZHz
 INSERT INTO roles (username, role) VALUES ('nacos', 'ROLE_ADMIN');
 
 INSERT INTO nacos.tenant_info (id, kp, tenant_id, tenant_name, tenant_desc, create_source, gmt_create, gmt_modified) VALUES (1, '1', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', 'local-docker', 'docker', 'nacos', 1702384721797, 1702384721797);
+INSERT INTO nacos.tenant_info (id, kp, tenant_id, tenant_name, tenant_desc, create_source, gmt_create, gmt_modified) VALUES (2, '1', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', 'local', 'local', 'nacos', 1702517097804, 1702517097804);
 
 INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (14, 'xiaochen-gateway', 'DEFAULT_GROUP', 'spring:
   cloud:
@@ -654,14 +655,7 @@ knife4j:
   setting:
     language: zh_cn
 ', '406edb946386ee25f89a138e2fba00ab', '2023-12-12 20:55:15', '2023-12-12 21:31:38', 'nacos', '172.27.0.1', '', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (24, 'xiaochen-log-server', 'DEFAULT_GROUP', 'spring:
-  # 配置文件上传大小限制
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
-
-es:
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (24, 'xiaochen-log-server', 'DEFAULT_GROUP', 'es:
   address : 192.168.191.1:9200
   api-key: cldYMFBJd0JTOUpnd0FhOTJmV2o6Wi0yaFM1Wk5UUnFlZDliLXlNMnJxQQ==
 
@@ -698,7 +692,7 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', '578db5f00a6ec2cd45e2a063c02dfee9', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', null, null, null, 'text', null, '');
+', '8b2c53872d3de277cdc5a0d6e319735f', '2023-12-12 20:55:15', '2023-12-20 17:14:05', 'nacos', '172.18.0.1', '', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', '', '', '', 'text', '', '');
 INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (25, 'xiaochen-job-admin', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
@@ -746,6 +740,10 @@ INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, 
     username: xiaochen-cloud
     password: 2T5kLTwTYWdsBASH
 
+es:
+  address : 192.168.191.1:9200
+  api-key: cldYMFBJd0JTOUpnd0FhOTJmV2o6Wi0yaFM1Wk5UUnFlZDliLXlNMnJxQQ==
+
 
 #监控
 management:
@@ -774,14 +772,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', '3c46852c901c8df1ae296d2e8712179b', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', null, null, null, 'text', null, '');
-
-INSERT INTO nacos.tenant_info (id, kp, tenant_id, tenant_name, tenant_desc, create_source, gmt_create, gmt_modified)
-VALUES (2, '1', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', 'local', 'local', 'nacos', 1702517097804, 1702517097804);
-
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-gateway', 'DEFAULT_GROUP', 'spring:
+', '46a012305a8682d5e0ce808f5e5d769d', '2023-12-12 20:55:15', '2023-12-20 17:14:17', 'nacos', '172.18.0.1', '', '0c709398-4a48-4c72-8d8d-cfd49671ca1a', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (27, 'xiaochen-gateway', 'DEFAULT_GROUP', 'spring:
   cloud:
     gateway:
       discovery:
@@ -790,7 +782,7 @@ VALUES ('xiaochen-gateway', 'DEFAULT_GROUP', 'spring:
           enabled: true
       routes:
         # 认证中心
-        - id: ruoyi-auth
+        - id: xiaochen-auth
           uri: lb://xiaochen-auth
           predicates:
             - Path=/auth/**
@@ -838,7 +830,13 @@ VALUES ('xiaochen-gateway', 'DEFAULT_GROUP', 'spring:
             - Path=/job/**
           filters:
             - StripPrefix=1
-
+        # 笔记模块
+        - id: xiaochen-note
+          uri: lb://xiaochen-note
+          predicates:
+            - Path=/note/**
+          filters:
+            - StripPrefix=1
 knife4j:
   gateway:
     enabled: true
@@ -864,11 +862,8 @@ security:
       - /doc.html
       - /swagger-ui.html/**
       - /swagger-ui/**
-                  ', 'd5979cb4c121d7b7fc3177c9de3d5609', '2023-12-12 20:55:15', '2023-12-12 21:25:23', 'nacos',
-        '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-system', 'DEFAULT_GROUP', 'spring:
+                  ', '89c3d9a822dfb85c96544be982f66db4', '2023-12-12 20:55:15', '2023-12-19 09:33:26', 'nacos', '172.18.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (28, 'xiaochen-system', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
@@ -905,18 +900,14 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', 'bffc3ffe3affd4fff1b0ed98a1e7b8e7', '2023-12-12 20:55:15', '2023-12-12 21:28:29', 'nacos', '172.27.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('application-dev.yml', 'DEFAULT_GROUP', 'spring:
+', 'bffc3ffe3affd4fff1b0ed98a1e7b8e7', '2023-12-12 20:55:15', '2023-12-12 21:28:29', 'nacos', '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (29, 'application-dev.yml', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   data:
     redis:
       host: 127.0.0.1
       port: 6379
-      password:
       lettuce:
         pool:
           max-active: 20  # 最大连接数，负值表示没有限制，默认8
@@ -939,11 +930,8 @@ mybatis-plus:
 logging:
   config: classpath:logback_xiaochen.xml
   file:
-    path: datacenter', 'd20a5d35728ca8bb6e57d4a98f55e87b', '2023-12-12 20:55:15', '2023-12-12 21:26:20', 'nacos',
-        '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-auth', 'DEFAULT_GROUP', 'spring:
+    path: datacenter', 'f8c471a00241cc571e18a60b20de036d', '2023-12-12 20:55:15', '2023-12-18 13:47:56', 'nacos', '172.18.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (30, 'xiaochen-auth', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   data:
@@ -980,11 +968,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', 'ffcb1a8d37703eb3dba45d2733fee269', '2023-12-12 20:55:15', '2023-12-12 21:29:08', 'nacos', '172.27.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('sentinel-xiaochen-gateway', 'DEFAULT_GROUP', '[
+', 'ffcb1a8d37703eb3dba45d2733fee269', '2023-12-12 20:55:15', '2023-12-12 21:29:08', 'nacos', '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (31, 'sentinel-xiaochen-gateway', 'DEFAULT_GROUP', '[
     {
         "resource": "xiaochen-auth",
         "count": 500,
@@ -1017,11 +1002,8 @@ VALUES ('sentinel-xiaochen-gateway', 'DEFAULT_GROUP', '[
         "strategy": 0,
         "controlBehavior": 0
     }
-]', 'c8d34ab45d764cea74afbaafab695da6', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-monitor', 'DEFAULT_GROUP', '# spring
+]', 'c8d34ab45d764cea74afbaafab695da6', '2023-12-12 20:55:15', '2023-12-18 16:39:21', 'nacos', '172.18.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (32, 'xiaochen-monitor', 'DEFAULT_GROUP', '# spring
 spring:
   security:
     user:
@@ -1031,11 +1013,8 @@ spring:
     admin:
       ui:
         title: 筱筱服务状态监控
-', 'ea0e34f11491f0feb902b8fd4128d412', '2023-12-12 20:55:15', '2023-12-12 21:29:23', 'nacos', '172.27.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-autocode', 'DEFAULT_GROUP', 'spring:
+', 'ea0e34f11491f0feb902b8fd4128d412', '2023-12-12 20:55:15', '2023-12-12 21:29:23', 'nacos', '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (33, 'xiaochen-autocode', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
@@ -1083,11 +1062,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', '14395e5df07af34f7bc7f3b126bba787', '2023-12-12 20:55:15', '2023-12-12 21:30:06', 'nacos', '172.27.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-message', 'DEFAULT_GROUP', 'spring:
+', '14395e5df07af34f7bc7f3b126bba787', '2023-12-12 20:55:15', '2023-12-12 21:30:06', 'nacos', '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (34, 'xiaochen-message', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
@@ -1135,11 +1111,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', 'e554d0cffd76ac5b9a06a9b901dd06f5', '2023-12-12 20:55:15', '2023-12-12 21:30:46', 'nacos', '172.27.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-flowable', 'DEFAULT_GROUP', 'spring:
+', 'e554d0cffd76ac5b9a06a9b901dd06f5', '2023-12-12 20:55:15', '2023-12-12 21:30:46', 'nacos', '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (35, 'xiaochen-flowable', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
@@ -1182,11 +1155,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', 'abfed7dbc5e4434707870ea13bc0c7d5', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-file', 'DEFAULT_GROUP', 'spring:
+', 'abfed7dbc5e4434707870ea13bc0c7d5', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (36, 'xiaochen-file', 'DEFAULT_GROUP', 'spring:
   # 配置文件上传大小限制
   servlet:
     multipart:
@@ -1228,11 +1198,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', '406edb946386ee25f89a138e2fba00ab', '2023-12-12 20:55:15', '2023-12-12 21:31:38', 'nacos', '172.27.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-log-server', 'DEFAULT_GROUP', '
+', '406edb946386ee25f89a138e2fba00ab', '2023-12-12 20:55:15', '2023-12-12 21:31:38', 'nacos', '172.27.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (37, 'xiaochen-log-server', 'DEFAULT_GROUP', '
 es:
   address : 192.168.191.1:9200
   api-key: cldYMFBJd0JTOUpnd0FhOTJmV2o6Wi0yaFM1Wk5UUnFlZDliLXlNMnJxQQ==
@@ -1270,11 +1237,8 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', '578db5f00a6ec2cd45e2a063c02dfee9', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-job-admin', 'DEFAULT_GROUP', 'spring:
+', '578db5f00a6ec2cd45e2a063c02dfee9', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (38, 'xiaochen-job-admin', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
@@ -1311,18 +1275,19 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', 'c3a65afce0b69fca64d1cf554d14ac02', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
-INSERT INTO nacos.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                               app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key)
-VALUES ('xiaochen-note', 'DEFAULT_GROUP', 'spring:
+', 'c3a65afce0b69fca64d1cf554d14ac02', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (39, 'xiaochen-note', 'DEFAULT_GROUP', 'spring:
   cache:
     type: simple #指定所使用的缓存管理器
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
     username: xiaochen
-    password: !QAZ2wsx#EDC
+    password: \'!QAZ2wsx#EDC\'
+
+es:
+  address : 192.168.191.1:9200
+  api-key: cldYMFBJd0JTOUpnd0FhOTJmV2o6Wi0yaFM1Wk5UUnFlZDliLXlNMnJxQQ==
 
 
 #监控
@@ -1352,6 +1317,4 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-', '3c46852c901c8df1ae296d2e8712179b', '2023-12-12 20:55:15', '2023-12-12 20:55:15', null, '172.22.0.1', '',
-        'f144b10b-ab75-4f5a-8e57-a13af514cf10', null, null, null, 'text', null, '');
-
+', 'fe9b17fe91fa3a5e39ec365a4d1a4a65', '2023-12-12 20:55:15', '2023-12-20 11:32:58', 'nacos', '172.18.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
