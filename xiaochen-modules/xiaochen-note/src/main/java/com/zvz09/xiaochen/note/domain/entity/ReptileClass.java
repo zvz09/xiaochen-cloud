@@ -32,4 +32,6 @@ public class ReptileClass extends BaseEntity {
     @Schema(description ="类内容")
     private String content;
 
+    @Schema(description ="启用状态")
+    private Boolean status;
 }

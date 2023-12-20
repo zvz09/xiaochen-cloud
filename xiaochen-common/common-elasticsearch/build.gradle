@@ -1,0 +1,20 @@
+description = 'common-elasticsearch'
+
+jar.enabled = true
+bootJar.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework:spring-context'
+    implementation 'org.slf4j:slf4j-api'
+    api project(':xiaochen-common:common-core')
+    api 'co.elastic.clients:elasticsearch-java:8.11.1'
+
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}

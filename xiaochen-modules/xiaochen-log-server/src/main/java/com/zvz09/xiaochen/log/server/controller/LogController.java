@@ -1,11 +1,11 @@
 package com.zvz09.xiaochen.log.server.controller;
 
 import com.zvz09.xiaochen.common.core.response.ApiResult;
+import com.zvz09.xiaochen.common.elasticsearch.dto.EsPage;
 import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;
 import com.zvz09.xiaochen.log.server.domain.LogIndex;
 import com.zvz09.xiaochen.log.server.domain.LogQueryBody;
 import com.zvz09.xiaochen.log.server.domain.OperationLogQueryBody;
-import com.zvz09.xiaochen.log.server.domain.dto.EsPage;
 import com.zvz09.xiaochen.log.server.service.LogEsService;
 import com.zvz09.xiaochen.log.server.service.OperationLogEsService;
 import io.swagger.v3.oas.annotations.Operation;

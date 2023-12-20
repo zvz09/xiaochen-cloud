@@ -22,13 +22,21 @@ public class UpdateReptileDataParser {
     private final ReptileService reptileService;
     @RabbitListener(queues = {RabbitMQConfig.QUEUE_INFORM_ADD})
     public void addDataParserStrategy(String msg, Message message, Channel channel){
-        ReptileClass reptileClass = JacksonUtil.readValue(msg,ReptileClass.class);
-        reptileService.loadClass(reptileClass);
+       try {
+           ReptileClass reptileClass = JacksonUtil.readValue(msg,ReptileClass.class);
+           reptileService.loadClassAndRegisterBean(reptileClass);
+       }catch (Exception e){
+           log.error("addDataParserStrategy error:{}",e.getMessage(),e);
+       }
     }
 
     @RabbitListener(queues = {RabbitMQConfig.QUEUE_INFORM_REMOVE})
     public void removeDataParserStrategy(String msg, Message message, Channel channel){
-        reptileService.removeBean(msg);
+        try {
+            reptileService.removeBean(msg);
+        }catch (Exception e){
+            log.error("removeDataParserStrategy error:{}",e.getMessage(),e);
+        }
     }
 
 }

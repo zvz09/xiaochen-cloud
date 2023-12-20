@@ -60,4 +60,6 @@ include 'xiaochen-modules:xiaochen-note'
 findProject(':xiaochen-modules:xiaochen-note')?.name = 'xiaochen-note'
 include 'xiaochen-common:common-log'
 findProject(':xiaochen-common:common-log')?.name = 'common-log'
+include 'xiaochen-common:common-elasticsearch'
+findProject(':xiaochen-common:common-elasticsearch')?.name = 'common-elasticsearch'
 

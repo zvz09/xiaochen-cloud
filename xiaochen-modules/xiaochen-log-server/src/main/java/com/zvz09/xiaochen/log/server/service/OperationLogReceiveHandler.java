@@ -3,6 +3,7 @@ package com.zvz09.xiaochen.log.server.service;
 
 import com.rabbitmq.client.Channel;
 import com.zvz09.xiaochen.common.core.util.JacksonUtil;
+import com.zvz09.xiaochen.common.elasticsearch.service.ElasticsearchService;
 import com.zvz09.xiaochen.common.log.config.LogRabbitMqConfig;
 import com.zvz09.xiaochen.common.log.constants.LogConstant;
 import com.zvz09.xiaochen.common.log.domain.entity.OperationLog;

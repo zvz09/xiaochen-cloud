@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.note.strategy;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.note.compiler.DynamicCompiler;
 import com.zvz09.xiaochen.note.domain.dto.ArticleDTO;
@@ -52,7 +53,7 @@ public class ReptileService implements ApplicationContextAware {
     }
 
     public void loadDbClass(){
-        List<ReptileClass> reptileClassList = reptileClassService.list();
+        List<ReptileClass> reptileClassList = reptileClassService.list(new LambdaQueryWrapper<ReptileClass>().eq(ReptileClass::getStatus,true));
         reptileClassList.forEach(reptileClass -> {
             try {
                 Class clz = compileAndLoad(reptileClass);
@@ -119,7 +120,7 @@ public class ReptileService implements ApplicationContextAware {
      * 加载新策略类
      * @param reptileClass
      */
-    public synchronized  void loadClass(ReptileClass reptileClass){
+    public synchronized  void loadClassAndRegisterBean(ReptileClass reptileClass){
         try {
             Class clz = compileAndLoad(reptileClass);
             registerBean(reptileClass.getClassName(), clz);

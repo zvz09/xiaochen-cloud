@@ -18,7 +18,7 @@ public class ArticleVO {
 
     @JsonSerialize(using = ToStringSerializer.class) //雪花算法id 返给前端转为 string类型
     private Long id;
-    @JsonIgnore
+
     private Long userId;
 
     @Schema(description = "用户名")
@@ -62,4 +62,7 @@ public class ArticleVO {
 
     private List<String> tags;
 
+    private String createdAt;
+
+    private String updatedAt;
 }

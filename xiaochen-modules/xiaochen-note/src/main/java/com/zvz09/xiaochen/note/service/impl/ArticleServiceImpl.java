@@ -21,6 +21,7 @@ import com.zvz09.xiaochen.note.mapper.TagsMapper;
 import com.zvz09.xiaochen.note.service.IArticleService;
 import com.zvz09.xiaochen.note.service.IArticleTagService;
 import com.zvz09.xiaochen.note.service.IReptileDocumentService;
+import com.zvz09.xiaochen.note.service.SyncToEsService;
 import com.zvz09.xiaochen.note.strategy.ReptileService;
 import com.zvz09.xiaochen.system.api.RemoteUserService;
 import com.zvz09.xiaochen.system.api.domain.entity.SysUser;
@@ -57,12 +58,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private static final String IMG_URL_API = "https://api.btstu.cn/sjbz/api.php?lx=fengjing&format=json";
 
     private final RemoteUserService remoteUserService;
+    private final SyncToEsService syncToEsService;
 
     private final CategoryMapper categoryMapper;
     private final TagsMapper tagsMapper;
     private final IArticleTagService articleTagService;
     private final ReptileService reptileService;
     private final IReptileDocumentService reptileDocumentService;
+
 
 
     @Value("${baidu.url:http://data.zz.baidu.com/urls?site=www.shiyit.com&token=aw5iVpNEB9aQJOYZ}")
@@ -112,6 +115,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             tagList.forEach(tag -> articleTags.add(new ArticleTag(blogArticle.getId(), tag)));
             articleTagService.saveBatch(articleTags);
         }
+        syncToEsService.syncArticle(blogArticle);
     }
 
     @Override
@@ -139,6 +143,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             tagList.forEach(tag -> articleTags.add(new ArticleTag(articleId, tag)));
             articleTagService.saveBatch(articleTags);
         }
+        syncToEsService.syncArticle(blogArticle);
     }
 
     @Override

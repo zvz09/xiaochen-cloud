@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.log.server.service;
+package com.zvz09.xiaochen.common.elasticsearch.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchAsyncClient;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
@@ -16,7 +16,7 @@ import co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient;
 import co.elastic.clients.elasticsearch.indices.GetIndexRequest;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import co.elastic.clients.elasticsearch.indices.IndexState;
-import com.zvz09.xiaochen.log.server.domain.dto.EsPage;
+import com.zvz09.xiaochen.common.elasticsearch.dto.EsPage;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -223,7 +223,7 @@ public class ElasticsearchService<T> {
          * @return EsPage 对象
          */
         @SneakyThrows
-        public <V> EsPage<V> page(SearchRequest searchRequest,Class<T> clazz,Function<T, V> mapper) {
+        public <V> EsPage<V> page(SearchRequest searchRequest, Class<T> clazz, Function<T, V> mapper) {
 
 
             int p = Objects.isNull(searchRequest.size()) ? 10 : searchRequest.size();

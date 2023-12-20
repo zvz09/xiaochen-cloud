@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.log.server.domain.dto;
+package com.zvz09.xiaochen.common.elasticsearch.dto;
 
 import lombok.Data;
 

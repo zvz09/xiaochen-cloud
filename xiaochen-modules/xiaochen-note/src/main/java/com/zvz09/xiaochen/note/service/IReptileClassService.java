@@ -1,6 +1,7 @@
 package com.zvz09.xiaochen.note.service;
 
 import com.zvz09.xiaochen.common.web.service.BaseService;
+import com.zvz09.xiaochen.note.constant.OperateAction;
 import com.zvz09.xiaochen.note.domain.entity.ReptileClass;
 
 /**
@@ -13,4 +14,5 @@ import com.zvz09.xiaochen.note.domain.entity.ReptileClass;
  */
 public interface IReptileClassService extends BaseService<ReptileClass> {
 
+    void operate(Long id, OperateAction operate);
 }

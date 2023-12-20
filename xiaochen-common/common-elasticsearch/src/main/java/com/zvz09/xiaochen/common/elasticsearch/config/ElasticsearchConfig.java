@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.log.server.config;
+package com.zvz09.xiaochen.common.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch.ElasticsearchAsyncClient;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
