@@ -85,7 +85,6 @@ const acceptParams = (params: Article.DrawerProps) => {
   } else {
     drawer.value = true;
   }
-  console.log(vueEditor);
 };
 
 const options: IOptions = {

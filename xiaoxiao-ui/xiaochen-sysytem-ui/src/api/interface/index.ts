@@ -7,7 +7,16 @@ export interface Result {
 
 // 请求响应参数（包含data）
 export interface ResultData<T = any> extends Result {
+  /*响应结果数据 */
   data: T;
+  /*响应编码 200：成功，500：失败 */
+  code: number;
+
+  /*响应结果 true：成功，false：失败 */
+  success: boolean;
+
+  /*响应消息 */
+  msg: string;
 }
 
 // 分页响应参数

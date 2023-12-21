@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.note.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zvz09.xiaochen.note.domain.entity.ReptileClass;
+import com.zvz09.xiaochen.note.domain.entity.ReptileParseClass;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.zvz09.xiaochen.note.domain.entity.ReptileClass;
  * @author zvz09
  * @since 2023-12-13
  */
-public interface ReptileClassMapper extends BaseMapper<ReptileClass> {
+public interface ReptileParseClassMapper extends BaseMapper<ReptileParseClass> {
 
 }

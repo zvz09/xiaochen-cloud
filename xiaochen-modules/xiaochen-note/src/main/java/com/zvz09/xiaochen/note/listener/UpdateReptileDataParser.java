@@ -3,7 +3,7 @@ package com.zvz09.xiaochen.note.listener;
 import com.rabbitmq.client.Channel;
 import com.zvz09.xiaochen.common.core.util.JacksonUtil;
 import com.zvz09.xiaochen.note.config.RabbitMQConfig;
-import com.zvz09.xiaochen.note.domain.entity.ReptileClass;
+import com.zvz09.xiaochen.note.domain.entity.ReptileParseClass;
 import com.zvz09.xiaochen.note.strategy.ReptileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +23,8 @@ public class UpdateReptileDataParser {
     @RabbitListener(queues = {RabbitMQConfig.QUEUE_INFORM_ADD})
     public void addDataParserStrategy(String msg, Message message, Channel channel){
        try {
-           ReptileClass reptileClass = JacksonUtil.readValue(msg,ReptileClass.class);
-           reptileService.loadClassAndRegisterBean(reptileClass);
+           ReptileParseClass reptileParseClass = JacksonUtil.readValue(msg, ReptileParseClass.class);
+           reptileService.loadClassAndRegisterBean(reptileParseClass);
        }catch (Exception e){
            log.error("addDataParserStrategy error:{}",e.getMessage(),e);
        }

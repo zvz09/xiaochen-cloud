@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public abstract class BaseController<S extends BaseService<E>, E extends BaseEnt
 
     @Operation(summary = "添加")
     @PostMapping()
-    public void insert(@RequestBody D dto) {
+    public void insert(@RequestBody D dto) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         E e = dto.convertedToPo();
         e.setId(null);
         baseService.save(e);

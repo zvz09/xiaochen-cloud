@@ -125,7 +125,7 @@ public class SysPermCodeServiceImpl extends ServiceImpl<SysPermCodeMapper, SysPe
     public IPage<SysPermCodeVo> listTree(BasePage basePage) {
         if (basePage == null || StringUtils.isBlank(basePage.getKeyword())) {
             List<SysPermCode> sysPermCodeList = this.list();
-            if(sysPermCodeList == null || !sysPermCodeList.isEmpty()){
+            if(sysPermCodeList == null || sysPermCodeList.isEmpty()){
                 return new Page<>(1, 0);
             }
             List<SysPermCodeVo> voList = new TreeBuilder<SysPermCode, SysPermCodeVo>(t -> t.getParentId() == 0L)

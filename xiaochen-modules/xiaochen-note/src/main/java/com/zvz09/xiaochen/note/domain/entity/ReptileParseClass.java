@@ -22,9 +22,11 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@TableName("note_reptile_class")
-@Schema(description =  "爬取数据类")
-public class ReptileClass extends BaseEntity {
+@TableName("note_reptile_parse_class")
+@Schema(description =  "爬虫数据解析类")
+public class ReptileParseClass extends BaseEntity {
+
+    private String siteUrl;
 
     @Schema(description ="类名")
     private String className;

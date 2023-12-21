@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.note.compiler.DynamicCompiler;
 import com.zvz09.xiaochen.note.domain.dto.ArticleDTO;
-import com.zvz09.xiaochen.note.domain.entity.ReptileClass;
-import com.zvz09.xiaochen.note.service.IReptileClassService;
+import com.zvz09.xiaochen.note.domain.entity.ReptileParseClass;
+import com.zvz09.xiaochen.note.service.IReptileParseClassService;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +19,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +42,7 @@ public class ReptileService implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-    private final IReptileClassService reptileClassService;
+    private final IReptileParseClassService reptileClassService;
 
     private final Map<String, ReptileDataParserStrategy> strategyMap = new HashMap<>();
 
@@ -53,12 +57,12 @@ public class ReptileService implements ApplicationContextAware {
     }
 
     public void loadDbClass(){
-        List<ReptileClass> reptileClassList = reptileClassService.list(new LambdaQueryWrapper<ReptileClass>().eq(ReptileClass::getStatus,true));
-        reptileClassList.forEach(reptileClass -> {
+        List<ReptileParseClass> reptileParseClassList = reptileClassService.list(new LambdaQueryWrapper<ReptileParseClass>().eq(ReptileParseClass::getStatus,true));
+        reptileParseClassList.forEach(reptileClass -> {
             try {
                 Class clz = compileAndLoad(reptileClass);
                 registerBean(reptileClass.getClassName(), clz);
-            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
                 log.error("未找到对应类", e);
                 throw new BusinessException("未找到对应类");
             }
@@ -75,55 +79,65 @@ public class ReptileService implements ApplicationContextAware {
         defaultListableBeanFactory.registerBeanDefinition(beanName,beanDefinitionBuilder.getBeanDefinition());
     }
 
-    private Class compileAndLoad(@NotNull ReptileClass reptileClass) throws ClassNotFoundException {
-        if(StringUtils.isEmpty(reptileClass.getContent())){
-            log.error("配置为空");
-            throw new BusinessException("配置为空");
-        }
+    public Class<ReptileDataParserStrategy> compileAndLoad(@NotNull ReptileParseClass reptileParseClass) throws ClassNotFoundException {
 
-        String packageName="" ,className = "";
-        if(reptileClass.getContent().startsWith("package")){
-            Matcher matcher = PACKAGE_NAME_PATTERN.matcher(reptileClass.getContent());
-            if (matcher.find()) {
-                packageName = matcher.group(1);
-            } else {
-                log.error("策略类缺少包配置");
-                throw new BusinessException("策略类缺少包配置");
-            }
-        }else {
-            log.error("策略类缺少包配置");
-            throw new BusinessException("策略类缺少包配置");
+        CheckResult result = checkReptileParseClass(reptileParseClass);
+        if(!result.getErrMsg().isEmpty()){
+            throw new BusinessException(result.getErrMsgString());
         }
-
-        Matcher matcher = CLASS_NAME_PATTERN.matcher(reptileClass.getContent());
-        if (matcher.find()) {
-            className = matcher.group(1);
-        } else {
-            log.error("获取策略类名失败");
-            throw new BusinessException("获取策略类名失败");
-        }
-
-        if(strategyMap.containsKey(className)){
-            log.error("策略类名重复");
-            throw new BusinessException("策略类名重复");
-        }
-
-        String fullName = packageName+"."+ className;
+        String fullName = result.getPackageName()+"."+ result.getClassName();
 
         DynamicCompiler compiler = new DynamicCompiler();
-        Class clz = compiler.compileAndLoad(fullName, reptileClass.getContent());
-        strategyMap.put(className,null);
+        Class clz = compiler.compileAndLoad(fullName, reptileParseClass.getContent());
+        strategyMap.put(result.getClassName(),null);
         return clz;
     }
 
+    public CheckResult checkReptileParseClass(ReptileParseClass reptileParseClass){
+        CheckResult checkResult = new CheckResult();
+
+        if(StringUtils.isEmpty(reptileParseClass.getContent())){
+            log.error("配置为空");
+            checkResult.addErrMsg("配置为空");
+            return checkResult;
+        }
+        if(reptileParseClass.getContent().startsWith("package")){
+            Matcher matcher = PACKAGE_NAME_PATTERN.matcher(reptileParseClass.getContent());
+            if (matcher.find()) {
+                checkResult.setPackageName(matcher.group(1));
+            } else {
+                log.error("策略类缺少包配置");
+                checkResult.addErrMsg("策略类缺少包配置");
+            }
+        }else {
+            log.error("策略类缺少包配置");
+            checkResult.addErrMsg("策略类缺少包配置");
+        }
+
+        Matcher matcher = CLASS_NAME_PATTERN.matcher(reptileParseClass.getContent());
+        if (matcher.find()) {
+            checkResult.setClassName(matcher.group(1));
+        } else {
+            log.error("获取策略类名失败");
+            checkResult.addErrMsg("获取策略类名失败");
+        }
+
+        if(strategyMap.containsKey(checkResult.getClassName())){
+            log.error("策略类名重复");
+            checkResult.addErrMsg("策略类名与已加载策略类名重复");
+        }
+        return checkResult;
+    }
+
+
     /**
      * 加载新策略类
-     * @param reptileClass
+     * @param reptileParseClass
      */
-    public synchronized  void loadClassAndRegisterBean(ReptileClass reptileClass){
+    public synchronized  void loadClassAndRegisterBean(ReptileParseClass reptileParseClass){
         try {
-            Class clz = compileAndLoad(reptileClass);
-            registerBean(reptileClass.getClassName(), clz);
+            Class clz = compileAndLoad(reptileParseClass);
+            registerBean(reptileParseClass.getClassName(), clz);
             strategyMap.clear();
             Map<String, ReptileDataParserStrategy> beans = applicationContext.getBeansOfType(ReptileDataParserStrategy.class);
             if (!beans.isEmpty()) {
@@ -143,7 +157,6 @@ public class ReptileService implements ApplicationContextAware {
         if(strategyMap.containsKey(beanName)){
             //获取BeanFactory
             DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory)ReptileService.applicationContext.getAutowireCapableBeanFactory();
-
             //卸载bean
             defaultListableBeanFactory.removeBeanDefinition(beanName);
             //删除
@@ -162,5 +175,20 @@ public class ReptileService implements ApplicationContextAware {
             }
         }
         return null;
+    }
+
+    @Data
+    public static class CheckResult {
+        private String packageName;
+        private String className;
+        private List<String> errMsg = new ArrayList<>();
+
+        public  void addErrMsg(String errMsg) {
+            this.errMsg.add(errMsg);
+        }
+
+        public String getErrMsgString() {
+            return String.join(",", errMsg);
+        }
     }
 }
