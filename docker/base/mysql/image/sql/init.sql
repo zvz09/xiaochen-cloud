@@ -516,8 +516,10 @@ INSERT INTO `xiaochen-cloud`.sys_dictionary_detail (id, created_at, updated_at, 
 INSERT INTO `xiaochen-cloud`.sys_dictionary_detail (id, created_at, updated_at, deleted, label, value, status, tag_type, sort, sys_dictionary_id) VALUES (1731572607387471873, '2023-12-04 15:14:15', '2023-12-04 15:14:15', 0, 'RUNNING', '1', 1, 'success', 1, 1731572342575894529);
 INSERT INTO `xiaochen-cloud`.sys_dictionary_detail (id, created_at, updated_at, deleted, label, value, status, tag_type, sort, sys_dictionary_id) VALUES (1731572708017213442, '2023-12-04 15:14:39', '2023-12-04 15:14:39', 0, 'STOP', '0', 1, 'info', 2, 1731572342575894529);
 
+INSERT INTO `xiaochen-cloud`.job_info (id, created_at, updated_at, deleted, job_group, job_desc, author, alarm_email, schedule_type, schedule_conf, misfire_strategy, executor_route_strategy, executor_handler, executor_param, executor_block_strategy, executor_timeout, executor_fail_retry_count, glue_type, glue_source, glue_remark, glue_updatetime, trigger_status) VALUES (1729781272649256961, '2023-11-29 16:36:08', '2023-12-07 23:58:03', 0, 'xiaochen-log-server', 'xiaochen-log-server', null, null, 'Cron', '0/10 * * * * ?', 'DO_NOTHING', null, 'cleanOverdueLog', '', '', 0, 0, 'BEAN', '', '', null, 0);
+INSERT INTO `xiaochen-cloud`.job_info (id, created_at, updated_at, deleted, job_group, job_desc, author, alarm_email, schedule_type, schedule_conf, misfire_strategy, executor_route_strategy, executor_handler, executor_param, executor_block_strategy, executor_timeout, executor_fail_retry_count, glue_type, glue_source, glue_remark, glue_updatetime, trigger_status) VALUES (1729781272649256962, '2023-11-30 10:57:09', '2023-12-07 23:57:51', 0, 'xiaochen-auth', 'xiaochen-auth', null, null, 'Cron', '0/50 * * * * ?', 'DO_NOTHING', null, 'cleanJwtBlackListJob', null, null, 0, 0, 'BEAN', null, null, null, 0);
 
-INSERT INTO `xiaochen-cloud`.note_reptile_class (id, created_at, updated_at, deleted, class_name, content, status) VALUES (1, '2023-12-13 16:56:37', '2023-12-13 16:56:38', 0, 'JueJinParser', 'package com.zvz09.xiaochen.note.strategy.impl;
+INSERT INTO `xiaochen-cloud`.note_reptile_parse_class (id, created_at, updated_at, deleted, class_name, site_url, content, status) VALUES (1, '2023-12-13 16:56:37', '2023-12-13 16:56:38', 0, 'JueJinParser', 'https://juejin.cn', 'package com.zvz09.xiaochen.note.strategy.impl;
 
 import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
 import com.vladsch.flexmark.util.data.MutableDataSet;
@@ -567,7 +569,114 @@ public class JueJinParser implements ReptileDataParserStrategy {
         return dto;
     }
 }
-', 1);
+', 0);
+INSERT INTO `xiaochen-cloud`.note_reptile_parse_class (id, created_at, updated_at, deleted, class_name, site_url, content, status) VALUES (1737774513654931457, '2023-12-21 17:58:25', '2023-12-21 17:58:25', 0, 'CloudTencentParser', 'https://cloud.tencent.com', 'package com.zvz09.xiaochen.note.strategy.impl;
 
-INSERT INTO `xiaochen-cloud`.job_info (id, created_at, updated_at, deleted, job_group, job_desc, author, alarm_email, schedule_type, schedule_conf, misfire_strategy, executor_route_strategy, executor_handler, executor_param, executor_block_strategy, executor_timeout, executor_fail_retry_count, glue_type, glue_source, glue_remark, glue_updatetime, trigger_status) VALUES (1729781272649256961, '2023-11-29 16:36:08', '2023-12-07 23:58:03', 0, 'xiaochen-log-server', 'xiaochen-log-server', null, null, 'Cron', '0/10 * * * * ?', 'DO_NOTHING', null, 'cleanOverdueLog', '', '', 0, 0, 'BEAN', '', '', null, 0);
-INSERT INTO `xiaochen-cloud`.job_info (id, created_at, updated_at, deleted, job_group, job_desc, author, alarm_email, schedule_type, schedule_conf, misfire_strategy, executor_route_strategy, executor_handler, executor_param, executor_block_strategy, executor_timeout, executor_fail_retry_count, glue_type, glue_source, glue_remark, glue_updatetime, trigger_status) VALUES (1729781272649256962, '2023-11-30 10:57:09', '2023-12-07 23:57:51', 0, 'xiaochen-auth', 'xiaochen-auth', null, null, 'Cron', '0/50 * * * * ?', 'DO_NOTHING', null, 'cleanJwtBlackListJob', null, null, 0, 0, 'BEAN', null, null, null, 0);
+import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+import com.zvz09.xiaochen.note.domain.dto.ArticleDTO;
+import com.zvz09.xiaochen.note.strategy.ReptileDataParserStrategy;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+/**
+ * @author zvz09
+ */
+public class CloudTencentParser implements ReptileDataParserStrategy {
+    @Override
+    public String getBaseUrl() {
+        return "https://cloud.tencent.com";
+    }
+
+    @Override
+    public ArticleDTO parseData(Document document) {
+        ArticleDTO dto = new ArticleDTO();
+        dto.setTitle(document.title());
+        Element articleElement = document.getElementsByClass("mod-content").get(0);
+        MutableDataSet options = new MutableDataSet();
+        String markdown = FlexmarkHtmlConverter.builder(options).build().convert(articleElement);
+        dto.setContent(markdown);
+        return dto;
+    }
+}
+', null);
+INSERT INTO `xiaochen-cloud`.note_reptile_parse_class (id, created_at, updated_at, deleted, class_name, site_url, content, status) VALUES (1737774591962587138, '2023-12-21 17:58:44', '2023-12-21 17:58:44', 0, 'CnblogParser', 'https://www.cnblogs.com', 'package com.zvz09.xiaochen.note.strategy.impl;
+
+import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+import com.zvz09.xiaochen.note.domain.dto.ArticleDTO;
+import com.zvz09.xiaochen.note.strategy.ReptileDataParserStrategy;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+/**
+ * 博客园
+ *
+ * @author zvz09
+ */
+public class CnblogParser implements ReptileDataParserStrategy {
+    @Override
+    public String getBaseUrl() {
+        return "https://www.cnblogs.com";
+    }
+
+    @Override
+    public ArticleDTO parseData(Document document) {
+        ArticleDTO dto = new ArticleDTO();
+        dto.setTitle(document.title());
+        Element articleElement = document.getElementsByClass("postBody").get(0);
+        MutableDataSet options = new MutableDataSet();
+        String markdown = FlexmarkHtmlConverter.builder(options).build().convert(articleElement);
+        dto.setContent(markdown);
+        return dto;
+    }
+}
+', null);
+INSERT INTO `xiaochen-cloud`.note_reptile_parse_class (id, created_at, updated_at, deleted, class_name, site_url, content, status) VALUES (1737774640893337602, '2023-12-21 17:58:55', '2023-12-21 17:58:55', 0, 'CSDNParser', 'https://blog.csdn.net', 'package com.zvz09.xiaochen.note.strategy.impl;
+
+import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+import com.zvz09.xiaochen.note.domain.dto.ArticleDTO;
+import com.zvz09.xiaochen.note.strategy.ReptileDataParserStrategy;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * CSDN
+ *
+ * @author zvz09
+ */
+public class CSDNParser implements ReptileDataParserStrategy {
+
+    @Override
+    public String getBaseUrl() {
+        return "https://blog.csdn.net";
+    }
+
+    @Override
+    public ArticleDTO parseData(Document document) {
+        ArticleDTO dto = new ArticleDTO();
+        dto.setTitle(document.title());
+        Element articleElement = document.getElementById("article_content");
+        MutableDataSet options = new MutableDataSet();
+        String markdown = FlexmarkHtmlConverter.builder(options).build().convert(articleElement);
+        dto.setContent(markdown);
+        Elements tagElements = document.getElementsByClass("tag-link");
+        if (tagElements != null) {
+            List<String> tags = new ArrayList<>();
+            tagElements.forEach(item -> {
+                if (StringUtils.isNotBlank(item.text())) {
+                    tags.add(item.text());
+                }
+            });
+            dto.setTags(tags);
+        }
+        return dto;
+    }
+}
+', null);
