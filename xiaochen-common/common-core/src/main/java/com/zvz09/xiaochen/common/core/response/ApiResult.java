@@ -40,34 +40,34 @@ public class ApiResult<T> implements Serializable {
     public ApiResult() {
     }
 
-    public static ApiResult success() {
+    public static ApiResult<String> success() {
         return success(null);
     }
 
-    public static ApiResult success(Object data) {
+    public static <T> ApiResult<T> success(T data) {
         return result(ApiCode.SUCCESS, data);
     }
 
-    public static ApiResult fail(String message) {
+    public static ApiResult<String> fail(String message) {
         return fail(ApiCode.FAIL, message);
     }
 
-    public static ApiResult fail(ApiCode apiCode) {
+    public static ApiResult<String> fail(ApiCode apiCode) {
         return fail(apiCode, null);
     }
 
-    public static ApiResult fail(ApiCode apiCode, String message) {
+    public static ApiResult<String> fail(ApiCode apiCode, String message) {
         if (ApiCode.SUCCESS == apiCode) {
             throw new RuntimeException("失败结果状态码不能为" + ApiCode.SUCCESS.getCode());
         }
         return result(apiCode, StringUtils.isBlank(message) ? apiCode.getMsg() : message, null);
     }
 
-    public static ApiResult result(ApiCode apiCode, Object data) {
+    public static <T> ApiResult<T> result(ApiCode apiCode, T data) {
         return result(apiCode, null, data);
     }
 
-    public static ApiResult result(ApiCode apiCode, String message, Object data) {
+    public static <T> ApiResult<T> result(ApiCode apiCode, String message, T data) {
         if (apiCode == null) {
             throw new RuntimeException("结果状态码不能为空");
         }
@@ -82,7 +82,7 @@ public class ApiResult<T> implements Serializable {
         } else {
             outMessage = message;
         }
-        return ApiResult.builder()
+        return ApiResult.<T>builder()
                 .code(code)
                 .msg(outMessage)
                 .data(data)

@@ -32,7 +32,7 @@ import java.util.Objects;
 @Tag(name = "流程部署")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/flowable/deploy")
+@RequestMapping("/deploy")
 public class FlowableDeployController {
 
     private final IFlowableDeployService flowableDeployService;
@@ -67,7 +67,7 @@ public class FlowableDeployController {
     @PutMapping(value = "/{definitionId}/{state}")
     @Operation(summary = "激活或挂起流程")
     @BizNo(spEl = "{#definitionId}")
-    public ApiResult<Void> changeState(@PathVariable(value = "definitionId") String definitionId,
+    public ApiResult<String> changeState(@PathVariable(value = "definitionId") String definitionId,
                                        @PathVariable(value = "state") String state) {
         flowableDeployService.updateState(definitionId, state);
         return ApiResult.success();

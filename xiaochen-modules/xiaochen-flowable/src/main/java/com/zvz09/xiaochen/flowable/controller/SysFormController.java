@@ -34,7 +34,7 @@ import java.util.List;
 @Tag(name = "流程表单")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/flowable/form")
+@RequestMapping("/form")
 public class SysFormController {
     private final ISysFormService sysFormService;
 
@@ -46,7 +46,7 @@ public class SysFormController {
      */
     @PostMapping("/page")
     @Operation(summary = "查询流程表单列表")
-    public ApiResult list(@RequestBody SysFormQuery sysFormQuery) {
+    public ApiResult<Page<SysForm>> list(@RequestBody SysFormQuery sysFormQuery) {
         Page<SysForm> page = sysFormService.selectSysFormPage(sysFormQuery);
         return ApiResult.success(page);
     }
@@ -59,7 +59,7 @@ public class SysFormController {
      */
     @PostMapping("/list")
     @Operation(summary = "查询所有流程表单")
-    public ApiResult formList(SysForm sysForm) {
+    public ApiResult<List<SysForm>> formList(@RequestBody SysForm sysForm) {
         List<SysForm> list = sysFormService.selectSysFormList(sysForm);
         return ApiResult.success(list);
     }
@@ -69,7 +69,7 @@ public class SysFormController {
      */
     @GetMapping(value = "/{formId}/info")
     @Operation(summary = "获取流程表单详细信息")
-    public ApiResult getInfo(@PathVariable(value = "formId") Long formId) {
+    public ApiResult<SysForm> getInfo(@PathVariable(value = "formId") Long formId) {
         return ApiResult.success(sysFormService.selectSysFormById(formId));
     }
 
@@ -79,7 +79,7 @@ public class SysFormController {
     @PostMapping()
     @Operation(summary = "新增流程表单")
     @BizNo(spEl = "{#sysForm.formName}")
-    public ApiResult add(@RequestBody SysForm sysForm) {
+    public ApiResult<String> add(@RequestBody SysForm sysForm) {
         sysFormService.insertSysForm(sysForm);
         return ApiResult.success();
     }
@@ -90,7 +90,7 @@ public class SysFormController {
     @PutMapping()
     @Operation(summary = "修改流程表单")
     @BizNo(spEl = "{#sysForm.formName}")
-    public ApiResult edit(@RequestBody SysForm sysForm) {
+    public ApiResult<String> edit(@RequestBody SysForm sysForm) {
         sysFormService.updateSysForm(sysForm);
         return ApiResult.success();
     }
@@ -101,7 +101,7 @@ public class SysFormController {
     @DeleteMapping()
     @Operation(summary = "删除流程表单")
     @BizNo(spEl = "{#formIds}")
-    public ApiResult remove(Long[] formIds) {
+    public ApiResult<String> remove(@RequestBody Long[] formIds) {
         sysFormService.deleteSysFormByIds(formIds);
         return ApiResult.success();
     }
@@ -112,7 +112,7 @@ public class SysFormController {
     @DeleteMapping("/{formId}")
     @Operation(summary = "删除流程表单")
     @BizNo(spEl = "{#formId}")
-    public ApiResult remove(@PathVariable(value = "formId") Long formId) {
+    public ApiResult<String> remove(@PathVariable(value = "formId") Long formId) {
         sysFormService.deleteSysFormById(formId);
         return ApiResult.success();
     }

@@ -37,7 +37,7 @@ public interface IFlowableModelService {
     FlowableModelVo getModel(String modelId);
 
     /**
-     * 查询流程表单详细信息
+     * 查询流程BpmnXml详细信息
      */
     String queryBpmnXmlById(String modelId);
 

@@ -80,6 +80,7 @@ public class SysFormServiceImpl extends ServiceImpl<SysFormMapper, SysForm> impl
     public void updateSysForm(SysForm sysForm) {
         this.update(new LambdaUpdateWrapper<SysForm>().set(SysForm::getFormName, sysForm.getFormName())
                 .set(SysForm::getFormContent, sysForm.getFormContent())
+                .set(SysForm::getThumbnail, sysForm.getThumbnail())
                 .eq(SysForm::getId, sysForm.getId()));
     }
 

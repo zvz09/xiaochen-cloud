@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.bpmn.model.FlowElement;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zvz09
@@ -31,18 +34,18 @@ import java.io.OutputStream;
 @Tag(name = "工作流任务管理")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/flowable/task")
+@RequestMapping("/task")
 public class FlowableTaskController {
 
     private final IFlowableTaskService flowableTaskService;
 
     /**
-     * 取消申请
+     * 取消流程
      */
     @PostMapping(value = "/stopProcess")
-    @Operation(summary = "取消申请")
+    @Operation(summary = "取消流程")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult stopProcess(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> stopProcess(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.stopProcess(dto);
         return ApiResult.success();
     }
@@ -53,7 +56,7 @@ public class FlowableTaskController {
     @PostMapping(value = "/revokeProcess")
     @Operation(summary = "撤回流程")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult revokeProcess(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> revokeProcess(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.revokeProcess(dto);
         return ApiResult.success();
     }
@@ -65,17 +68,17 @@ public class FlowableTaskController {
      */
     @GetMapping(value = "/{taskId}/processVariables")
     @Operation(summary = "获取流程变量")
-    public ApiResult processVariables(@PathVariable(value = "taskId") String taskId) {
+    public ApiResult<Map<String, Object>> processVariables(@PathVariable(value = "taskId") String taskId) {
         return ApiResult.success(flowableTaskService.getProcessVariables(taskId));
     }
 
     /**
-     * 审批任务
+     * 审批流程
      */
     @PostMapping(value = "/complete")
-    @Operation(summary = "审批任务")
+    @Operation(summary = "审批流程")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult complete(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> complete(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.complete(dto);
         return ApiResult.success();
     }
@@ -86,7 +89,7 @@ public class FlowableTaskController {
     @PostMapping(value = "/reject")
     @Operation(summary = "拒绝任务")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult taskReject(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> taskReject(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.taskReject(dto);
         return ApiResult.success();
     }
@@ -97,7 +100,7 @@ public class FlowableTaskController {
     @PostMapping(value = "/return")
     @Operation(summary = "退回任务")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult taskReturn(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> taskReturn(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.taskReturn(dto);
         return ApiResult.success();
     }
@@ -107,7 +110,7 @@ public class FlowableTaskController {
      */
     @PostMapping(value = "/returnList")
     @Operation(summary = "获取所有可回退的节点")
-    public ApiResult findReturnTaskList(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<List<FlowElement>> findReturnTaskList(@RequestBody FlowableTaskDto dto) {
         return ApiResult.success(flowableTaskService.findReturnTaskList(dto));
     }
 
@@ -117,7 +120,7 @@ public class FlowableTaskController {
     @DeleteMapping(value = "/delete")
     @Operation(summary = "删除任务")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult delete(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> delete(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.deleteTask(dto);
         return ApiResult.success();
     }
@@ -128,7 +131,7 @@ public class FlowableTaskController {
     @PostMapping(value = "/receipted")
     @Operation(summary = "签收任务")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult receipted(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> receipted(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.receipted(dto);
         return ApiResult.success();
     }
@@ -139,7 +142,7 @@ public class FlowableTaskController {
     @PostMapping(value = "/unReceipted")
     @Operation(summary = "取消签收任务")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult unReceipted(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> unReceipted(@RequestBody FlowableTaskDto dto) {
         flowableTaskService.unReceipted(dto);
         return ApiResult.success();
     }
@@ -150,7 +153,7 @@ public class FlowableTaskController {
     @PostMapping(value = "/delegate")
     @Operation(summary = "委派任务")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult delegate(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> delegate(@RequestBody FlowableTaskDto dto) {
         if (ObjectUtil.hasNull(dto.getTaskId(), dto.getUserId())) {
             return ApiResult.fail("参数错误！");
         }
@@ -164,7 +167,7 @@ public class FlowableTaskController {
     @PostMapping(value = "/transfer")
     @Operation(summary = "转办任务")
     @BizNo(spEl = "{#dto.taskId}")
-    public ApiResult transfer(@RequestBody FlowableTaskDto dto) {
+    public ApiResult<String> transfer(@RequestBody FlowableTaskDto dto) {
         if (ObjectUtil.hasNull(dto.getTaskId(), dto.getUserId())) {
             return ApiResult.fail("参数错误！");
         }
@@ -177,7 +180,7 @@ public class FlowableTaskController {
      *
      * @param processId 任务ID
      */
-    @RequestMapping("/{processId}/diagram")
+    @PostMapping("/{processId}/diagram")
     @Operation(summary = "生成流程图")
     public void genProcessDiagram(HttpServletResponse response,
                                   @PathVariable(value = "processId") String processId) {

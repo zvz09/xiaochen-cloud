@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "工作流流程管理")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/flowable/process")
+@RequestMapping("/process")
 public class FlowableProcessController {
 
     private final IFlowableProcessService flowableProcessService;
@@ -111,7 +111,7 @@ public class FlowableProcessController {
     @PostMapping("/start")
     @Operation(summary = "根据流程定义id启动流程实例")
     @BizNo(spEl = "{#StartProcessDto.processDefId}")
-    public ApiResult<Void> start(@RequestBody StartProcessDto startProcessDto) {
+    public ApiResult<String> start(@RequestBody StartProcessDto startProcessDto) {
         flowableProcessService.startProcessByDefId(startProcessDto.getProcessDefId(), startProcessDto.getVariables());
         return ApiResult.success();
 
@@ -125,7 +125,7 @@ public class FlowableProcessController {
     @DeleteMapping("/instance")
     @Operation(summary = "删除流程实例")
     @BizNo(spEl = "{#instanceIds}")
-    public ApiResult<Void> delete(@RequestBody String[] instanceIds) {
+    public ApiResult<String> delete(@RequestBody String[] instanceIds) {
         flowableProcessService.deleteProcessByIds(instanceIds);
         return ApiResult.success();
     }
@@ -156,9 +156,6 @@ public class FlowableProcessController {
 
     /**
      * 获取抄送列表
-     *
-     * @param copyBo    流程抄送对象
-     * @param pageQuery 分页参数
      */
     @PostMapping(value = "/copy/page")
     @Operation(summary = "获取抄送列表")

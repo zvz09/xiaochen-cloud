@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, markRaw } from "vue";
 import App from "./App.vue";
 // reset style sheet
 import "@/styles/reset.scss";
@@ -32,8 +32,12 @@ import I18n from "@/languages/index";
 import pinia from "@/stores";
 // errorHandler
 import errorHandler from "@/utils/errorHandler";
+// 导入组件库
+import NgFormElementPlus from "ng-form-elementplus";
+import "ng-form-elementplus/lib/style.css";
 
 const app = createApp(App);
+const NgForm = markRaw(NgFormElementPlus);
 
 app.config.errorHandler = errorHandler;
 
@@ -42,4 +46,4 @@ Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons]);
 });
 
-app.use(ElementPlus).use(directives).use(router).use(I18n).use(pinia).mount("#app");
+app.use(ElementPlus).use(directives).use(router).use(NgForm).use(I18n).use(pinia).mount("#app");

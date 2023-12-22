@@ -11,9 +11,9 @@ import { ResPage, ResultData } from "@/api/interface";
  * @param {string} params.keyword 关键字
  * @returns
  */
-export function pageParseClass(params: ReptileParseClass.PageParams): Promise<ResPage<ReptileParseClass.ReptileParseClassVO>> {
-  return http.post(NOTE_SERVICE_PATH + `/reptile/parse/class/page`, params);
-}
+export const pageParseClass = (params: ReptileParseClass.PageParams) => {
+  return http.post<ResPage<ReptileParseClass.ReptileParseClassVO>>(NOTE_SERVICE_PATH + `/reptile/parse/class/page`, params);
+};
 
 /**
  * 添加
@@ -23,27 +23,27 @@ export function pageParseClass(params: ReptileParseClass.PageParams): Promise<Re
  * @param {string} params.content 类内容
  * @returns
  */
-export function insertParseClass(params: ReptileParseClass.ReptileParseClassDTO): Promise<ResultData> {
+export const insertParseClass = (params: ReptileParseClass.ReptileParseClassDTO) => {
   return http.post(NOTE_SERVICE_PATH + `/reptile/parse/class`, params);
-}
+};
 
 /**
  * 删除
  * @param {string} id
  * @returns
  */
-export function deleteParseClass(id: string): Promise<ResultData> {
+export const deleteParseClass = (id: string) => {
   return http.delete(NOTE_SERVICE_PATH + `/reptile/parse/class/${id}`);
-}
+};
 
 /**
  * 批量删除
  * @param {array} params integer
  * @returns
  */
-export function deleteBatchParseClass(params: string[]): Promise<ResultData> {
+export const deleteBatchParseClass = (params: string[]) => {
   return http.delete(NOTE_SERVICE_PATH + `/reptile/parse/class`, params);
-}
+};
 
 /**
  * 修改
@@ -53,9 +53,9 @@ export function deleteBatchParseClass(params: string[]): Promise<ResultData> {
  * @param {string} params.content 类内容
  * @returns
  */
-export function updateParseClass(params: ReptileParseClass.ReptileParseClassDTO): Promise<ResultData> {
+export const updateParseClass = (params: ReptileParseClass.ReptileParseClassDTO) => {
   return http.put(NOTE_SERVICE_PATH + `/reptile/parse/class`, params);
-}
+};
 
 /**
  * 启动-禁用抓取解析类

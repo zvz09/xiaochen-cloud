@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author zvz09
  */
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "工作流流程实例管理")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/flowable/instance")
+@RequestMapping("/instance")
 public class FlowableInstanceController {
 
     private final IFlowableInstanceService flowableInstanceService;
@@ -31,8 +33,8 @@ public class FlowableInstanceController {
      */
     @GetMapping("/{procInsId}/{deployId}/detail")
     @Operation(summary = "查询流程实例详情信息")
-    public ApiResult detail(@PathVariable(value = "procInsId") String procInsId,
-                            @PathVariable(value = "deployId") String deployId) {
+    public ApiResult<Map<String, Object>> detail(@PathVariable(value = "procInsId") String procInsId,
+                                                 @PathVariable(value = "deployId") String deployId) {
         return ApiResult.success(flowableInstanceService.queryDetailProcess(procInsId, deployId));
     }
 }

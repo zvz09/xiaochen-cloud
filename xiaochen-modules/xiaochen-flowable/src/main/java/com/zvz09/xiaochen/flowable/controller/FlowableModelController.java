@@ -33,7 +33,7 @@ import java.util.List;
 @Tag(name = "模型定义")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/flowable/model")
+@RequestMapping("/model")
 public class FlowableModelController {
 
     private final IFlowableModelService flowableModelService;
@@ -74,7 +74,7 @@ public class FlowableModelController {
      * @param modelId 模型主键
      */
     @GetMapping(value = "{modelId}/getBpmnXml")
-    @Operation(summary = "获取流程表单详细信息")
+    @Operation(summary = "获取流程BpmnXml详细信息")
     @BizNo(spEl = "{#modelId}")
     public ApiResult<String> getBpmnXml(@PathVariable(value = "modelId") String modelId) {
         return ApiResult.success(flowableModelService.queryBpmnXmlById(modelId));
@@ -86,7 +86,7 @@ public class FlowableModelController {
     @PostMapping("/add")
     @Operation(summary = "新增流程模型")
     @BizNo(spEl = "{#flowableModelDto.modelName}")
-    public ApiResult<Void> add(@RequestBody FlowableModelDto flowableModelDto) {
+    public ApiResult<String> add(@RequestBody FlowableModelDto flowableModelDto) {
         flowableModelService.insertModel(flowableModelDto);
         return ApiResult.success();
     }
@@ -97,7 +97,7 @@ public class FlowableModelController {
     @PutMapping("/edit")
     @Operation(summary = "修改流程模型")
     @BizNo(spEl = "{#flowableModelDto.modelName}")
-    public ApiResult<Void> edit(@Validated(UpdateValidation.class) @RequestBody FlowableModelDto flowableModelDto) {
+    public ApiResult<String> edit(@Validated(UpdateValidation.class) @RequestBody FlowableModelDto flowableModelDto) {
         flowableModelService.updateModel(flowableModelDto);
         return ApiResult.success();
     }
