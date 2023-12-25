@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.util.JacksonUtil;
+import com.zvz09.xiaochen.common.core.util.Snowflake;
 import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
 import com.zvz09.xiaochen.flowable.common.constant.ProcessConstants;
 import com.zvz09.xiaochen.flowable.common.enums.FormType;
@@ -121,10 +122,10 @@ public class FlowableModelServiceImpl implements IFlowableModelService {
     }
 
     @Override
-    public void insertModel(FlowableModelDto flowableModelDto) {
+    public void insertModel(FlowableModelDto flowableModelDto) throws Exception {
         Model model = repositoryService.newModel();
         model.setName(flowableModelDto.getModelName());
-        model.setKey(flowableModelDto.getModelKey());
+        model.setKey(Snowflake.getSnowflakeId());
         model.setCategory(flowableModelDto.getCategory());
         String metaInfo = buildMetaInfo(new FlowableMetaInfoDto(), flowableModelDto.getDescription());
         model.setMetaInfo(metaInfo);

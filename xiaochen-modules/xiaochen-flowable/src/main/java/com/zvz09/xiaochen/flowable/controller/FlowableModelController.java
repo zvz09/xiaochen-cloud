@@ -86,7 +86,7 @@ public class FlowableModelController {
     @PostMapping("/add")
     @Operation(summary = "新增流程模型")
     @BizNo(spEl = "{#flowableModelDto.modelName}")
-    public ApiResult<String> add(@RequestBody FlowableModelDto flowableModelDto) {
+    public ApiResult<String> add(@RequestBody FlowableModelDto flowableModelDto) throws Exception {
         flowableModelService.insertModel(flowableModelDto);
         return ApiResult.success();
     }

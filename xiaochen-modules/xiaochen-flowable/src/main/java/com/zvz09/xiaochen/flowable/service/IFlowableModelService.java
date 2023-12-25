@@ -44,7 +44,7 @@ public interface IFlowableModelService {
     /**
      * 新增模型信息
      */
-    void insertModel(FlowableModelDto flowableModelDto);
+    void insertModel(FlowableModelDto flowableModelDto) throws Exception;
 
     /**
      * 修改模型信息

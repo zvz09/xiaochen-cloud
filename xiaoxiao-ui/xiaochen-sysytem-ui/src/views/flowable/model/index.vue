@@ -15,17 +15,17 @@
         <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
       </template>
     </ProTable>
-    <ModelDrawer ref="drawerRef" />
+    <ModelDialog ref="drawerRef" />
   </div>
 </template>
 <script setup lang="tsx" name="formManage">
-import {CirclePlus, EditPen} from "@element-plus/icons-vue";
-import ModelDrawer from "@/views/flowable/model/ModelDrawer.vue";
+import { CirclePlus, EditPen } from "@element-plus/icons-vue";
+import ModelDialog from "@/views/flowable/model/ModelDialog.vue";
 import ProTable from "@/components/ProTable/index.vue";
-import {reactive, ref} from "vue";
-import {ColumnProps, ProTableInstance} from "@/components/ProTable/interface";
-import {Model} from "@/api/flowable/model/types";
-import {pageModel,addModel,editModel} from "@/api/flowable/model";
+import { reactive, ref } from "vue";
+import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
+import { Model } from "@/api/flowable/model/types";
+import { pageModel, addModel, editModel } from "@/api/flowable/model";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
@@ -75,7 +75,7 @@ const dataCallback = (data: any) => {
   };
 };
 
-const drawerRef = ref<InstanceType<typeof ModelDrawer> | null>(null);
+const drawerRef = ref<InstanceType<typeof ModelDialog> | null>(null);
 const openDrawer = (title: string, row: Partial<Model.VO> = {}) => {
   const params = reactive<Model.DrawerProps>({
     title: title,
@@ -86,5 +86,4 @@ const openDrawer = (title: string, row: Partial<Model.VO> = {}) => {
   });
   drawerRef.value?.acceptParams(params);
 };
-
 </script>

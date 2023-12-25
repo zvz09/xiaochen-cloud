@@ -1,123 +1,121 @@
 <template>
   <div id="bpmnProcess">
-    <my-process-palette/>
+    <my-process-palette />
     <my-process-designer
-        :key="`designer-${reloadIndex}`"
-        ref="processDesigner"
-        :modelValue = "props.xmlString"
-        :options="{
+      :key="`designer-${reloadIndex}`"
+      ref="processDesigner"
+      :model-value="props.xmlString"
+      :options="{
         taskResizingEnabled: true,
         eventResizingEnabled: true,
         minimap: {
           open: true
         }
       }"
-        :process-id="controlForm.processId"
-        :process-name="controlForm.processName"
-        keyboard
-        v-bind="controlForm"
-        @save="getProcessXML"
-        @element-click="elementClick"
-        @element-contextmenu="elementContextmenu"
-        @init-finished="initModeler"
+      :process-id="controlForm.processId"
+      :process-name="controlForm.processName"
+      keyboard
+      v-bind="controlForm"
+      @save="getProcessXML"
+      @element-click="elementClick"
+      @element-contextmenu="elementContextmenu"
+      @init-finished="initModeler"
     />
-    <my-properties-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix"
-                         class="process-panel"/>
+    <my-properties-panel
+      :key="`penal-${reloadIndex}`"
+      :bpmn-modeler="modeler"
+      :prefix="controlForm.prefix"
+      class="process-panel"
+    />
 
-    <el-dialog
-        v-model="dialogVisible"
-        title="是否按新版本保存"
-        width="30%"
-    >
+    <el-dialog v-model="dialogVisible" title="是否按新版本保存" width="30%">
       <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="saveAsNewVersion(false)">否</el-button>
-        <el-button type="primary" @click="saveAsNewVersion(true)">是</el-button>
-      </span>
+        <span class="dialog-footer">
+          <el-button @click="saveAsNewVersion(false)">否</el-button>
+          <el-button type="primary" @click="saveAsNewVersion(true)">是</el-button>
+        </span>
       </template>
     </el-dialog>
   </div>
-
-
 </template>
 <script>
 export default {
-  name: 'ProcessDesigner'
-}
+  name: "ProcessDesigner"
+};
 </script>
 <script setup>
-import {onMounted, ref} from 'vue'
+import { onMounted, ref } from "vue";
 import CustomContentPadProvider from "@/components/bpmn-vue3/designer/plugins/content-pad";
 import CustomPaletteProvider from "@/components/bpmn-vue3/designer/plugins/palette";
 import minimapModule from "diagram-js-minimap";
 import Log from "@/components/bpmn-vue3/Log";
 
-import 'bpmn-js/dist/assets/diagram-js.css';
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+import "bpmn-js/dist/assets/diagram-js.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
 
 const props = defineProps({
   processId: {
     default: function () {
-      return `Process_${new Date().getTime()}`
+      return `Process_${new Date().getTime()}`;
     },
     type: String
   },
   processName: {
     default: function () {
-      return `业务流程_${new Date().getTime()}`
+      return `业务流程_${new Date().getTime()}`;
     },
     type: String
   },
   xmlString: String
-})
+});
 
-const reloadIndex = new Date().getTime()
-const modeler = ref()
-const controlDrawerVisible = ref(false)
+const reloadIndex = new Date().getTime();
+const modeler = ref();
+const controlDrawerVisible = ref(false);
 const controlForm = ref({
   processId: props.processId,
   processName: props.processName,
   simulation: true,
   labelEditing: false,
   labelVisible: false,
-  prefix: 'flowable',
-  headerButtonSize: 'small',
-  events: ['element.click', 'element.contextmenu'],
+  prefix: "flowable",
+  headerButtonSize: "small",
+  events: ["element.click", "element.contextmenu"],
   // additionalModel: []
   additionalModel: [CustomContentPadProvider, CustomPaletteProvider, minimapModule]
-})
-const emit = defineEmits(['save'])
-const initModeler = (m) => {
+});
+const emit = defineEmits(["save"]);
+const initModeler = m => {
   setTimeout(() => {
     modeler.value = m;
-    const canvas = m.get('canvas');
+    const canvas = m.get("canvas");
     const rootElement = canvas.getRootElement();
-    Log.prettyPrimary('Process Id:', rootElement.id);
-    Log.prettyPrimary('Process Name:', rootElement.businessObject.name);
+    Log.prettyPrimary("Process Id:", rootElement.id);
+    Log.prettyPrimary("Process Name:", rootElement.businessObject.name);
   }, 10);
-}
-const elementClick = (element) => {
+};
+const elementClick = element => {
   console.log(element);
-}
-const elementContextmenu = (element) => {
-  console.log('elementContextmenu:', element);
-}
+};
+const elementContextmenu = element => {
+  console.log("elementContextmenu:", element);
+};
 
-const dialogVisible = ref(false)
-const processXML = ref('')
-const getProcessXML = (xml) => {
-  dialogVisible.value = true
-  processXML.value = xml
+const dialogVisible = ref(false);
+const processXML = ref("");
+const getProcessXML = xml => {
+  dialogVisible.value = true;
+  processXML.value = xml;
   //emit('save', xml)
-}
-const saveAsNewVersion = (newVersion) => {
-  dialogVisible.value = false
-  emit('save', processXML.value, newVersion)
-}
+};
+const saveAsNewVersion = newVersion => {
+  dialogVisible.value = false;
+  emit("save", processXML.value, newVersion);
+};
 onMounted(async () => {
-  console.log("onMounted")
-})
+  console.log("onMounted");
+});
 </script>
 <style lang="scss">
 body {
