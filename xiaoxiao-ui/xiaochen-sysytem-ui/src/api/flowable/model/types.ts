@@ -101,4 +101,12 @@ export namespace Model {
     /*关键字 */
     keyword?: string;
   }
+
+  export interface DrawerProps {
+    title: string;
+    row: Partial<Model.VO>;
+    api?: (params: any) => Promise<any>;
+    getTableList?: () => void;
+    modelId: string;
+  }
 }
