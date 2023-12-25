@@ -107,6 +107,6 @@ export namespace Model {
     row: Partial<Model.VO>;
     api?: (params: any) => Promise<any>;
     getTableList?: () => void;
-    modelId: string;
+    modelId?: string;
   }
 }

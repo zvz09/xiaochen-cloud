@@ -72,7 +72,6 @@ const props = defineProps({
 
 const reloadIndex = new Date().getTime();
 const modeler = ref();
-const controlDrawerVisible = ref(false);
 const controlForm = ref({
   processId: props.processId,
   processName: props.processName,

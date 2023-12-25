@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible" :before-close="closeDialog" :title="`${drawerProps.title}模型`">
+  <el-dialog v-model="dialogVisible" :title="`${drawerProps.title}模型`">
     <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
       <el-form-item label="模型名称" prop="modelName">
         <el-input v-model="form.modelName" autocomplete="off" />
@@ -18,8 +18,8 @@
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="closeDialog">取 消</el-button>
-        <el-button type="primary" @click="enterDialog">确 定</el-button>
+        <el-button @click="closeDialog(formRef)">取 消</el-button>
+        <el-button type="primary" @click="enterDialog(formRef)">确 定</el-button>
       </div>
     </template>
   </el-dialog>
@@ -28,9 +28,9 @@
 import { ref } from "vue";
 import { Model } from "@/api/flowable/model/types";
 import DictionaryDetailSelect from "@/components/DictionaryDetailSelect/index.vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, type FormInstance } from "element-plus";
 
-const formRef = ref(null);
+const formRef = ref<FormInstance>();
 const dialogVisible = ref(false);
 
 const rules = ref({
@@ -55,24 +55,27 @@ const acceptParams = (params: Model.DrawerProps) => {
   dialogVisible.value = true;
 };
 
-const initForm = () => {
-  formRef.value.resetFields();
+const initForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
   form.value = {
-    positionCode: "",
-    positionName: "",
-    positionSort: "",
-    status: "",
-    remark: ""
+    modelName: "",
+    modelKey: "",
+    category: "",
+    description: ""
   };
 };
 
-const closeDialog = () => {
-  initForm();
+const closeDialog = (formEl: FormInstance | undefined) => {
+  if (formEl) {
+    initForm(formEl);
+  }
   dialogVisible.value = false;
 };
 
-function enterDialog() {
-  formRef.value!.validate(async valid => {
+function enterDialog(formEl: FormInstance | undefined) {
+  if (!formEl) return;
+  formEl.validate(async valid => {
     if (!valid) return;
     try {
       await drawerProps.value.api!(form.value);
