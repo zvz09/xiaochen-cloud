@@ -1,7 +1,10 @@
-CREATE DATABASE IF NOT EXISTS `flowable`;
+drop database if exists `flowable`;
+CREATE DATABASE `flowable`;
 
 CREATE USER 'flowable'@'%' IDENTIFIED BY '!QAZ2wsx#EDC';
 GRANT ALL PRIVILEGES ON `flowable`.* TO 'flowable'@'%';
+
+use  `flowable`;
 
 drop table if exists `sys_form`;
 CREATE TABLE `sys_form` (

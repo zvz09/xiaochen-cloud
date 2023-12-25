@@ -11,7 +11,7 @@ services:
     networks:
       - share_fly
     volumes:
-      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/conf/my.cnf:/etc/my.cnf
       - ./mysql/logs:/logs
       - ./mysql/data:/var/lib/mysql
     healthcheck:
