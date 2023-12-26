@@ -1,7 +1,7 @@
 <template>
   <div id="bpmnProcess">
-    <my-process-palette />
-    <my-process-designer
+    <MyProcessPalette />
+    <MyProcessDesigner
       :key="`designer-${reloadIndex}`"
       ref="processDesigner"
       :model-value="props.xmlString"
@@ -21,12 +21,7 @@
       @element-contextmenu="elementContextmenu"
       @init-finished="initModeler"
     />
-    <my-properties-panel
-      :key="`penal-${reloadIndex}`"
-      :bpmn-modeler="modeler"
-      :prefix="controlForm.prefix"
-      class="process-panel"
-    />
+    <MyPropertiesPanel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
 
     <el-dialog v-model="dialogVisible" title="是否按新版本保存" width="30%">
       <template #footer>
@@ -49,6 +44,9 @@ import CustomContentPadProvider from "@/components/bpmn-vue3/designer/plugins/co
 import CustomPaletteProvider from "@/components/bpmn-vue3/designer/plugins/palette";
 import minimapModule from "diagram-js-minimap";
 import Log from "@/components/bpmn-vue3/Log";
+import MyProcessPalette from "@/components/bpmn-vue3/palette";
+import MyProcessDesigner from "@/components/bpmn-vue3/designer";
+import MyPropertiesPanel from "@/components/bpmn-vue3/penal";
 
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";

@@ -55,9 +55,8 @@
 </template>
 
 <script>
-import {getAllUser} from '@/api/user'
-import {getAuthorityTree} from '@/api/authority'
-import {getDepartmentTree} from '@/api/sysDepartment'
+import {simpleList} from '@/api/system/user'
+import {getRoleList} from '@/api/system/role'
 
 export default {
   name: "UserTask",
@@ -154,13 +153,14 @@ export default {
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"candidateUsers": null})
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"candidateGroups": null})
       if (val === 'AUTHORITY') {
-        getAuthorityTree().then(res => {
+        getRoleList({}).then(res => {
           this.authorityTree = res.data
         })
       } else if (val === 'DEPTS') {
-        getDepartmentTree().then(res => {
+        /*getDepartmentTree().then(res => {
           this.deptTree = res.data
-        })
+        })*/
+        console.log("DEPTS")
       } else if (val === 'INITIATOR') {
         window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"assignee": "${initiator}"})
       }
@@ -170,7 +170,7 @@ export default {
     this.bpmnElement = null;
   },
   created() {
-    getAllUser().then(res => {
+    simpleList({}).then(res => {
       this.allUsers = res.data
       this.users = res.data
     })

@@ -1,6 +1,6 @@
 <template>
   <el-drawer v-model="deviseDrawer" direction="ttb" size="100%">
-    <template #header="{ close }">
+    <template #header="">
       <div style="font-size: 25px; font-weight: bold">流程设计</div>
     </template>
     <ProcessDesigner

@@ -522,8 +522,18 @@ INSERT INTO `xiaochen-cloud`.sys_menu (id, created_at, updated_at, deleted, pare
                                        sort, icon, title, link, hide, full_screen, affix, keep_alive)
 VALUES (1736922287923286018, '2023-12-19 09:31:59', '2023-12-19 09:32:29', 0, 1736922123682729985,
         '/note/articleManage', 'articleManage', '', '/note/articleManage/index', 1, 'Menu', '笔记管理', '', 0, 0, 0, 1);
-INSERT INTO `xiaochen-cloud`.sys_menu (id, created_at, updated_at, deleted, parent_id, path, name, redirect, component, sort, icon, title, link, hide, full_screen, affix, keep_alive) VALUES (1738119906955673602, '2023-12-22 16:50:53', '2023-12-22 16:50:53', 0, 0, '/workflow', 'Workflow', '', '', 1, 'Document', '工作流', '', 0, 0, 0, 1);
-INSERT INTO `xiaochen-cloud`.sys_menu (id, created_at, updated_at, deleted, parent_id, path, name, redirect, component, sort, icon, title, link, hide, full_screen, affix, keep_alive) VALUES (1738120106478714882, '2023-12-22 16:51:41', '2023-12-22 16:52:19', 0, 1738119906955673602, '/workflow/form', 'formManage', '', '/flowable/form/index', 1, 'Menu', '表单管理', '', 0, 0, 0, 1);
+INSERT INTO `xiaochen-cloud`.sys_menu (id, created_at, updated_at, deleted, parent_id, path, name, redirect, component,
+                                       sort, icon, title, link, hide, full_screen, affix, keep_alive)
+VALUES (1738119906955673602, '2023-12-22 16:50:53', '2023-12-22 16:50:53', 0, 0, '/workflow', 'Workflow', '', '', 1,
+        'Document', '工作流', '', 0, 0, 0, 1);
+INSERT INTO `xiaochen-cloud`.sys_menu (id, created_at, updated_at, deleted, parent_id, path, name, redirect, component,
+                                       sort, icon, title, link, hide, full_screen, affix, keep_alive)
+VALUES (1738120106478714882, '2023-12-22 16:51:41', '2023-12-22 16:52:19', 0, 1738119906955673602, '/workflow/form',
+        'formManage', '', '/flowable/form/index', 1, 'Menu', '表单管理', '', 0, 0, 0, 1);
+INSERT INTO `xiaochen-cloud`.sys_menu (id, created_at, updated_at, deleted, parent_id, path, name, redirect, component,
+                                       sort, icon, title, link, hide, full_screen, affix, keep_alive)
+VALUES (1738120106478714883, '2023-12-22 16:51:41', '2023-12-22 16:52:19', 0, 1738119906955673602, '/workflow/model',
+        'modelManage', '', '/flowable/model/index', 1, 'Menu', '模型管理', '', 0, 0, 0, 1);
 
 
 INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, perm_code_type, show_name, show_order,
