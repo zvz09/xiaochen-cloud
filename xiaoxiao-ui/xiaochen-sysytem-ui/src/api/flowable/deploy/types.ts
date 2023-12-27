@@ -50,4 +50,9 @@ export namespace FlowableDeploy {
     suspended: boolean;
     deploymentTime: string;
   }
+
+  export interface DrawerProps {
+    row: Partial<FlowableDeploy.VO>;
+    getTableList?: () => void;
+  }
 }
