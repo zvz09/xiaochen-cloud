@@ -8,6 +8,10 @@
         <el-tag v-if="!scope.row.suspended" type="success">激活</el-tag>
         <el-tag v-if="scope.row.suspended" type="warning">挂起</el-tag>
       </template>
+
+      <template #operation="scope">
+        <el-button icon="VideoPlay" link type="primary" @click="toStartProcess(scope.row)">发起 </el-button>
+      </template>
     </ProTable>
   </div>
 </template>
@@ -17,6 +21,7 @@ import { reactive, ref } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { startProcessList } from "@/api/flowable/process";
 import { Process } from "@/api/flowable/process/types";
+import { useRouter } from "vue-router";
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
@@ -65,5 +70,16 @@ const dataCallback = (data: any) => {
     pageNum: data.current,
     pageSize: data.size
   };
+};
+
+const router = useRouter();
+const toStartProcess = (row: Process.FlowableDeployVo) => {
+  router.push({
+    name: "startProcess",
+    params: {
+      definitionId: row.definitionId,
+      deployId: row.deploymentId
+    }
+  });
 };
 </script>

@@ -30,7 +30,7 @@
             />
           </el-card>
         </div>
-        <el-card v-if="processed == 'true'" class="box-card">
+        <el-card v-if="processed === 'true'" class="box-card">
           <template #header>
             <div class="card-header">
               <span>审批流程</span>
@@ -124,17 +124,17 @@
 
     <el-dialog v-model="dialogForm.visible" :title="dialogForm.title">
       <el-form>
-        <el-form-item v-show="dialogForm.type == 'delegate'" label="被委派人:">
+        <el-form-item v-show="dialogForm.type === 'delegate'" label="被委派人:">
           <el-select v-model="taskForm.userId">
             <el-option v-for="user in users" :key="user.id" :label="user.nickName" :value="user.id" />
           </el-select>
         </el-form-item>
-        <el-form-item v-show="dialogForm.type == 'transfer'" label="转办:">
+        <el-form-item v-show="dialogForm.type === 'transfer'" label="转办:">
           <el-select v-model="taskForm.userId">
             <el-option v-for="user in users" :key="user.id" :label="user.nickName" :value="user.id" />
           </el-select>
         </el-form-item>
-        <el-form-item v-show="dialogForm.type == 'return'" label="退回节点:" prop="targetKey">
+        <el-form-item v-show="dialogForm.type === 'return'" label="退回节点:" prop="targetKey">
           <el-radio-group v-model="taskForm.targetKey">
             <el-radio-button v-for="item in returnTaskList" :key="item.id" :label="item.id">{{ item.name }} </el-radio-button>
           </el-radio-group>
@@ -153,22 +153,24 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { detailProcess } from "@/api/flowable/process";
-import { taskComplete, delegateTask, rejectTask, revokeProcess, returnTask, transferTask } from "@/api/flowable/task";
+import { taskComplete, delegateTask, rejectTask, returnTask, transferTask, findReturnTaskList } from "@/api/flowable/task";
 import { getUserList } from "@/api/system/user";
 import ProcessViewer from "@/components/ProcessViewer/index.vue";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { closeThisPage } from "@/utils/closeThisPage.js";
+import { ElMessage, ElMessageBox, FormInstance } from "element-plus";
 import { Process } from "@/api/flowable/process/types";
+import { User } from "@/api/system/user/types";
+import { Task } from "@/api/flowable/task/types";
+import { closeThisPage } from "@/utils/closeThisPage";
 
 const route = useRoute();
-const users = ref([]);
+const users = ref<User.UserVO[]>([]);
 const activeName = ref("approval");
 const processed = ref(route.query.processed);
 const processFormList = ref<Process.ProcessFormList[]>([]);
 const open = ref(false);
-const historyProcNodeList = ref([]);
+const historyProcNodeList = ref<Process.HistoryProcNodeList[]>([]);
 const previewBpmnXml = ref();
-const finishedInfo = ref({
+const finishedInfo = ref<Process.FlowViewer>({
   finishedSequenceFlowSet: [],
   finishedTaskSet: [],
   unfinishedTaskSet: [],
@@ -180,18 +182,16 @@ const processTaskFormInfo = ref({
   formTemplate: null,
   models: {}
 });
-const processTaskForm = ref(null);
+const processTaskForm = ref();
 
-const taskForm = ref({
+const taskForm = ref<Task.FlowableTaskDto>({
   userId: "",
   comment: "", // 意见内容
   procInsId: "", // 流程实例编号
   taskId: "", // 流程任务编号
   copyUserIds: [], // 抄送人Id
   nextUserIds: [],
-  vars: "",
-  targetKey: "",
-  variables: Object
+  targetKey: ""
 });
 const dialogForm = ref({
   visible: false,
@@ -199,9 +199,9 @@ const dialogForm = ref({
   title: ""
 });
 
-const returnTaskList = ref([]); // 回退列表数据
+const returnTaskList = ref<Task.FlowElement[]>([]); // 回退列表数据
 
-const refTaskForm = ref(null);
+const refTaskForm = ref<FormInstance>();
 const rules = ref({
   comment: [{ required: true, message: "请输入审批意见", trigger: "blur" }]
 });
@@ -245,12 +245,12 @@ function getProcessDetails(procInsId: string, taskId: string) {
 }
 
 function getUsers() {
-  getAllUser().then(res => {
+  getUserList({ pageNum: 1, pageSize: 999 }).then(res => {
     users.value = res.data.records;
   });
 }
 
-function setIcon(val) {
+function setIcon(val: any) {
   if (val) {
     return "Check";
   } else {
@@ -258,7 +258,7 @@ function setIcon(val) {
   }
 }
 
-function setColor(val) {
+function setColor(val: any) {
   if (val) {
     return "#2bc418";
   } else {
@@ -269,14 +269,14 @@ function setColor(val) {
 /** 通过任务 */
 function handleComplete() {
   // 若无任务表单，则 taskFormPromise 为 true，即不需要校验
-  const taskFormPromise = processTaskFormOpen.value ? processTaskForm.value.validate() : true;
-  const approvalPromise = refTaskForm.value.validate();
+  const taskFormPromise = processTaskFormOpen.value ? processTaskForm.value!.validate() : true;
+  const approvalPromise = refTaskForm.value!.validate();
 
   Promise.all([taskFormPromise, approvalPromise]).then(() => {
     if (processTaskFormOpen.value) {
       taskForm.value.variables = processTaskForm.value.getData();
     }
-    complete(taskForm.value).then(response => {
+    taskComplete(taskForm.value).then(response => {
       if (response.code == 200) {
         ElMessage({
           type: "success",
@@ -290,7 +290,7 @@ function handleComplete() {
 
 /** 拒绝任务 */
 function handleReject() {
-  refTaskForm.value.validate(valid => {
+  refTaskForm.value!.validate(valid => {
     if (valid) {
       ElMessageBox.confirm("拒绝审批单流程会终止，是否继续？", "提示", {
         confirmButtonText: "是",
@@ -313,7 +313,7 @@ function handleReject() {
 
 /** 委派任务 */
 function handleDelegate() {
-  refTaskForm.value.validate(valid => {
+  refTaskForm.value!.validate(valid => {
     if (valid) {
       dialogForm.value.type = "delegate";
       dialogForm.value.title = "委派任务";
@@ -324,7 +324,7 @@ function handleDelegate() {
 
 /** 转办任务 */
 function handleTransfer() {
-  refTaskForm.value.validate(valid => {
+  refTaskForm.value!.validate(valid => {
     if (valid) {
       dialogForm.value.type = "transfer";
       dialogForm.value.title = "转办任务";
@@ -335,9 +335,9 @@ function handleTransfer() {
 
 /** 退回任务 */
 function handleReturn() {
-  refTaskForm.value.validate(valid => {
+  refTaskForm.value!.validate(valid => {
     if (valid) {
-      returnList(taskForm.value).then(res => {
+      findReturnTaskList(taskForm.value).then(res => {
         if (res.code == 200) {
           if (res.data.length == 0) {
             ElMessage({
@@ -365,7 +365,7 @@ function dialogFormSubmit() {
     return;
   }
   if (dialogForm.value.type === "delegate") {
-    delegate(taskForm.value).then(res => {
+    delegateTask(taskForm.value).then(res => {
       if (res.code == 200) {
         ElMessage({
           type: "success",
@@ -375,7 +375,7 @@ function dialogFormSubmit() {
       }
     });
   } else if (dialogForm.value.type === "transfer") {
-    transfer(taskForm.value).then(res => {
+    transferTask(taskForm.value).then(res => {
       if (res.code == 200) {
         ElMessage({
           type: "success",
@@ -397,7 +397,7 @@ function dialogFormSubmit() {
   }
 }
 
-function approveTypeTag(val) {
+function approveTypeTag(val: string) {
   switch (val) {
     case "1":
       return "success";
@@ -416,7 +416,7 @@ function approveTypeTag(val) {
   }
 }
 
-function commentType(val) {
+function commentType(val: string) {
   switch (val) {
     case "1":
       return "通过";

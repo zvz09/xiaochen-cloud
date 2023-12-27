@@ -1,53 +1,66 @@
 <template>
   <div class="table-box">
     <ProTable ref="proTable" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback">
+      <template #procDefVersion="scope">
+        <el-tag>v{{ scope.row.procDefVersion }}</el-tag>
+      </template>
+      <template #startUserName="scope">
+        <label>
+          {{ scope.row.startUserName }}
+          <el-tag size="small" type="info">{{ scope.row.startDeptName }}</el-tag>
+        </label>
+      </template>
       <template #operation="scope">
-        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">详情 </el-button>
+        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">办理 </el-button>
       </template>
     </ProTable>
   </div>
 </template>
-<script setup lang="tsx" name="sendDuplicate">
+<script setup lang="tsx" name="todoProcess">
 import ProTable from "@/components/ProTable/index.vue";
 import { reactive, ref } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { copyProcessList } from "@/api/flowable/process";
+import { todoProcessTaskList } from "@/api/flowable/process";
 import { Process } from "@/api/flowable/process/types";
 import { useRouter } from "vue-router";
 
+const router = useRouter();
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
 
 // 表格配置项
-const columns = reactive<ColumnProps<Process.FlowableCopyVo>[]>([
+const columns = reactive<ColumnProps<Process.FlowableTaskVo>[]>([
   { type: "selection", fixed: "left", width: 70 },
   {
-    prop: "copyId",
-    label: "抄送编号"
+    prop: "taskId",
+    label: "任务编号"
   },
   {
-    prop: "title",
-    label: "标题"
-  },
-  {
-    prop: "processName",
+    prop: "procDefName",
     label: "流程名称",
-    width: 300,
     search: { el: "input", tooltip: "流程名称" }
   },
   {
-    prop: "originatorName",
-    label: "发起人"
+    prop: "procDefVersion",
+    label: "流程版本"
   },
   {
-    prop: "createTime",
-    label: "创建时间"
+    prop: "taskName",
+    label: "任务节点"
+  },
+  {
+    prop: "startUserName",
+    label: "流程发起人"
+  },
+  {
+    prop: "claimTime",
+    label: "接收时间"
   },
   { prop: "operation", label: "操作", fixed: "right", width: 200 }
 ]);
 
 const getTableList = (params: any) => {
-  return copyProcessList(params);
+  return todoProcessTaskList(params);
 };
 
 const initParam = reactive({});
@@ -61,16 +74,15 @@ const dataCallback = (data: any) => {
   };
 };
 
-const router = useRouter();
-function toDetailProcess(row: Process.FlowableCopyVo) {
+function toDetailProcess(row: Process.FlowableTaskVo) {
   router.push({
     name: "detailProcess",
     params: {
-      procInsId: row.instanceId,
-      title: "查看-" + row.instanceId
+      procInsId: row.procInsId,
+      title: "办理-" + row.procInsId
     },
     query: {
-      processed: "false",
+      processed: "true",
       taskId: row.taskId
     }
   });
