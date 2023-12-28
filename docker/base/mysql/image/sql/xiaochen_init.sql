@@ -674,6 +674,18 @@ INSERT INTO `xiaochen-cloud`.sys_perm_code (id, menu_id, parent_id, perm_code, p
 VALUES (1736922287986200578, 1736922287923286018, 1736922123779198977, 'articleManage', '0', '笔记管理', 1,
         '2023-12-19 09:31:59', '2023-12-19 09:31:59', 0);
 
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (206, 0, '总公司', 1, '罗秀兰', null, 'b.ogviueqi@oygnqjrnz.bj', 1, '2023-10-11 15:02:35', '2023-10-11 15:02:37', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (207, 206, '企划部', 1, '薛洋', null, 'm.fbnyh@ygxd.ne', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (208, 206, '解决方案部', 2, '杜霞', null, 'd.vegw@gwulmt.zm', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (209, 206, '市场营销部', 3, '白丽', null, 'f.jtqtfnudr@ilcencvygq.cv', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (210, 206, '运营部', 4, '郭平', null, 's.vkcyyf@fytmmfjelz.aq', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (211, 206, '产品研发部', 5, '程娜', null, 'e.kpynm@cguirlwh.name', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (212, 206, '组织流程部', 6, '杨娟', null, 'j.dxswteq@gspbhw.gl', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (213, 206, '财务部', 7, '吕磊', null, 'l.bthkrsx@lepopytxg.museum', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (214, 0, '郑州分公司', 2, '郝磊', null, 's.usjwvp@luexdalis.ma', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (215, 0, '重庆分公司', 3, '方涛', null, 'f.rpchvve@qahbbdypy.no', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+INSERT INTO `xiaochen-cloud`.sys_department (id, parent_id, dept_name, order_num, leader, phone, email, status, created_at, updated_at, deleted) VALUES (216, 0, '南京分公司', 5, '于静', null, 'c.grp@foivnyh.py', 1, '2023-10-11 07:05:49', '2023-10-11 07:05:49', 0);
+
 INSERT INTO `xiaochen-cloud`.sys_dictionary (id, created_at, updated_at, deleted, name, encode, status, description)
 VALUES (1, '2023-08-30 09:47:18', '2023-09-13 13:00:14', 0, '性别', 'gender', 1, '性别字典xxxx');
 INSERT INTO `xiaochen-cloud`.sys_dictionary (id, created_at, updated_at, deleted, name, encode, status, description)

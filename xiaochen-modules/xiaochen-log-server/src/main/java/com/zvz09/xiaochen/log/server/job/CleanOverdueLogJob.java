@@ -2,9 +2,9 @@ package com.zvz09.xiaochen.log.server.job;
 
 import co.elastic.clients.elasticsearch.indices.IndexState;
 import com.zvz09.xiaochen.common.core.constant.Constants;
+import com.zvz09.xiaochen.common.elasticsearch.service.ElasticsearchService;
 import com.zvz09.xiaochen.job.core.annotation.XiaoChenJob;
 import com.zvz09.xiaochen.log.server.domain.LogIndex;
-import com.zvz09.xiaochen.log.server.service.ElasticsearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
