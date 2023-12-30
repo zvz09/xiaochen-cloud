@@ -1,7 +1,7 @@
 <!-- 纵向布局 -->
 <template>
   <el-container class="layout">
-    <el-aside>
+    <el-aside style="width: auto">
       <div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
         <div class="logo flx-center">
           <img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />

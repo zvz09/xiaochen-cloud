@@ -53,11 +53,11 @@ export default {
       })
           .then(res => {
             if (res.code === 200) {
-              this.formList = res.data.records
+              this.formList = res.data
             }
             if (this.formId) {
               this.formList.forEach(form => {
-                if (form.id = this.formId) {
+                if (form.id === this.formId) {
                   this.formName = form.formName
                 }
               })

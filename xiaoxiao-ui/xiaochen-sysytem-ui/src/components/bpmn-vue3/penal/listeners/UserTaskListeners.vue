@@ -9,9 +9,9 @@
                        show-overflow-tooltip/>
       <el-table-column label="操作" width="90px">
         <template v-slot="{ row, $index }">
-          <el-button link type="" @click="openListenerForm(row, $index)">编辑</el-button>
+          <el-button link type="primary" @click="openListenerForm(row, $index)">编辑</el-button>
           <el-divider direction="vertical"/>
-          <el-button link style="color: #ff4d4f" type="" @click="removeListener(row, $index)">移除</el-button>
+          <el-button link style="color: #ff4d4f" type="primary" @click="removeListener(row, $index)">移除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -202,9 +202,15 @@ import {createListenerObject, updateElementExtensions} from "../../utils";
 import {eventType, fieldType, initListenerForm, initListenerType, listenerType} from "./utilSelf";
 
 import {listTaskListener} from '@/api/flowable/model'
+import {Plus} from "@element-plus/icons-vue";
 
 export default {
   name: "UserTaskListeners",
+  computed: {
+    Plus() {
+      return Plus
+    }
+  },
   props: {
     id: String,
     type: String

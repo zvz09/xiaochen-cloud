@@ -209,7 +209,7 @@ export default {
       // 初始化 modeler 以及其他 moddle
       if (!this.bpmnModeler) {
         // 避免加载时 流程图 并未加载完成
-        this.timer = setTimeout(() => this.initModels(), 10);
+        this.timer = setTimeout(() => this.initModels(), 100);
         return;
       }
       if (this.timer) clearTimeout(this.timer);

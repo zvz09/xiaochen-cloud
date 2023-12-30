@@ -83,7 +83,7 @@ const columns = reactive<ColumnProps<Model.VO>[]>([
     prop: "createTime",
     label: "创建时间"
   },
-  { prop: "operation", label: "操作", fixed: "right", width: 200 }
+  { prop: "operation", label: "操作", fixed: "right", width: 350 }
 ]);
 
 const getTableList = (params: any) => {

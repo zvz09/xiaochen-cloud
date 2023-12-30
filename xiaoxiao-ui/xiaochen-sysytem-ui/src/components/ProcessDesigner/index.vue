@@ -90,7 +90,7 @@ const initModeler = m => {
     const rootElement = canvas.getRootElement();
     Log.prettyPrimary("Process Id:", rootElement.id);
     Log.prettyPrimary("Process Name:", rootElement.businessObject.name);
-  }, 10);
+  }, 100);
 };
 const elementClick = element => {
   console.log(element);

@@ -13,6 +13,7 @@
   </el-drawer>
 </template>
 <script setup lang="ts" name="ModelDeviseDrawer">
+import "@/components/bpmn-vue3/theme/process-designer.scss";
 import ProcessDesigner from "@/components/ProcessDesigner/index.vue";
 import { Model } from "@/api/flowable/model/types";
 import { ref } from "vue";
