@@ -147,10 +147,10 @@ public class FlowableProcessController {
      * @param procInsId 流程实例ID
      * @param taskId    任务ID
      */
-    @GetMapping("{procInsId}/{taskId}/detail")
+    @GetMapping("{procInsId}/detail")
     @Operation(summary = "查询流程详情信息")
     public ApiResult<FlowableDetailVo> detail(@PathVariable(value = "procInsId") String procInsId,
-                                              @PathVariable(value = "taskId") String taskId) {
+                                              @RequestParam(value = "taskId",required = false) String taskId) {
         return ApiResult.success(flowableProcessService.queryProcessDetail(procInsId, taskId));
     }
 

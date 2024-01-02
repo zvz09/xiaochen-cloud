@@ -32,10 +32,7 @@ const formTemplate = ref();
 const models = ref();
 
 function initData() {
-  getProcessForm({
-    definitionId: route.params.definitionId,
-    deployId: route.params.deployId
-  }).then(res => {
+  getProcessForm(route.params.definitionId, route.params.deployId, "").then(res => {
     if (res.data) {
       formTemplate.value = JSON.parse(res.data.formTemplate);
       if (res.data.models) {
@@ -64,7 +61,7 @@ function onSubmit() {
             type: "success",
             message: "提交成功!"
           });
-          closeThisPage();
+          closeThisPage(route);
         }
       });
     }

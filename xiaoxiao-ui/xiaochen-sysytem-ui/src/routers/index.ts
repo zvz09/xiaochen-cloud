@@ -5,6 +5,7 @@ import { LOGIN_URL, ROUTER_WHITE_LIST } from "@/config";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import { errorRouter, staticRouter } from "@/routers/modules/staticRouter";
 import NProgress from "@/config/nprogress";
+import { fmtTitle } from "@/utils/fmtRouterTitle";
 
 const mode = import.meta.env.VITE_ROUTER_MODE;
 
@@ -46,6 +47,8 @@ router.beforeEach(async (to, from, next) => {
   // 1.NProgress 开始
   NProgress.start();
 
+  to.meta.title = fmtTitle(to.meta.title as string, to);
+
   // 2.动态设置标题
   const title = import.meta.env.VITE_GLOB_APP_TITLE;
   document.title = to.meta.title ? `${to.meta.title} - ${title}` : title;
@@ -70,7 +73,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   // 7.存储 routerName 做按钮权限筛选
-  authStore.setRouteName(to.name as string);
+  await authStore.setRouteName(to.name as string);
 
   // 8.正常访问页面
   next();

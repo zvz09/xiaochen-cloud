@@ -28,30 +28,38 @@ public class FlowableTaskCallback {
 
     @Async
     public void assignedCall(FlowableEngineEntityEvent event) {
-        TaskEntityImpl taskEntity = (TaskEntityImpl) event.getEntity();
+        try {
+            TaskEntityImpl taskEntity = (TaskEntityImpl) event.getEntity();
 
-        String processInstanceId = taskEntity.getProcessInstanceId();
-        HistoricProcessInstance hisIns = historyService.createHistoricProcessInstanceQuery()
-                .processInstanceId(processInstanceId).singleResult();
+            String processInstanceId = taskEntity.getProcessInstanceId();
+            HistoricProcessInstance hisIns = historyService.createHistoricProcessInstanceQuery()
+                    .processInstanceId(processInstanceId).singleResult();
 
-        String message = String.format("【%s】【%s】流程，【%s】节点已被委派", processInstanceId, hisIns.getProcessDefinitionName(), taskEntity.getName());
+            String message = String.format("【%s】【%s】流程，【%s】节点已被委派", processInstanceId, hisIns.getProcessDefinitionName(), taskEntity.getName());
 
-        remoteEventRemindService.notice(EventRemindDto.builder().recipientId(hisIns.getStartUserId())
-                .action(ActionEnums.FLOWABLE_TASK_ASSIGNMENT).sourceType(NoticeSourceType.FLOWABLE).sourceContent(message).build());
+            remoteEventRemindService.notice(EventRemindDto.builder().recipientId(hisIns.getStartUserId())
+                    .action(ActionEnums.FLOWABLE_TASK_ASSIGNMENT).sourceType(NoticeSourceType.FLOWABLE).sourceContent(message).build());
+        }catch (Exception e){
+            log.error("【FlowableTaskCallback】assignedCall error:", e);
+        }
     }
 
     @Async
     public void completedCall(FlowableEngineEntityEvent event) {
-        TaskEntityImpl taskEntity = (TaskEntityImpl) event.getEntity();
+       try {
+           TaskEntityImpl taskEntity = (TaskEntityImpl) event.getEntity();
 
-        String processInstanceId = taskEntity.getProcessInstanceId();
-        HistoricProcessInstance hisIns = historyService.createHistoricProcessInstanceQuery()
-                .processInstanceId(processInstanceId).singleResult();
+           String processInstanceId = taskEntity.getProcessInstanceId();
+           HistoricProcessInstance hisIns = historyService.createHistoricProcessInstanceQuery()
+                   .processInstanceId(processInstanceId).singleResult();
 
-        String message = String.format("【%s】【%s】流程，【%s】节点已审批完成", processInstanceId, hisIns.getProcessDefinitionName(), taskEntity.getName());
+           String message = String.format("【%s】【%s】流程，【%s】节点已审批完成", processInstanceId, hisIns.getProcessDefinitionName(), taskEntity.getName());
 
-        remoteEventRemindService.notice(EventRemindDto.builder().recipientId(hisIns.getStartUserId())
-                .action(ActionEnums.FLOWABLE_TASK_COMPLETE).sourceType(NoticeSourceType.FLOWABLE).sourceContent(message).build());
+           remoteEventRemindService.notice(EventRemindDto.builder().recipientId(hisIns.getStartUserId())
+                   .action(ActionEnums.FLOWABLE_TASK_COMPLETE).sourceType(NoticeSourceType.FLOWABLE).sourceContent(message).build());
+       }catch (Exception e){
+           log.error("【FlowableTaskCallback】completedCall error:", e);
+       }
     }
 
     @Async

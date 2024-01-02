@@ -131,7 +131,7 @@ export const copyProcessList = (params: Process.CopyProcessListParams) => {
  * @returns
  */
 export const detailProcess = (procInsId: string, taskId: string) => {
-  return http.get<Process.FlowableDetailVo>(FLOWABLE_SERVICE_PATH + `/process/${procInsId}/${taskId}/detail`);
+  return http.get<Process.FlowableDetailVo>(FLOWABLE_SERVICE_PATH + `/process/${procInsId}/detail?taskId=${taskId}`);
 };
 
 /**

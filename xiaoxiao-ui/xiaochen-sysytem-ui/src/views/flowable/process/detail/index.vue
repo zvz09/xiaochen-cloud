@@ -282,7 +282,7 @@ function handleComplete() {
           type: "success",
           message: "办理成功!"
         });
-        closeThisPage();
+        closeThisPage(route);
       }
     });
   });
@@ -303,7 +303,7 @@ function handleReject() {
               type: "success",
               message: "办理成功!"
             });
-            closeThisPage();
+            closeThisPage(route);
           }
         });
       });
@@ -371,7 +371,7 @@ function dialogFormSubmit() {
           type: "success",
           message: "办理成功!"
         });
-        closeThisPage();
+        closeThisPage(route);
       }
     });
   } else if (dialogForm.value.type === "transfer") {
@@ -381,7 +381,7 @@ function dialogFormSubmit() {
           type: "success",
           message: "办理成功!"
         });
-        closeThisPage();
+        closeThisPage(route);
       }
     });
   } else if (dialogForm.value.type == "return") {
@@ -391,7 +391,7 @@ function dialogFormSubmit() {
           type: "success",
           message: "办理成功!"
         });
-        closeThisPage();
+        closeThisPage(route);
       }
     });
   }

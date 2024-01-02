@@ -3,6 +3,7 @@ package com.zvz09;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.zvz09.xiaochen.common.core.util.Snowflake;
 
 import java.util.Collections;
 
@@ -14,8 +15,8 @@ import java.util.Collections;
 public class CodeGenerator {
 
 
-    public static void main(String[] args) {
-        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf-8", "xiaochen", "!QAZ2wsx#EDC")
+    public static void main(String[] args) throws Exception {
+        /*FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf-8", "xiaochen", "!QAZ2wsx#EDC")
                 .globalConfig(builder -> {
                     builder.author("zvz09") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
@@ -31,7 +32,11 @@ public class CodeGenerator {
                     builder.addInclude("note_reptile_document", "note_reptile_class"); // 设置需要生成的表名
 
                 })
-                .execute();
+                .execute();*/
+        for (int i =0;i<10 ;i++){
+            Thread.sleep(1230);
+            System.out.println(Snowflake.getSnowflakeId());
+        }
 
     }
 }

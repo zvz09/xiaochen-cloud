@@ -171,8 +171,8 @@ export default {
   },
   created() {
     simpleList({}).then(res => {
-      this.allUsers = res.data
-      this.users = res.data
+      this.allUsers = res.data.records
+      this.users = res.data.records
     })
   }
 };

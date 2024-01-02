@@ -85,7 +85,7 @@ function receiptedFunc(row: Process.FlowableTaskVo) {
         cancelButtonText: "取消",
         type: "success"
       }).then(async () => {
-        closeThisPage();
+        closeThisPage(route);
         await router.push({
           name: "todoProcess"
         });

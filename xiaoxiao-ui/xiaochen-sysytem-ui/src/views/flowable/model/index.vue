@@ -139,7 +139,6 @@ const openPreviewDialog = (row: Partial<Model.VO> = {}) => {
   const params = reactive<Model.DrawerProps>({
     title: "查看流程图",
     row: { ...row },
-    getTableList: proTable.value?.getTableList,
     modelId: row.modelId
   });
   previewModelDialogRef.value?.acceptParams(params);

@@ -90,7 +90,8 @@ function toDetailProcess(row: Process.FlowableTaskVo) {
       title: "查看-" + row.procInsId
     },
     query: {
-      processed: "false"
+      processed: "false",
+      taskId: ""
     }
   });
 }

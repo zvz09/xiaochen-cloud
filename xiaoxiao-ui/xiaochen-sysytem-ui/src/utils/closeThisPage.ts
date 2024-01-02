@@ -1,9 +1,9 @@
-import { useRoute } from "vue-router";
+import { RouteLocationNormalizedLoaded } from "vue-router";
 import { useTabsStore } from "@/stores/modules/tabs";
 
-const route = useRoute();
 const tabStore = useTabsStore();
-export function closeThisPage() {
+export function closeThisPage(route: RouteLocationNormalizedLoaded) {
+  console.log(route.meta);
   if (route.meta.isAffix) return;
   tabStore.removeTabs(route.fullPath);
 }

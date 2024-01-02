@@ -38,6 +38,12 @@ const breadcrumbList = computed(() => {
   if (breadcrumbData[0].path !== HOME_URL) {
     breadcrumbData = [{ path: HOME_URL, meta: { icon: "HomeFilled", title: "首页" } }, ...breadcrumbData];
   }
+  console.log(route);
+  for (const item of breadcrumbData) {
+    if (item.name === route.name) {
+      item.meta.title = route.meta.title;
+    }
+  }
   return breadcrumbData;
 });
 
