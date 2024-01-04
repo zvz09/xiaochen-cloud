@@ -13,7 +13,7 @@ buildscript { //构建gradle脚本自身需要的资源，可以声明的资源�
         redissonVersion = '3.23.3' //redisson
         hutoolVersion = '5.8.16'
         elasticsearchAppenderVersion = '3.0.8'
-        druidVersion = '1.2.8'
+        druidVersion = '1.2.20'
         knife4jVersion = '4.3.0'
     }
 
@@ -114,7 +114,7 @@ subprojects {// 子项目配置(可以理解为子模块的全局配置)
             dependency "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
             dependency "cn.hutool:hutool-all:${hutoolVersion}"
             dependency "com.agido:logback-elasticsearch-appender:${elasticsearchAppenderVersion}"
-            dependency "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+            dependency "com.alibaba:druid-spring-boot-3-starter:${druidVersion}"
             dependency "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:${knife4jVersion}"
         }
 

@@ -28,16 +28,22 @@ import java.io.IOException;
  * @description
  * @date 2023/9/13 17:50
  */
-@Component
-@WebFilter(filterName = "BodyCachingWrapperFilter", urlPatterns = "/**")
+//@Component
+//@WebFilter(filterName = "BodyCachingWrapperFilter", urlPatterns = "/**")
 public class BodyCachingWrapperFilter implements Filter {
 
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        if(request.getContentType()!=null && !request.getContentType().contains("boundary")){
-            BodyCachingHttpServletRequestWrapper requestWrapper = new BodyCachingHttpServletRequestWrapper((HttpServletRequest) request);
-            BodyCachingHttpServletResponseWrapper responseWrapper = new BodyCachingHttpServletResponseWrapper((HttpServletResponse) response);
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
+        System.out.println(path);
+        if(path.startsWith("/druid")){
+            chain.doFilter(request, response);
+        } else if(request.getContentType()!=null && !request.getContentType().contains("boundary")){
+            BodyCachingHttpServletRequestWrapper requestWrapper = new BodyCachingHttpServletRequestWrapper(request);
+            BodyCachingHttpServletResponseWrapper responseWrapper = new BodyCachingHttpServletResponseWrapper(response);
             // 这里用wrapper类代替，以达到可重复读的目的
             chain.doFilter(requestWrapper, responseWrapper);
         }else {
