@@ -17,6 +17,8 @@
 -- 创建第一个数据库
 CREATE DATABASE IF NOT EXISTS nacos;
 
+drop user if exists  'nacos'@'%';
+
 -- 创建第一个数据库用户
 CREATE USER 'nacos'@'%' IDENTIFIED BY '!QAZ2wsx#EDC';
 GRANT ALL PRIVILEGES ON nacos.* TO 'nacos'@'%';

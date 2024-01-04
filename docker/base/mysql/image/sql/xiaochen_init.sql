@@ -1,5 +1,7 @@
-CREATE DATABASE IF NOT EXISTS `xiaochen-cloud`;
+drop database if exists `xiaochen-cloud`;
+CREATE DATABASE `xiaochen-cloud`;
 
+drop user if exists  'xiaochen'@'%';
 CREATE USER 'xiaochen'@'%' IDENTIFIED BY '!QAZ2wsx#EDC';
 GRANT ALL PRIVILEGES ON `xiaochen-cloud`.* TO 'xiaochen'@'%';
 

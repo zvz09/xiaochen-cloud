@@ -1,6 +1,6 @@
 drop database if exists `flowable`;
 CREATE DATABASE `flowable`;
-
+drop user if exists  'flowable'@'%';
 CREATE USER 'flowable'@'%' IDENTIFIED BY '!QAZ2wsx#EDC';
 GRANT ALL PRIVILEGES ON `flowable`.* TO 'flowable'@'%';
 
