@@ -27,7 +27,8 @@ chown -R nfsnobody:nfsnobody /nfs
 # 编辑exports
 vi /etc/exports
 # 输入以下内容(格式：FS共享的目录 NFS客户端地址1(参数1,参数2,...) 客户端地址2(参数1,参数2,...))
-/nfs 172.16.106.215/24(rw,sync,no_root_squash,anonuid=666,anongid=666)
+/nfs/data *(rw,sync,no_root_squash,anonuid=666,anongid=666)
+mount -t nfs -o nolock 192.168.93.129:/nfs/data /nfs/data
 ```
 如果设置为 ```shell /nfs *(rw,async,no_root_squash)```  则对所以的IP都有效
 常用选项：
@@ -102,10 +103,18 @@ NFS-Subdir-External-Provisioner是一个自动配置卷程序，它使用现有�
 GitHub 地址：https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
 ```yaml
 apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/instance: kube-storage
+    app.kubernetes.io/name: kube-storage
+  name: kube-storage
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: nfs-client-provisioner
-  namespace: default # 替换成你要部署的 Namespace
+  namespace: kube-storage # 替换成你要部署的 Namespace
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -132,7 +141,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-client-provisioner
-    namespace: default
+    namespace: kube-storage
 roleRef:
   kind: ClusterRole
   name: nfs-client-provisioner-runner
@@ -142,7 +151,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: leader-locking-nfs-client-provisioner
-  namespace: default
+  namespace: kube-storage
 rules:
   - apiGroups: [""]
     resources: ["endpoints"]
@@ -152,11 +161,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: leader-locking-nfs-client-provisioner
-  namespace: default
+  namespace: kube-storage
 subjects:
   - kind: ServiceAccount
     name: nfs-client-provisioner
-    namespace: default
+    namespace: kube-storage
 roleRef:
   kind: Role
   name: leader-locking-nfs-client-provisioner
@@ -193,13 +202,13 @@ spec:
             - name: PROVISIONER_NAME     # Provisioner的名称,以后设置的storageclass要和这个保持一致
               value: nfs-client
             - name: NFS_SERVER           # NFS服务器地址,需和valumes参数中配置的保持一致
-              value: 172.16.106.205
+              value: 192.168.93.129
             - name: NFS_PATH             # NFS服务器数据存储目录,需和valumes参数中配置的保持一致
               value: /nfs/data
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 172.16.106.205     # NFS服务器地址
+            server: 192.168.93.129     # NFS服务器地址
             path: /nfs/data            # NFS服务器数据存储目录
 ---
 apiVersion: storage.k8s.io/v1
@@ -207,7 +216,7 @@ kind: StorageClass
 metadata:
   name: nfs-storage
   annotations:
-    storageclass.kubernetes.io/is-default-class: "false"  # 是否设置为默认的storageclass
+    storageclass.kubernetes.io/is-default-class: "true"  # 是否设置为默认的storageclass
 provisioner: nfs-client                                   # 动态卷分配者名称，必须和上面创建的"provisioner"变量中设置的Name一致
 parameters:
   archiveOnDelete: "true"                                 # 设置为"false"时删除PVC不会保留数据,"true"则保留数据

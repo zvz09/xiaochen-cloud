@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: mysql-config
   labels:
     app: mysql
@@ -20,20 +20,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql
-  namespace: middleware
+  namespace: xiaochen-cloud
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: nfs-sc
+  storageClassName: nfs-storage
 ---
 ## Service
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: mysql
   labels:
     app: mysql
@@ -51,7 +51,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: mysql
   labels:
     app: mysql
@@ -135,13 +135,13 @@ data:
 kind: ConfigMap
 metadata:
   name: nacos
-  namespace: middleware
+  namespace: xiaochen-cloud
 ---
 ## Service
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: nacos
   labels:
     app: nacos
@@ -163,7 +163,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: nacos
   labels:
     app: nacos
@@ -204,20 +204,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: redis
-  namespace: middleware
+  namespace: xiaochen-cloud
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-  storageClassName: nfs-sc
+  storageClassName: nfs-storage
 ---
 ## Service
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: redis
   labels:
     app: redis
@@ -234,7 +234,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: redis
   labels:
     app: redis
@@ -273,7 +273,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: rabbitmq
   labels:
     app: rabbitmq
@@ -293,7 +293,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: rabbitmq
   labels:
     app: rabbitmq
@@ -327,20 +327,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: minio
-  namespace: middleware
+  namespace: xiaochen-cloud
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi
-  storageClassName: nfs-sc
+  storageClassName: nfs-storage
 ---
 ## Service
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: minio
   labels:
     app: minio
@@ -360,7 +360,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: middleware
+  namespace: xiaochen-cloud
   name: minio
   labels:
     app: minio
