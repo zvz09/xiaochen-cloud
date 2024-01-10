@@ -174,6 +174,7 @@ roleRef:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: kube-storage
   name: nfs-client-provisioner
   labels:
     app: nfs-client-provisioner

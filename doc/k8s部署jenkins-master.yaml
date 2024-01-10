@@ -1,0 +1,129 @@
+---
+# 命名空间
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jenkins
+
+---
+#动态存储 pvc 因为我这里用nfs 来存放jenkins 数据，如果你不需要进行数据持久化可以不创建，
+#需要的话可以参考我之前文章搭建一个nfs 环境。
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5G
+  storageClassName: nfs-storage
+---
+# jenkins deployment 启动 jenkins 服务器
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-master
+  namespace: jenkins
+spec:
+  selector:
+    matchLabels:
+      app: 'jenkins/jenkins:jdk17'
+  template:
+    metadata:
+      labels:
+        app: jenkins-master
+      namespace: jenkins
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: jenkins-master
+          image: jenkinsci/blueocean #这里用的是我自己搭建的私有仓库。
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 50000
+              name: agent
+          volumeMounts:
+            - name: jenkins-master-vol
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-master-vol
+          persistentVolumeClaim:
+            claimName: jenkins-pvc
+      serviceAccount: "jenkins-master"
+
+---
+#  svc 用来支持外部访问，这里我将jenkins 的 8080 和 50000 都设成了nodeport 型因为我需要 在jenkisn
+# 上外挂 非k8s 集群的节点，还有 k8s 默认的nodeport 节点范围是3000-32767 所以如果想用32768及以上的端口
+# 的话一定到将 api-server service-node-port-range 这个启动参数设为你需要的。然后重启api-server 服务
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-master
+  namespace: jenkins
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+      nodePort: 38080
+    - port: 50000
+      name: agent
+      nodePort: 50000
+      targetPort: 50000
+  selector:
+    app: jenkins-master
+
+---
+# 使用默认的secert 创建的serviceaccout 给 jenkins pod 提供访问k8s 集群的ssl 认证
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins-master
+  namespace: jenkins
+
+---
+# 创建一个角色 设置 访问k8s资源类型和权限范围
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: jenkins-master
+  namespace: jenkins
+
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get","list","watch"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get"]
+
+---
+# 将serviceaccount 和 role 绑定 这样配置了这个serviceaccount的pod 就能根据这个role 来规范访问
+# 这个命名空间下的资源数据
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jenkins-master
+  namespace: jenkins
+
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: jenkins-master
+subjects:
+  - kind: ServiceAccount
+    name: jenkins-master
+    namespace: jenkins
+
