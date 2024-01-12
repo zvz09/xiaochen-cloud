@@ -1,6 +1,6 @@
 package com.zvz09.xiaochen.job.admin.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zvz09.xiaochen.common.core.annotation.BizNo;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
@@ -58,7 +58,7 @@ public class JobInfoController {
 
     @Operation(summary = "列表查询")
     @PostMapping("/page")
-    public ApiResult<Page<JobInfoVo>> listJobInfoPage(@RequestBody BasePage basePage) {
+    public ApiResult<IPage<JobInfoVo>> listJobInfoPage(@RequestBody BasePage basePage) {
         return ApiResult.success(jobInfoService.listJobInfoPage(basePage));
     }
 

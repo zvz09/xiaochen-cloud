@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.job.admin.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.job.admin.domain.entity.JobLog;
@@ -32,7 +32,7 @@ public class JobLogController {
     private final IJobLogService jobLogService;
     @Operation(summary = "列表查询")
     @PostMapping("/{jobId}/page")
-    public ApiResult<Page<JobLog>> listJobLogPage(@PathVariable(value = "jobId")Long jobId, @RequestBody BasePage basePage) {
+    public ApiResult<IPage<JobLog>> listJobLogPage(@PathVariable(value = "jobId")Long jobId, @RequestBody BasePage basePage) {
         return ApiResult.success(jobLogService.listJobLogPage(jobId,basePage));
     }
 }
