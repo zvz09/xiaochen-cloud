@@ -3,6 +3,7 @@ package com.zvz09.xiaochen.common.web.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.jakarta.StatViewServlet;
 import com.alibaba.druid.support.jakarta.WebStatFilter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -36,7 +37,7 @@ public class DruidDataSourceConfig {
      * 内置 Servlet 容器时没有web.xml文件，所以使用 Spring Boot 的注册 Servlet 方式
      */
     @Bean
-    @ConditionalOnClass(DruidDataSource.class)
+    @ConditionalOnBean(DruidDataSource.class)
     public ServletRegistrationBean statViewServlet(){
         // 这些参数可以在 http.StatViewServlet 的父类 ResourceServlet 中找到
         Map<String,String> initParams = new HashMap<>();
@@ -57,7 +58,7 @@ public class DruidDataSourceConfig {
      * 配置一个web监控的filter
      */
     @Bean
-    @ConditionalOnClass(DruidDataSource.class)
+    @ConditionalOnBean(DruidDataSource.class)
     public FilterRegistrationBean webStatFilter(){
         Map<String,String> initParams = new HashMap<>();
         // 这些不进行统计

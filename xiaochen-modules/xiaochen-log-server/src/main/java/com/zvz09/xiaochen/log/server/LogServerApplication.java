@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.log.server;
 
+import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -19,7 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ComponentScan("com.zvz09.xiaochen")
 @EnableAsync(proxyTargetClass = true)
 @EnableFeignClients(basePackages = "com.zvz09.xiaochen")
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
 public class LogServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(LogServerApplication.class, args);
