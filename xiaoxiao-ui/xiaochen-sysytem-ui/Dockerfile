@@ -1,18 +1,8 @@
-FROM node:18
-
-WORKDIR /xiaochen-web/
-COPY . .
-
-RUN npm install -g pnpm
-RUN pnpm config set registry http://mirrors.cloud.tencent.com/npm/
-RUN pnpm install
-RUN pnpm run build:pro
-
 FROM nginx:alpine
 LABEL MAINTAINER="zvz09"
 
 COPY .docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/my.conf
-COPY --from=0 /xiaochen-web/dist /usr/share/nginx/html
+COPY --from=0 dist/ /usr/share/nginx/html
 RUN cat /etc/nginx/nginx.conf
 RUN cat /etc/nginx/conf.d/my.conf
 RUN ls -al /usr/share/nginx/html
