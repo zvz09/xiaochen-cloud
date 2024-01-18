@@ -3,7 +3,7 @@ FROM node:18
 WORKDIR /xiaochen-web/
 COPY . .
 
-RUN npm && npm build:pro
+RUN npm run build:pro
 
 FROM nginx:alpine
 LABEL MAINTAINER="zvz09"
