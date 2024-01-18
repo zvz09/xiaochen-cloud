@@ -4,7 +4,7 @@ WORKDIR /xiaochen-web/
 COPY . .
 
 RUN npm install -g pnpm
-RUN pnpm config set registry https://registry.npmmirror.com
+RUN pnpm config set registry http://mirrors.cloud.tencent.com/npm/
 RUN pnpm install
 RUN pnpm run build:pro
 
