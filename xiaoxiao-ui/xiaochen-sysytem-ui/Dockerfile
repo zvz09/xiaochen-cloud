@@ -2,6 +2,8 @@ FROM node:18
 
 WORKDIR /xiaochen-web/
 COPY . .
+# 设置npm淘宝源
+RUN npm config set registry https://registry.npm.taobao.org/
 RUN npm install
 RUN npm run build:pro
 
