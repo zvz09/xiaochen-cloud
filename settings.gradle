@@ -62,4 +62,6 @@ include 'xiaochen-common:common-log'
 findProject(':xiaochen-common:common-log')?.name = 'common-log'
 include 'xiaochen-common:common-elasticsearch'
 findProject(':xiaochen-common:common-elasticsearch')?.name = 'common-elasticsearch'
+include 'xiaochen-modules:xiaochen-k8s-manage'
+findProject(':xiaochen-modules:xiaochen-k8s-manage')?.name = 'xiaochen-k8s-manage'
 

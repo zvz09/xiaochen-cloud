@@ -1,0 +1,13 @@
+package com.zvz09.xiaochen.k8s.manage.function;
+
+import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.openapi.ApiException;
+import org.checkerframework.checker.units.qual.A;
+
+/**
+ * @author Administrator
+ */
+@FunctionalInterface
+public interface ApiClientFunction<T> {
+    void apply(ApiClient apiClient, T resource) throws ApiException;
+}

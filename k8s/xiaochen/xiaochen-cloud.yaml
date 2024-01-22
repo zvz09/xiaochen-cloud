@@ -1,0 +1,242 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-auth
+  name: xiaochen-auth
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-auth
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-auth
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-auth:202401151536'
+          name: xiaochen-auth
+      initContainers: []
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-autocode
+  name: xiaochen-autocode
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-autocode
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-autocode
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-autocode:202401151536'
+          name: xiaochen-autocode
+      initContainers: []
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-file
+  name: xiaochen-file
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-file
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-file
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-file:202401151536'
+          name: xiaochen-file
+      initContainers: []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-flowable
+  name: xiaochen-flowable
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-flowable
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-flowable
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-flowable:202401151536'
+          name: xiaochen-flowable
+      initContainers: []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-job-admin
+  name: xiaochen-job-admin
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-job-admin
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-job-admin
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-job-admin:202401151536'
+          name: xiaochen-job-admin
+      initContainers: []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-log-server
+  name: xiaochen-log-server
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-log-server
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-log-server
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-log-server:202401151536'
+          name: xiaochen-log-server
+      initContainers: []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-message
+  name: xiaochen-message
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-message
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-message
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-message:202401151536'
+          name: xiaochen-message
+      initContainers: []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    k8s.kuboard.cn/layer: svc
+    k8s.kuboard.cn/name: xiaochen-note
+  name: xiaochen-note
+  namespace: xiaochen-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s.kuboard.cn/layer: svc
+      k8s.kuboard.cn/name: xiaochen-note
+  template:
+    metadata:
+      labels:
+        k8s.kuboard.cn/layer: svc
+        k8s.kuboard.cn/name: xiaochen-note
+    spec:
+      containers:
+        - env: []
+          envFrom:
+            - configMapRef:
+                name: nacos-config
+          image: 'harbor.xiaochen.com/xiaochen_cloud/xiaochen-note:202401151536'
+          name: xiaochen-note
+      initContainers: []

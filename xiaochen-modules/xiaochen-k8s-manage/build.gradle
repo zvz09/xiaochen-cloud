@@ -1,0 +1,17 @@
+description = 'xiaochen-k8s-manage'
+
+//子项目需要的jar包
+dependencies {
+    implementation project(':xiaochen-common:common-web')
+    implementation project(':xiaochen-common:common-auxiliary')
+    api('io.kubernetes:client-java-api:19.0.0')
+    api('io.kubernetes:client-java:19.0.0')
+    api('io.kubernetes:client-java-extended:19.0.0')
+    api('io.kubernetes:client-java-spring-integration:19.0.0')
+    api('io.kubernetes:client-java-proto:19.0.0')
+    compileOnly "org.jetbrains:annotations:22.0.0"
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+

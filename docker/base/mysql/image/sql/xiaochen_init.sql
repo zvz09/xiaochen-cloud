@@ -459,6 +459,20 @@ CREATE TABLE `user_system_notice`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
+create table if not exists `xiaochen-cloud`.k8s_cluster
+(
+    created_at   datetime     null,
+    updated_at   datetime     null,
+    deleted      tinyint      null,
+    cluster_name varchar(20)  not null,
+    api_server   varchar(500) not null,
+    token        text         not null,
+    id           bigint       not null
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+
+
 INSERT INTO `xiaochen-cloud`.sys_user (id, created_at, updated_at, deleted, uuid, username, password, nick_name, gender,
                                        side_mode, header_img, base_color, active_color, authority_id, phone, email,
                                        enable)
