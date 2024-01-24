@@ -1,32 +1,30 @@
 <template>
   <div style="margin-top: 16px">
     <el-form-item label="脚本格式">
-      <el-input v-model="scriptTaskForm.scriptFormat" clearable @change="updateElementTask()"
-                @input="updateElementTask()"/>
+      <el-input v-model="scriptTaskForm.scriptFormat" clearable @change="updateElementTask()" @input="updateElementTask()" />
     </el-form-item>
     <el-form-item label="脚本类型">
       <el-select v-model="scriptTaskForm.scriptType">
-        <el-option label="内联脚本" value="inline"/>
-        <el-option label="外部资源" value="external"/>
+        <el-option label="内联脚本" value="inline" />
+        <el-option label="外部资源" value="external" />
       </el-select>
     </el-form-item>
     <el-form-item v-show="scriptTaskForm.scriptType === 'inline'" label="脚本">
       <el-input
-          v-model="scriptTaskForm.script"
-          :autosize="{ minRows: 2, maxRows: 4 }"
-          clearable
-          resize="vertical"
-          type="textarea"
-          @change="updateElementTask()"
-          @input="updateElementTask()"
+        v-model="scriptTaskForm.script"
+        :autosize="{ minRows: 2, maxRows: 4 }"
+        clearable
+        resize="vertical"
+        type="textarea"
+        @change="updateElementTask()"
+        @input="updateElementTask()"
       />
     </el-form-item>
     <el-form-item v-show="scriptTaskForm.scriptType === 'external'" label="资源地址">
-      <el-input v-model="scriptTaskForm.resource" clearable @change="updateElementTask()" @input="updateElementTask()"/>
+      <el-input v-model="scriptTaskForm.resource" clearable @change="updateElementTask()" @input="updateElementTask()" />
     </el-form-item>
     <el-form-item label="结果变量">
-      <el-input v-model="scriptTaskForm.resultVariable" clearable @change="updateElementTask()"
-                @input="updateElementTask()"/>
+      <el-input v-model="scriptTaskForm.resultVariable" clearable @change="updateElementTask()" @input="updateElementTask()" />
     </el-form-item>
   </div>
 </template>
@@ -62,9 +60,9 @@ export default {
     resetTaskForm() {
       for (let key in this.defaultTaskForm) {
         let value = this.bpmnElement?.businessObject[key] || this.defaultTaskForm[key];
-        this.scriptTaskForm[key] = value
+        this.scriptTaskForm[key] = value;
       }
-      this.scriptTaskForm["scriptType"] = this.scriptTaskForm.script ? "inline" : "external"
+      this.scriptTaskForm["scriptType"] = this.scriptTaskForm.script ? "inline" : "external";
     },
     updateElementTask() {
       let taskAttr = Object.create(null);

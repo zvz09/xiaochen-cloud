@@ -11,52 +11,56 @@
     </el-form-item>
     <el-form-item v-if="dataType === 'USER'" label="指定用户">
       <el-select v-model="userTaskForm.assignee" @change="updateElementTaskAssignee()">
-        <el-option v-for="user in users" :key="user.id" :label="user.nickName" :value="user.id"/>
+        <el-option v-for="user in users" :key="user.id" :label="user.nickName" :value="user.id" />
       </el-select>
     </el-form-item>
     <el-form-item v-if="dataType === 'USERS'" label="候选用户">
-      <el-select v-model="userTaskForm.candidateUsers" collapse-tags multiple
-                 @change="updateElementTaskCandidateUsers('candidateUsers')">
-        <el-option v-for="user in users" :key="user.id" :label="user.nickName" :value="user.id"/>
+      <el-select
+        v-model="userTaskForm.candidateUsers"
+        collapse-tags
+        multiple
+        @change="updateElementTaskCandidateUsers('candidateUsers')"
+      >
+        <el-option v-for="user in users" :key="user.id" :label="user.nickName" :value="user.id" />
       </el-select>
     </el-form-item>
     <el-form-item v-if="dataType === 'AUTHORITY'" label="角色">
       <el-tree-select
-          v-model="userTaskForm.candidateGroups"
-          :data="authorityTree"
-          :props="{label: 'authorityName'}"
-          check-strictly
-          multiple
-          node-key="authorityCode"
-          @change="updateElementTaskCandidateGroups"
+        v-model="userTaskForm.candidateGroups"
+        :data="authorityTree"
+        :props="{ label: 'authorityName' }"
+        check-strictly
+        multiple
+        node-key="authorityCode"
+        @change="updateElementTaskCandidateGroups"
       />
     </el-form-item>
     <el-form-item v-if="dataType === 'DEPTS'" label="部门">
       <el-tree-select
-          v-model="userTaskForm.candidateDepts"
-          :data="deptTree"
-          :props="{label: 'deptName'}"
-          check-strictly
-          multiple
-          node-key="id"
-          @change="updateElementTaskCandidateDepts"
+        v-model="userTaskForm.candidateDepts"
+        :data="deptTree"
+        :props="{ label: 'deptName' }"
+        check-strictly
+        multiple
+        node-key="id"
+        @change="updateElementTaskCandidateDepts"
       />
     </el-form-item>
     <el-form-item label="到期时间">
-      <el-input v-model="userTaskForm.dueDate" clearable @change="updateElementTask('dueDate')"/>
+      <el-input v-model="userTaskForm.dueDate" clearable @change="updateElementTask('dueDate')" />
     </el-form-item>
     <el-form-item label="跟踪时间">
-      <el-input v-model="userTaskForm.followUpDate" clearable @change="updateElementTask('followUpDate')"/>
+      <el-input v-model="userTaskForm.followUpDate" clearable @change="updateElementTask('followUpDate')" />
     </el-form-item>
     <el-form-item label="优先级">
-      <el-input v-model="userTaskForm.priority" clearable @change="updateElementTask('priority')"/>
+      <el-input v-model="userTaskForm.priority" clearable @change="updateElementTask('priority')" />
     </el-form-item>
   </div>
 </template>
 
 <script>
-import {simpleList} from '@/api/system/user'
-import {getRoleList} from '@/api/system/role'
+import { simpleList } from "@/api/system/user";
+import { getRoleList } from "@/api/system/role";
 
 export default {
   name: "UserTask",
@@ -75,14 +79,14 @@ export default {
         followUpDate: "",
         priority: ""
       },
-      dataType: 'USER',
+      dataType: "USER",
       userTaskForm: {},
       mockData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       allUsers: [],
       users: [],
       authorityTree: [],
       deptTree: [],
-      loading: false,
+      loading: false
     };
   },
   watch: {
@@ -103,7 +107,7 @@ export default {
         } else {
           value = this.bpmnElement?.businessObject[key] || this.defaultTaskForm[key];
         }
-        this.userTaskForm[key] = value
+        this.userTaskForm[key] = value;
       }
     },
     updateElementTaskAssignee() {
@@ -121,22 +125,22 @@ export default {
       const key = "candidateGroups";
       const taskAttr = Object.create(null);
       if (this.userTaskForm[key] && this.userTaskForm[key].length) {
-        let roles = []
+        let roles = [];
         this.userTaskForm[key].forEach(id => {
-          roles.push("ROLE_" + id)
-        })
-        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"candidateGroups": roles.join()});
+          roles.push("ROLE_" + id);
+        });
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { candidateGroups: roles.join() });
       }
     },
     updateElementTaskCandidateDepts() {
       const key = "candidateDepts";
       const taskAttr = Object.create(null);
       if (this.userTaskForm[key] && this.userTaskForm[key].length) {
-        let roles = []
+        let roles = [];
         this.userTaskForm[key].forEach(id => {
-          roles.push("DEPT_" + id)
-        })
-        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"candidateGroups": roles.join()});
+          roles.push("DEPT_" + id);
+        });
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { candidateGroups: roles.join() });
       }
     },
     updateElementTask(key) {
@@ -149,20 +153,20 @@ export default {
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, taskAttr);
     },
     changeDataType(val) {
-      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"assignee": null})
-      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"candidateUsers": null})
-      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"candidateGroups": null})
-      if (val === 'AUTHORITY') {
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { assignee: null });
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { candidateUsers: null });
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { candidateGroups: null });
+      if (val === "AUTHORITY") {
         getRoleList({}).then(res => {
-          this.authorityTree = res.data
-        })
-      } else if (val === 'DEPTS') {
+          this.authorityTree = res.data;
+        });
+      } else if (val === "DEPTS") {
         /*getDepartmentTree().then(res => {
           this.deptTree = res.data
         })*/
-        console.log("DEPTS")
-      } else if (val === 'INITIATOR') {
-        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {"assignee": "${initiator}"})
+        console.log("DEPTS");
+      } else if (val === "INITIATOR") {
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { assignee: "${initiator}" });
       }
     }
   },
@@ -171,9 +175,9 @@ export default {
   },
   created() {
     simpleList({}).then(res => {
-      this.allUsers = res.data.records
-      this.users = res.data.records
-    })
+      this.allUsers = res.data.records;
+      this.users = res.data.records;
+    });
   }
 };
 </script>

@@ -2,12 +2,16 @@
   <div class="panel-tab__content">
     <el-form label-width="90px" size="small" @submit.prevent>
       <el-form-item label="异步延续">
-        <el-checkbox v-model="taskConfigForm.asyncBefore" label="异步前" @change="changeTaskAsync"/>
-        <el-checkbox v-model="taskConfigForm.asyncAfter" label="异步后" @change="changeTaskAsync"/>
-        <el-checkbox v-if="taskConfigForm.asyncAfter || taskConfigForm.asyncBefore" v-model="taskConfigForm.exclusive"
-                     label="排除" @change="changeTaskAsync"/>
+        <el-checkbox v-model="taskConfigForm.asyncBefore" label="异步前" @change="changeTaskAsync" />
+        <el-checkbox v-model="taskConfigForm.asyncAfter" label="异步后" @change="changeTaskAsync" />
+        <el-checkbox
+          v-if="taskConfigForm.asyncAfter || taskConfigForm.asyncBefore"
+          v-model="taskConfigForm.exclusive"
+          label="排除"
+          @change="changeTaskAsync"
+        />
       </el-form-item>
-      <component :is="witchTaskComponent" v-bind="$props"/>
+      <component :is="witchTaskComponent" v-bind="$props" />
     </el-form>
   </div>
 </template>
@@ -19,7 +23,7 @@ import ReceiveTask from "./task-components/ReceiveTask.vue";
 
 export default {
   name: "ElementTaskConfig",
-  components: {UserTask, ScriptTask, ReceiveTask},
+  components: { UserTask, ScriptTask, ReceiveTask },
   props: {
     id: String,
     type: String

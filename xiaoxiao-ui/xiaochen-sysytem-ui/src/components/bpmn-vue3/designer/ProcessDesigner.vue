@@ -4,96 +4,84 @@
       <slot name="control-header"></slot>
       <template v-if="!$slots['control-header']">
         <el-button-group key="file-control">
-          <el-button :icon="Edit" :size="headerButtonSize" :type="headerButtonType"
-                     @click="saveProcessXML">保存流程
-          </el-button>
-          <el-button :icon="FolderOpened" :size="headerButtonSize" :type="headerButtonType"
-                     @click="$refs.refFile.click()">打开文件
+          <el-button :icon="Edit" :size="headerButtonSize" :type="headerButtonType" @click="saveProcessXML">保存流程 </el-button>
+          <el-button :icon="FolderOpened" :size="headerButtonSize" :type="headerButtonType" @click="$refs.refFile.click()"
+            >打开文件
           </el-button>
           <el-tooltip effect="light">
             <template #content>
               <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsXml()">下载为XML文件</el-button>
-              <br/>
+              <br />
               <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsSvg()">下载为SVG文件</el-button>
-              <br/>
-              <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsBpmn()">下载为BPMN文件
-              </el-button>
+              <br />
+              <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsBpmn()">下载为BPMN文件 </el-button>
             </template>
             <el-button :icon="Download" :size="headerButtonSize" :type="headerButtonType">下载文件</el-button>
           </el-tooltip>
           <el-tooltip effect="light">
             <template #content>
               <el-button :size="headerButtonSize" type="text" @click="previewProcessXML">预览XML</el-button>
-              <br/>
+              <br />
               <!-- <el-button :size="headerButtonSize" type="text" @click="previewProcessJson">预览JSON</el-button> -->
             </template>
             <el-button :icon="View" :size="headerButtonSize" :type="headerButtonType">预览</el-button>
           </el-tooltip>
           <el-tooltip v-if="simulation" :content="this.simulationStatus ? '退出模拟' : '开启模拟'" effect="light">
-            <el-button :icon="Cpu" :size="headerButtonSize" :type="headerButtonType" @click="processSimulation">
-              模拟
-            </el-button>
+            <el-button :icon="Cpu" :size="headerButtonSize" :type="headerButtonType" @click="processSimulation"> 模拟 </el-button>
           </el-tooltip>
         </el-button-group>
         <el-button-group key="align-control">
           <el-tooltip content="向左对齐" effect="light">
-            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-left"
-                       @click="elementsAlign('left')"/>
+            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-left" @click="elementsAlign('left')" />
           </el-tooltip>
           <el-tooltip content="向右对齐" effect="light">
-            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-right"
-                       @click="elementsAlign('right')"/>
+            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-right" @click="elementsAlign('right')" />
           </el-tooltip>
           <el-tooltip content="向上对齐" effect="light">
-            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-top"
-                       @click="elementsAlign('top')"/>
+            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-top" @click="elementsAlign('top')" />
           </el-tooltip>
           <el-tooltip content="向下对齐" effect="light">
-            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-bottom"
-                       @click="elementsAlign('bottom')"/>
+            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-bottom" @click="elementsAlign('bottom')" />
           </el-tooltip>
           <el-tooltip content="水平居中" effect="light">
-            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-center"
-                       @click="elementsAlign('center')"/>
+            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-center" @click="elementsAlign('center')" />
           </el-tooltip>
           <el-tooltip content="垂直居中" effect="light">
-            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-middle"
-                       @click="elementsAlign('middle')"/>
+            <el-button :icon="Histogram" :size="headerButtonSize" class="align align-middle" @click="elementsAlign('middle')" />
           </el-tooltip>
         </el-button-group>
         <el-button-group key="scale-control">
           <el-tooltip content="缩小视图" effect="light">
-            <el-button :disabled="defaultZoom < 0.2" :icon="ZoomOut" :size="headerButtonSize"
-                       @click="processZoomOut()"/>
+            <el-button :disabled="defaultZoom < 0.2" :icon="ZoomOut" :size="headerButtonSize" @click="processZoomOut()" />
           </el-tooltip>
           <el-button :size="headerButtonSize">{{ Math.floor(this.defaultZoom * 10 * 10) + "%" }}</el-button>
           <el-tooltip content="放大视图" effect="light">
-            <el-button :disabled="defaultZoom > 4" :icon="ZoomIn" :size="headerButtonSize" @click="processZoomIn()"/>
+            <el-button :disabled="defaultZoom > 4" :icon="ZoomIn" :size="headerButtonSize" @click="processZoomIn()" />
           </el-tooltip>
           <el-tooltip content="重置视图并居中" effect="light">
-            <el-button :icon="ScaleToOriginal" :size="headerButtonSize" @click="processReZoom()"/>
+            <el-button :icon="ScaleToOriginal" :size="headerButtonSize" @click="processReZoom()" />
           </el-tooltip>
         </el-button-group>
         <el-button-group key="stack-control">
           <el-tooltip content="撤销" effect="light">
-            <el-button :disabled="!revocable" :icon="RefreshLeft" :size="headerButtonSize" @click="processUndo()"/>
+            <el-button :disabled="!revocable" :icon="RefreshLeft" :size="headerButtonSize" @click="processUndo()" />
           </el-tooltip>
           <el-tooltip content="恢复" effect="light">
-            <el-button :disabled="!recoverable" :icon="RefreshRight" :size="headerButtonSize" @click="processRedo()"/>
+            <el-button :disabled="!recoverable" :icon="RefreshRight" :size="headerButtonSize" @click="processRedo()" />
           </el-tooltip>
           <el-tooltip content="重新绘制" effect="light">
-            <el-button :icon="Refresh" :size="headerButtonSize" @click="processRestart"/>
+            <el-button :icon="Refresh" :size="headerButtonSize" @click="processRestart" />
           </el-tooltip>
         </el-button-group>
       </template>
       <!-- 用于打开本地文件-->
-      <input id="files" ref="refFile" accept=".xml, .bpmn" style="display: none" type="file" @change="importLocalFile"/>
+      <input id="files" ref="refFile" accept=".xml, .bpmn" style="display: none" type="file" @change="importLocalFile" />
     </div>
     <div class="my-process-designer__container">
       <div ref="bpmn-canvas" class="my-process-designer__canvas"></div>
     </div>
     <el-dialog v-model="previewModelVisible" :title="`预览${previewType}`" append-to-body destroy-on-close width="60%">
-      <code-mirror v-model="previewResult" :lang=xml() :theme="theme" basic style=""/>
+      <code-mirror v-model="previewResult" :lang="xml()" :theme="theme" basic style="" />
     </el-dialog>
   </div>
 </template>
@@ -112,7 +100,7 @@ import {
   View,
   ZoomIn,
   ZoomOut
-} from '@element-plus/icons-vue'
+} from "@element-plus/icons-vue";
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import DefaultEmptyXML from "./plugins/defaultEmpty";
 // 翻译方法
@@ -123,27 +111,45 @@ import tokenSimulation from "bpmn-js-token-simulation";
 // 标签解析构建器
 // import bpmnPropertiesProvider from "bpmn-js-properties-panel/lib/provider/bpmn";
 // 标签解析 Moddle
-import camundaModdleDescriptor from './plugins/descriptor/camundaDescriptor.json';
-import activitiModdleDescriptor from './plugins/descriptor/activitiDescriptor.json';
-import flowableModdleDescriptor from './plugins/descriptor/flowableDescriptor.json';
+import camundaModdleDescriptor from "./plugins/descriptor/camundaDescriptor.json";
+import activitiModdleDescriptor from "./plugins/descriptor/activitiDescriptor.json";
+import flowableModdleDescriptor from "./plugins/descriptor/flowableDescriptor.json";
 // 标签解析 Extension
-import camundaModdleExtension from './plugins/extension-moddle/camunda';
-import activitiModdleExtension from './plugins/extension-moddle/activiti';
-import flowableModdleExtension from './plugins/extension-moddle/flowable';
+import camundaModdleExtension from "./plugins/extension-moddle/camunda";
+import activitiModdleExtension from "./plugins/extension-moddle/activiti";
+import flowableModdleExtension from "./plugins/extension-moddle/flowable";
 import CodeMirror from "vue-codemirror6";
-import {xml} from "@codemirror/lang-xml";
-
+import { xml } from "@codemirror/lang-xml";
 
 export default {
   name: "MyProcessDesigner",
-  components: {CodeMirror},
+  components: { CodeMirror },
   componentName: "MyProcessDesigner",
   setup() {
     return {
-      Histogram, Cpu, Refresh, RefreshLeft, RefreshRight, ZoomOut, ZoomIn, View, Download, FolderOpened, ScaleToOriginal
-    }
+      Histogram,
+      Cpu,
+      Refresh,
+      RefreshLeft,
+      RefreshRight,
+      ZoomOut,
+      ZoomIn,
+      View,
+      Download,
+      FolderOpened,
+      ScaleToOriginal
+    };
   },
-  emits: ['destroy', 'init-finished', 'commandStack-changed', 'update:modelValue', 'change', 'canvas-viewbox-changed', 'element-click', 'save'],
+  emits: [
+    "destroy",
+    "init-finished",
+    "commandStack-changed",
+    "update:modelValue",
+    "change",
+    "canvas-viewbox-changed",
+    "element-click",
+    "save"
+  ],
   props: {
     modelValue: String, // xml 字符串
     processId: String,
@@ -223,7 +229,7 @@ export default {
   },
   computed: {
     Edit() {
-      return Edit
+      return Edit;
     },
     additionalModules() {
       const Modules = [];
@@ -317,7 +323,7 @@ export default {
       if (this.bpmnModeler) return;
       this.bpmnModeler = new BpmnModeler({
         container: this.$refs["bpmn-canvas"],
-        keyboard: this.keyboard ? {bindTo: document} : null,
+        keyboard: this.keyboard ? { bindTo: document } : null,
         additionalModules: this.additionalModules,
         moddleExtensions: this.moddleExtensions,
         ...this.options
@@ -341,18 +347,18 @@ export default {
         try {
           this.recoverable = this.bpmnModeler.get("commandStack").canRedo();
           this.revocable = this.bpmnModeler.get("commandStack").canUndo();
-          let {xml} = await this.bpmnModeler.saveXML({format: true});
+          let { xml } = await this.bpmnModeler.saveXML({ format: true });
           this.$emit("commandStack-changed", event);
-          this.$emit('update:modelValue', xml);
+          this.$emit("update:modelValue", xml);
           this.$emit("change", xml);
         } catch (e) {
           console.error(`[Process Designer Warn]: ${e.message || e}`);
         }
       });
       // 监听视图缩放变化
-      this.bpmnModeler.on("canvas.viewbox.changed", ({viewbox}) => {
-        this.$emit("canvas-viewbox-changed", {viewbox});
-        const {scale} = viewbox;
+      this.bpmnModeler.on("canvas.viewbox.changed", ({ viewbox }) => {
+        this.$emit("canvas-viewbox-changed", { viewbox });
+        const { scale } = viewbox;
         this.defaultZoom = Math.floor(scale * 100) / 100;
       });
     },
@@ -363,7 +369,7 @@ export default {
       let newName = this.processName || `业务流程_${new Date().getTime()}`;
       let xmlString = xml || DefaultEmptyXML(newId, newName, this.prefix);
       try {
-        let {warnings} = await this.bpmnModeler.importXML(xmlString);
+        let { warnings } = await this.bpmnModeler.importXML(xmlString);
         if (warnings && warnings.length) {
           warnings.forEach(warn => console.warn(warn));
         }
@@ -382,20 +388,20 @@ export default {
         const _this = this;
         // 按需要类型创建文件并下载
         if (type === "xml" || type === "bpmn") {
-          const {err, xml} = await this.bpmnModeler.saveXML();
+          const { err, xml } = await this.bpmnModeler.saveXML();
           // 读取异常时抛出异常
           if (err) {
             console.error(`[Process Designer Warn ]: ${err.message || err}`);
           }
-          let {href, filename} = _this.setEncoded(type.toUpperCase(), name, xml);
+          let { href, filename } = _this.setEncoded(type.toUpperCase(), name, xml);
           downloadFunc(href, filename);
         } else {
-          const {err, svg} = await this.bpmnModeler.saveSVG();
+          const { err, svg } = await this.bpmnModeler.saveSVG();
           // 读取异常时抛出异常
           if (err) {
             return console.error(err);
           }
-          let {href, filename} = _this.setEncoded("SVG", name, svg);
+          let { href, filename } = _this.setEncoded("SVG", name, svg);
           downloadFunc(href, filename);
         }
       } catch (e) {
@@ -506,9 +512,9 @@ export default {
     },
     /*-----------------------------    方法结束     ---------------------------------*/
     previewProcessXML() {
-      this.bpmnModeler.saveXML({format: true}).then(({xml}) => {
+      this.bpmnModeler.saveXML({ format: true }).then(({ xml }) => {
         this.previewResult = xml;
-        this.previewType = 'xml';
+        this.previewType = "xml";
         this.previewModelVisible = true;
       });
     },
@@ -527,8 +533,8 @@ export default {
        });*/
     },
     saveProcessXML() {
-      this.bpmnModeler.saveXML({format: true}).then(({xml}) => {
-        this.$emit('save', xml);
+      this.bpmnModeler.saveXML({ format: true }).then(({ xml }) => {
+        this.$emit("save", xml);
       });
     }
   }

@@ -1,6 +1,7 @@
 package com.zvz09.xiaochen.k8s.manage.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zvz09.xiaochen.common.web.entity.BaseEntity;
 import lombok.Data;
 import lombok.Getter;
@@ -24,11 +25,13 @@ public class Cluster extends BaseEntity {
     /**
      * 
      */
+
     private String apiServer;
 
     /**
      * 
      */
+    @JsonIgnore
     private String token;
 
     /**

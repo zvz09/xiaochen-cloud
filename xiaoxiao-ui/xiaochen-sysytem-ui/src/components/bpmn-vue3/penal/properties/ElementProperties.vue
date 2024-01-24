@@ -1,13 +1,13 @@
 <template>
   <div class="panel-tab__content">
     <el-table :data="elementPropertyList" border fit max-height="240" size="small">
-      <el-table-column label="序号" type="index" width="50px"/>
-      <el-table-column label="属性名" min-width="100px" prop="name" show-overflow-tooltip/>
-      <el-table-column label="属性值" min-width="100px" prop="value" show-overflow-tooltip/>
+      <el-table-column label="序号" type="index" width="50px" />
+      <el-table-column label="属性名" min-width="100px" prop="name" show-overflow-tooltip />
+      <el-table-column label="属性值" min-width="100px" prop="value" show-overflow-tooltip />
       <el-table-column label="操作" width="90px">
         <template v-slot="{ row, $index }">
           <el-button link type="" @click="openAttributesForm(row, $index)">编辑</el-button>
-          <el-divider direction="vertical"/>
+          <el-divider direction="vertical" />
           <el-button link style="color: #ff4d4f" type="" @click="removeAttributes(row, $index)">移除</el-button>
         </template>
       </el-table-column>
@@ -19,10 +19,10 @@
     <el-dialog v-model="propertyFormModelVisible" append-to-body destroy-on-close title="属性配置" width="600px">
       <el-form ref="attributeFormRef" :model="propertyForm" label-width="80px" size="small" @submit.prevent>
         <el-form-item label="属性名：" prop="name">
-          <el-input v-model="propertyForm.name" clearable/>
+          <el-input v-model="propertyForm.name" clearable />
         </el-form-item>
         <el-form-item label="属性值：" prop="value">
-          <el-input v-model="propertyForm.value" clearable/>
+          <el-input v-model="propertyForm.value" clearable />
         </el-form-item>
       </el-form>
       <template v-slot:footer>
@@ -34,14 +34,14 @@
 </template>
 
 <script>
-import {Plus} from '@element-plus/icons-vue'
+import { Plus } from "@element-plus/icons-vue";
 
 export default {
   name: "ElementProperties",
   setup() {
     return {
       Plus
-    }
+    };
   },
   props: {
     id: String,
@@ -72,12 +72,12 @@ export default {
       this.bpmnElement = window.bpmnInstances.bpmnElement;
       this.otherExtensionList = []; // 其他扩展配置
       this.bpmnElementProperties =
-          this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => {
-            if (ex.$type !== `${this.prefix}:Properties`) {
-              this.otherExtensionList.push(ex);
-            }
-            return ex.$type === `${this.prefix}:Properties`;
-          }) ?? [];
+        this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => {
+          if (ex.$type !== `${this.prefix}:Properties`) {
+            this.otherExtensionList.push(ex);
+          }
+          return ex.$type === `${this.prefix}:Properties`;
+        }) ?? [];
 
       // 保存所有的 扩展属性字段
       this.bpmnElementPropertyList = this.bpmnElementProperties.reduce((pre, current) => pre.concat(current.values), []);
@@ -97,29 +97,33 @@ export default {
         confirmButtonText: "确 认",
         cancelButtonText: "取 消"
       })
-          .then(() => {
-            this.elementPropertyList.splice(index, 1);
-            this.bpmnElementPropertyList.splice(index, 1);
-            // 新建一个属性字段的保存列表
-            const propertiesObject = window.bpmnInstances.moddle.create(`${this.prefix}:Properties`, {
-              values: this.bpmnElementPropertyList
-            });
-            this.updateElementExtensions(propertiesObject);
-            this.resetAttributesList();
-          })
-          .catch(() => console.info("操作取消"));
+        .then(() => {
+          this.elementPropertyList.splice(index, 1);
+          this.bpmnElementPropertyList.splice(index, 1);
+          // 新建一个属性字段的保存列表
+          const propertiesObject = window.bpmnInstances.moddle.create(`${this.prefix}:Properties`, {
+            values: this.bpmnElementPropertyList
+          });
+          this.updateElementExtensions(propertiesObject);
+          this.resetAttributesList();
+        })
+        .catch(() => console.info("操作取消"));
     },
     saveAttribute() {
-      const {name, value} = this.propertyForm;
+      const { name, value } = this.propertyForm;
       console.log(this.bpmnElementPropertyList);
       if (this.editingPropertyIndex !== -1) {
-        window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.bpmnElementPropertyList[this.editingPropertyIndex], {
-          name,
-          value
-        });
+        window.bpmnInstances.modeling.updateModdleProperties(
+          this.bpmnElement,
+          this.bpmnElementPropertyList[this.editingPropertyIndex],
+          {
+            name,
+            value
+          }
+        );
       } else {
         // 新建属性字段
-        const newPropertyObject = window.bpmnInstances.moddle.create(`${this.prefix}:Property`, {name, value});
+        const newPropertyObject = window.bpmnInstances.moddle.create(`${this.prefix}:Property`, { name, value });
         // 新建一个属性字段的保存列表
         const propertiesObject = window.bpmnInstances.moddle.create(`${this.prefix}:Properties`, {
           values: this.bpmnElementPropertyList.concat([newPropertyObject])

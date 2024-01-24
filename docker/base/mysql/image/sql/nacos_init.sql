@@ -1341,6 +1341,43 @@ knife4j:
   setting:
     language: zh_cn
 ', 'fe9b17fe91fa3a5e39ec365a4d1a4a65', '2023-12-12 20:55:15', '2023-12-20 11:32:58', 'nacos', '172.18.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
+INSERT INTO nacos.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (40, 'xiaochen-k8s-manage', 'DEFAULT_GROUP', 'spring:
+  cache:
+    type: simple #指定所使用的缓存管理器
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xiaochen-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: xiaochen
+    password: \'!QAZ2wsx#EDC\'
+
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: \'*\'
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: \'default\'
+      paths-to-match: \'/**\'
+      packages-to-scan:
+        - com.zvz09.xiaochen.k8s.manage.controller
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+', '630887dd075343ddd657996157ab0675', '2024-01-23 09:26:31', '2024-01-23 09:27:24', 'nacos', '172.18.0.1', '', 'f144b10b-ab75-4f5a-8e57-a13af514cf10', '', '', '', 'yaml', '', '');
 
 
 

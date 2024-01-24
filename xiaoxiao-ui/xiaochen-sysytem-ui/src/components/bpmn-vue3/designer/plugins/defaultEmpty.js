@@ -1,11 +1,11 @@
 export default (key, name, type) => {
-    if (!type) type = 'camunda';
-    const TYPE_TARGET = {
-        activiti: 'http://activiti.org/bpmn',
-        camunda: 'http://bpmn.io/schema/bpmn',
-        flowable: 'http://flowable.org/bpmn'
-    };
-    return `<?xml version="1.0" encoding="UTF-8"?>
+  if (!type) type = "camunda";
+  const TYPE_TARGET = {
+    activiti: "http://activiti.org/bpmn",
+    camunda: "http://bpmn.io/schema/bpmn",
+    flowable: "http://flowable.org/bpmn"
+  };
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" 
 xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
 xmlns:flowable="http://flowable.org/bpmn" id="diagram_${key}" targetNamespace="${TYPE_TARGET[type]}">

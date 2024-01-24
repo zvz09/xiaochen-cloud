@@ -14,13 +14,13 @@ spring:
       discovery:
         username: 'nacos'
         password: 'nacos'
-        server-addr: '192.168.93.129:30121'
+        server-addr: '127.0.0.1:8848'
         namespace: 'f144b10b-ab75-4f5a-8e57-a13af514cf10'
       config:
         # 配置中心地址
         username: 'nacos'
         password: 'nacos'
-        server-addr: '192.168.93.129:30121'
+        server-addr: '127.0.0.1:8848'
         namespace: 'f144b10b-ab75-4f5a-8e57-a13af514cf10'
         # 配置文件格式
         file-extension: yml

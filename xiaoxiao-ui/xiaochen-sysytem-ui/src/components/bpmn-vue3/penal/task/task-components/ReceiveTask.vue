@@ -3,19 +3,25 @@
     <el-form-item label="消息实例">
       <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap">
         <el-select v-model="bindMessageId" @change="updateTaskMessage">
-          <el-option v-for="id in Object.keys(messageMap)" :key="id" :label="messageMap[id]" :value="id"/>
+          <el-option v-for="id in Object.keys(messageMap)" :key="id" :label="messageMap[id]" :value="id" />
         </el-select>
-        <el-button :icon="Plus" size="small" style="margin-left: 8px" type="primary" @click="openMessageModel"/>
+        <el-button :icon="Plus" size="small" style="margin-left: 8px" type="primary" @click="openMessageModel" />
       </div>
     </el-form-item>
-    <el-dialog v-model="messageModelVisible" :close-on-click-modal="false" append-to-body destroy-on-close
-               title="创建新消息" width="400px">
+    <el-dialog
+      v-model="messageModelVisible"
+      :close-on-click-modal="false"
+      append-to-body
+      destroy-on-close
+      title="创建新消息"
+      width="400px"
+    >
       <el-form :model="newMessageForm" label-width="90px" size="small" @submit.prevent>
         <el-form-item label="消息ID">
-          <el-input v-model="newMessageForm.id" clearable/>
+          <el-input v-model="newMessageForm.id" clearable />
         </el-form-item>
         <el-form-item label="消息名称">
-          <el-input v-model="newMessageForm.name" clearable/>
+          <el-input v-model="newMessageForm.name" clearable />
         </el-form-item>
       </el-form>
       <template v-slot:footer>
@@ -26,14 +32,14 @@
 </template>
 
 <script>
-import {Plus} from '@element-plus/icons-vue'
+import { Plus } from "@element-plus/icons-vue";
 
 export default {
   name: "ReceiveTask",
   setup() {
     return {
       Plus
-    }
+    };
   },
   props: {
     id: String,
@@ -59,12 +65,12 @@ export default {
     this.bpmnMessageRefsMap = Object.create(null);
     this.bpmnRootElements = window.bpmnInstances.modeler.getDefinitions().rootElements;
     this.bpmnRootElements
-        .filter(el => el.$type === "bpmn:Message")
-        .forEach(m => {
-          this.bpmnMessageRefsMap[m.id] = m;
-          this.messageMap[m.id] = m.name
-        });
-    this.messageMap["-1"] = "无" // 添加一个空对象，保证可以取消原消息绑定
+      .filter(el => el.$type === "bpmn:Message")
+      .forEach(m => {
+        this.bpmnMessageRefsMap[m.id] = m;
+        this.messageMap[m.id] = m.name;
+      });
+    this.messageMap["-1"] = "无"; // 添加一个空对象，保证可以取消原消息绑定
   },
   methods: {
     getBindMessage() {
@@ -82,7 +88,7 @@ export default {
       }
       const newMessage = window.bpmnInstances.moddle.create("bpmn:Message", this.newMessageForm);
       this.bpmnRootElements.push(newMessage);
-      this.messageMap[this.newMessageForm.id] = this.newMessageForm.name
+      this.messageMap[this.newMessageForm.id] = this.newMessageForm.name;
       this.bpmnMessageRefsMap[this.newMessageForm.id] = newMessage;
       this.messageModelVisible = false;
     },

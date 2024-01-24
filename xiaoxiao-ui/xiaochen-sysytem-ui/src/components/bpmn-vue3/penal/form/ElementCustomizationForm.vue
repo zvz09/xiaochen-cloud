@@ -3,7 +3,7 @@
     <el-form label-width="80px" size="small" @submit.prevent>
       <el-form-item label="自定义表单">
         <el-select v-model="formId" value-key="formName" @change="updateForm">
-          <el-option v-for="form in formList" :key="form.id" :label="form.formName" :value="form.id"/>
+          <el-option v-for="form in formList" :key="form.id" :label="form.formName" :value="form.id" />
         </el-select>
       </el-form-item>
     </el-form>
@@ -11,29 +11,29 @@
 </template>
 
 <script>
-import {Plus} from '@element-plus/icons-vue';
-import {listForm} from '@/api/flowable/form'
+import { Plus } from "@element-plus/icons-vue";
+import { listForm } from "@/api/flowable/form";
 
 export default {
-  name: 'ElementCustomizationForm',
+  name: "ElementCustomizationForm",
   setup() {
     return {
       Plus
-    }
+    };
   },
   props: {
     id: String,
     type: String
   },
   inject: {
-    prefix: 'prefix',
-    width: 'width'
+    prefix: "prefix",
+    width: "width"
   },
   data() {
     return {
-      formId: '',
-      formName: '',
-      formList: [],
+      formId: "",
+      formName: "",
+      formList: []
     };
   },
   watch: {
@@ -49,34 +49,33 @@ export default {
     getFormList() {
       listForm({
         page: 1,
-        pageSize: 99999,
-      })
-          .then(res => {
-            if (res.code === 200) {
-              this.formList = res.data
+        pageSize: 99999
+      }).then(res => {
+        if (res.code === 200) {
+          this.formList = res.data;
+        }
+        if (this.formId) {
+          this.formList.forEach(form => {
+            if (form.id === this.formId) {
+              this.formName = form.formName;
             }
-            if (this.formId) {
-              this.formList.forEach(form => {
-                if (form.id === this.formId) {
-                  this.formName = form.formName
-                }
-              })
-            }
-          })
+          });
+        }
+      });
     },
 
     resetFormList() {
-      this.getFormList()
+      this.getFormList();
       this.bpmnELement = window.bpmnInstances.bpmnElement;
-      this.formId = this.bpmnELement.businessObject.get('flowable:customizationFormKey');
+      this.formId = this.bpmnELement.businessObject.get("flowable:customizationFormKey");
     },
 
     updateForm() {
-      window.bpmnInstances.modeling.updateProperties(this.bpmnELement, {'flowable:customizationFormKey': this.formId});
-    },
+      window.bpmnInstances.modeling.updateProperties(this.bpmnELement, { "flowable:customizationFormKey": this.formId });
+    }
   },
   created() {
-    this.getFormList()
-  },
-}
+    this.getFormList();
+  }
+};
 </script>

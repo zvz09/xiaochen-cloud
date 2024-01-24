@@ -4,13 +4,13 @@
       <div class="element-property__label">元素文档：</div>
       <div class="element-property__value">
         <el-input
-            v-model="documentation"
-            :autosize="{ minRows: 2, maxRows: 4 }"
-            resize="vertical"
-            size="small"
-            type="textarea"
-            @blur="updateDocumentation"
-            @input="updateDocumentation"
+          v-model="documentation"
+          :autosize="{ minRows: 2, maxRows: 4 }"
+          resize="vertical"
+          size="small"
+          type="textarea"
+          @blur="updateDocumentation"
+          @input="updateDocumentation"
         />
       </div>
     </div>
@@ -45,8 +45,9 @@ export default {
   },
   methods: {
     updateDocumentation() {
-      (this.bpmnElement && this.bpmnElement.id === this.id) || (this.bpmnElement = window.bpmnInstances.elementRegistry.get(this.id));
-      const documentation = window.bpmnInstances.bpmnFactory.create("bpmn:Documentation", {text: this.documentation});
+      (this.bpmnElement && this.bpmnElement.id === this.id) ||
+        (this.bpmnElement = window.bpmnInstances.elementRegistry.get(this.id));
+      const documentation = window.bpmnInstances.bpmnFactory.create("bpmn:Documentation", { text: this.documentation });
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
         documentation: [documentation]
       });

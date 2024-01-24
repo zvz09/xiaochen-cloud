@@ -3,45 +3,43 @@
     <el-collapse>
       <el-collapse-item name="1" title="任务">
         <!--  可以简化。。。 -->
-        <div class="custom-button" @click="createElement($event, 'Task')" @mousedown="createElement($event, 'Task')">
-          任务
-        </div>
-        <div class="custom-button" @click="createElement($event, 'UserTask')"
-             @mousedown="createElement($event, 'UserTask')">
+        <div class="custom-button" @click="createElement($event, 'Task')" @mousedown="createElement($event, 'Task')">任务</div>
+        <div class="custom-button" @click="createElement($event, 'UserTask')" @mousedown="createElement($event, 'UserTask')">
           用户任务
         </div>
-        <div class="custom-button" @click="createElement($event, 'SendTask')"
-             @mousedown="createElement($event, 'SendTask')">
+        <div class="custom-button" @click="createElement($event, 'SendTask')" @mousedown="createElement($event, 'SendTask')">
           发送任务
         </div>
-        <div class="custom-button" @click="createElement($event, 'ReceiveTask')"
-             @mousedown="createElement($event, 'ReceiveTask')">
+        <div
+          class="custom-button"
+          @click="createElement($event, 'ReceiveTask')"
+          @mousedown="createElement($event, 'ReceiveTask')"
+        >
           接收任务
         </div>
-        <div class="custom-button" @click="createElement($event, 'ScriptTask')"
-             @mousedown="createElement($event, 'ScriptTask')">
+        <div class="custom-button" @click="createElement($event, 'ScriptTask')" @mousedown="createElement($event, 'ScriptTask')">
           脚本任务
         </div>
-        <div class="custom-button" @click="createElement($event, 'ServiceTask')"
-             @mousedown="createElement($event, 'ServiceTask')">
+        <div
+          class="custom-button"
+          @click="createElement($event, 'ServiceTask')"
+          @mousedown="createElement($event, 'ServiceTask')"
+        >
           服务任务
         </div>
       </el-collapse-item>
       <el-collapse-item name="2" title="网关">
-        <div class="custom-button" @click="createElement($event, 'Gateway')"
-             @mousedown="createElement($event, 'Gateway')">
+        <div class="custom-button" @click="createElement($event, 'Gateway')" @mousedown="createElement($event, 'Gateway')">
           网关
         </div>
       </el-collapse-item>
       <el-collapse-item name="3" title="开始">
-        <div class="custom-button" @click="createElement($event, 'StartEvent')"
-             @mousedown="createElement($event, 'StartEvent')">
+        <div class="custom-button" @click="createElement($event, 'StartEvent')" @mousedown="createElement($event, 'StartEvent')">
           开始
         </div>
       </el-collapse-item>
       <el-collapse-item name="4" title="结束">
-        <div class="custom-button" @click="createElement($event, 'EndEvent')"
-             @mousedown="createElement($event, 'EndEvent')">
+        <div class="custom-button" @click="createElement($event, 'EndEvent')" @mousedown="createElement($event, 'EndEvent')">
           结束
         </div>
       </el-collapse-item>
@@ -52,8 +50,7 @@
         <div class="custom-button" @click="startTool($event, 'lassoTool')" @mousedown="startTool($event, 'lassoTool')">
           框选工具
         </div>
-        <div class="custom-button" @click="startTool($event, 'connectTool')"
-             @mousedown="startTool($event, 'connectTool')">
+        <div class="custom-button" @click="startTool($event, 'connectTool')" @mousedown="startTool($event, 'connectTool')">
           连线工具
         </div>
       </el-collapse-item>
@@ -62,34 +59,33 @@
 </template>
 
 <script>
-import {assign} from 'min-dash';
+import { assign } from "min-dash";
 
 export default {
-  name: 'MyProcessPalette',
+  name: "MyProcessPalette",
   data() {
     return {};
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     createElement(event, type, options = {}) {
       const ElementFactory = window.bpmnInstances.elementFactory;
-      const create = window.bpmnInstances.modeler.get('create');
-      const shape = ElementFactory.createShape(assign({type: `bpmn:${type}`}, options));
+      const create = window.bpmnInstances.modeler.get("create");
+      const shape = ElementFactory.createShape(assign({ type: `bpmn:${type}` }, options));
       if (options) {
         shape.businessObject.di.isExpanded = options.isExpanded;
       }
       create.start(event, shape);
     },
     startTool(event, type) {
-      if (type === 'handTool') {
-        window.bpmnInstances.modeler.get('handTool').activateHand(event);
+      if (type === "handTool") {
+        window.bpmnInstances.modeler.get("handTool").activateHand(event);
       }
-      if (type === 'lassoTool') {
-        window.bpmnInstances.modeler.get('lassoTool').activateSelection(event);
+      if (type === "lassoTool") {
+        window.bpmnInstances.modeler.get("lassoTool").activateSelection(event);
       }
-      if (type === 'connectTool') {
-        window.bpmnInstances.modeler.get('globalConnect').toggle(event);
+      if (type === "connectTool") {
+        window.bpmnInstances.modeler.get("globalConnect").toggle(event);
       }
     }
   }

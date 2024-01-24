@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 
-import {some} from '@/components/bpmn-vue3/utils/min-dash.js';
+import { some } from "@/components/bpmn-vue3/utils/min-dash.js";
 
 var ALLOWED_TYPES = {
-  FailedJobRetryTimeCycle: ['bpmn:StartEvent', 'bpmn:BoundaryEvent', 'bpmn:IntermediateCatchEvent', 'bpmn:Activity'],
-  Connector: ['bpmn:EndEvent', 'bpmn:IntermediateThrowEvent'],
-  Field: ['bpmn:EndEvent', 'bpmn:IntermediateThrowEvent']
+  FailedJobRetryTimeCycle: ["bpmn:StartEvent", "bpmn:BoundaryEvent", "bpmn:IntermediateCatchEvent", "bpmn:Activity"],
+  Connector: ["bpmn:EndEvent", "bpmn:IntermediateThrowEvent"],
+  Field: ["bpmn:EndEvent", "bpmn:IntermediateThrowEvent"]
 };
 
 function is(element, type) {
-  return element && typeof element.$instanceOf === 'function' && element.$instanceOf(type);
+  return element && typeof element.$instanceOf === "function" && element.$instanceOf(type);
 }
 
 function exists(element) {
@@ -18,10 +18,10 @@ function exists(element) {
 
 function includesType(collection, type) {
   return (
-      exists(collection) &&
-      some(collection, function (element) {
-        return is(element, type);
-      })
+    exists(collection) &&
+    some(collection, function (element) {
+      return is(element, type);
+    })
   );
 }
 
@@ -33,40 +33,40 @@ function anyType(element, types) {
 
 function isAllowed(propName, propDescriptor, newElement) {
   var name = propDescriptor.name;
-  var types = ALLOWED_TYPES[name.replace(/flowable:/, '')];
+  var types = ALLOWED_TYPES[name.replace(/flowable:/, "")];
 
   return name === propName && anyType(newElement, types);
 }
 
 export default function FlowableModdleExtension(eventBus) {
   eventBus.on(
-      'property.clone',
-      function (context) {
-        var newElement = context.newElement;
-        var propDescriptor = context.propertyDescriptor;
+    "property.clone",
+    function (context) {
+      var newElement = context.newElement;
+      var propDescriptor = context.propertyDescriptor;
 
-        this.canCloneProperty(newElement, propDescriptor);
-      },
-      this
+      this.canCloneProperty(newElement, propDescriptor);
+    },
+    this
   );
 }
 
-FlowableModdleExtension.$inject = ['eventBus'];
+FlowableModdleExtension.$inject = ["eventBus"];
 
 FlowableModdleExtension.prototype.canCloneProperty = function (newElement, propDescriptor) {
-  if (isAllowed('flowable:FailedJobRetryTimeCycle', propDescriptor, newElement)) {
+  if (isAllowed("flowable:FailedJobRetryTimeCycle", propDescriptor, newElement)) {
     return (
-        includesType(newElement.eventDefinitions, 'bpmn:TimerEventDefinition') ||
-        includesType(newElement.eventDefinitions, 'bpmn:SignalEventDefinition') ||
-        is(newElement.loopCharacteristics, 'bpmn:MultiInstanceLoopCharacteristics')
+      includesType(newElement.eventDefinitions, "bpmn:TimerEventDefinition") ||
+      includesType(newElement.eventDefinitions, "bpmn:SignalEventDefinition") ||
+      is(newElement.loopCharacteristics, "bpmn:MultiInstanceLoopCharacteristics")
     );
   }
 
-  if (isAllowed('flowable:Connector', propDescriptor, newElement)) {
-    return includesType(newElement.eventDefinitions, 'bpmn:MessageEventDefinition');
+  if (isAllowed("flowable:Connector", propDescriptor, newElement)) {
+    return includesType(newElement.eventDefinitions, "bpmn:MessageEventDefinition");
   }
 
-  if (isAllowed('flowable:Field', propDescriptor, newElement)) {
-    return includesType(newElement.eventDefinitions, 'bpmn:MessageEventDefinition');
+  if (isAllowed("flowable:Field", propDescriptor, newElement)) {
+    return includesType(newElement.eventDefinitions, "bpmn:MessageEventDefinition");
   }
 };
