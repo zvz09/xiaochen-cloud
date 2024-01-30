@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.common.core.util.TreeBuilder;
+import com.zvz09.xiaochen.common.web.context.SecurityContextHolder;
 import com.zvz09.xiaochen.system.api.domain.dto.menu.SysMenuDto;
 import com.zvz09.xiaochen.system.api.domain.entity.SysMenu;
 import com.zvz09.xiaochen.system.api.domain.vo.SysMenuVo;
@@ -19,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.zvz09.xiaochen.common.core.constant.Constants.SUPER_ADMIN;
 
 
 /**
@@ -36,9 +41,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenuVo> listTree() {
-        List<SysMenu> menuList = new ArrayList<>();
-        menuList = this.list();
-        /*if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
+        List<SysMenu> menuList ;
+        if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
             menuList = this.list();
         } else {
             List<Long> menuIds = this.sysRolePermCodeService.getMenuIdByRoleId(SecurityContextHolder.getRoleId());
@@ -47,7 +51,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
             menuList = this.list(new LambdaQueryWrapper<SysMenu>().in(SysMenu::getId, menuIds)
                     .orderByAsc(SysMenu::getSort));
-        }*/
+        }
         Comparator<SysMenuVo> customComparator = Comparator.comparing(SysMenuVo::getSort);
         return new TreeBuilder<SysMenu, SysMenuVo>(t -> t.getParentId() == 0L)
                 .buildTree(menuList, new SysMenuTreeConverter(),customComparator);
@@ -85,6 +89,31 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
         this.updateById(sysMenuDto.convertedToPo());
         sysPermCodeService.updatePermCode(sysMenuDto.getId(), sysMenuDto);
+    }
+
+    @Override
+    public List<SysMenuVo> listTree(String microName) {
+        SysMenu baseMenu = this.getOne(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getName,microName));
+        if(baseMenu == null){
+            return new ArrayList<>();
+        }
+        List<Long> menuIds;
+        if (SUPER_ADMIN.equals(SecurityContextHolder.getRoleCode())) {
+            menuIds = this.list().stream().map(SysMenu::getId).toList();
+        } else {
+            menuIds = this.sysRolePermCodeService.getMenuIdByRoleId(SecurityContextHolder.getRoleId());
+            if (menuIds == null || menuIds.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+        }
+        if(!menuIds.contains(baseMenu.getId())){
+            return new ArrayList<>();
+        }
+        Comparator<SysMenuVo> customComparator = Comparator.comparing(SysMenuVo::getSort);
+        return new TreeBuilder<SysMenu, SysMenuVo>(t -> Objects.equals(t.getParentId(), baseMenu.getId()))
+                .buildTree(this.list(new LambdaQueryWrapper<SysMenu>().in(SysMenu::getId, menuIds)
+                        .orderByAsc(SysMenu::getSort)), new SysMenuTreeConverter(),customComparator);
     }
 }
 

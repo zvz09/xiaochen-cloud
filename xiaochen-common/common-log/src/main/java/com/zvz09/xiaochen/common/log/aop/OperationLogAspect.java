@@ -218,13 +218,12 @@ public class OperationLogAspect {
     }
 
     private String getBusinessType(JoinPoint joinPoint) {
-        String type = null;
         Object target = joinPoint.getTarget();
         Tag tagAnnotation = target.getClass().getAnnotation(Tag.class);
         if (tagAnnotation != null) {
            return tagAnnotation.name();
         }else {
-            return type.getClass().getName();
+            return target.getClass().getName();
         }
     }
 

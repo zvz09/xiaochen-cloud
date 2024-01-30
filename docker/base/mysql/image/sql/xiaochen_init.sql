@@ -471,6 +471,23 @@ create table if not exists `xiaochen-cloud`.k8s_cluster
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
+create table if not exists `xiaochen-cloud`.sys_micro
+(
+    id         bigint       null,
+    created_at datetime     null,
+    updated_at datetime     null,
+    deleted    tinyint      null,
+    path       varchar(256) null comment '微前端访问路径',
+    name       varchar(256) null comment '微前端名称',
+    url        varchar(256) null comment '微前端地址',
+    sort       bigint       null comment '排序',
+    icon       varchar(256) null comment '菜单和面包屑对应的图标',
+    title      varchar(256) null comment '微前端标题',
+    redirect   varchar(256) null
+)
+    charset = utf8mb4;
+
+
 
 
 INSERT INTO `xiaochen-cloud`.sys_user (id, created_at, updated_at, deleted, uuid, username, password, nick_name, gender,
@@ -1037,3 +1054,8 @@ public class CSDNParser implements ReptileDataParserStrategy {
     }
 }
 ', null);
+
+
+INSERT INTO `xiaochen-cloud`.sys_micro (id, created_at, updated_at, deleted, path, name, url, sort, icon, title, redirect) VALUES (1751896496735580162, '2024-01-29 17:14:08', '2024-01-29 17:14:08', 0, '/micro/system/index', 'system', 'http://localhost:18100/', 99, 'Tools', '系统管理', '/system/userManage');
+INSERT INTO `xiaochen-cloud`.sys_micro (id, created_at, updated_at, deleted, path, name, url, sort, icon, title, redirect) VALUES (1752250381190905857, '2024-01-30 16:40:21', '2024-01-30 16:40:21', 0, '/micro/workflow/index', 'workflow', 'http://localhost:18200/', 1, 'Document', '工作流', '/workflow/form');
+INSERT INTO `xiaochen-cloud`.sys_micro (id, created_at, updated_at, deleted, path, name, url, sort, icon, title, redirect) VALUES (1752262066320523265, '2024-01-30 17:26:47', '2024-01-30 17:26:47', 0, '/micro/work/index', 'work', 'http://localhost:18200/', 2, 'Files', '办公管理', '/work/create');

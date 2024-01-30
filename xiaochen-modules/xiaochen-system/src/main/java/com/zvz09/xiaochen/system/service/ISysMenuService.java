@@ -24,5 +24,7 @@ public interface ISysMenuService extends IService<SysMenu> {
     void deleteMenu(Long id);
 
     void updateMenu(SysMenuDto sysMenuDto);
+
+    List<SysMenuVo> listTree(String microName);
 }
 

@@ -70,6 +70,10 @@ public class SysMenuController {
         return ApiResult.success(sysMenuService.listTree());
     }
 
+    @GetMapping("/tree/{microName}")
+    public ApiResult<List<SysMenuVo>> listTree(@PathVariable(value = "microName") String microName) {
+        return ApiResult.success(sysMenuService.listTree(microName));
+    }
 
 }
 
