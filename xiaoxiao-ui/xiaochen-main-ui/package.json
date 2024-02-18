@@ -53,6 +53,7 @@
     "bpmn-js-task-resize": "^1.2.0",
     "bpmn-js-token-simulation": "^0.10.0",
     "codemirror": "^6.0.1",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "diagram-js": "^12.5.0",
     "diagram-js-minimap": "^2.1.1",

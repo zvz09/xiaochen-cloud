@@ -42,6 +42,7 @@ import Main from "@/layouts/components/Main/index.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
 import { HomeMenu } from "@/utils";
+import Crypto from "@/utils/crypto";
 
 const title = import.meta.env.VITE_GLOB_APP_TITLE;
 
@@ -59,9 +60,11 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
     router.push({
       path: subItem.path,
       query: {
-        microUrl: subItem.meta.microUrl,
-        microName: subItem.meta.microName,
-        redirect: subItem.meta.redirect
+        value: Crypto.encrypt({
+          microUrl: subItem.meta.microUrl,
+          microName: subItem.meta.microName,
+          redirect: subItem.meta.redirect
+        })
       }
     });
   }

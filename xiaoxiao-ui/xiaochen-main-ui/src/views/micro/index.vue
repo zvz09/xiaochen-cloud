@@ -4,13 +4,14 @@
 
 <script setup lang="ts" name="about">
 import { useRoute } from "vue-router";
+import Crypto from "@/utils/crypto";
 
 const route = useRoute();
-console.log(route.query);
-const microUrl = route.query.microUrl as string;
-const microName = route.query.microName as string;
+const queryObj = JSON.parse(Crypto.decrypt(route.query.value));
+const microUrl = queryObj.microUrl as string;
+const microName = queryObj.microName as string;
 const props = {
-  redirect: route.query.redirect as string,
-  microName: route.query.microName as string
+  redirect: queryObj.redirect as string,
+  microName: queryObj.microName as string
 };
 </script>
