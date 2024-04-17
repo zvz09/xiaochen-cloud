@@ -1,5 +1,7 @@
 package com.zvz09.xiaochen.k8s.manage.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
 import com.zvz09.xiaochen.k8s.manage.domain.dto.ClusterDTO;
 import com.zvz09.xiaochen.k8s.manage.domain.entity.Cluster;
@@ -46,9 +48,9 @@ public class ClusterController {
     }
 
     @Operation(summary = "列表")
-    @GetMapping()
-    public ApiResult<List<Cluster>> list() {
-        return ApiResult.success(clusterService.list());
+    @PostMapping("/page")
+    public ApiResult<IPage<Cluster>> page(@RequestBody BasePage basePage) {
+        return ApiResult.success(clusterService.selectPage(basePage));
     }
 
 }

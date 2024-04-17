@@ -5,11 +5,11 @@
         <el-tag>v{{ scope.row.procDefVersion }}</el-tag>
       </template>
       <template #operation="scope">
-        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">详情 </el-button>
+        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">详情</el-button>
         <el-button v-if="scope.row.finishTime" icon="Delete" link size="small" type="danger" @click="deleteFunc(scope.row)">
           删除
         </el-button>
-        <el-button icon="Close" link size="small" type="warning" @click="stopFunc(scope.row)">取消 </el-button>
+        <el-button icon="Close" link size="small" type="warning" @click="stopFunc(scope.row)">取消</el-button>
       </template>
     </ProTable>
   </div>
@@ -112,6 +112,7 @@ function deleteFunc(row: Process.FlowableTaskVo) {
     }
   });
 }
+
 function stopFunc(row: Process.FlowableTaskVo) {
   ElMessageBox.confirm("确定要取消吗?", "提示", {
     confirmButtonText: "确定",

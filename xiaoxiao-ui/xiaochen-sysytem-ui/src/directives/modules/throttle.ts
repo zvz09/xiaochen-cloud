@@ -4,7 +4,7 @@
   思路：
     1、第一次点击，立即调用方法并禁用按钮，等延迟结束再次激活按钮
     2、将需要触发的方法绑定在指令上
-  
+
   使用：给 Dom 加上 v-throttle 及回调函数即可
   <button v-throttle="debounceClick">节流提交</button>
 */

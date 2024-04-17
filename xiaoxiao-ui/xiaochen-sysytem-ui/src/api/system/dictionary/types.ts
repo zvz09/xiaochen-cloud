@@ -19,6 +19,7 @@ export namespace Dictionary {
     /*状态 */
     status?: boolean;
   }
+
   // 参数接口
   export interface GetByDictionaryTypeParams {
     /*页码 */
@@ -30,6 +31,7 @@ export namespace Dictionary {
     /*关键字 */
     keyword?: string;
   }
+
   // 参数接口
   export interface GetSysDictionaryDetailListParams {
     /*页码 */

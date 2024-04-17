@@ -1,5 +1,7 @@
 package com.zvz09.xiaochen.autocode.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zvz09.xiaochen.autocode.domain.entity.SysGenCodeHistory;
 import com.zvz09.xiaochen.autocode.service.ISysGenCodeHistoryService;
 import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.common.core.response.ApiResult;
@@ -30,7 +32,7 @@ public class SysGenCodeHistoryController {
 
     @Operation(summary = "分页查询历史记录")
     @PostMapping("/page")
-    public ApiResult getGenCodeHistoryList(@RequestBody BasePage queryDto) {
+    public ApiResult<Page<SysGenCodeHistory>> getGenCodeHistoryList(@RequestBody BasePage queryDto) {
         return ApiResult.success(SysGenCodeHistoryService.getGenCodeHistoryList(queryDto));
     }
 

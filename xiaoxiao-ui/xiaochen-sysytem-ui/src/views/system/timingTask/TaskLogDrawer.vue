@@ -2,7 +2,7 @@
   <el-drawer v-model="drawerVisible" :destroy-on-close="true" size="80%" :title="`${drawerProps.title}调度日志`">
     <ProTable ref="proTable" :columns="columns" :request-api="getTableList" :data-callback="dataCallback">
       <template #logTraceId="scope">
-        <el-button v-copy="scope.row.logTraceId" link> {{ scope.row.logTraceId }} </el-button>
+        <el-button v-copy="scope.row.logTraceId" link> {{ scope.row.logTraceId }}</el-button>
       </template>
     </ProTable>
   </el-drawer>
@@ -18,6 +18,7 @@ interface DrawerProps {
   title: string;
   taskId: string;
 }
+
 const drawerVisible = ref(false);
 const drawerProps = ref<DrawerProps>({
   title: "",

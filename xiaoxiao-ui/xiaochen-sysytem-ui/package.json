@@ -75,6 +75,7 @@
     "vditor": "^3.9.7",
     "vue": "^3.3.7",
     "vue-codemirror6": "^1.1.27",
+    "vue-clipboard3": "^2.0.0",
     "vue-i18n": "^9.6.0",
     "vue-router": "^4.2.5",
     "vuedraggable": "^4.1.0",

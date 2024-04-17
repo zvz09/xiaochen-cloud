@@ -18,6 +18,7 @@ export namespace User {
     /*手机号 */
     phone?: string;
   }
+
   // 参数接口
   export interface UpdateUserInfoParams {
     /* */
@@ -44,6 +45,7 @@ export namespace User {
     /* */
     roleIds?: string[];
   }
+
   // 参数接口
   export interface RegisterParams {
     /*用户名 */
@@ -67,6 +69,7 @@ export namespace User {
     /*邮箱地址 */
     email?: string;
   }
+
   // 参数接口
   export interface SimpleListParams {
     /*页码 */

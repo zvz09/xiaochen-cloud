@@ -8,8 +8,8 @@
         </label>
       </template>
       <template #operation="scope">
-        <el-button icon="Tickets" link size="small" type="primary" @click="handleFlowRecord(scope.row)"> 流转记录 </el-button>
-        <el-button icon="Tickets" link size="small" type="primary" @click="handleRevoke(scope.row)"> 撤回 </el-button>
+        <el-button icon="Tickets" link size="small" type="primary" @click="handleFlowRecord(scope.row)"> 流转记录</el-button>
+        <el-button icon="Tickets" link size="small" type="primary" @click="handleRevoke(scope.row)"> 撤回</el-button>
       </template>
     </ProTable>
   </div>

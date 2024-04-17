@@ -10,7 +10,7 @@
       </template>
 
       <template #operation="scope">
-        <el-button icon="VideoPlay" link type="primary" @click="toStartProcess(scope.row)">发起 </el-button>
+        <el-button icon="VideoPlay" link type="primary" @click="toStartProcess(scope.row)">发起</el-button>
       </template>
     </ProTable>
   </div>

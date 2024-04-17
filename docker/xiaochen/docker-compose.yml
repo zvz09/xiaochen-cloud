@@ -85,7 +85,28 @@ services:
       SPRING_CLOUD_NACOS_DISCOVERY_USERNAME: "nacos"
       SPRING_CLOUD_NACOS_CONFIG_PASSWORD: "nacos"
       SPRING_CLOUD_NACOS_DISCOVERY_PASSWORD: "nacos"
-
+  xiaochen-autocode:
+    build: modules/autocode
+    image: xiaochen-autocode:latest
+    container_name: xiaochen-autocode
+    networks:
+      - share_fly
+    environment:
+      SPRING_CLOUD_NACOS_CONFIG_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
+      SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE: "0c709398-4a48-4c72-8d8d-cfd49671ca1a"
+      SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: "nacos:8848"
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: "nacos:8848"
+      SPRING_CLOUD_NACOS_CONFIG_USERNAME: "nacos"
+      SPRING_CLOUD_NACOS_DISCOVERY_USERNAME: "nacos"
+      SPRING_CLOUD_NACOS_CONFIG_PASSWORD: "nacos"
+      SPRING_CLOUD_NACOS_DISCOVERY_PASSWORD: "nacos"
+  xiaochen-main-ui:
+    image: xiaochen-main-ui:v20240415
+    container_name: xiaochen-main-ui
+    ports:
+      - "8888:80"
+    networks:
+      - share_fly
 networks:
   share_fly:
     external: true

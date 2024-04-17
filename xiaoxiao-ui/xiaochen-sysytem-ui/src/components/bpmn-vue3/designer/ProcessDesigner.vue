@@ -4,7 +4,7 @@
       <slot name="control-header"></slot>
       <template v-if="!$slots['control-header']">
         <el-button-group key="file-control">
-          <el-button :icon="Edit" :size="headerButtonSize" :type="headerButtonType" @click="saveProcessXML">保存流程 </el-button>
+          <el-button :icon="Edit" :size="headerButtonSize" :type="headerButtonType" @click="saveProcessXML">保存流程</el-button>
           <el-button :icon="FolderOpened" :size="headerButtonSize" :type="headerButtonType" @click="$refs.refFile.click()"
             >打开文件
           </el-button>
@@ -14,7 +14,7 @@
               <br />
               <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsSvg()">下载为SVG文件</el-button>
               <br />
-              <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsBpmn()">下载为BPMN文件 </el-button>
+              <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsBpmn()">下载为BPMN文件</el-button>
             </template>
             <el-button :icon="Download" :size="headerButtonSize" :type="headerButtonType">下载文件</el-button>
           </el-tooltip>
@@ -27,7 +27,7 @@
             <el-button :icon="View" :size="headerButtonSize" :type="headerButtonType">预览</el-button>
           </el-tooltip>
           <el-tooltip v-if="simulation" :content="this.simulationStatus ? '退出模拟' : '开启模拟'" effect="light">
-            <el-button :icon="Cpu" :size="headerButtonSize" :type="headerButtonType" @click="processSimulation"> 模拟 </el-button>
+            <el-button :icon="Cpu" :size="headerButtonSize" :type="headerButtonType" @click="processSimulation"> 模拟</el-button>
           </el-tooltip>
         </el-button-group>
         <el-button-group key="align-control">

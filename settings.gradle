@@ -64,4 +64,8 @@ include 'xiaochen-common:common-elasticsearch'
 findProject(':xiaochen-common:common-elasticsearch')?.name = 'common-elasticsearch'
 include 'xiaochen-modules:xiaochen-k8s-manage'
 findProject(':xiaochen-modules:xiaochen-k8s-manage')?.name = 'xiaochen-k8s-manage'
+include 'xiaochen-modules:xiaochen-multi-cloud'
+findProject(':xiaochen-modules:xiaochen-multi-cloud')?.name = 'xiaochen-multi-cloud'
+include 'xiaochen-modules:xiaochen-multi-cloud'
+findProject(':xiaochen-modules:xiaochen-multi-cloud')?.name = 'xiaochen-multi-cloud'
 

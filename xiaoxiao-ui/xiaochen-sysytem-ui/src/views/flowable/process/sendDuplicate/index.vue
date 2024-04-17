@@ -2,7 +2,7 @@
   <div class="table-box">
     <ProTable ref="proTable" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback">
       <template #operation="scope">
-        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">详情 </el-button>
+        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">详情</el-button>
       </template>
     </ProTable>
   </div>
@@ -62,6 +62,7 @@ const dataCallback = (data: any) => {
 };
 
 const router = useRouter();
+
 function toDetailProcess(row: Process.FlowableCopyVo) {
   router.push({
     name: "detailProcess",

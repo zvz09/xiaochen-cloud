@@ -1,8 +1,8 @@
 <template>
   <div class="no-vue3-cron-div">
-    <el-button class="language" @click="state.language = state.language === 'en' ? 'cn' : 'en'">{{
-      state.language === "en" ? "cn" : "en"
-    }}</el-button>
+    <el-button class="language" @click="state.language = state.language === 'en' ? 'cn' : 'en'">
+      {{ state.language === "en" ? "cn" : "en" }}
+    </el-button>
     <el-tabs type="border-card">
       <el-tab-pane>
         <template #label>
@@ -10,7 +10,7 @@
         </template>
         <div class="tabBody myScroller" :style="{ 'max-height': maxHeight }">
           <el-row>
-            <el-radio v-model="state.second.cronEvery" label="1">{{ translation.Seconds.every }} </el-radio>
+            <el-radio v-model="state.second.cronEvery" label="1">{{ translation.Seconds.every }}</el-radio>
           </el-row>
           <el-row>
             <el-radio v-model="state.second.cronEvery" label="2">
@@ -25,7 +25,7 @@
             <el-radio class="long" v-model="state.second.cronEvery" label="3">
               {{ translation.Seconds.specific }}
               <el-select multiple v-model="state.second.specificSpecific">
-                <el-option v-for="(val, index) in 60" :key="index" :value="val - 1">{{ val - 1 }} </el-option>
+                <el-option v-for="(val, index) in 60" :key="index" :value="val - 1">{{ val - 1 }}</el-option>
               </el-select>
             </el-radio>
           </el-row>
@@ -46,7 +46,7 @@
         </template>
         <div class="tabBody myScroller" :style="{ 'max-height': maxHeight }">
           <el-row>
-            <el-radio v-model="state.minute.cronEvery" label="1">{{ translation.Minutes.every }} </el-radio>
+            <el-radio v-model="state.minute.cronEvery" label="1">{{ translation.Minutes.every }}</el-radio>
           </el-row>
           <el-row>
             <el-radio v-model="state.minute.cronEvery" label="2">
@@ -61,7 +61,7 @@
             <el-radio class="long" v-model="state.minute.cronEvery" label="3">
               {{ translation.Minutes.specific }}
               <el-select multiple v-model="state.minute.specificSpecific">
-                <el-option v-for="(val, index) in 60" :key="index" :value="val - 1">{{ val - 1 }} </el-option>
+                <el-option v-for="(val, index) in 60" :key="index" :value="val - 1">{{ val - 1 }}</el-option>
               </el-select>
             </el-radio>
           </el-row>
@@ -82,7 +82,7 @@
         </template>
         <div class="tabBody myScroller" :style="{ 'max-height': maxHeight }">
           <el-row>
-            <el-radio v-model="state.hour.cronEvery" label="1">{{ translation.Hours.every }} </el-radio>
+            <el-radio v-model="state.hour.cronEvery" label="1">{{ translation.Hours.every }}</el-radio>
           </el-row>
           <el-row>
             <el-radio v-model="state.hour.cronEvery" label="2">
@@ -97,7 +97,7 @@
             <el-radio class="long" v-model="state.hour.cronEvery" label="3">
               {{ translation.Hours.specific }}
               <el-select multiple v-model="state.hour.specificSpecific">
-                <el-option v-for="(val, index) in 24" :key="index" :value="val - 1">{{ val - 1 }} </el-option>
+                <el-option v-for="(val, index) in 24" :key="index" :value="val - 1">{{ val - 1 }}</el-option>
               </el-select>
             </el-radio>
           </el-row>
@@ -118,7 +118,7 @@
         </template>
         <div class="tabBody myScroller" :style="{ 'max-height': maxHeight }">
           <el-row>
-            <el-radio v-model="state.day.cronEvery" label="1">{{ translation.Day.every }} </el-radio>
+            <el-radio v-model="state.day.cronEvery" label="1">{{ translation.Day.every }}</el-radio>
           </el-row>
           <el-row>
             <el-radio v-model="state.day.cronEvery" label="2">
@@ -157,15 +157,15 @@
             <el-radio class="long" v-model="state.day.cronEvery" label="5">
               {{ translation.Day.specificDay }}
               <el-select multiple v-model="state.day.specificSpecific">
-                <el-option v-for="(val, index) in 31" :key="index" :value="val">{{ val }} </el-option>
+                <el-option v-for="(val, index) in 31" :key="index" :value="val">{{ val }}</el-option>
               </el-select>
             </el-radio>
           </el-row>
           <el-row>
-            <el-radio v-model="state.day.cronEvery" label="6">{{ translation.Day.lastDay }} </el-radio>
+            <el-radio v-model="state.day.cronEvery" label="6">{{ translation.Day.lastDay }}</el-radio>
           </el-row>
           <el-row>
-            <el-radio v-model="state.day.cronEvery" label="7">{{ translation.Day.lastWeekday }} </el-radio>
+            <el-radio v-model="state.day.cronEvery" label="7">{{ translation.Day.lastWeekday }}</el-radio>
           </el-row>
           <el-row>
             <el-radio v-model="state.day.cronEvery" label="8">
@@ -207,7 +207,7 @@
         </template>
         <div class="tabBody myScroller" :style="{ 'max-height': maxHeight }">
           <el-row>
-            <el-radio v-model="state.month.cronEvery" label="1">{{ translation.Month.every }} </el-radio>
+            <el-radio v-model="state.month.cronEvery" label="1">{{ translation.Month.every }}</el-radio>
           </el-row>
           <el-row>
             <el-radio v-model="state.month.cronEvery" label="2">
@@ -241,7 +241,7 @@
         </template>
         <div class="tabBody myScroller" :style="{ 'max-height': maxHeight }">
           <el-row>
-            <el-radio v-model="state.year.cronEvery" label="1">{{ translation.Year.every }} </el-radio>
+            <el-radio v-model="state.year.cronEvery" label="1">{{ translation.Year.every }}</el-radio>
           </el-row>
           <el-row>
             <el-radio v-model="state.year.cronEvery" label="2">

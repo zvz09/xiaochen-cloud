@@ -28,7 +28,7 @@
         >
           激活
         </el-button>
-        <el-button :icon="DeleteFilled" size="small" type="danger" @click="deleteFunc(scope.row)"> 删除 </el-button>
+        <el-button :icon="DeleteFilled" size="small" type="danger" @click="deleteFunc(scope.row)"> 删除</el-button>
       </template>
     </ProTable>
   </el-dialog>

@@ -136,7 +136,7 @@
         </el-form-item>
         <el-form-item v-show="dialogForm.type === 'return'" label="退回节点:" prop="targetKey">
           <el-radio-group v-model="taskForm.targetKey">
-            <el-radio-button v-for="item in returnTaskList" :key="item.id" :label="item.id">{{ item.name }} </el-radio-button>
+            <el-radio-button v-for="item in returnTaskList" :key="item.id" :label="item.id">{{ item.name }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
       </el-form>

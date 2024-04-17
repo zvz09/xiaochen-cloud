@@ -11,7 +11,7 @@
         </label>
       </template>
       <template #operation="scope">
-        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">办理 </el-button>
+        <el-button icon="Tickets" link size="small" type="primary" @click="toDetailProcess(scope.row)">办理</el-button>
       </template>
     </ProTable>
   </div>

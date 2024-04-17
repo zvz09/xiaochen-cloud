@@ -41,6 +41,7 @@ public class SysApiDto extends BaseDto<SysApi> {
      *
      * @return SysApi
      */
+    @Override
     public SysApi convertedToPo() {
         return SysApi.builder().id(this.getId())
                 .path(this.path)

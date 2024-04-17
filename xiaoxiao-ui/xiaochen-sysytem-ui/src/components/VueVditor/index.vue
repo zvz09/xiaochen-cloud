@@ -3,11 +3,13 @@ import Vditor from "vditor";
 import { onMounted, ref, watch, toRaw, computed, defineComponent, h } from "vue";
 import type { PropType } from "vue";
 import { defaultConfig, simpleConfig, mobileConfig } from "./config";
+
 // 创建唯一id
 function ganerNanoid() {
   window._VUE_VDITOR_ID = window._VUE_VDITOR_ID || 0;
   return window._VUE_VDITOR_ID++;
 }
+
 const options = {
   simple: simpleConfig,
   full: defaultConfig,

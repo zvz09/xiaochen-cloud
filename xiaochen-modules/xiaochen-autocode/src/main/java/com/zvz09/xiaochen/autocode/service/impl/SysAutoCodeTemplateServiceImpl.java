@@ -33,7 +33,7 @@ public class SysAutoCodeTemplateServiceImpl extends ServiceImpl<SysAutoCodeTempl
     public Page<SysAutoCodeTemplate> getAutoCodeTemplateList(QueryDto queryDto) {
         return this.page(new Page<>(queryDto.getPageNum(), queryDto.getPageSize()),
                 new LambdaQueryWrapper<SysAutoCodeTemplate>()
-                        .eq(StringUtils.isNotBlank(queryDto.getLanguage()), SysAutoCodeTemplate::getLanguage, queryDto.getTemplateEngine())
+                        .eq(StringUtils.isNotBlank(queryDto.getLanguage()), SysAutoCodeTemplate::getLanguage, queryDto.getLanguage())
                         .eq(StringUtils.isNotBlank(queryDto.getTemplateEngine()), SysAutoCodeTemplate::getTemplateEngine, queryDto.getTemplateEngine())
                         .like(StringUtils.isNotBlank(queryDto.getName()), SysAutoCodeTemplate::getName, queryDto.getName()));
     }

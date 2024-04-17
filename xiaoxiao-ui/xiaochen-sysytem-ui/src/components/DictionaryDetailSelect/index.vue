@@ -13,7 +13,7 @@
       @visible-change="visibleChange"
     >
       <div class="LabelSelectCpmBox">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
       </div>
     </el-select>
   </div>

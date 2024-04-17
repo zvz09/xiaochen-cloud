@@ -21,6 +21,7 @@ export namespace Tags {
     /*排序 */
     sort?: number;
   }
+
   export interface ListParams {
     /*页码 */
     pageNum?: number;

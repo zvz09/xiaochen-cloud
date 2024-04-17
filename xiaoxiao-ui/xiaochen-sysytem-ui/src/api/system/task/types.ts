@@ -89,6 +89,7 @@ export namespace Task {
     triggerStatus: boolean;
     executorAddress: string[];
   }
+
   // 参数接口
   export interface ListJobLogPageParams {
     /*页码 */

@@ -11,7 +11,7 @@
         </label>
       </template>
       <template #operation="scope">
-        <el-button icon="Tickets" link size="small" type="primary" @click="receiptedFunc(scope.row)">签收 </el-button>
+        <el-button icon="Tickets" link size="small" type="primary" @click="receiptedFunc(scope.row)">签收</el-button>
       </template>
     </ProTable>
   </div>

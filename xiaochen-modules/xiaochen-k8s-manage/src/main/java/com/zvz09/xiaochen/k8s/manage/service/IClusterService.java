@@ -1,8 +1,12 @@
 package com.zvz09.xiaochen.k8s.manage.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zvz09.xiaochen.common.core.page.BasePage;
 import com.zvz09.xiaochen.k8s.manage.domain.dto.ClusterDTO;
 import com.zvz09.xiaochen.k8s.manage.domain.entity.Cluster;
+
+import java.util.List;
 
 /**
 * @author Administrator
@@ -14,4 +18,6 @@ public interface IClusterService extends IService<Cluster> {
     void create(ClusterDTO clusterDTO);
 
     void delete(Long id);
+
+    IPage<Cluster> selectPage(BasePage basePage);
 }

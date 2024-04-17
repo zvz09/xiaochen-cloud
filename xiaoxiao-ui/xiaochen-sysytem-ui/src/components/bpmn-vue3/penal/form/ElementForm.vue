@@ -86,7 +86,7 @@
             <template v-slot="{ row, $index }">
               <el-button link type="" @click="openFieldOptionForm(row, $index, 'enum')">编辑</el-button>
               <el-divider direction="vertical" />
-              <el-button link style="color: #ff4d4f" type="" @click="removeFieldOptionItem(row, $index, 'enum')">移除 </el-button>
+              <el-button link style="color: #ff4d4f" type="" @click="removeFieldOptionItem(row, $index, 'enum')">移除</el-button>
             </template>
           </el-table-column>
         </el-table>

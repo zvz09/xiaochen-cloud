@@ -232,6 +232,7 @@ declare const webkitAudioContext: {
 
 interface ITips {
   [index: string]: string;
+
   alignCenter: string;
   alignLeft: string;
   alignRight: string;

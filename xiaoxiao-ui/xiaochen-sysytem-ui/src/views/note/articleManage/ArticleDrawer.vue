@@ -107,6 +107,7 @@ const rules = reactive({
   title: [{ required: true, message: "请填写标题" }],
   categoryId: [{ required: true, message: "请选择分类名" }]
 });
+
 function submit() {
   formRef.value!.validate(async valid => {
     if (!valid) return;

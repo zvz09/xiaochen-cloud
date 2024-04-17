@@ -11,8 +11,8 @@
 
       <!-- 表格操作 -->
       <template #operation="scope">
-        <el-button icon="view" link type="primary" @click="openHistoryDialog(scope.row)"> 版本管理 </el-button>
-        <el-button icon="delete" link type="primary" @click="deleteFunc(scope.row)"> 删除 </el-button>
+        <el-button icon="view" link type="primary" @click="openHistoryDialog(scope.row)"> 版本管理</el-button>
+        <el-button icon="delete" link type="primary" @click="deleteFunc(scope.row)"> 删除</el-button>
       </template>
     </ProTable>
 

@@ -107,6 +107,7 @@ public class GenCodeServiceImpl implements IGenCodeService {
                 }
                 genConfig.setColumns(columns);
             }
+
         } catch (Exception e) {
             log.error("parseCreateSql error:{}", e.getMessage());
             throw new BusinessException("SQL 解析异常");
@@ -230,4 +231,3 @@ public class GenCodeServiceImpl implements IGenCodeService {
         return stringWriter.toString();
     }
 }
- 

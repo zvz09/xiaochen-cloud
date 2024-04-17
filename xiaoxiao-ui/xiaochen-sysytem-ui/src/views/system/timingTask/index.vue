@@ -6,8 +6,8 @@
         <el-button v-auth="'add'" type="primary" :icon="CirclePlus" @click="addTaskInfo()">新增定时任务</el-button>
       </template>
 
-      <template #schedule="scope"> {{ scope.row.scheduleType.toUpperCase() }}: {{ scope.row.scheduleConf }} </template>
-      <template #executor="scope"> {{ scope.row.glueType.toUpperCase() }}: {{ scope.row.executorHandler }} </template>
+      <template #schedule="scope"> {{ scope.row.scheduleType.toUpperCase() }}: {{ scope.row.scheduleConf }}</template>
+      <template #executor="scope"> {{ scope.row.glueType.toUpperCase() }}: {{ scope.row.executorHandler }}</template>
       <!-- 菜单操作 -->
       <template #operation="scope">
         <el-dropdown :hide-on-click="false">
@@ -21,7 +21,7 @@
                 <el-button type="primary" link @click="openLogDrawer(scope.row)">查看日志</el-button>
               </el-dropdown-item>
               <el-dropdown-item>
-                <el-button type="primary" link @click="showAddress(scope.row)"> 注册节点 </el-button>
+                <el-button type="primary" link @click="showAddress(scope.row)"> 注册节点</el-button>
               </el-dropdown-item>
               <el-dropdown-item divided>
                 <el-button v-auth="'edit'" type="primary" link @click="updateTaskInfo(scope.row)">编辑</el-button>

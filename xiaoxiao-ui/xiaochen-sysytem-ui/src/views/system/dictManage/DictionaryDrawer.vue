@@ -71,6 +71,7 @@ import {
 
 // ProTable 实例
 const proTable = ref<ProTableInstance>();
+
 interface DrawerProps {
   title: string;
   row: Partial<Dictionary.DictionaryVO>;

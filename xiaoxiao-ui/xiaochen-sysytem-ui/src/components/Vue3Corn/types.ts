@@ -3,6 +3,7 @@ export interface Vue3CronProps {
   i18n: string;
   maxHeight: string;
 }
+
 export interface SpecificSpecific {
   [index: number]: number;
 }
@@ -48,6 +49,7 @@ export interface WeekCronItem extends CronItem {
   cronNthDayDay: number;
   cronNthDayNth: number;
 }
+
 export interface Translation {
   name: string;
   every: string;

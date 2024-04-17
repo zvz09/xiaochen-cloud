@@ -101,6 +101,7 @@ export namespace Process {
     /*请求参数 */
     params?: Record<string, unknown>;
   }
+
   export interface FlowableDeployVo {
     definitionId: string;
     processName: string;
@@ -113,6 +114,7 @@ export namespace Process {
     suspended: boolean;
     deploymentTime: string;
   }
+
   // 参数接口
   export interface StartParams {
     /* */
