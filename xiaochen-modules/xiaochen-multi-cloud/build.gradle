@@ -1,0 +1,18 @@
+description = 'xiaochen-multi-cloud'
+
+//子项目需要的jar包
+dependencies {
+    implementation project(':xiaochen-job:xiaochen-job-core')
+    implementation project(':xiaochen-common:common-auxiliary')
+    implementation project(':xiaochen-common:common-web')
+    implementation project(':xiaochen-common:common-log')
+    implementation project(':xiaochen-common:common-lock')
+    implementation project(':xiaochen-api:xiaochen-api-system')
+    implementation project(':xiaochen-common:common-elasticsearch')
+    implementation 'org.jsoup:jsoup:1.17.1'
+    implementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
+}
+
+// 动态移除对kotlin构建插件的权限,避免子模块构建报错
+tasks.register("prepareKotlinBuildScriptModel") {}
+
