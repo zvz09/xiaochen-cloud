@@ -1,0 +1,20 @@
+package com.zvz09.xiaochen.mc.component.tencentcloud;
+
+import com.zvz09.xiaochen.mc.component.EcsOperation;
+import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class TencentCloudEcsOperationImpl implements EcsOperation {
+
+    private final TencentCloudClient tencentCloudClient;
+
+    @Override
+    public List<EcsInstance> listEcsInstances() {
+        return List.of();
+    }
+}
