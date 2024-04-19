@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.common.web.config;
 
+import com.zvz09.xiaochen.common.web.wrapper.ThreadPoolExecutorMdcWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +24,7 @@ public class ThreadPoolConfig {
      */
     @Bean
     public ThreadPoolTaskExecutor poolTaskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        ThreadPoolTaskExecutor executor = new ThreadPoolExecutorMdcWrapper();
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(200);
         executor.setQueueCapacity(10000);

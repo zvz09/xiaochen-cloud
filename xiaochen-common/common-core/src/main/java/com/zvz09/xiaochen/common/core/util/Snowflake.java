@@ -96,8 +96,12 @@ public class Snowflake {
         return result;
     }
 
-    public static String getSnowflakeId() throws Exception {
-        return Snowflake.getInstanceSnowflake().nextId() + "";
+    public static String getSnowflakeId(){
+        try {
+            return Snowflake.getInstanceSnowflake().nextId() + "";
+        } catch (Exception e) {
+            return System.currentTimeMillis() + "";
+        }
     }
 
     @SuppressWarnings("Duplicates")
