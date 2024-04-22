@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.McEcsInstanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.zvz09.xiaochen.mc.domain.entity.EcsInstance">
+            <result property="id" column="id" jdbcType="BIGINT"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+            <result property="provider" column="provider" jdbcType="VARCHAR"/>
+            <result property="instanceId" column="instance_id" jdbcType="VARCHAR"/>
+            <result property="instanceName" column="instance_name" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="osType" column="os_type" jdbcType="VARCHAR"/>
+            <result property="region" column="region" jdbcType="VARCHAR"/>
+            <result property="instanceSpec" column="instance_spec" jdbcType="VARCHAR"/>
+            <result property="ipAddress" column="ip_Address" jdbcType="VARCHAR"/>
+            <result property="instanceChargeType" column="instance_charge_type" jdbcType="VARCHAR"/>
+            <result property="expiredTime" column="expired_time" jdbcType="VARCHAR"/>
+            <result property="detail" column="detail" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,created_at,updated_at,
+        deleted,provider,
+        instance_id,instance_name,status,
+        os_type,region,instance_spec,
+        ip_Address,instance_charge_type,expired_time,
+        detail
+    </sql>
+</mapper>

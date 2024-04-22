@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/mcmp/account")
+@RequestMapping("/mc/account")
 @Tag(name = "云厂商账号管理")
 public class AccountController extends BaseController<IAccountService, Account, AccountDTO> {
+
+    public AccountController(IAccountService accountService) {
+        super(accountService);
+    }
 }

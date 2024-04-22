@@ -28,6 +28,10 @@ public abstract class BaseController<S extends BaseService<E>, E extends BaseEnt
 
     private S baseService;
 
+    public BaseController(S baseService) {
+        this.baseService = baseService;
+    }
+
     @Operation(summary = "添加")
     @PostMapping()
     public void insert(@RequestBody D dto) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {

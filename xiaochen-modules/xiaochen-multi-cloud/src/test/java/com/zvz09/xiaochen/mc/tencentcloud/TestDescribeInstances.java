@@ -1,13 +1,13 @@
 package com.zvz09.xiaochen.mc.tencentcloud;
 
 import com.tencentcloudapi.common.AbstractModel;
-
 import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
 import com.tencentcloudapi.common.profile.HttpProfile;
-import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.cvm.v20170312.CvmClient;
-import com.tencentcloudapi.cvm.v20170312.models.*;
+import com.tencentcloudapi.cvm.v20170312.models.DescribeInstancesRequest;
+import com.tencentcloudapi.cvm.v20170312.models.DescribeInstancesResponse;
 public class TestDescribeInstances {
     public static void main(String [] args) {
         try{

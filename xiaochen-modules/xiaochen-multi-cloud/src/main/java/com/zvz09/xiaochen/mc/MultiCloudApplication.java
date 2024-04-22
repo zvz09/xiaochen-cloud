@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.mc;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  *
  * @author zvz09
  */
+@Slf4j
 @EnableCaching
 @EnableDiscoveryClient
 @SpringBootApplication
@@ -22,8 +24,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableFeignClients(basePackages = "com.zvz09.xiaochen")
 @MapperScan(basePackages = "com.zvz09.xiaochen.*.mapper")
 public class MultiCloudApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(MultiCloudApplication.class, args);
+        try{
+            SpringApplication.run(MultiCloudApplication.class, args);
+        }catch (Exception e){
+            log.error("启动失败",e);
+        }
         System.out.println("多云管理模块启动成功   ლ(´ڡ`ლ)ﾞ");
     }
 }

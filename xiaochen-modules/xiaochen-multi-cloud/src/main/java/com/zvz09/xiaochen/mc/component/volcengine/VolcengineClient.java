@@ -12,6 +12,7 @@ import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;
 import com.zvz09.xiaochen.mc.mapper.AccountMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class VolcengineClient extends AbstractProviderClient<AbstractResponse, VolcengineApiFunction<ApiClient>> {
+
+    private static final String DEFAULT_REGION = "cn-beijing";
+
 
     public VolcengineClient(AccountMapper accountMapper) {
         super(accountMapper);
@@ -37,6 +41,9 @@ public class VolcengineClient extends AbstractProviderClient<AbstractResponse, V
     @Override
     public AbstractResponse handleClient(VolcengineApiFunction<ApiClient> action, String region) {
         try {
+            if(StringUtils.isBlank(region)){
+                region = DEFAULT_REGION;
+            }
             Account account = super.getProviderAccount();
             Credentials credential = this.getCredential(account);
             ApiClient apiClient = new ApiClient()

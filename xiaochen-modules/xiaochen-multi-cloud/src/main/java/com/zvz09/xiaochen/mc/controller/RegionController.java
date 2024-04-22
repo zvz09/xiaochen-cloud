@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/mcmp/region")
+@RequestMapping("/mc/region")
 @Tag(name = "地域管理")
 public class RegionController extends BaseController<IRegionService, Region, RegionDTO> {
+
+    public RegionController(IRegionService baseService) {
+        super(baseService);
+    }
 }
