@@ -1,12 +1,12 @@
-package com.zvz09.xiaochen.mc.component.volcengine;
+package com.zvz09.xiaochen.mc.component.provider.volcengine;
 
 import com.volcengine.ApiClient;
 import com.volcengine.ApiException;
 import com.volcengine.model.AbstractResponse;
 import com.volcengine.sign.Credentials;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
-import com.zvz09.xiaochen.mc.component.AbstractProviderClient;
-import com.zvz09.xiaochen.mc.component.volcengine.function.VolcengineApiFunction;
+import com.zvz09.xiaochen.mc.component.provider.AbstractProviderClient;
+import com.zvz09.xiaochen.mc.component.provider.volcengine.function.VolcengineApiFunction;
 import com.zvz09.xiaochen.mc.domain.entity.Account;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;

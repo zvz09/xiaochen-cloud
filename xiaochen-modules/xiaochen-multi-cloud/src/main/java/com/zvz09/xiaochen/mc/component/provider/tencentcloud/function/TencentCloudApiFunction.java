@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.mc.component.tencentcloud.function;
+package com.zvz09.xiaochen.mc.component.provider.tencentcloud.function;
 
 import com.tencentcloudapi.common.AbstractModel;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;

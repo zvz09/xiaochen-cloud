@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="generator.mapper.McEcsInstanceMapper">
+<mapper namespace="generator.mapper.Mccom.zvz09.xiaochen.mc.mapper.EcsInstanceMapper">
 
     <resultMap id="BaseResultMap" type="com.zvz09.xiaochen.mc.domain.entity.EcsInstance">
             <result property="id" column="id" jdbcType="BIGINT"/>
@@ -24,7 +24,7 @@
 
     <sql id="Base_Column_List">
         id,created_at,updated_at,
-        deleted,provider,
+        deleted,tenant_id,provider,
         instance_id,instance_name,status,
         os_type,region,instance_spec,
         ip_Address,instance_charge_type,expired_time,

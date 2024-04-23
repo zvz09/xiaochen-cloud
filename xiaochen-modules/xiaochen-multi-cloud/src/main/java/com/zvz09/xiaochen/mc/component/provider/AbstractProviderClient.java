@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.mc.component;
+package com.zvz09.xiaochen.mc.component.provider;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zvz09.xiaochen.mc.domain.entity.Account;

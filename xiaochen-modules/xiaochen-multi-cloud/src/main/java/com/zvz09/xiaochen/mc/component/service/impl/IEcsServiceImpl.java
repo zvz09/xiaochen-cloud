@@ -1,0 +1,72 @@
+package com.zvz09.xiaochen.mc.component.service.impl;
+
+import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
+import com.zvz09.xiaochen.mc.component.service.IEcsService;
+import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
+import com.zvz09.xiaochen.mc.domain.entity.Region;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+@AllArgsConstructor
+public class IEcsServiceImpl implements IEcsService, InitializingBean {
+
+    private final List<EcsOperation> ecsOperations;
+
+    private Map<String, EcsOperation> ecsOperationProviderMap;
+
+    @Override
+    public List<Region> listAllRegions() {
+        List<Region> list = new ArrayList<>();
+
+        ecsOperations.forEach(ecsOperation -> {
+            list.addAll(ecsOperation.listRegions());
+        });
+
+        return list;
+    }
+
+    @Override
+    public List<EcsInstance> listAllEcsInstances() {
+        List<Region> regions = this.listAllRegions();
+        List<EcsInstance> instances = new ArrayList<>();
+        regions.stream().parallel().forEach(region -> {
+            instances.addAll(ecsOperationProviderMap.get(region.getProviderCode()).listEcsInstances(region.getRegionCode()));
+        });
+        return instances;
+    }
+
+    @Override
+    public List<Region> listAllRegions(String provider) {
+        return ecsOperationProviderMap.get(provider).listRegions();
+    }
+
+    @Override
+    public List<EcsInstance> listAllEcsInstances(String provider) {
+        return ecsOperationProviderMap.get(provider).listEcsInstances();
+    }
+
+    @Override
+    public List<EcsInstance> listAllEcsInstances(String provider, String region) {
+        return ecsOperationProviderMap.get(provider).listEcsInstances(region);
+    }
+
+    @Override
+    public EcsInstance describeInstance(String provider, String region, String instanceId) {
+        return ecsOperationProviderMap.get(provider).describeInstance(region,instanceId);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        ecsOperationProviderMap = new HashMap<>();
+        ecsOperations.forEach(ecsOperation -> {
+            ecsOperationProviderMap.put(ecsOperation.getProviderCode().getValue(),ecsOperation);
+        });
+    }
+}

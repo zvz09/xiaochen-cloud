@@ -1,12 +1,12 @@
-package com.zvz09.xiaochen.mc.component.aliyun;
+package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.aliyun.core.utils.SdkAutoCloseable;
 import com.aliyun.sdk.gateway.pop.models.Response;
 import com.aliyun.sdk.service.ecs20140526.AsyncClient;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
-import com.zvz09.xiaochen.mc.component.AbstractProviderClient;
-import com.zvz09.xiaochen.mc.component.aliyun.function.AliYunApiFunction;
-import com.zvz09.xiaochen.mc.component.aliyun.util.AliyunClientUtil;
+import com.zvz09.xiaochen.mc.component.provider.AbstractProviderClient;
+import com.zvz09.xiaochen.mc.component.provider.aliyun.function.AliYunApiFunction;
+import com.zvz09.xiaochen.mc.component.provider.aliyun.util.AliyunClientUtil;
 import com.zvz09.xiaochen.mc.domain.entity.Account;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;

@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.mc.component.tencentcloud;
+package com.zvz09.xiaochen.mc.component.provider.tencentcloud;
 
 import com.tencentcloudapi.common.AbstractClient;
 import com.tencentcloudapi.common.AbstractModel;
@@ -6,8 +6,8 @@ import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.cvm.v20170312.CvmClient;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
-import com.zvz09.xiaochen.mc.component.AbstractProviderClient;
-import com.zvz09.xiaochen.mc.component.tencentcloud.function.TencentCloudApiFunction;
+import com.zvz09.xiaochen.mc.component.provider.AbstractProviderClient;
+import com.zvz09.xiaochen.mc.component.provider.tencentcloud.function.TencentCloudApiFunction;
 import com.zvz09.xiaochen.mc.domain.entity.Account;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;

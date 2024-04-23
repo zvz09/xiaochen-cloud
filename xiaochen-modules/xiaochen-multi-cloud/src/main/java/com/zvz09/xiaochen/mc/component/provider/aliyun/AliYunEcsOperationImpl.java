@@ -1,17 +1,17 @@
-package com.zvz09.xiaochen.mc.component.aliyun;
+package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.sdk.service.ecs20140526.AsyncClient;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesResponse;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesResponseBody;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeRegionsRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeRegionsResponse;
-import com.zvz09.xiaochen.mc.component.EcsOperation;
-import com.zvz09.xiaochen.mc.component.aliyun.util.AliyunClientUtil;
+import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
+import com.zvz09.xiaochen.mc.component.provider.aliyun.util.AliyunClientUtil;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
-import com.zvz09.xiaochen.mc.enums.ProductEnum;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +29,7 @@ public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
     private final static Integer PAGE_SIZE = 100;
 
     private final AliYunClient aliYunClient;
+
     @Override
     public List<EcsInstance> listEcsInstances(String region) {
         List<EcsInstance> instances = new ArrayList<>();
@@ -51,21 +51,43 @@ public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
         return instances;
     }
 
+    @Override
+    public EcsInstance describeInstance(String region, String instanceId) {
+        DescribeInstancesResponse response = (DescribeInstancesResponse) aliYunClient.handleClient((client)->{
+            AsyncClient asyncClient = (AsyncClient) client;
+            DescribeInstancesRequest describeInstancesRequest = DescribeInstancesRequest.builder()
+                    .regionId(region)
+                    .instanceIds(String.format("[\"%s\"]",instanceId))
+                    .pageSize(1)
+                    .build();
+            return asyncClient.describeInstances(describeInstancesRequest).get();
+        },region, this.getProductCode());
+        if(response.getBody().getInstances().getInstance() != null && !response.getBody().getInstances().getInstance().isEmpty()){
+            DescribeInstancesResponseBody.Instance instance = response.getBody().getInstances().getInstance().get(0);
+            return convertedInstance(instance);
+        }
+        return null;
+    }
+
+    private EcsInstance convertedInstance(DescribeInstancesResponseBody.Instance instance) {
+        return EcsInstance.builder()
+                .provider(this.getProviderCode().getValue())
+                .instanceId(instance.getInstanceId())
+                .instanceName(instance.getInstanceName())
+                .status(instance.getStatus())
+                .osType(instance.getOSName())
+                .region(instance.getRegionId())
+                .instanceSpec(instance.getCpu() + "C/" + instance.getMemory() + "MiB")
+                .ipAddress(JSON.toJSONString(instance.getPublicIpAddress().getIpAddress()))
+                .instanceChargeType(instance.getInstanceChargeType())
+                .expiredTime(instance.getExpiredTime())
+                .detail(JSON.toJSONString(instance))
+                .build();
+    }
+
     private void addInstances(List<EcsInstance> instances, DescribeInstancesResponse response) {
         response.getBody().getInstances().getInstance().forEach(instance -> {
-            instances.add(EcsInstance.builder()
-                    .provider(this.getProviderCode().getValue())
-                    .instanceId(instance.getInstanceId())
-                    .instanceName(instance.getInstanceName())
-                    .status(instance.getStatus())
-                    .osType(instance.getOSType())
-                    .region(instance.getRegionId())
-                    .instanceSpec(instance.getCpu()+"C/"+instance.getMemory()+"MiB")
-                    .ipAddress(JSON.toJSONString(instance.getPublicIpAddress().getIpAddress()))
-                    .instanceChargeType(instance.getInstanceChargeType())
-                    .expiredTime(instance.getExpiredTime())
-                    .detail(JSON.toJSONString(instance))
-                    .build());
+            instances.add(convertedInstance(instance));
         });
     }
 

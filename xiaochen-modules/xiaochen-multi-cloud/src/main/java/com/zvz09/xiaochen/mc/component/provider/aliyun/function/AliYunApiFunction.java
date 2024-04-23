@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.mc.component.aliyun.function;
+package com.zvz09.xiaochen.mc.component.provider.aliyun.function;
 
 import com.aliyun.sdk.gateway.pop.models.Response;
 

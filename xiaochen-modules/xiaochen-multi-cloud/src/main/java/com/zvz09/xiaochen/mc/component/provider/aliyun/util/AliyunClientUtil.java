@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.mc.component.aliyun.util;
+package com.zvz09.xiaochen.mc.component.provider.aliyun.util;
 
 import com.aliyun.auth.credentials.Credential;
 import com.aliyun.auth.credentials.provider.StaticCredentialProvider;

@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.mc.component.volcengine.function;
+package com.zvz09.xiaochen.mc.component.provider.volcengine.function;
 
 import com.volcengine.ApiException;
 import com.volcengine.model.AbstractResponse;

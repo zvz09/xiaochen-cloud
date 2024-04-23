@@ -1,4 +1,4 @@
-package com.zvz09.xiaochen.mc.component.volcengine;
+package com.zvz09.xiaochen.mc.component.provider.volcengine;
 
 import com.alibaba.fastjson.JSON;
 import com.volcengine.ecs.EcsApi;
@@ -6,10 +6,11 @@ import com.volcengine.ecs.model.DescribeInstancesRequest;
 import com.volcengine.ecs.model.DescribeInstancesResponse;
 import com.volcengine.ecs.model.DescribeRegionsRequest;
 import com.volcengine.ecs.model.DescribeRegionsResponse;
+import com.volcengine.ecs.model.InstanceForDescribeInstancesOutput;
 import com.volcengine.vpc.VpcApi;
 import com.volcengine.vpc.model.DescribeEipAddressAttributesRequest;
 import com.volcengine.vpc.model.DescribeEipAddressAttributesResponse;
-import com.zvz09.xiaochen.mc.component.EcsOperation;
+import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
@@ -42,22 +43,41 @@ public class VolcengineEcsOperationImpl implements EcsOperation {
         return instances;
     }
 
+    @Override
+    public EcsInstance describeInstance(String region, String instanceId) {
+        DescribeInstancesResponse response = (DescribeInstancesResponse) volcengineClient.handleClient((client)->{
+            EcsApi api = new EcsApi(client);
+            DescribeInstancesRequest describeInstancesRequest = new DescribeInstancesRequest();
+            describeInstancesRequest.setMaxResults(1);
+            describeInstancesRequest.setInstanceIds(List.of(instanceId));
+            return api.describeInstances(describeInstancesRequest);
+        },region);
+        if(response.getInstances()!=null && !response.getInstances().isEmpty()){
+            return convertedInstance(region,response.getInstances().get(0));
+        }
+        return null;
+    }
+
     private void addInstance(String region, List<EcsInstance> instances, DescribeInstancesResponse response) {
         response.getInstances().forEach(instance ->{
-            instances.add(EcsInstance.builder()
-                    .provider(this.getProviderCode().getValue())
-                    .instanceId(instance.getInstanceId())
-                    .instanceName(instance.getInstanceName())
-                    .status(instance.getStatus())
-                    .osType(instance.getOsName())
-                    .region(region)
-                    .instanceSpec(instance.getCpus()+"C/"+instance.getMemorySize()+"MiB")
-                    .ipAddress(Objects.requireNonNull(executeDescribeEipAddressAttributes(region, instance.getEipAddress().getAllocationId())).getEipAddress())
-                    .instanceChargeType(instance.getInstanceChargeType())
-                    .expiredTime(instance.getExpiredAt())
-                    .detail(JSON.toJSONString(instance))
-                    .build());
+            instances.add(convertedInstance(region, instance));
         });
+    }
+
+    private EcsInstance convertedInstance(String region, InstanceForDescribeInstancesOutput instance) {
+        return EcsInstance.builder()
+                .provider(this.getProviderCode().getValue())
+                .instanceId(instance.getInstanceId())
+                .instanceName(instance.getInstanceName())
+                .status(instance.getStatus())
+                .osType(instance.getOsName())
+                .region(region)
+                .instanceSpec(instance.getCpus() + "C/" + instance.getMemorySize() + "MiB")
+                .ipAddress(Objects.requireNonNull(executeDescribeEipAddressAttributes(region, instance.getEipAddress().getAllocationId())).getEipAddress())
+                .instanceChargeType(instance.getInstanceChargeType())
+                .expiredTime(instance.getExpiredAt())
+                .detail(JSON.toJSONString(instance))
+                .build();
     }
 
     @Override
