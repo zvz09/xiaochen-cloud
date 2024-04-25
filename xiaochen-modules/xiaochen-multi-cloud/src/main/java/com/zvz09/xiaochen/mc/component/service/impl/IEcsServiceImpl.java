@@ -2,8 +2,10 @@ package com.zvz09.xiaochen.mc.component.service.impl;
 
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.component.service.IEcsService;
+import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
+import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class IEcsServiceImpl implements IEcsService, InitializingBean {
 
     private final List<EcsOperation> ecsOperations;
 
-    private Map<String, EcsOperation> ecsOperationProviderMap;
+    private Map<CloudProviderEnum, EcsOperation> ecsOperationProviderMap;
 
     @Override
     public List<Region> listAllRegions() {
@@ -37,28 +39,33 @@ public class IEcsServiceImpl implements IEcsService, InitializingBean {
         List<Region> regions = this.listAllRegions();
         List<EcsInstance> instances = new ArrayList<>();
         regions.stream().parallel().forEach(region -> {
-            instances.addAll(ecsOperationProviderMap.get(region.getProviderCode()).listEcsInstances(region.getRegionCode()));
+            instances.addAll(ecsOperationProviderMap.get(CloudProviderEnum.getByValue(region.getProviderCode())).listEcsInstances(region.getRegionCode()));
         });
         return instances;
     }
 
     @Override
-    public List<Region> listAllRegions(String provider) {
+    public List<Region> listAllRegions(CloudProviderEnum provider) {
         return ecsOperationProviderMap.get(provider).listRegions();
     }
 
     @Override
-    public List<EcsInstance> listAllEcsInstances(String provider) {
+    public List<ZoneDTO> listZones(CloudProviderEnum provider, String region) {
+        return ecsOperationProviderMap.get(provider).listZones(region);
+    }
+
+    @Override
+    public List<EcsInstance> listAllEcsInstances(CloudProviderEnum provider) {
         return ecsOperationProviderMap.get(provider).listEcsInstances();
     }
 
     @Override
-    public List<EcsInstance> listAllEcsInstances(String provider, String region) {
+    public List<EcsInstance> listAllEcsInstances(CloudProviderEnum provider, String region) {
         return ecsOperationProviderMap.get(provider).listEcsInstances(region);
     }
 
     @Override
-    public EcsInstance describeInstance(String provider, String region, String instanceId) {
+    public EcsInstance describeInstance(CloudProviderEnum provider, String region, String instanceId) {
         return ecsOperationProviderMap.get(provider).describeInstance(region,instanceId);
     }
 
@@ -66,7 +73,7 @@ public class IEcsServiceImpl implements IEcsService, InitializingBean {
     public void afterPropertiesSet() throws Exception {
         ecsOperationProviderMap = new HashMap<>();
         ecsOperations.forEach(ecsOperation -> {
-            ecsOperationProviderMap.put(ecsOperation.getProviderCode().getValue(),ecsOperation);
+            ecsOperationProviderMap.put(ecsOperation.getProviderCode(), ecsOperation);
         });
     }
 }

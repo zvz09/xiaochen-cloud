@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Slf4j
 @Component
@@ -38,11 +39,11 @@ public class SyncInstanceJob {
             List<String> dbInstanceIds = ecsInstanceService.listObjs(new QueryWrapper<EcsInstance>()
                     .lambda().eq(EcsInstance::getProvider, cloudProviderEnum.getValue())
                     .select(EcsInstance::getInstanceId), Object::toString);
-            List<EcsInstance> instances = ecsService.listAllEcsInstances(cloudProviderEnum.getValue());
+            List<EcsInstance> instances = ecsService.listAllEcsInstances(cloudProviderEnum);
             List<String> instanceIds = new ArrayList<>();
             List<EcsInstance> updateInstances = new ArrayList<>();
             List<EcsInstance> saveInstances = new ArrayList<>();
-            instances.stream().parallel().forEach(instance -> {
+            instances.forEach(instance -> {
                 if (dbInstanceIds.contains(instance.getInstanceId())) {
                     updateInstances.add(instance);
                 } else {
@@ -70,12 +71,12 @@ public class SyncInstanceJob {
 
             dbInstanceIds.removeAll(instanceIds);
             if (!dbInstanceIds.isEmpty()) {
-                List<String> deleteInstances = new ArrayList<>();
-                List<EcsInstance> finalUpdateInstances = new ArrayList<>();
+                List<String> deleteInstances = new CopyOnWriteArrayList<>();
+                List<EcsInstance> finalUpdateInstances = new CopyOnWriteArrayList<>();
                 dbInstanceIds.stream().parallel().forEach(instanceId -> {
                     EcsInstance ecsInstance = this.ecsInstanceService.getOne(new LambdaQueryWrapper<EcsInstance>().eq(EcsInstance::getInstanceId, instanceId));
                     if (ecsInstance != null) {
-                        EcsInstance providerInstance = ecsService.describeInstance(ecsInstance.getProvider(), ecsInstance.getRegion(), ecsInstance.getInstanceId());
+                        EcsInstance providerInstance = ecsService.describeInstance(CloudProviderEnum.getByValue(ecsInstance.getProvider()), ecsInstance.getRegion(), ecsInstance.getInstanceId());
                         if (providerInstance == null) {
                             deleteInstances.add(instanceId);
                         } else {
@@ -84,10 +85,10 @@ public class SyncInstanceJob {
                     }
                 });
 
-                deleteInstances.forEach(instanceId -> {
+                if (!deleteInstances.isEmpty()) {
                     this.ecsInstanceService.update(new LambdaUpdateWrapper<EcsInstance>().set(EcsInstance::getDeleted, true)
-                            .eq(EcsInstance::getInstanceId, instanceId));
-                });
+                            .in(EcsInstance::getInstanceId, deleteInstances));
+                }
 
                 finalUpdateInstances.forEach(providerInstance -> {
                     ecsInstanceService.update(new LambdaUpdateWrapper<EcsInstance>()
@@ -114,11 +115,11 @@ public class SyncInstanceJob {
             List<String> dbRegionCodes = regionService.listObjs(new QueryWrapper<Region>()
                     .lambda().eq(Region::getProviderCode, cloudProviderEnum.getValue())
                     .select(Region::getRegionCode), Object::toString);
-            List<Region> regions = ecsService.listAllRegions(cloudProviderEnum.getValue());
+            List<Region> regions = ecsService.listAllRegions(cloudProviderEnum);
             List<String> regionCodes = new ArrayList<>();
             List<Region> updateRegions = new ArrayList<>();
             List<Region> saveRegions = new ArrayList<>();
-            regions.stream().parallel().forEach(region -> {
+            regions.forEach(region -> {
                 if (dbRegionCodes.contains(region.getRegionCode())) {
                     updateRegions.add(region);
                 } else {
@@ -141,7 +142,7 @@ public class SyncInstanceJob {
             if (!dbRegionCodes.isEmpty()) {
                 regionService.update(new LambdaUpdateWrapper<Region>()
                         .set(Region::getDeleted, true)
-                        .in(Region::getRegionCode, regionCodes));
+                        .in(Region::getRegionCode, dbRegionCodes));
             }
         });
     }
@@ -152,11 +153,11 @@ public class SyncInstanceJob {
             List<String> dbInstanceIds = vpcInstanceService.listObjs(new QueryWrapper<VpcInstance>()
                     .lambda().eq(VpcInstance::getProvider, cloudProviderEnum.getValue())
                     .select(VpcInstance::getInstanceId), Object::toString);
-            List<VpcInstance> instances = vpcService.listAllVpcInstances(cloudProviderEnum.getValue());
+            List<VpcInstance> instances = vpcService.listAllVpcInstances(cloudProviderEnum);
             List<String> instanceIds = new ArrayList<>();
             List<VpcInstance> updateInstances = new ArrayList<>();
             List<VpcInstance> saveInstances = new ArrayList<>();
-            instances.stream().parallel().forEach(instance -> {
+            instances.forEach(instance -> {
                 if (dbInstanceIds.contains(instance.getInstanceId())) {
                     updateInstances.add(instance);
                 } else {
@@ -180,12 +181,12 @@ public class SyncInstanceJob {
 
             dbInstanceIds.removeAll(instanceIds);
             if (!dbInstanceIds.isEmpty()) {
-                List<String> deleteInstances = new ArrayList<>();
-                List<VpcInstance> finalUpdateInstances = new ArrayList<>();
+                List<String> deleteInstances = new CopyOnWriteArrayList<>();
+                List<VpcInstance> finalUpdateInstances = new CopyOnWriteArrayList<>();
                 dbInstanceIds.stream().parallel().forEach(instanceId -> {
                     VpcInstance vpcInstance = this.vpcInstanceService.getOne(new LambdaQueryWrapper<VpcInstance>().eq(VpcInstance::getInstanceId, instanceId));
                     if (vpcInstance != null) {
-                        VpcInstance providerInstance = vpcService.describeInstance(vpcInstance.getProvider(), vpcInstance.getRegion(), vpcInstance.getInstanceId());
+                        VpcInstance providerInstance = vpcService.describeInstance(CloudProviderEnum.getByValue(vpcInstance.getProvider()), vpcInstance.getRegion(), vpcInstance.getInstanceId());
                         if (providerInstance == null) {
                             deleteInstances.add(instanceId);
                         } else {
@@ -193,11 +194,10 @@ public class SyncInstanceJob {
                         }
                     }
                 });
-
-                deleteInstances.forEach(instanceId ->{
+                if (!deleteInstances.isEmpty()) {
                     this.vpcInstanceService.update(new LambdaUpdateWrapper<VpcInstance>().set(VpcInstance::getDeleted, true)
-                            .eq(VpcInstance::getInstanceId, instanceId));
-                });
+                            .in(VpcInstance::getInstanceId, deleteInstances));
+                }
                 finalUpdateInstances.forEach(vpcInstance ->{
                     vpcInstanceService.update(new LambdaUpdateWrapper<VpcInstance>()
                             .set(VpcInstance::getInstanceName, vpcInstance.getInstanceName())

@@ -2,11 +2,24 @@ package com.zvz09.xiaochen.mc.component.provider.tencentcloud;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tencentcloudapi.vpc.v20170312.VpcClient;
+import com.tencentcloudapi.vpc.v20170312.models.CreateSubnetRequest;
+import com.tencentcloudapi.vpc.v20170312.models.CreateSubnetResponse;
+import com.tencentcloudapi.vpc.v20170312.models.CreateVpcRequest;
+import com.tencentcloudapi.vpc.v20170312.models.CreateVpcResponse;
+import com.tencentcloudapi.vpc.v20170312.models.DeleteSubnetRequest;
+import com.tencentcloudapi.vpc.v20170312.models.DeleteVpcRequest;
+import com.tencentcloudapi.vpc.v20170312.models.DescribeSubnetsRequest;
+import com.tencentcloudapi.vpc.v20170312.models.DescribeSubnetsResponse;
 import com.tencentcloudapi.vpc.v20170312.models.DescribeVpcsRequest;
 import com.tencentcloudapi.vpc.v20170312.models.DescribeVpcsResponse;
 import com.tencentcloudapi.vpc.v20170312.models.Vpc;
 import com.zvz09.xiaochen.mc.component.provider.VpcOperation;
+import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
+import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
+import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
+import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.domain.entity.VpcInstance;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;
@@ -14,16 +27,89 @@ import com.zvz09.xiaochen.mc.service.IRegionService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation implements VpcOperation {
 
     private final IRegionService regionService;
+    private final TencentCloudEcsOperationImpl ecsOperation;
 
-    public TencentCloudVpcOperationImpl(TencentCloudClient tencentCloudClient, IRegionService regionService) {
+    public TencentCloudVpcOperationImpl(TencentCloudClient tencentCloudClient, IRegionService regionService, TencentCloudEcsOperationImpl ecsOperation) {
         super(tencentCloudClient);
         this.regionService = regionService;
+        this.ecsOperation = ecsOperation;
+    }
+
+    @Override
+    public VpcInstance createVpc(VpcDTO vpcDTO) {
+        CreateVpcResponse response = (CreateVpcResponse) tencentCloudClient.handleClient((abstractClient) -> {
+            CreateVpcRequest req = new CreateVpcRequest();
+            req.setVpcName(vpcDTO.getVpcName());
+            req.setCidrBlock(vpcDTO.getCidrBlock());
+            VpcClient client = (VpcClient) abstractClient;
+            return client.CreateVpc(req);
+        }, vpcDTO.getRegion(), ProductEnum.VPC);
+        return this.convertedInstance(response.getVpc().getVpcId(), vpcDTO);
+    }
+
+    @Override
+    public void deleteVpc(String region, String vpcId) {
+        tencentCloudClient.handleClient((abstractClient) -> {
+            DeleteVpcRequest req = new DeleteVpcRequest();
+            req.setVpcId(vpcId);
+            VpcClient client = (VpcClient) abstractClient;
+            return client.DeleteVpc(req);
+        }, region, ProductEnum.VPC);
+    }
+
+    @Override
+    public Page<VSwitcheDTO> listVSwitches(String region, String vpcId, Integer pageNumber, Integer pageSize) {
+        DescribeSubnetsResponse response = (DescribeSubnetsResponse) tencentCloudClient.handleClient((abstractClient) -> {
+            DescribeSubnetsRequest req = new DescribeSubnetsRequest();
+            req.setOffset(String.valueOf(pageNumber <= 1 ? (pageNumber - 1) * pageSize : 0));
+            req.setLimit(String.valueOf(pageSize));
+            VpcClient client = (VpcClient) abstractClient;
+            return client.DescribeSubnets(req);
+        }, region, ProductEnum.VPC);
+        Page<VSwitcheDTO> page = new Page<>();
+        page.setCurrent(pageNumber);
+        page.setTotal(response.getTotalCount());
+        page.setSize(pageSize);
+        page.setRecords(Arrays.stream(response.getSubnetSet()).map(vSwitch -> VSwitcheDTO.builder()
+                .vSwitchId(vSwitch.getSubnetId())
+                .vSwitchName(vSwitch.getSubnetName())
+                .zoneId(vSwitch.getZone())
+                .cidrBlock(vSwitch.getCidrBlock())
+                .ipv6CidrBlock(vSwitch.getIpv6CidrBlock())
+                .availableIpAddressCount(vSwitch.getAvailableIpAddressCount())
+                .build()).toList());
+        return page;
+    }
+
+    @Override
+    public VSwitcheDTO createVSwitch(CreateVSwitch createVSwitch) {
+        CreateSubnetResponse response = (CreateSubnetResponse) tencentCloudClient.handleClient((abstractClient) -> {
+            CreateSubnetRequest req = new CreateSubnetRequest();
+            req.setVpcId(createVSwitch.getVpcId());
+            req.setSubnetName(createVSwitch.getVSwitchName());
+            req.setCidrBlock(createVSwitch.getCidrBlock());
+            req.setZone(createVSwitch.getZoneId());
+            VpcClient client = (VpcClient) abstractClient;
+            return client.CreateSubnet(req);
+        }, createVSwitch.getRegionId(), ProductEnum.VPC);
+        return this.convertedVSwitche(response.getSubnet().getSubnetId(), createVSwitch);
+    }
+
+    @Override
+    public void deleteVSwitch(String region, String vSwitchId) {
+        tencentCloudClient.handleClient((abstractClient) -> {
+            DeleteSubnetRequest req = new DeleteSubnetRequest();
+            req.setSubnetId(vSwitchId);
+            VpcClient client = (VpcClient) abstractClient;
+            return client.DeleteSubnet(req);
+        }, region, ProductEnum.VPC);
     }
 
     @Override
@@ -45,6 +131,11 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             }
         }
         return instances;
+    }
+
+    @Override
+    public List<ZoneDTO> listZones(String region) {
+        return ecsOperation.listZones(region);
     }
 
     @Override

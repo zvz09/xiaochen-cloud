@@ -7,8 +7,11 @@ import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesResponse;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesResponseBody;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeRegionsRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeRegionsResponse;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeZonesRequest;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeZonesResponse;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.component.provider.aliyun.util.AliyunClientUtil;
+import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import org.apache.commons.lang3.StringUtils;
@@ -121,13 +124,36 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
         return regions;
     }
 
+    @Override
+    public List<ZoneDTO> listZones(String region) {
+        List<ZoneDTO> zones = new ArrayList<>();
+        DescribeZonesResponse response = (DescribeZonesResponse) aliYunClient.handleClient((client) -> {
+            DescribeZonesRequest request = DescribeZonesRequest.builder()
+                    .regionId(region)
+                    .acceptLanguage("zh-CN")
+                    .instanceChargeType("PostPaid")
+                    .verbose(false)
+                    .spotStrategy("NoSpot")
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            // Asynchronously get the return value of the API request
+            return asyncClient.describeZones(request).get();
+        }, null, this.getProductCode());
+
+        if (response.getBody().getZones() != null && response.getBody().getZones().getZone() != null) {
+            response.getBody().getZones().getZone().forEach(zone -> {
+                zones.add(new ZoneDTO(zone.getZoneId(), zone.getLocalName()));
+            });
+        }
+        return zones;
+    }
+
     private DescribeRegionsResponse executeDescribeRegionsResponse() {
         return (DescribeRegionsResponse) aliYunClient.handleClient((client) -> {
             DescribeRegionsRequest describeRegionsRequest = DescribeRegionsRequest.builder()
                     .instanceChargeType("PostPaid")
                     .build();
             AsyncClient asyncClient = (AsyncClient) client;
-            // Asynchronously get the return value of the API request
             return asyncClient.describeRegions(describeRegionsRequest).get();
         }, null, this.getProductCode());
     }

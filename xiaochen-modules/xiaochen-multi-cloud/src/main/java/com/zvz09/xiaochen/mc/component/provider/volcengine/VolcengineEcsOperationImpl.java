@@ -6,11 +6,14 @@ import com.volcengine.ecs.model.DescribeInstancesRequest;
 import com.volcengine.ecs.model.DescribeInstancesResponse;
 import com.volcengine.ecs.model.DescribeRegionsRequest;
 import com.volcengine.ecs.model.DescribeRegionsResponse;
+import com.volcengine.ecs.model.DescribeZonesRequest;
+import com.volcengine.ecs.model.DescribeZonesResponse;
 import com.volcengine.ecs.model.InstanceForDescribeInstancesOutput;
 import com.volcengine.vpc.VpcApi;
 import com.volcengine.vpc.model.DescribeEipAddressAttributesRequest;
 import com.volcengine.vpc.model.DescribeEipAddressAttributesResponse;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
+import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import org.apache.commons.lang3.StringUtils;
@@ -91,6 +94,22 @@ public class VolcengineEcsOperationImpl extends VolcengineBaseOperation implemen
         }
 
         return regions;
+    }
+
+    @Override
+    public List<ZoneDTO> listZones(String region) {
+        List<ZoneDTO> zones = new ArrayList<>();
+        DescribeZonesResponse response = (DescribeZonesResponse) volcengineClient.handleClient((client) -> {
+            EcsApi api = new EcsApi(client);
+            DescribeZonesRequest request = new DescribeZonesRequest();
+            return api.describeZones(request);
+        }, region);
+
+        response.getZones().forEach(zone -> {
+            new ZoneDTO(zone.getZoneId(), zone.getZoneId());
+        });
+
+        return zones;
     }
 
     private void addRegion(DescribeRegionsResponse response, List<Region> regions) {

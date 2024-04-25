@@ -6,9 +6,13 @@ import com.tencentcloudapi.cvm.v20170312.models.DescribeInstancesRequest;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeInstancesResponse;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeRegionsRequest;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeRegionsResponse;
+import com.tencentcloudapi.cvm.v20170312.models.DescribeZonesRequest;
+import com.tencentcloudapi.cvm.v20170312.models.DescribeZonesResponse;
 import com.tencentcloudapi.cvm.v20170312.models.Instance;
 import com.tencentcloudapi.cvm.v20170312.models.RegionInfo;
+import com.tencentcloudapi.cvm.v20170312.models.ZoneInfo;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
+import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;
@@ -93,6 +97,23 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
         }
 
         return regions;
+    }
+
+    @Override
+    public List<ZoneDTO> listZones(String region) {
+        List<ZoneDTO> zones = new ArrayList<>();
+        DescribeZonesResponse resp = (DescribeZonesResponse) tencentCloudClient.handleClient((abstractClient) -> {
+            DescribeZonesRequest req = new DescribeZonesRequest();
+            CvmClient cvmClient = (CvmClient) abstractClient;
+            return cvmClient.DescribeZones(req);
+        }, null, ProductEnum.ECS);
+        if (resp.getZoneSet() != null) {
+            for (ZoneInfo zone : resp.getZoneSet()) {
+                zones.add(new ZoneDTO(zone.getZone(), zone.getZoneName()));
+            }
+        }
+
+        return zones;
     }
 
     private EcsInstance convertedInstance(String region, Instance instance) {

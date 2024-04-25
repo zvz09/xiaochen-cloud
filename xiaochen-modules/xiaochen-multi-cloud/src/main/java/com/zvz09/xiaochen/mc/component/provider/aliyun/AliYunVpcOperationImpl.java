@@ -2,13 +2,29 @@ package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.sdk.service.vpc20160428.AsyncClient;
+import com.aliyun.sdk.service.vpc20160428.models.CreateVSwitchRequest;
+import com.aliyun.sdk.service.vpc20160428.models.CreateVSwitchResponse;
+import com.aliyun.sdk.service.vpc20160428.models.CreateVpcRequest;
+import com.aliyun.sdk.service.vpc20160428.models.CreateVpcResponse;
+import com.aliyun.sdk.service.vpc20160428.models.DeleteVSwitchRequest;
+import com.aliyun.sdk.service.vpc20160428.models.DeleteVpcRequest;
+import com.aliyun.sdk.service.vpc20160428.models.DescribeVSwitchesRequest;
+import com.aliyun.sdk.service.vpc20160428.models.DescribeVSwitchesResponse;
+import com.aliyun.sdk.service.vpc20160428.models.DescribeVSwitchesResponseBody;
 import com.aliyun.sdk.service.vpc20160428.models.DescribeVpcAttributeRequest;
 import com.aliyun.sdk.service.vpc20160428.models.DescribeVpcAttributeResponse;
 import com.aliyun.sdk.service.vpc20160428.models.DescribeVpcAttributeResponseBody;
 import com.aliyun.sdk.service.vpc20160428.models.DescribeVpcsRequest;
 import com.aliyun.sdk.service.vpc20160428.models.DescribeVpcsResponse;
+import com.aliyun.sdk.service.vpc20160428.models.DescribeZonesRequest;
+import com.aliyun.sdk.service.vpc20160428.models.DescribeZonesResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.mc.component.provider.VpcOperation;
+import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
+import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
+import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
+import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.domain.entity.VpcInstance;
 import com.zvz09.xiaochen.mc.service.IRegionService;
@@ -32,6 +48,94 @@ public class AliYunVpcOperationImpl extends AliYunBaseOperation implements VpcOp
     }
 
     @Override
+    public VpcInstance createVpc(VpcDTO vpcDTO) {
+        CreateVpcResponse response = (CreateVpcResponse) aliYunClient.handleClient((client) -> {
+            CreateVpcRequest request = CreateVpcRequest.builder()
+                    .regionId(vpcDTO.getRegion())
+                    .cidrBlock(vpcDTO.getCidrBlock())
+                    .ipv6CidrBlock(vpcDTO.getIpv6CidrBlock())
+                    .enableIpv6(vpcDTO.isEnableIpv6())
+                    .vpcName(vpcDTO.getVpcName())
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.createVpc(request).get();
+        }, vpcDTO.getRegion(), this.getProductCode());
+        return this.convertedInstance(response.getBody().getVpcId(), vpcDTO);
+    }
+
+    @Override
+    public void deleteVpc(String region, String vpcId) {
+       aliYunClient.handleClient((client) -> {
+            DeleteVpcRequest request = DeleteVpcRequest.builder()
+                    .regionId(region)
+                    .vpcId(vpcId)
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.deleteVpc(request).get();
+        }, region, this.getProductCode());
+    }
+
+    @Override
+    public Page<VSwitcheDTO> listVSwitches(String region, String vpcId, Integer pageNumber, Integer pageSize) {
+        DescribeVSwitchesResponse response = (DescribeVSwitchesResponse) aliYunClient.handleClient((client) -> {
+            DescribeVSwitchesRequest request = DescribeVSwitchesRequest.builder()
+                    .vpcId(vpcId)
+                    .pageNumber(pageNumber)
+                    .pageSize(pageSize)
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.describeVSwitches(request).get();
+        }, region, this.getProductCode());
+
+        DescribeVSwitchesResponseBody body = response.getBody();
+
+        Page<VSwitcheDTO> page = new Page<>();
+        page.setCurrent(pageNumber);
+        page.setTotal(body.getTotalCount());
+        page.setSize(pageSize);
+        page.setRecords(body.getVSwitches().getVSwitch().stream().map(vSwitch -> VSwitcheDTO.builder()
+                .vSwitchId(vSwitch.getVSwitchId())
+                .vSwitchName(vSwitch.getVSwitchName())
+                .zoneId(vSwitch.getZoneId())
+                .cidrBlock(vSwitch.getCidrBlock())
+                .ipv6CidrBlock(vSwitch.getIpv6CidrBlock())
+                .availableIpAddressCount(vSwitch.getAvailableIpAddressCount())
+                .build()).toList());
+
+        return page;
+    }
+
+    @Override
+    public VSwitcheDTO createVSwitch(CreateVSwitch createVSwitch) {
+        CreateVSwitchResponse response = (CreateVSwitchResponse) aliYunClient.handleClient((client) -> {
+            CreateVSwitchRequest request = CreateVSwitchRequest.builder()
+                    .regionId(createVSwitch.getRegionId())
+                    .zoneId(createVSwitch.getZoneId())
+                    .cidrBlock(createVSwitch.getCidrBlock())
+                    .ipv6CidrBlock(createVSwitch.getIpv6CidrBlock())
+                    .vpcId(createVSwitch.getVpcId())
+                    .vSwitchName(createVSwitch.getVSwitchName())
+                    .vpcIpv6CidrBlock(createVSwitch.getVpcIpv6CidrBlock())
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.createVSwitch(request).get();
+        }, createVSwitch.getRegionId(), this.getProductCode());
+        return this.convertedVSwitche(response.getBody().getVSwitchId(), createVSwitch);
+    }
+
+    @Override
+    public void deleteVSwitch(String region, String vSwitchId) {
+        aliYunClient.handleClient((client) -> {
+            DeleteVSwitchRequest request = DeleteVSwitchRequest.builder()
+                    .regionId(region)
+                    .vSwitchId(vSwitchId)
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.deleteVSwitch(request).get();
+        }, region, this.getProductCode());
+    }
+
+    @Override
     public List<VpcInstance> listVpcInstances(String region) {
         List<VpcInstance> instances = new ArrayList<>();
 
@@ -47,6 +151,25 @@ public class AliYunVpcOperationImpl extends AliYunBaseOperation implements VpcOp
         }
 
         return instances;
+    }
+
+    @Override
+    public List<ZoneDTO> listZones(String region) {
+        List<ZoneDTO> zoneDTOS = new ArrayList<>();
+        DescribeZonesResponse response = (DescribeZonesResponse) aliYunClient.handleClient((client) -> {
+            DescribeZonesRequest request = DescribeZonesRequest.builder()
+                    .regionId(region)
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.describeZones(request).get();
+        }, region, this.getProductCode());
+
+        if (response.getBody().getZones() != null && response.getBody().getZones().getZone() != null) {
+            response.getBody().getZones().getZone().forEach(zone -> {
+                zoneDTOS.add(new ZoneDTO(zone.getZoneId(), zone.getLocalName()));
+            });
+        }
+        return zoneDTOS;
     }
 
     @Override
