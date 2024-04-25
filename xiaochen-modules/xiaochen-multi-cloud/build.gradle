@@ -13,8 +13,15 @@ dependencies {
         exclude module: 'bcprov-jdk15on'
         exclude module: 'dom4j'
     }
+    implementation('com.aliyun:alibabacloud-vpc20160428:5.0.6'){
+        exclude module: 'annotations'
+        exclude module: 'bcprov-jdk15on'
+        exclude module: 'dom4j'
+    }
 
     implementation('com.tencentcloudapi:tencentcloud-sdk-java-cvm:3.1.994'){
+    }
+    implementation('com.tencentcloudapi:tencentcloud-sdk-java-vpc:3.1.994'){
     }
 
     implementation('com.volcengine:volcengine-java-sdk-core:0.1.103'){

@@ -11,8 +11,6 @@ import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.component.provider.aliyun.util.AliyunClientUtil;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
-import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
@@ -23,29 +21,30 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
-public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
+public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOperation, InitializingBean {
 
     private final static Integer PAGE_SIZE = 100;
 
-    private final AliYunClient aliYunClient;
+    public AliYunEcsOperationImpl(AliYunClient aliYunClient) {
+        super(aliYunClient);
+    }
 
     @Override
     public List<EcsInstance> listEcsInstances(String region) {
         List<EcsInstance> instances = new ArrayList<>();
-        DescribeInstancesResponse response = (DescribeInstancesResponse) aliYunClient.handleClient((client)->{
+        DescribeInstancesResponse response = (DescribeInstancesResponse) aliYunClient.handleClient((client) -> {
             AsyncClient asyncClient = (AsyncClient) client;
             DescribeInstancesRequest describeInstancesRequest = DescribeInstancesRequest.builder()
                     .regionId(region)
                     .pageSize(PAGE_SIZE)
                     .build();
-                return asyncClient.describeInstances(describeInstancesRequest).get();
-        },region, this.getProductCode());
+            return asyncClient.describeInstances(describeInstancesRequest).get();
+        }, region, this.getProductCode());
 
-        addInstances(instances,response);
-        while (StringUtils.isNotBlank(response.getBody().getNextToken())){
-            response = executeDescribeInstances(region,response.getBody().getNextToken());
-            addInstances(instances,response);
+        addInstances(instances, response);
+        while (StringUtils.isNotBlank(response.getBody().getNextToken())) {
+            response = executeDescribeInstances(region, response.getBody().getNextToken());
+            addInstances(instances, response);
         }
 
         return instances;
@@ -53,16 +52,16 @@ public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
 
     @Override
     public EcsInstance describeInstance(String region, String instanceId) {
-        DescribeInstancesResponse response = (DescribeInstancesResponse) aliYunClient.handleClient((client)->{
+        DescribeInstancesResponse response = (DescribeInstancesResponse) aliYunClient.handleClient((client) -> {
             AsyncClient asyncClient = (AsyncClient) client;
             DescribeInstancesRequest describeInstancesRequest = DescribeInstancesRequest.builder()
                     .regionId(region)
-                    .instanceIds(String.format("[\"%s\"]",instanceId))
+                    .instanceIds(String.format("[\"%s\"]", instanceId))
                     .pageSize(1)
                     .build();
             return asyncClient.describeInstances(describeInstancesRequest).get();
-        },region, this.getProductCode());
-        if(response.getBody().getInstances().getInstance() != null && !response.getBody().getInstances().getInstance().isEmpty()){
+        }, region, this.getProductCode());
+        if (response.getBody().getInstances().getInstance() != null && !response.getBody().getInstances().getInstance().isEmpty()) {
             DescribeInstancesResponseBody.Instance instance = response.getBody().getInstances().getInstance().get(0);
             return convertedInstance(instance);
         }
@@ -92,7 +91,7 @@ public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
     }
 
     private DescribeInstancesResponse executeDescribeInstances(String region, String nextToken) {
-       return  (DescribeInstancesResponse) aliYunClient.handleClient((client)->{
+        return (DescribeInstancesResponse) aliYunClient.handleClient((client) -> {
             AsyncClient asyncClient = (AsyncClient) client;
             DescribeInstancesRequest describeInstancesRequest = DescribeInstancesRequest.builder()
                     .regionId(region)
@@ -100,7 +99,7 @@ public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
                     .pageSize(PAGE_SIZE)
                     .build();
             return asyncClient.describeInstances(describeInstancesRequest).get();
-        },region, this.getProductCode());
+        }, region, this.getProductCode());
     }
 
     @Override
@@ -111,9 +110,10 @@ public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
 
         response.getBody().getRegions().getRegion().forEach(region -> {
             regions.add(Region.builder()
-                            .providerCode(this.getProviderCode().getValue())
-                            .productCode(this.getProductCode().name())
+                    .providerCode(this.getProviderCode().getValue())
+                    .productCode(this.getProductCode().getValue())
                     .regionCode(region.getRegionId())
+                    .endpoint(region.getRegionEndpoint())
                     .regionName(region.getLocalName())
                     .build());
         });
@@ -122,28 +122,22 @@ public class AliYunEcsOperationImpl implements EcsOperation, InitializingBean {
     }
 
     private DescribeRegionsResponse executeDescribeRegionsResponse() {
-        DescribeRegionsResponse response = (DescribeRegionsResponse) aliYunClient.handleClient((client)->{
+        return (DescribeRegionsResponse) aliYunClient.handleClient((client) -> {
             DescribeRegionsRequest describeRegionsRequest = DescribeRegionsRequest.builder()
                     .instanceChargeType("PostPaid")
                     .build();
             AsyncClient asyncClient = (AsyncClient) client;
             // Asynchronously get the return value of the API request
             return asyncClient.describeRegions(describeRegionsRequest).get();
-        },null, this.getProductCode());
-        return response;
-    }
-
-    @Override
-    public CloudProviderEnum getProviderCode() {
-        return CloudProviderEnum.ALI_YUN;
+        }, null, this.getProductCode());
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Map<String,String> regionEndpointMap = new HashMap<>();
+        Map<String, String> regionEndpointMap = new HashMap<>();
         DescribeRegionsResponse response = executeDescribeRegionsResponse();
         response.getBody().getRegions().getRegion().forEach(region -> {
-            regionEndpointMap.put(region.getRegionId(),region.getRegionEndpoint());
+            regionEndpointMap.put(region.getRegionId(), region.getRegionEndpoint());
         });
         AliyunClientUtil.setEcsEndpointMap(regionEndpointMap);
     }

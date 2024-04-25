@@ -13,8 +13,6 @@ import com.volcengine.vpc.model.DescribeEipAddressAttributesResponse;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
-import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +21,15 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@RequiredArgsConstructor
-public class VolcengineEcsOperationImpl implements EcsOperation {
+public class VolcengineEcsOperationImpl extends VolcengineBaseOperation implements EcsOperation {
 
-    private final VolcengineClient volcengineClient;
+    public VolcengineEcsOperationImpl(VolcengineClient volcengineClient) {
+        super(volcengineClient);
+    }
 
     @Override
     public List<EcsInstance> listEcsInstances(String region) {
         List<EcsInstance> instances = new ArrayList<>();
-
 
         DescribeInstancesResponse response = executeDescribeInstances(region,null);
         addInstance(region, instances, response);
@@ -142,10 +140,5 @@ public class VolcengineEcsOperationImpl implements EcsOperation {
             describeEipAddressAttributesRequest.setAllocationId(ipId);
             return   api.describeEipAddressAttributes(describeEipAddressAttributesRequest);
         },region);
-    }
-
-    @Override
-    public CloudProviderEnum getProviderCode() {
-        return CloudProviderEnum.VOLCENGINE;
     }
 }

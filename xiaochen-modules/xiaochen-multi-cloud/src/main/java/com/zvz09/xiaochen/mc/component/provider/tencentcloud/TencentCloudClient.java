@@ -5,6 +5,7 @@ import com.tencentcloudapi.common.AbstractModel;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.cvm.v20170312.CvmClient;
+import com.tencentcloudapi.vpc.v20170312.VpcClient;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.mc.component.provider.AbstractProviderClient;
 import com.zvz09.xiaochen.mc.component.provider.tencentcloud.function.TencentCloudApiFunction;
@@ -33,8 +34,10 @@ public class TencentCloudClient extends AbstractProviderClient<AbstractModel, Te
         switch (productEnum) {
             case ECS:
                 return ecsHandleClient(action, region);
+            case VPC:
+                return vpcHandleClient(action, region);
             case OSS:
-                throw new BusinessException(ProductEnum.OSS.name()+"产品暂不支持");
+                throw new BusinessException(ProductEnum.VPC.name()+"产品暂不支持");
             default:
                 throw new BusinessException("产品暂不支持");
         }
@@ -45,6 +48,22 @@ public class TencentCloudClient extends AbstractProviderClient<AbstractModel, Te
             Account account = super.getProviderAccount();
             Credential credential = this.getCredential(account);
             CvmClient cvmClient = new CvmClient(credential, region);
+            AbstractModel abstractResponse = action.apply(cvmClient);
+            log.info("success response:{}",abstractResponse);
+            return abstractResponse;
+        } catch (TencentCloudSDKException e) {
+            log.error("ApiException error",e);
+            throw new BusinessException("业务异常");
+        }catch (Exception e){
+            log.error("error",e);
+            throw new BusinessException("业务异常");
+        }
+    }
+    private AbstractModel vpcHandleClient(TencentCloudApiFunction<AbstractClient> action, String region) {
+        try {
+            Account account = super.getProviderAccount();
+            Credential credential = this.getCredential(account);
+            VpcClient cvmClient = new VpcClient(credential, region);
             AbstractModel abstractResponse = action.apply(cvmClient);
             log.info("success response:{}",abstractResponse);
             return abstractResponse;

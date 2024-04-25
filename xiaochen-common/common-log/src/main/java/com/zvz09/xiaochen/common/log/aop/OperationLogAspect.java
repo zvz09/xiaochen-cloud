@@ -123,6 +123,8 @@ public class OperationLogAspect {
             log.info("请求完成, url={}，elapse={}ms, respData={}", request.getRequestURI(), elapse, respData);
             operationLog.setSuccess(true);
         } catch (Throwable e) {
+            Long elapse = System.currentTimeMillis() - start;
+            log.warn("请求处理异常, url={}，elapse={}ms", request.getRequestURI(), elapse);
             operationLog.setSuccess(false);
             operationLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, MAX_LENGTH));
             throw e;

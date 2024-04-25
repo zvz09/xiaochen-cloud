@@ -11,19 +11,18 @@ import com.tencentcloudapi.cvm.v20170312.models.RegionInfo;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
-import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class TencentCloudEcsOperationImpl implements EcsOperation {
+public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation implements EcsOperation {
 
-    private final TencentCloudClient tencentCloudClient;
+    public TencentCloudEcsOperationImpl(TencentCloudClient tencentCloudClient) {
+        super(tencentCloudClient);
+    }
 
     @Override
     public List<EcsInstance> listEcsInstances(String region) {
@@ -94,11 +93,6 @@ public class TencentCloudEcsOperationImpl implements EcsOperation {
         }
 
         return regions;
-    }
-
-    @Override
-    public CloudProviderEnum getProviderCode() {
-        return CloudProviderEnum.TENCENT_CLOUD;
     }
 
     private EcsInstance convertedInstance(String region, Instance instance) {

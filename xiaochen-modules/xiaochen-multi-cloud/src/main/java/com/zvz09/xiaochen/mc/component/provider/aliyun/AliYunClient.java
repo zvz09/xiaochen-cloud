@@ -2,7 +2,6 @@ package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.aliyun.core.utils.SdkAutoCloseable;
 import com.aliyun.sdk.gateway.pop.models.Response;
-import com.aliyun.sdk.service.ecs20140526.AsyncClient;
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.mc.component.provider.AbstractProviderClient;
 import com.zvz09.xiaochen.mc.component.provider.aliyun.function.AliYunApiFunction;
@@ -34,7 +33,9 @@ public class AliYunClient extends AbstractProviderClient<Response, AliYunApiFunc
     protected Response handleClient(AliYunApiFunction<? extends SdkAutoCloseable> action, String region, ProductEnum productEnum) {
         switch (productEnum) {
             case ECS:
-                return ecsHandleClient((AliYunApiFunction<AsyncClient>) action, region);
+                return ecsHandleClient((AliYunApiFunction<com.aliyun.sdk.service.ecs20140526.AsyncClient>) action, region);
+            case VPC:
+                return vpcHandleClient((AliYunApiFunction<com.aliyun.sdk.service.vpc20160428.AsyncClient>) action, region);
             case OSS:
                 throw new BusinessException(ProductEnum.OSS.name()+"产品暂不支持");
             default:
@@ -58,6 +59,22 @@ public class AliYunClient extends AbstractProviderClient<Response, AliYunApiFunc
         }catch (ExecutionException ee){
             log.warn("执行异常：", ee);
             throw new BusinessException("阿里云调用异常");
+        }catch (Exception e) {
+            log.warn("阿里云调用异常", e);
+            throw new BusinessException("阿里云调用异常");
+        }
+    }
+    public Response vpcHandleClient(AliYunApiFunction<com.aliyun.sdk.service.vpc20160428.AsyncClient> action, String region) {
+        Account account = super.getProviderAccount();
+        try (com.aliyun.sdk.service.vpc20160428.AsyncClient client = AliyunClientUtil.createVpcClient(account.getAccessKey(), account.getSecretKey(), region))  {
+            return action.apply(client);
+        } catch (InterruptedException ie) {
+            log.warn("触发强制中断：", ie);
+            Thread.currentThread().interrupt();
+            throw new BusinessException(region +"======阿里云调用异常");
+        }catch (ExecutionException ee){
+            log.warn("执行异常：", ee);
+            throw new BusinessException(region +"======阿里云调用异常");
         }catch (Exception e) {
             log.warn("阿里云调用异常", e);
             throw new BusinessException("阿里云调用异常");

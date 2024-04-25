@@ -37,6 +37,11 @@ public class Region extends BaseEntity {
     private String regionCode;
 
     /**
+     * 地域服务的 Endpoint  阿里云
+     */
+    private String endpoint;
+
+    /**
      * 地域名称
      */
     private String regionName;
