@@ -2,7 +2,6 @@ package com.zvz09.xiaochen.k8s.manage.utils;
 
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.k8s.manage.function.ApiClientFunction;
-import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,6 @@ package com.zvz09.xiaochen.note.service;
 
 import com.zvz09.xiaochen.common.web.service.BaseService;
 import com.zvz09.xiaochen.note.constant.OperateAction;
-import com.zvz09.xiaochen.note.domain.dto.ReptileClassDTO;
 import com.zvz09.xiaochen.note.domain.entity.ReptileParseClass;
 
 /**

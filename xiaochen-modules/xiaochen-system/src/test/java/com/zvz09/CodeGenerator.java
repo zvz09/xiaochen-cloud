@@ -3,7 +3,6 @@ package com.zvz09;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.zvz09.xiaochen.common.core.util.Snowflake;
 
 import java.util.Collections;
 

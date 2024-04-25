@@ -17,7 +17,6 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.List;
 
-import static com.zvz09.xiaochen.k8s.manage.constant.Constant.PROXY_PREFIX;
 import static java.util.Collections.list;
 import static org.apache.commons.io.IOUtils.toByteArray;
 import static org.apache.commons.lang3.StringUtils.EMPTY;

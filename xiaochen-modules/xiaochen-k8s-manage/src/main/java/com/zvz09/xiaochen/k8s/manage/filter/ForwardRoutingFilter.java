@@ -14,11 +14,8 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URLDecoder;
 
 import static com.zvz09.xiaochen.k8s.manage.constant.Constant.PROXY_PREFIX;
 
