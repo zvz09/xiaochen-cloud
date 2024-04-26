@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.mc.component.service;
 
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
+import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 
@@ -22,4 +23,8 @@ public interface IEcsService {
     List<EcsInstance> listAllEcsInstances(CloudProviderEnum provider, String region);
 
     EcsInstance describeInstance(CloudProviderEnum provider, String region, String instanceId);
+
+    List<EcsInstanceType> listAllInstanceTypes(CloudProviderEnum provider);
+
+    List<EcsInstanceType> listAllInstanceTypes(CloudProviderEnum provider,String region);
 }

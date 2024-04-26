@@ -7,15 +7,18 @@ import com.zvz09.xiaochen.job.core.annotation.XiaoChenJob;
 import com.zvz09.xiaochen.mc.component.service.IEcsService;
 import com.zvz09.xiaochen.mc.component.service.IVpcService;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
+import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.domain.entity.VpcInstance;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import com.zvz09.xiaochen.mc.service.IEcsInstanceService;
+import com.zvz09.xiaochen.mc.service.IEcsInstanceTypeService;
 import com.zvz09.xiaochen.mc.service.IRegionService;
 import com.zvz09.xiaochen.mc.service.IVpcInstanceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +32,7 @@ public class SyncInstanceJob {
 
     private final IEcsInstanceService ecsInstanceService;
     private final IVpcInstanceService vpcInstanceService;
+    private final IEcsInstanceTypeService ecsInstanceTypeService;
     private final IRegionService regionService;
     private final IEcsService ecsService;
     private final IVpcService vpcService;
@@ -207,6 +211,22 @@ public class SyncInstanceJob {
                             .set(VpcInstance::getDetail, vpcInstance.getDetail())
                             .eq(VpcInstance::getInstanceId, vpcInstance.getInstanceId()));
                 });
+            }
+        });
+    }
+
+    @Transactional
+    @XiaoChenJob("syncEcsInstanceType")
+    public void syncEcsInstanceType() {
+        ecsInstanceTypeService.deleteAll();
+        Arrays.stream(CloudProviderEnum.getAllEnums()).parallel().forEach(cloudProviderEnum -> {
+            List<EcsInstanceType> instanceTypes = ecsService.listAllInstanceTypes(cloudProviderEnum);
+            System.out.println(instanceTypes.size());
+            int fromIndex = 0;
+            while (fromIndex < instanceTypes.size()){
+                ecsInstanceTypeService.saveBatch(instanceTypes.subList(fromIndex,
+                        Math.min((fromIndex + 500), instanceTypes.size())));
+                fromIndex += 500;
             }
         });
     }

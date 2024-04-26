@@ -2,6 +2,8 @@ package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.sdk.service.ecs20140526.AsyncClient;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeInstanceTypesRequest;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeInstanceTypesResponse;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesResponse;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesResponseBody;
@@ -13,6 +15,7 @@ import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.component.provider.aliyun.util.AliyunClientUtil;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
+import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -71,40 +74,6 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
         return null;
     }
 
-    private EcsInstance convertedInstance(DescribeInstancesResponseBody.Instance instance) {
-        return EcsInstance.builder()
-                .provider(this.getProviderCode().getValue())
-                .instanceId(instance.getInstanceId())
-                .instanceName(instance.getInstanceName())
-                .status(instance.getStatus())
-                .osType(instance.getOSName())
-                .region(instance.getRegionId())
-                .instanceSpec(instance.getCpu() + "C/" + instance.getMemory() + "MiB")
-                .ipAddress(JSON.toJSONString(instance.getPublicIpAddress().getIpAddress()))
-                .instanceChargeType(instance.getInstanceChargeType())
-                .expiredTime(instance.getExpiredTime())
-                .detail(JSON.toJSONString(instance))
-                .build();
-    }
-
-    private void addInstances(List<EcsInstance> instances, DescribeInstancesResponse response) {
-        response.getBody().getInstances().getInstance().forEach(instance -> {
-            instances.add(convertedInstance(instance));
-        });
-    }
-
-    private DescribeInstancesResponse executeDescribeInstances(String region, String nextToken) {
-        return (DescribeInstancesResponse) aliYunClient.handleClient((client) -> {
-            AsyncClient asyncClient = (AsyncClient) client;
-            DescribeInstancesRequest describeInstancesRequest = DescribeInstancesRequest.builder()
-                    .regionId(region)
-                    .nextToken(nextToken)
-                    .pageSize(PAGE_SIZE)
-                    .build();
-            return asyncClient.describeInstances(describeInstancesRequest).get();
-        }, region, this.getProductCode());
-    }
-
     @Override
     public List<Region> listRegions() {
         DescribeRegionsResponse response = executeDescribeRegionsResponse();
@@ -148,6 +117,54 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
         return zones;
     }
 
+    @Override
+    public List<EcsInstanceType> listAllInstanceTypes(String region) {
+        List<EcsInstanceType> instanceTypes = new ArrayList<>();
+        DescribeInstanceTypesResponse response = executeDescribeInstanceTypes(region, null);
+        addInstanceTypes(region,response , instanceTypes);
+
+        while (StringUtils.isNotBlank(response.getBody().getNextToken())){
+            response = executeDescribeInstanceTypes(region, response.getBody().getNextToken());
+            addInstanceTypes(region,response , instanceTypes);
+        }
+
+        return instanceTypes;
+    }
+
+    private EcsInstance convertedInstance(DescribeInstancesResponseBody.Instance instance) {
+        return EcsInstance.builder()
+                .provider(this.getProviderCode().getValue())
+                .instanceId(instance.getInstanceId())
+                .instanceName(instance.getInstanceName())
+                .status(instance.getStatus())
+                .osType(instance.getOSName())
+                .region(instance.getRegionId())
+                .instanceSpec(instance.getCpu() + "C/" + instance.getMemory() + "MiB")
+                .ipAddress(JSON.toJSONString(instance.getPublicIpAddress().getIpAddress()))
+                .instanceChargeType(instance.getInstanceChargeType())
+                .expiredTime(instance.getExpiredTime())
+                .detail(JSON.toJSONString(instance))
+                .build();
+    }
+
+    private DescribeInstancesResponse executeDescribeInstances(String region, String nextToken) {
+        return (DescribeInstancesResponse) aliYunClient.handleClient((client) -> {
+            AsyncClient asyncClient = (AsyncClient) client;
+            DescribeInstancesRequest describeInstancesRequest = DescribeInstancesRequest.builder()
+                    .regionId(region)
+                    .nextToken(nextToken)
+                    .pageSize(PAGE_SIZE)
+                    .build();
+            return asyncClient.describeInstances(describeInstancesRequest).get();
+        }, region, this.getProductCode());
+    }
+
+    private void addInstances(List<EcsInstance> instances, DescribeInstancesResponse response) {
+        response.getBody().getInstances().getInstance().forEach(instance -> {
+            instances.add(convertedInstance(instance));
+        });
+    }
+
     private DescribeRegionsResponse executeDescribeRegionsResponse() {
         return (DescribeRegionsResponse) aliYunClient.handleClient((client) -> {
             DescribeRegionsRequest describeRegionsRequest = DescribeRegionsRequest.builder()
@@ -157,6 +174,33 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
             return asyncClient.describeRegions(describeRegionsRequest).get();
         }, null, this.getProductCode());
     }
+
+    private DescribeInstanceTypesResponse executeDescribeInstanceTypes(String region,String nextToken) {
+        return (DescribeInstanceTypesResponse) aliYunClient.handleClient((client) -> {
+            DescribeInstanceTypesRequest request = DescribeInstanceTypesRequest.builder()
+                    .nextToken(StringUtils.isBlank(nextToken) ? null : nextToken)
+                    .build();
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.describeInstanceTypes(request).get();
+        }, region, this.getProductCode());
+    }
+
+    private void addInstanceTypes(String region, DescribeInstanceTypesResponse response, List<EcsInstanceType> ecsInstanceTypes) {
+        response.getBody().getInstanceTypes().getInstanceType().forEach(output ->{
+            ecsInstanceTypes.add(EcsInstanceType.builder()
+                    .provider(this.getProviderCode().getValue())
+                    .region(region)
+                    .typeId(output.getInstanceTypeId())
+                    .typeFamily(output.getInstanceTypeFamily())
+                    .cpu(output.getCpuCoreCount())
+                    .cpuModel(output.getPhysicalProcessorModel())
+                    .cpuBaseFrequency(output.getCpuSpeedFrequency())
+                    .cpuTurboFrequency(output.getCpuTurboFrequency())
+                    .memory((int) (output.getMemorySize() * 1024))
+                    .build());
+        });
+    }
+
 
     @Override
     public void afterPropertiesSet() throws Exception {

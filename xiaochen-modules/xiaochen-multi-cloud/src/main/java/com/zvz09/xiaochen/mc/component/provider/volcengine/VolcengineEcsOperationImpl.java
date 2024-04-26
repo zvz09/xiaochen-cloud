@@ -2,6 +2,8 @@ package com.zvz09.xiaochen.mc.component.provider.volcengine;
 
 import com.alibaba.fastjson.JSON;
 import com.volcengine.ecs.EcsApi;
+import com.volcengine.ecs.model.DescribeInstanceTypesRequest;
+import com.volcengine.ecs.model.DescribeInstanceTypesResponse;
 import com.volcengine.ecs.model.DescribeInstancesRequest;
 import com.volcengine.ecs.model.DescribeInstancesResponse;
 import com.volcengine.ecs.model.DescribeRegionsRequest;
@@ -15,6 +17,7 @@ import com.volcengine.vpc.model.DescribeEipAddressAttributesResponse;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
+import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -59,28 +62,6 @@ public class VolcengineEcsOperationImpl extends VolcengineBaseOperation implemen
         return null;
     }
 
-    private void addInstance(String region, List<EcsInstance> instances, DescribeInstancesResponse response) {
-        response.getInstances().forEach(instance ->{
-            instances.add(convertedInstance(region, instance));
-        });
-    }
-
-    private EcsInstance convertedInstance(String region, InstanceForDescribeInstancesOutput instance) {
-        return EcsInstance.builder()
-                .provider(this.getProviderCode().getValue())
-                .instanceId(instance.getInstanceId())
-                .instanceName(instance.getInstanceName())
-                .status(instance.getStatus())
-                .osType(instance.getOsName())
-                .region(region)
-                .instanceSpec(instance.getCpus() + "C/" + instance.getMemorySize() + "MiB")
-                .ipAddress(Objects.requireNonNull(executeDescribeEipAddressAttributes(region, instance.getEipAddress().getAllocationId())).getEipAddress())
-                .instanceChargeType(instance.getInstanceChargeType())
-                .expiredTime(instance.getExpiredAt())
-                .detail(JSON.toJSONString(instance))
-                .build();
-    }
-
     @Override
     public List<Region> listRegions() {
         List<Region> regions = new ArrayList<>();
@@ -110,6 +91,42 @@ public class VolcengineEcsOperationImpl extends VolcengineBaseOperation implemen
         });
 
         return zones;
+    }
+
+    @Override
+    public List<EcsInstanceType> listAllInstanceTypes(String region) {
+        List<EcsInstanceType> instanceTypes = new ArrayList<>();
+        DescribeInstanceTypesResponse response = executeDescribeInstanceTypes(region,null);
+
+        addInstanceTypes(region, response, instanceTypes);
+        while (StringUtils.isNotBlank(response.getNextToken())){
+            response = executeDescribeInstanceTypes(region,response.getNextToken());
+            addInstanceTypes(region, response, instanceTypes);
+        }
+
+        return instanceTypes;
+    }
+
+    private void addInstance(String region, List<EcsInstance> instances, DescribeInstancesResponse response) {
+        response.getInstances().forEach(instance ->{
+            instances.add(convertedInstance(region, instance));
+        });
+    }
+
+    private EcsInstance convertedInstance(String region, InstanceForDescribeInstancesOutput instance) {
+        return EcsInstance.builder()
+                .provider(this.getProviderCode().getValue())
+                .instanceId(instance.getInstanceId())
+                .instanceName(instance.getInstanceName())
+                .status(instance.getStatus())
+                .osType(instance.getOsName())
+                .region(region)
+                .instanceSpec(instance.getCpus() + "C/" + instance.getMemorySize() + "MiB")
+                .ipAddress(Objects.requireNonNull(executeDescribeEipAddressAttributes(region, instance.getEipAddress().getAllocationId())).getEipAddress())
+                .instanceChargeType(instance.getInstanceChargeType())
+                .expiredTime(instance.getExpiredAt())
+                .detail(JSON.toJSONString(instance))
+                .build();
     }
 
     private void addRegion(DescribeRegionsResponse response, List<Region> regions) {
@@ -160,4 +177,36 @@ public class VolcengineEcsOperationImpl extends VolcengineBaseOperation implemen
             return   api.describeEipAddressAttributes(describeEipAddressAttributesRequest);
         },region);
     }
+
+    private DescribeInstanceTypesResponse executeDescribeInstanceTypes(String region,String nextToken){
+        return (DescribeInstanceTypesResponse) volcengineClient.handleClient((client)->{
+            EcsApi api = new EcsApi(client);
+            DescribeInstanceTypesRequest request = new DescribeInstanceTypesRequest();
+            request.setMaxResults(500);
+
+            if(StringUtils.isNotBlank(nextToken)){
+                request.setNextToken(nextToken);
+            }
+            return api.describeInstanceTypes(request);
+        },region);
+    }
+
+    private void addInstanceTypes(String region,DescribeInstanceTypesResponse response, List<EcsInstanceType> ecsInstanceTypes) {
+        response.getInstanceTypes().forEach(output ->{
+            ecsInstanceTypes.add(EcsInstanceType.builder()
+                            .provider(this.getProviderCode().getValue())
+                            .region(region)
+                            .typeId(output.getInstanceTypeId())
+                            .typeFamily(output.getInstanceTypeFamily())
+                            .cpu(output.getProcessor().getCpus())
+                            .cpuModel(output.getProcessor().getModel())
+                            .cpuBaseFrequency(output.getProcessor().getBaseFrequency())
+                            .cpuTurboFrequency(output.getProcessor().getTurboFrequency())
+                            .memory(output.getMemory().getSize())
+                            .localVolumes(JSON.toJSONString(output.getLocalVolumes()))
+                            .volume(JSON.toJSONString(output.getVolume()))
+                    .build());
+        });
+    }
+
 }

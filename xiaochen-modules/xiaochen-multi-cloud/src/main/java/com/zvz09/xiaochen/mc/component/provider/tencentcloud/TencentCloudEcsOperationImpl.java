@@ -2,6 +2,8 @@ package com.zvz09.xiaochen.mc.component.provider.tencentcloud;
 
 import com.alibaba.fastjson.JSON;
 import com.tencentcloudapi.cvm.v20170312.CvmClient;
+import com.tencentcloudapi.cvm.v20170312.models.DescribeInstanceTypeConfigsRequest;
+import com.tencentcloudapi.cvm.v20170312.models.DescribeInstanceTypeConfigsResponse;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeInstancesRequest;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeInstancesResponse;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeRegionsRequest;
@@ -14,11 +16,13 @@ import com.tencentcloudapi.cvm.v20170312.models.ZoneInfo;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
+import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.enums.ProductEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -114,6 +118,30 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
         }
 
         return zones;
+    }
+
+    @Override
+    public List<EcsInstanceType> listAllInstanceTypes(String region) {
+        List<EcsInstanceType> instanceTypes = new ArrayList<>();
+
+        DescribeInstanceTypeConfigsResponse resp = (DescribeInstanceTypeConfigsResponse ) tencentCloudClient.handleClient((abstractClient) -> {
+            DescribeInstanceTypeConfigsRequest req = new DescribeInstanceTypeConfigsRequest();
+            CvmClient cvmClient = (CvmClient) abstractClient;
+            return cvmClient.DescribeInstanceTypeConfigs(req);
+        }, region, ProductEnum.ECS);
+
+        Arrays.stream(resp.getInstanceTypeConfigSet()).forEach(instanceType -> {
+            instanceTypes.add(EcsInstanceType.builder()
+                    .provider(this.getProviderCode().getValue())
+                    .region(region)
+                    .typeId(instanceType.getInstanceType())
+                    .typeFamily(instanceType.getInstanceFamily())
+                    .cpu(Math.toIntExact(instanceType.getCPU()))
+                    .memory(Math.toIntExact(instanceType.getMemory()))
+                    .build());
+        });
+
+        return instanceTypes;
     }
 
     private EcsInstance convertedInstance(String region, Instance instance) {
