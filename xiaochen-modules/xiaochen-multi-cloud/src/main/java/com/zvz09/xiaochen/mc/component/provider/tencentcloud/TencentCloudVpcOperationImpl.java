@@ -10,6 +10,8 @@ import com.tencentcloudapi.vpc.v20170312.models.CreateVpcRequest;
 import com.tencentcloudapi.vpc.v20170312.models.CreateVpcResponse;
 import com.tencentcloudapi.vpc.v20170312.models.DeleteSubnetRequest;
 import com.tencentcloudapi.vpc.v20170312.models.DeleteVpcRequest;
+import com.tencentcloudapi.vpc.v20170312.models.DescribeSecurityGroupsRequest;
+import com.tencentcloudapi.vpc.v20170312.models.DescribeSecurityGroupsResponse;
 import com.tencentcloudapi.vpc.v20170312.models.DescribeSubnetsRequest;
 import com.tencentcloudapi.vpc.v20170312.models.DescribeSubnetsResponse;
 import com.tencentcloudapi.vpc.v20170312.models.DescribeVpcsRequest;
@@ -17,6 +19,7 @@ import com.tencentcloudapi.vpc.v20170312.models.DescribeVpcsResponse;
 import com.tencentcloudapi.vpc.v20170312.models.Vpc;
 import com.zvz09.xiaochen.mc.component.provider.VpcOperation;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
+import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
@@ -50,7 +53,7 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             req.setCidrBlock(vpcDTO.getCidrBlock());
             VpcClient client = (VpcClient) abstractClient;
             return client.CreateVpc(req);
-        }, vpcDTO.getRegion(), ProductEnum.VPC);
+        }, vpcDTO.getRegion(), this.getProductCode());
         return this.convertedInstance(response.getVpc().getVpcId(), vpcDTO);
     }
 
@@ -61,7 +64,7 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             req.setVpcId(vpcId);
             VpcClient client = (VpcClient) abstractClient;
             return client.DeleteVpc(req);
-        }, region, ProductEnum.VPC);
+        }, region, this.getProductCode());
     }
 
     @Override
@@ -72,7 +75,7 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             req.setLimit(String.valueOf(pageSize));
             VpcClient client = (VpcClient) abstractClient;
             return client.DescribeSubnets(req);
-        }, region, ProductEnum.VPC);
+        }, region, this.getProductCode());
         Page<VSwitcheDTO> page = new Page<>();
         page.setCurrent(pageNumber);
         page.setTotal(response.getTotalCount());
@@ -98,7 +101,7 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             req.setZone(createVSwitch.getZoneId());
             VpcClient client = (VpcClient) abstractClient;
             return client.CreateSubnet(req);
-        }, createVSwitch.getRegionId(), ProductEnum.VPC);
+        }, createVSwitch.getRegionId(), this.getProductCode());
         return this.convertedVSwitche(response.getSubnet().getSubnetId(), createVSwitch);
     }
 
@@ -109,7 +112,7 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             req.setSubnetId(vSwitchId);
             VpcClient client = (VpcClient) abstractClient;
             return client.DeleteSubnet(req);
-        }, region, ProductEnum.VPC);
+        }, region, this.getProductCode());
     }
 
     @Override
@@ -145,12 +148,40 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             req.setVpcIds(new String[]{instanceId});
             VpcClient client = (VpcClient) abstractClient;
             return client.DescribeVpcs(req);
-        },region, ProductEnum.VPC);
+        },region, this.getProductCode());
         if(response.getVpcSet() !=null && response.getVpcSet().length > 0){
             Vpc vpc = response.getVpcSet()[0];
             return convertedInstance(region, vpc);
         }
         return null;
+    }
+
+    @Override
+    public Page<SecurityGroupDTO> listSecurityGroups(String region, Integer pageNumber, Integer pageSize) {
+
+        DescribeSecurityGroupsResponse response =  (DescribeSecurityGroupsResponse ) tencentCloudClient.handleClient((abstractClient)->{
+            DescribeSecurityGroupsRequest req = new DescribeSecurityGroupsRequest();
+            req.setOffset(pageNumber <= 1 ? "0" : String.valueOf((pageNumber-1) * pageSize));
+            req.setLimit(String.valueOf(pageSize));
+            VpcClient client = (VpcClient) abstractClient;
+            return client.DescribeSecurityGroups(req);
+        },region, this.getProductCode());
+
+        Page<SecurityGroupDTO> page = new Page<>();
+        page.setTotal(response.getTotalCount());
+        page.setCurrent(pageNumber);
+        page.setSize(pageSize);
+        List<SecurityGroupDTO> records = new ArrayList<>();
+
+        Arrays.stream(response.getSecurityGroupSet()).forEach(securityGroup ->{
+            records.add(SecurityGroupDTO.builder()
+                    .securityGroupId(securityGroup.getSecurityGroupId())
+                    .securityGroupName(securityGroup.getSecurityGroupName())
+                    .description(securityGroup.getSecurityGroupDesc())
+                    .build());
+        });
+        page.setRecords(records);
+        return page;
     }
 
     @Override
@@ -178,6 +209,6 @@ public class TencentCloudVpcOperationImpl extends TencentCloudBaseOperation impl
             req.setLimit("100");
             VpcClient client = (VpcClient) abstractClient;
             return client.DescribeVpcs(req);
-        },region, ProductEnum.VPC);
+        },region, this.getProductCode());
     }
 }

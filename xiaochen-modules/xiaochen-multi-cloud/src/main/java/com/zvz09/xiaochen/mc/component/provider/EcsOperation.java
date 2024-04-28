@@ -1,5 +1,6 @@
 package com.zvz09.xiaochen.mc.component.provider;
 
+import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
@@ -33,6 +34,16 @@ public interface EcsOperation extends BaseProductService {
             instances.addAll(this.listAllInstanceTypes(region.getRegionCode()));
         });
         return instances;
+    }
+
+    List<ImageDTO> listAllImages(String region);
+
+    default List<ImageDTO> listAllImages(){
+        List<ImageDTO> images = new CopyOnWriteArrayList<>();
+        this.listRegions().parallelStream().forEach(region -> {
+            images.addAll(this.listAllImages(region.getRegionCode()));
+        });
+        return images;
     }
 
     List<EcsInstanceType> listAllInstanceTypes(String region);

@@ -1,5 +1,8 @@
 package com.zvz09.xiaochen.mc.component.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
+import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
@@ -27,4 +30,9 @@ public interface IEcsService {
     List<EcsInstanceType> listAllInstanceTypes(CloudProviderEnum provider);
 
     List<EcsInstanceType> listAllInstanceTypes(CloudProviderEnum provider,String region);
+
+    List<ImageDTO> listAllImages(CloudProviderEnum provider);
+
+    List<ImageDTO> listAllImages(CloudProviderEnum provider,String region);
+
 }

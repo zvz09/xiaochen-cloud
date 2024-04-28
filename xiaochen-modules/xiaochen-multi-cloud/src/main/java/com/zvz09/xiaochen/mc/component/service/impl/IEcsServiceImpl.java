@@ -1,7 +1,10 @@
 package com.zvz09.xiaochen.mc.component.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.component.service.IEcsService;
+import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
+import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
@@ -78,6 +81,16 @@ public class IEcsServiceImpl implements IEcsService, InitializingBean {
     @Override
     public List<EcsInstanceType> listAllInstanceTypes(CloudProviderEnum provider, String region) {
         return ecsOperationProviderMap.get(provider).listAllInstanceTypes(region);
+    }
+
+    @Override
+    public List<ImageDTO> listAllImages(CloudProviderEnum provider) {
+        return ecsOperationProviderMap.get(provider).listAllImages();
+    }
+
+    @Override
+    public List<ImageDTO> listAllImages(CloudProviderEnum provider, String region) {
+        return ecsOperationProviderMap.get(provider).listAllImages(region);
     }
 
     @Override

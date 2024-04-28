@@ -1,6 +1,8 @@
 package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeSecurityGroupsRequest;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeSecurityGroupsResponse;
 import com.aliyun.sdk.service.vpc20160428.AsyncClient;
 import com.aliyun.sdk.service.vpc20160428.models.CreateVSwitchRequest;
 import com.aliyun.sdk.service.vpc20160428.models.CreateVSwitchResponse;
@@ -22,11 +24,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.mc.component.provider.VpcOperation;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
+import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.domain.entity.VpcInstance;
+import com.zvz09.xiaochen.mc.enums.ProductEnum;
 import com.zvz09.xiaochen.mc.service.IRegionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -198,6 +202,38 @@ public class AliYunVpcOperationImpl extends AliYunBaseOperation implements VpcOp
         }else {
             return null;
         }
+    }
+
+    @Override
+    public Page<SecurityGroupDTO> listSecurityGroups(String region, Integer pageNumber, Integer pageSize) {
+
+        DescribeSecurityGroupsResponse response = (DescribeSecurityGroupsResponse) aliYunClient.handleClient((client) -> {
+            DescribeSecurityGroupsRequest request = DescribeSecurityGroupsRequest.builder()
+                    .regionId(region)
+                    .pageNumber(pageNumber)
+                    .pageSize(pageSize)
+                    .build();
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.describeSecurityGroups(request).get();
+        }, region, ProductEnum.ECS);
+
+
+
+        Page<SecurityGroupDTO> page = new Page<>();
+        page.setTotal(response.getBody().getTotalCount());
+        page.setCurrent(pageNumber);
+        page.setSize(pageSize);
+        List<SecurityGroupDTO> records = new ArrayList<>();
+
+        response.getBody().getSecurityGroups().getSecurityGroup().forEach(securityGroup ->{
+            records.add(SecurityGroupDTO.builder()
+                    .securityGroupId(securityGroup.getSecurityGroupId())
+                    .securityGroupName(securityGroup.getSecurityGroupName())
+                    .description(securityGroup.getDescription())
+                    .build());
+        });
+        page.setRecords(records);
+        return page;
     }
 
     @Override

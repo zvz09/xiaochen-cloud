@@ -10,6 +10,8 @@ import com.volcengine.vpc.model.CreateVpcRequest;
 import com.volcengine.vpc.model.CreateVpcResponse;
 import com.volcengine.vpc.model.DeleteSubnetRequest;
 import com.volcengine.vpc.model.DeleteVpcRequest;
+import com.volcengine.vpc.model.DescribeSecurityGroupsRequest;
+import com.volcengine.vpc.model.DescribeSecurityGroupsResponse;
 import com.volcengine.vpc.model.DescribeSubnetsRequest;
 import com.volcengine.vpc.model.DescribeSubnetsResponse;
 import com.volcengine.vpc.model.DescribeVpcAttributesRequest;
@@ -18,6 +20,7 @@ import com.volcengine.vpc.model.DescribeVpcsRequest;
 import com.volcengine.vpc.model.DescribeVpcsResponse;
 import com.zvz09.xiaochen.mc.component.provider.VpcOperation;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
+import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
@@ -152,6 +155,37 @@ public class VolcengineVpcOperationImpl extends VolcengineBaseOperation implemen
             return convertedInstance(region,response);
         }
         return null;
+    }
+
+    @Override
+    public Page<SecurityGroupDTO> listSecurityGroups(String region, Integer pageNumber, Integer pageSize) {
+        DescribeSecurityGroupsResponse response =  (DescribeSecurityGroupsResponse) volcengineClient.handleClient((client)->{
+            VpcApi api = new VpcApi(client);
+
+            DescribeSecurityGroupsRequest request = new DescribeSecurityGroupsRequest();
+            request.setPageNumber(pageNumber);
+            request.setPageSize(pageSize);
+
+            return api.describeSecurityGroups(request);
+        },region);
+        Page<SecurityGroupDTO> page = new Page<>();
+        page.setTotal(response.getTotalCount());
+        page.setCurrent(pageNumber);
+        page.setSize(pageSize);
+        List<SecurityGroupDTO> records = new ArrayList<>();
+
+        response.getSecurityGroups().forEach(securityGroup ->{
+            records.add(SecurityGroupDTO.builder()
+                            .securityGroupId(securityGroup.getSecurityGroupId())
+                            .securityGroupName(securityGroup.getSecurityGroupName())
+                            .vpcId(securityGroup.getVpcId())
+                            .description(securityGroup.getDescription())
+                            .status(securityGroup.getStatus())
+                            .type(securityGroup.getType())
+                    .build());
+        });
+        page.setRecords(records);
+        return page;
     }
 
     @Override

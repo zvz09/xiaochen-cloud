@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.mc.component.provider.VpcOperation;
 import com.zvz09.xiaochen.mc.component.service.IVpcService;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
+import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
@@ -88,6 +89,11 @@ public class IVpcServiceImpl implements IVpcService, InitializingBean {
     @Override
     public void deleteVSwitch(CloudProviderEnum provider,String region, String vSwitchId) {
         operationsProviderMap.get(provider).deleteVSwitch(region, vSwitchId);
+    }
+
+    @Override
+    public Page<SecurityGroupDTO> listSecurityGroups(CloudProviderEnum provider, String region, Integer pageNumber, Integer pageSize) {
+        return operationsProviderMap.get(provider).listSecurityGroups(region, pageNumber, pageSize);
     }
 
     @Override

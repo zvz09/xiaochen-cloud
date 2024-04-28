@@ -2,6 +2,7 @@ package com.zvz09.xiaochen.mc.component.provider;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
+import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
@@ -42,7 +43,7 @@ public interface VpcOperation extends BaseProductService {
 
     default ProductEnum getProductCode(){
         return ProductEnum.VPC;
-    };
+    }
 
     default VSwitcheDTO convertedVSwitche(String vSwitchId, CreateVSwitch createVSwitch) {
         return VSwitcheDTO.builder()
@@ -53,7 +54,7 @@ public interface VpcOperation extends BaseProductService {
                 .build();
     }
 
-    ;
+
 
     default VpcInstance convertedInstance(String vpcId, VpcDTO vpcDTO) {
         return VpcInstance.builder()
@@ -66,5 +67,5 @@ public interface VpcOperation extends BaseProductService {
                 .build();
     }
 
-    ;
+    Page<SecurityGroupDTO> listSecurityGroups(String region,Integer pageNumber, Integer pageSize);
 }

@@ -37,7 +37,7 @@ public class TencentCloudClient extends AbstractProviderClient<AbstractModel, Te
             case VPC:
                 return vpcHandleClient(action, region);
             case OSS:
-                throw new BusinessException(ProductEnum.VPC.name()+"产品暂不支持");
+                throw new BusinessException(ProductEnum.OSS.name()+"产品暂不支持");
             default:
                 throw new BusinessException("产品暂不支持");
         }

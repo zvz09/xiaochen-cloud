@@ -2,6 +2,9 @@ package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.sdk.service.ecs20140526.AsyncClient;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeImagesRequest;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeImagesResponse;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeImagesResponseBody;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstanceTypesRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstanceTypesResponse;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeInstancesRequest;
@@ -13,6 +16,7 @@ import com.aliyun.sdk.service.ecs20140526.models.DescribeZonesRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeZonesResponse;
 import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
 import com.zvz09.xiaochen.mc.component.provider.aliyun.util.AliyunClientUtil;
+import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
@@ -25,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOperation, InitializingBean {
@@ -118,6 +123,29 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
     }
 
     @Override
+    public List<ImageDTO> listAllImages(String region) {
+        List<ImageDTO> images = new CopyOnWriteArrayList<>();
+
+        DescribeImagesResponse response = executeDescribeImages(region, 1, PAGE_SIZE);
+
+        addImages(region,images, response.getBody().getImages().getImage());
+
+        List<Integer> pages = new ArrayList<>();
+        for (int i= 2;i<=response.getBody().getTotalCount()/PAGE_SIZE+1;i++){
+            pages.add(i);
+        }
+
+        pages.parallelStream().forEach(page -> {
+            DescribeImagesResponse describeImages = executeDescribeImages(region, page, PAGE_SIZE);
+            addImages(region,images, describeImages.getBody().getImages().getImage());
+        });
+
+        return images;
+    }
+
+
+
+    @Override
     public List<EcsInstanceType> listAllInstanceTypes(String region) {
         List<EcsInstanceType> instanceTypes = new ArrayList<>();
         DescribeInstanceTypesResponse response = executeDescribeInstanceTypes(region, null);
@@ -201,6 +229,34 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
         });
     }
 
+    private DescribeImagesResponse executeDescribeImages(String region,Integer pageNumber,Integer pageSize) {
+        return (DescribeImagesResponse) aliYunClient.handleClient((client) -> {
+            DescribeImagesRequest request = DescribeImagesRequest.builder()
+                    .regionId(region)
+                    .pageNumber(pageNumber)
+                    .pageSize(pageSize)
+                    .build();
+
+            AsyncClient asyncClient = (AsyncClient) client;
+            return asyncClient.describeImages(request).get();
+        }, region, this.getProductCode());
+    }
+    private void addImages(String region,List<ImageDTO> images, List<DescribeImagesResponseBody.Image> response) {
+        response.forEach(image -> {
+            images.add(ImageDTO.builder()
+                    .region(region)
+                    .architecture(image.getArchitecture())
+                    .description(image.getDescription())
+                    .imageId(image.getImageId())
+                    .imageName(image.getImageName())
+                    .isSupportCloudInit(image.getIsSupportCloudinit())
+                    .osName(image.getOSName())
+                    .platform(image.getPlatform())
+                    .size(Math.toIntExact(image.getSize()))
+                    .status(image.getStatus())
+                    .build());
+        });
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
