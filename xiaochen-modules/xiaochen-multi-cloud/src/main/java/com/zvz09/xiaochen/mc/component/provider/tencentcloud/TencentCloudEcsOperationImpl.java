@@ -46,7 +46,9 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
             DescribeInstancesResponse response = executeDescribeInstances(region,offset);
 
             for (Instance instance : response.getInstanceSet()){
-                instances.add(convertedInstance(region, instance));
+                instances.add(this.convertedEcsInstance(instance.getInstanceId(), instance.getInstanceName(), instance.getInstanceState(),instance.getOsName(),
+                        region,instance.getCPU() + "C/" + instance.getMemory() + "GB",JSON.toJSONString(instance.getPublicIpAddresses())
+                        ,instance.getInstanceChargeType(),instance.getExpiredTime(),JSON.toJSONString(instance)));
             }
 
             offset += 100L;
@@ -69,7 +71,9 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
         },region, this.getProductCode());
         if(response.getInstanceSet() !=null && response.getInstanceSet().length > 0){
             Instance instance = response.getInstanceSet()[0];
-            return convertedInstance(region, instance);
+            return this.convertedEcsInstance(instance.getInstanceId(), instance.getInstanceName(), instance.getInstanceState(),instance.getOsName(),
+                    region,instance.getCPU() + "C/" + instance.getMemory() + "GB",JSON.toJSONString(instance.getPublicIpAddresses())
+                    ,instance.getInstanceChargeType(),instance.getExpiredTime(),JSON.toJSONString(instance));
         }
         return null;
     }
@@ -86,12 +90,7 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
         List<Region> regions = new ArrayList<>();
 
         for (RegionInfo regionInfo : resp.getRegionSet()){
-            regions.add(Region.builder()
-                    .providerCode(this.getProviderCode().getValue())
-                    .productCode(this.getProductCode().name())
-                    .regionCode(regionInfo.getRegion())
-                    .regionName(regionInfo.getRegionName())
-                    .build());
+            regions.add(this.convertedRegion(regionInfo.getRegion(), regionInfo.getRegionName(),null));
         }
 
         return regions;
@@ -107,7 +106,7 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
         }, null, this.getProductCode());
         if (resp.getZoneSet() != null) {
             for (ZoneInfo zone : resp.getZoneSet()) {
-                zones.add(new ZoneDTO(zone.getZone(), zone.getZoneName()));
+                zones.add(this.convertedZoneDTO(zone.getZone(), zone.getZoneName()));
             }
         }
 
@@ -124,18 +123,9 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
             DescribeImagesResponse response = executeDescribeImages(region,offset);
 
             Arrays.stream(response.getImageSet()).filter(image -> "NORMAL".equals(image.getImageState())).forEach(image -> {
-                images.add(ImageDTO.builder()
-                        .region(region)
-                        .architecture(image.getArchitecture())
-                        .description(image.getImageDescription())
-                        .imageId(image.getImageId())
-                        .imageName(image.getImageName())
-                        .isSupportCloudInit(image.getIsSupportCloudinit())
-                        .osName(image.getOsName())
-                        .platform(image.getPlatform())
-                        .size(Math.toIntExact(image.getImageSize()))
-                        .status(image.getImageState())
-                        .build());
+                images.add(this.convertedImageDTO(region,image.getArchitecture(),null,image.getImageDescription(),
+                        image.getImageId(),image.getImageName(),image.getIsSupportCloudinit(),image.getOsName(),null,
+                        image.getPlatform(),null,Math.toIntExact(image.getImageSize()),image.getImageState()));
             });
 
             offset += 100L;
@@ -158,14 +148,9 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
         }, region, this.getProductCode());
 
         Arrays.stream(resp.getInstanceTypeConfigSet()).forEach(instanceType -> {
-            instanceTypes.add(EcsInstanceType.builder()
-                    .provider(this.getProviderCode().getValue())
-                    .region(region)
-                    .typeId(instanceType.getInstanceType())
-                    .typeFamily(instanceType.getInstanceFamily())
-                    .cpu(Math.toIntExact(instanceType.getCPU()))
-                    .memory(Math.toIntExact(instanceType.getMemory()))
-                    .build());
+            instanceTypes.add(this.convertedEcsInstanceType(region,instanceType.getInstanceType(),instanceType.getInstanceFamily(),
+                    Math.toIntExact(instanceType.getCPU()),
+            null,null,null,Math.toIntExact(instanceType.getMemory()),null,null));
         });
 
         return instanceTypes;
@@ -191,20 +176,4 @@ public class TencentCloudEcsOperationImpl extends TencentCloudBaseOperation impl
         },region, this.getProductCode());
     }
 
-
-    private EcsInstance convertedInstance(String region, Instance instance) {
-        return EcsInstance.builder()
-                .provider(this.getProviderCode().getValue())
-                .instanceId(instance.getInstanceId())
-                .instanceName(instance.getInstanceName())
-                .status(instance.getInstanceState())
-                .osType(instance.getOsName())
-                .region(region)
-                .instanceSpec(instance.getCPU() + "C/" + instance.getMemory() + "GB")
-                .ipAddress(JSON.toJSONString(instance.getPublicIpAddresses()))
-                .instanceChargeType(instance.getInstanceChargeType())
-                .expiredTime(instance.getExpiredTime())
-                .detail(JSON.toJSONString(instance))
-                .build();
-    }
 }

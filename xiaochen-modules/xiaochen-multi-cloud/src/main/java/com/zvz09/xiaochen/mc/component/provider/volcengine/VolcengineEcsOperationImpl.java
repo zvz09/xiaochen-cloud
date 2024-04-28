@@ -132,29 +132,15 @@ public class VolcengineEcsOperationImpl extends VolcengineBaseOperation implemen
     }
 
     private EcsInstance convertedInstance(String region, InstanceForDescribeInstancesOutput instance) {
-        return EcsInstance.builder()
-                .provider(this.getProviderCode().getValue())
-                .instanceId(instance.getInstanceId())
-                .instanceName(instance.getInstanceName())
-                .status(instance.getStatus())
-                .osType(instance.getOsName())
-                .region(region)
-                .instanceSpec(instance.getCpus() + "C/" + instance.getMemorySize() + "MiB")
-                .ipAddress(Objects.requireNonNull(executeDescribeEipAddressAttributes(region, instance.getEipAddress().getAllocationId())).getEipAddress())
-                .instanceChargeType(instance.getInstanceChargeType())
-                .expiredTime(instance.getExpiredAt())
-                .detail(JSON.toJSONString(instance))
-                .build();
+        return this.convertedEcsInstance(instance.getInstanceId(),instance.getInstanceName(),instance.getStatus(),instance.getOsName(),
+                region,instance.getCpus() + "C/" + instance.getMemorySize() + "MiB",
+                Objects.requireNonNull(executeDescribeEipAddressAttributes(region, instance.getEipAddress().getAllocationId())).getEipAddress(),
+                instance.getInstanceChargeType(),instance.getExpiredAt(),instance.getInstanceId());
     }
 
     private void addRegion(DescribeRegionsResponse response, List<Region> regions) {
         response.getRegions().forEach(region -> {
-            regions.add(Region.builder()
-                    .providerCode(this.getProviderCode().getValue())
-                    .productCode(this.getProductCode().name())
-                    .regionCode(region.getRegionId())
-                    .regionName(region.getRegionId())
-                    .build());
+            regions.add(this.convertedRegion(region.getRegionId(), region.getRegionId(),null));
         });
     }
 

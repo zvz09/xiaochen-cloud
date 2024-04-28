@@ -74,7 +74,10 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
         }, region, this.getProductCode());
         if (response.getBody().getInstances().getInstance() != null && !response.getBody().getInstances().getInstance().isEmpty()) {
             DescribeInstancesResponseBody.Instance instance = response.getBody().getInstances().getInstance().get(0);
-            return convertedInstance(instance);
+            return this.convertedEcsInstance(instance.getInstanceId(),instance.getInstanceName(),instance.getStatus(),
+                    instance.getOSName(),instance.getRegionId(),instance.getCpu() + "C/" + instance.getMemory() + "MiB",
+                    JSON.toJSONString(instance.getPublicIpAddress().getIpAddress()),instance.getInstanceChargeType(),
+                    instance.getExpiredTime(),JSON.toJSONString(instance));
         }
         return null;
     }
@@ -86,13 +89,7 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
         List<Region> regions = new ArrayList<>();
 
         response.getBody().getRegions().getRegion().forEach(region -> {
-            regions.add(Region.builder()
-                    .providerCode(this.getProviderCode().getValue())
-                    .productCode(this.getProductCode().getValue())
-                    .regionCode(region.getRegionId())
-                    .endpoint(region.getRegionEndpoint())
-                    .regionName(region.getLocalName())
-                    .build());
+            regions.add(this.convertedRegion(region.getRegionId(),region.getLocalName(),region.getRegionEndpoint()));
         });
 
         return regions;
@@ -116,7 +113,7 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
 
         if (response.getBody().getZones() != null && response.getBody().getZones().getZone() != null) {
             response.getBody().getZones().getZone().forEach(zone -> {
-                zones.add(new ZoneDTO(zone.getZoneId(), zone.getLocalName()));
+                zones.add( this.convertedZoneDTO(zone.getZoneId(), zone.getLocalName()));
             });
         }
         return zones;
@@ -159,22 +156,6 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
         return instanceTypes;
     }
 
-    private EcsInstance convertedInstance(DescribeInstancesResponseBody.Instance instance) {
-        return EcsInstance.builder()
-                .provider(this.getProviderCode().getValue())
-                .instanceId(instance.getInstanceId())
-                .instanceName(instance.getInstanceName())
-                .status(instance.getStatus())
-                .osType(instance.getOSName())
-                .region(instance.getRegionId())
-                .instanceSpec(instance.getCpu() + "C/" + instance.getMemory() + "MiB")
-                .ipAddress(JSON.toJSONString(instance.getPublicIpAddress().getIpAddress()))
-                .instanceChargeType(instance.getInstanceChargeType())
-                .expiredTime(instance.getExpiredTime())
-                .detail(JSON.toJSONString(instance))
-                .build();
-    }
-
     private DescribeInstancesResponse executeDescribeInstances(String region, String nextToken) {
         return (DescribeInstancesResponse) aliYunClient.handleClient((client) -> {
             AsyncClient asyncClient = (AsyncClient) client;
@@ -189,7 +170,10 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
 
     private void addInstances(List<EcsInstance> instances, DescribeInstancesResponse response) {
         response.getBody().getInstances().getInstance().forEach(instance -> {
-            instances.add(convertedInstance(instance));
+            instances.add(this.convertedEcsInstance(instance.getInstanceId(),instance.getInstanceName(),instance.getStatus(),
+                    instance.getOSName(),instance.getRegionId(),instance.getCpu() + "C/" + instance.getMemory() + "MiB",
+                    JSON.toJSONString(instance.getPublicIpAddress().getIpAddress()),instance.getInstanceChargeType(),
+                    instance.getExpiredTime(),JSON.toJSONString(instance)));
         });
     }
 
@@ -243,18 +227,10 @@ public class AliYunEcsOperationImpl extends AliYunBaseOperation implements EcsOp
     }
     private void addImages(String region,List<ImageDTO> images, List<DescribeImagesResponseBody.Image> response) {
         response.forEach(image -> {
-            images.add(ImageDTO.builder()
-                    .region(region)
-                    .architecture(image.getArchitecture())
-                    .description(image.getDescription())
-                    .imageId(image.getImageId())
-                    .imageName(image.getImageName())
-                    .isSupportCloudInit(image.getIsSupportCloudinit())
-                    .osName(image.getOSName())
-                    .platform(image.getPlatform())
-                    .size(Math.toIntExact(image.getSize()))
-                    .status(image.getStatus())
-                    .build());
+            images.add(this.convertedImageDTO(region,image.getArchitecture(),null,image.getDescription(),image.getImageId(),
+                    image.getImageName(),image.getIsSupportCloudinit(),image.getOSName(),null,image.getPlatform(),
+                    null,Math.toIntExact(image.getSize()),
+                    image.getStatus()));
         });
     }
 
