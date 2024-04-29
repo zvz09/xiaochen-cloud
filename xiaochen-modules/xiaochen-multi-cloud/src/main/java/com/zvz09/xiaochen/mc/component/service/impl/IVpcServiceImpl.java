@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.mc.component.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zvz09.xiaochen.mc.component.provider.VpcOperation;
+import com.zvz09.xiaochen.mc.component.provider.AbstractVpcOperation;
 import com.zvz09.xiaochen.mc.component.service.IVpcService;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
 import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
@@ -26,10 +26,10 @@ import java.util.Map;
 @AllArgsConstructor
 public class IVpcServiceImpl implements IVpcService, InitializingBean {
 
-    private final List<VpcOperation> operations;
+    private final List<AbstractVpcOperation> operations;
 
     private final IVpcInstanceService vpcInstanceService;
-    private Map<CloudProviderEnum, VpcOperation> operationsProviderMap;
+    private Map<CloudProviderEnum, AbstractVpcOperation> operationsProviderMap;
 
     @Override
     public List<Region> listAllRegions() {

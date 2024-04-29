@@ -1,10 +1,8 @@
 package com.zvz09.xiaochen.mc.component.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zvz09.xiaochen.mc.component.provider.EcsOperation;
+import com.zvz09.xiaochen.mc.component.provider.AbstractEcsOperation;
 import com.zvz09.xiaochen.mc.component.service.IEcsService;
 import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
-import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
@@ -23,9 +21,9 @@ import java.util.Map;
 @AllArgsConstructor
 public class IEcsServiceImpl implements IEcsService, InitializingBean {
 
-    private final List<EcsOperation> ecsOperations;
+    private final List<AbstractEcsOperation> ecsOperations;
 
-    private Map<CloudProviderEnum, EcsOperation> ecsOperationProviderMap;
+    private Map<CloudProviderEnum, AbstractEcsOperation> ecsOperationProviderMap;
 
     @Override
     public List<Region> listAllRegions() {
