@@ -14,7 +14,7 @@ import com.aliyun.sdk.service.ecs20140526.models.DescribeRegionsRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeRegionsResponse;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeZonesRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeZonesResponse;
-import com.zvz09.xiaochen.mc.component.provider.AbstractEcsOperation;
+import com.zvz09.xiaochen.mc.component.product.ecs.AbstractEcsOperation;
 import com.zvz09.xiaochen.mc.component.provider.aliyun.util.AliyunClientUtil;
 import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
@@ -35,7 +35,7 @@ public class AliYunEcsOperation extends AbstractEcsOperation<AliYunClient, Respo
 
 
     protected AliYunEcsOperation(AliYunClient client) {
-        super(client, 50);
+        super(client, Integer.valueOf(50));
     }
 
     @Override
@@ -58,7 +58,7 @@ public class AliYunEcsOperation extends AbstractEcsOperation<AliYunClient, Respo
             DescribeInstancesRequest describeInstancesRequest = DescribeInstancesRequest.builder()
                     .regionId(region)
                     .instanceIds(String.format("[\"%s\"]", instanceId))
-                    .pageSize(1)
+                    .pageSize(Integer.valueOf(1))
                     .build();
             return asyncClient.describeInstances(describeInstancesRequest).get();
         }, region, this.getProductCode());
@@ -135,7 +135,7 @@ public class AliYunEcsOperation extends AbstractEcsOperation<AliYunClient, Respo
                     .regionId(region)
                     .acceptLanguage("zh-CN")
                     .instanceChargeType("PostPaid")
-                    .verbose(false)
+                    .verbose(Boolean.valueOf(false))
                     .spotStrategy("NoSpot")
                     .build();
             AsyncClient asyncClient = (AsyncClient) client;
@@ -191,7 +191,7 @@ public class AliYunEcsOperation extends AbstractEcsOperation<AliYunClient, Respo
                     .cpuModel(output.getPhysicalProcessorModel())
                     .cpuBaseFrequency(output.getCpuSpeedFrequency())
                     .cpuTurboFrequency(output.getCpuTurboFrequency())
-                    .memory((int) (output.getMemorySize() * 1024))
+                    .memory(Integer.valueOf((int) (output.getMemorySize() * 1024)))
                     .build());
         });
     }
@@ -222,10 +222,9 @@ public class AliYunEcsOperation extends AbstractEcsOperation<AliYunClient, Respo
     protected void addImages(String region, Response response, List<ImageDTO> images) {
         DescribeImagesResponse describeImagesResponse = (DescribeImagesResponse) response;
         describeImagesResponse.getBody().getImages().getImage().forEach(image ->{
-            images.add(this.buildImageDTO(region,image.getArchitecture(),null,image.getDescription(),image.getImageId(),
-                    image.getImageName(),image.getIsSupportCloudinit(),image.getOSName(),null,image.getPlatform(),
-                    null,Math.toIntExact(image.getSize()),
-                    image.getStatus()));
+            ImageDTO imageDTO = this.converter.convertP2M(image,new ImageDTO());
+            imageDTO.setRegion(region);
+            images.add(imageDTO);
         });
     }
 

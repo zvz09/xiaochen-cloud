@@ -2,8 +2,17 @@ package com.zvz09.xiaochen.mc.component.provider.aliyun;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.sdk.gateway.pop.models.Response;
+import com.aliyun.sdk.service.ecs20140526.models.AuthorizeSecurityGroupEgressRequest;
+import com.aliyun.sdk.service.ecs20140526.models.AuthorizeSecurityGroupRequest;
+import com.aliyun.sdk.service.ecs20140526.models.CreateSecurityGroupRequest;
+import com.aliyun.sdk.service.ecs20140526.models.CreateSecurityGroupResponse;
+import com.aliyun.sdk.service.ecs20140526.models.DeleteSecurityGroupRequest;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeSecurityGroupAttributeRequest;
+import com.aliyun.sdk.service.ecs20140526.models.DescribeSecurityGroupAttributeResponse;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeSecurityGroupsRequest;
 import com.aliyun.sdk.service.ecs20140526.models.DescribeSecurityGroupsResponse;
+import com.aliyun.sdk.service.ecs20140526.models.RevokeSecurityGroupEgressRequest;
+import com.aliyun.sdk.service.ecs20140526.models.RevokeSecurityGroupRequest;
 import com.aliyun.sdk.service.vpc20160428.AsyncClient;
 import com.aliyun.sdk.service.vpc20160428.models.CreateVSwitchRequest;
 import com.aliyun.sdk.service.vpc20160428.models.CreateVSwitchResponse;
@@ -23,7 +32,7 @@ import com.aliyun.sdk.service.vpc20160428.models.DescribeZonesRequest;
 import com.aliyun.sdk.service.vpc20160428.models.DescribeZonesResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zvz09.xiaochen.mc.component.provider.AbstractVpcOperation;
+import com.zvz09.xiaochen.mc.component.product.vpc.AbstractVpcOperation;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
 import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
@@ -46,7 +55,7 @@ public class AliYunVpcOperation extends AbstractVpcOperation<AliYunClient, Respo
     private final IRegionService regionService;
 
     public AliYunVpcOperation(AliYunClient client, IRegionService regionService) {
-        super(client, 50);
+        super(client, Integer.valueOf(50));
         this.regionService = regionService;
     }
 
@@ -96,13 +105,8 @@ public class AliYunVpcOperation extends AbstractVpcOperation<AliYunClient, Respo
     @Override
     public VpcInstance createVpc(VpcDTO vpcDTO) {
         CreateVpcResponse response = (CreateVpcResponse) client.handleClient((client) -> {
-            CreateVpcRequest request = CreateVpcRequest.builder()
-                    .regionId(vpcDTO.getRegion())
-                    .cidrBlock(vpcDTO.getCidrBlock())
-                    .ipv6CidrBlock(vpcDTO.getIpv6CidrBlock())
-                    .enableIpv6(vpcDTO.isEnableIpv6())
-                    .vpcName(vpcDTO.getVpcName())
-                    .build();
+            CreateVpcRequest request = CreateVpcRequest.builder().build();
+            request = super.converter.convertM2P(vpcDTO,request);
             AsyncClient asyncClient = (AsyncClient) client;
             return asyncClient.createVpc(request).get();
         }, vpcDTO.getRegion(), this.getProductCode());
@@ -146,16 +150,11 @@ public class AliYunVpcOperation extends AbstractVpcOperation<AliYunClient, Respo
         DescribeVpcsResponse resp = (DescribeVpcsResponse) response;
         if(resp.getBody().getVpcs() !=null){
             instances.addAll(resp.getBody().getVpcs().getVpc().stream().map(vpc -> {
-                return VpcInstance.builder()
-                        .provider(this.getProviderCode().getValue())
-                        .instanceId(vpc.getVpcId())
-                        .instanceName(vpc.getVpcName())
-                        .status(vpc.getStatus())
-                        .region(region)
-                        .cidrBlock(vpc.getCidrBlock())
-                        .ipv6CidrBlock(vpc.getIpv6CidrBlock())
-                        .detail(JSON.toJSONString(vpc))
-                        .build();
+                VpcInstance vpcInstance = new VpcInstance();
+                vpcInstance = super.converter.convertP2M(vpc,vpcInstance);
+                vpcInstance.setProvider(this.getProviderCode().getValue());
+                vpcInstance.setDetail(JSON.toJSONString(vpc));
+                return vpcInstance;
             }).toList());
         }
     }
@@ -165,16 +164,11 @@ public class AliYunVpcOperation extends AbstractVpcOperation<AliYunClient, Respo
         DescribeVpcAttributeResponse resp = (DescribeVpcAttributeResponse) response;
         if(resp.getBody() != null && StringUtils.isNotBlank(resp.getBody().getVpcId())){
             DescribeVpcAttributeResponseBody vpc = resp.getBody();
-            return VpcInstance.builder()
-                    .provider(this.getProviderCode().getValue())
-                    .instanceId(vpc.getVpcId())
-                    .instanceName(vpc.getVpcName())
-                    .status(vpc.getStatus())
-                    .region(region)
-                    .cidrBlock(vpc.getCidrBlock())
-                    .ipv6CidrBlock(vpc.getIpv6CidrBlock())
-                    .detail(JSON.toJSONString(vpc))
-                    .build();
+            VpcInstance vpcInstance = new VpcInstance();
+            vpcInstance = super.converter.convertP2M(vpc,vpcInstance);
+            vpcInstance.setProvider(this.getProviderCode().getValue());
+            vpcInstance.setDetail(JSON.toJSONString(vpc));
+            return vpcInstance;
         }else {
             return null;
         }
@@ -210,33 +204,20 @@ public class AliYunVpcOperation extends AbstractVpcOperation<AliYunClient, Respo
         DescribeVSwitchesResponse resp = (DescribeVSwitchesResponse) response;
         DescribeVSwitchesResponseBody body = resp.getBody();
         page.setTotal(body.getTotalCount());
-        page.setRecords(body.getVSwitches().getVSwitch().stream().map(vSwitch -> VSwitcheDTO.builder()
-                .vSwitchId(vSwitch.getVSwitchId())
-                .vSwitchName(vSwitch.getVSwitchName())
-                .zoneId(vSwitch.getZoneId())
-                .cidrBlock(vSwitch.getCidrBlock())
-                .ipv6CidrBlock(vSwitch.getIpv6CidrBlock())
-                .availableIpAddressCount(vSwitch.getAvailableIpAddressCount())
-                .build()).toList());
+        page.setRecords(body.getVSwitches().getVSwitch().stream().map(vSwitch ->
+                 super.converter.convertP2M(vSwitch,new VSwitcheDTO())).toList());
 
     }
 
     @Override
-    public VSwitcheDTO createVSwitch(CreateVSwitch createVSwitch) {
+    public String createVSwitch(CreateVSwitch createVSwitch) {
         CreateVSwitchResponse response = (CreateVSwitchResponse) client.handleClient((client) -> {
-            CreateVSwitchRequest request = CreateVSwitchRequest.builder()
-                    .regionId(createVSwitch.getRegionId())
-                    .zoneId(createVSwitch.getZoneId())
-                    .cidrBlock(createVSwitch.getCidrBlock())
-                    .ipv6CidrBlock(createVSwitch.getIpv6CidrBlock())
-                    .vpcId(createVSwitch.getVpcId())
-                    .vSwitchName(createVSwitch.getVSwitchName())
-                    .vpcIpv6CidrBlock(createVSwitch.getVpcIpv6CidrBlock())
-                    .build();
+            CreateVSwitchRequest request = CreateVSwitchRequest.builder().build();
+            request =  super.converter.convertM2P(createVSwitch,request);
             AsyncClient asyncClient = (AsyncClient) client;
             return asyncClient.createVSwitch(request).get();
         }, createVSwitch.getRegionId(), this.getProductCode());
-        return this.convertedVSwitche(response.getBody().getVSwitchId(), createVSwitch);
+        return response.getBody().getVSwitchId();
     }
 
     @Override
@@ -252,7 +233,7 @@ public class AliYunVpcOperation extends AbstractVpcOperation<AliYunClient, Respo
     }
 
     @Override
-    protected Response executeGetSecurityGroups(String region, QueryParameter queryParameter) {
+    public Response executeGetSecurityGroups(String region, QueryParameter queryParameter) {
         return (DescribeSecurityGroupsResponse) client.handleClient((client) -> {
             DescribeSecurityGroupsRequest request = DescribeSecurityGroupsRequest.builder()
                     .regionId(region)
@@ -265,18 +246,136 @@ public class AliYunVpcOperation extends AbstractVpcOperation<AliYunClient, Respo
     }
 
     @Override
-    protected void paddingSecurityGroupPage(Response response, Page<SecurityGroupDTO> page) {
+    public void paddingSecurityGroupPage(Response response, Page<SecurityGroupDTO> page) {
         DescribeSecurityGroupsResponse resp = (DescribeSecurityGroupsResponse) response;
         page.setTotal(resp.getBody().getTotalCount());
         List<SecurityGroupDTO> records = new ArrayList<>();
 
         resp.getBody().getSecurityGroups().getSecurityGroup().forEach(securityGroup ->{
-            records.add(SecurityGroupDTO.builder()
-                    .securityGroupId(securityGroup.getSecurityGroupId())
-                    .securityGroupName(securityGroup.getSecurityGroupName())
-                    .description(securityGroup.getDescription())
-                    .build());
+            records.add(super.converter.convertP2M(securityGroup,new SecurityGroupDTO()));
         });
         page.setRecords(records);
+    }
+
+    @Override
+    public String createSecurityGroup(String region, SecurityGroupDTO securityGroupDTO) {
+        CreateSecurityGroupResponse response = (CreateSecurityGroupResponse) client.handleClient((client) -> {
+            CreateSecurityGroupRequest request =
+                    super.converter.convertM2P(securityGroupDTO,CreateSecurityGroupRequest.builder().build());
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.createSecurityGroup(request).get();
+        }, region, ProductEnum.ECS);
+
+        return response.getBody().getSecurityGroupId();
+    }
+
+    @Override
+    public void deleteSecurityGroup(String region, String securityGroupId) {
+        client.handleClient((client) -> {
+            DeleteSecurityGroupRequest request = DeleteSecurityGroupRequest.builder()
+                    .regionId(region)
+                    .securityGroupId(securityGroupId)
+                    .build();
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.deleteSecurityGroup(request).get();
+        }, region, ProductEnum.ECS);
+    }
+
+    @Override
+    public Response executeGetSecurityGroupAttributes(String region, String securityGroupId) {
+        return  (DescribeSecurityGroupAttributeResponse)client.handleClient((client) -> {
+            DescribeSecurityGroupAttributeRequest request = DescribeSecurityGroupAttributeRequest.builder()
+                    .regionId(region)
+                    .securityGroupId(securityGroupId)
+                    .build();
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.describeSecurityGroupAttribute(request).get();
+        }, region, ProductEnum.ECS);
+    }
+
+    @Override
+    public SecurityGroupDTO paddingSecurityGroupAttributes(Response response) {
+        DescribeSecurityGroupAttributeResponse resp = (DescribeSecurityGroupAttributeResponse) response;
+        SecurityGroupDTO securityGroupDTO = super.converter.convertP2M(resp.getBody(),new SecurityGroupDTO());
+        List<SecurityGroupDTO.PermissionDTO> permissions = new ArrayList<>();
+        resp.getBody().getPermissions().getPermission().forEach(permission ->{
+            SecurityGroupDTO.PermissionDTO permissionDTO = super.converter.convertP2M(permission,new SecurityGroupDTO.PermissionDTO());
+            permissions.add(permissionDTO);
+        });
+        securityGroupDTO.setPermissions(permissions);
+        return securityGroupDTO;
+    }
+
+    @Override
+    public void authorizeSecurityGroupEgress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+
+        client.handleClient((client) -> {
+            AuthorizeSecurityGroupEgressRequest request = AuthorizeSecurityGroupEgressRequest.builder()
+                    .regionId(region)
+                    .securityGroupId(securityGroupId)
+                    .permissions(permissions.stream().map(permission ->{
+                        AuthorizeSecurityGroupEgressRequest.Permissions p =
+                                AuthorizeSecurityGroupEgressRequest.Permissions.builder().build();
+                        super.converter.convertM2P(permission,p);
+                        return p;
+                    }).toList())
+                    .build();
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.authorizeSecurityGroupEgress(request).get();
+        }, region, ProductEnum.ECS);
+    }
+
+    @Override
+    public void authorizeSecurityGroupIngress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        client.handleClient((client) -> {
+            AuthorizeSecurityGroupRequest request = AuthorizeSecurityGroupRequest.builder()
+                    .regionId(region)
+                    .securityGroupId(securityGroupId)
+                    .permissions(permissions.stream().map(permission ->{
+                        AuthorizeSecurityGroupRequest.Permissions p =
+                                AuthorizeSecurityGroupRequest.Permissions.builder().build();
+                        super.converter.convertM2P(permission,p);
+                        return p;
+                    }).toList())
+                    .build();
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.authorizeSecurityGroup(request).get();
+        }, region, ProductEnum.ECS);
+    }
+
+    @Override
+    public void revokeSecurityGroupEgress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        client.handleClient((client) -> {
+            RevokeSecurityGroupEgressRequest request = RevokeSecurityGroupEgressRequest.builder()
+                    .regionId(region)
+                    .securityGroupId(securityGroupId)
+                    .permissions(permissions.stream().map(permission ->{
+                        RevokeSecurityGroupEgressRequest.Permissions p =
+                                RevokeSecurityGroupEgressRequest.Permissions.builder().build();
+                        super.converter.convertM2P(permission,p);
+                        return p;
+                    }).toList())
+                    .build();
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.revokeSecurityGroupEgress(request).get();
+        }, region, ProductEnum.ECS);
+    }
+
+    @Override
+    public void revokeSecurityGroupIngress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        client.handleClient((client) -> {
+            RevokeSecurityGroupRequest request = RevokeSecurityGroupRequest.builder()
+                    .regionId(region)
+                    .securityGroupId(securityGroupId)
+                    .permissions(permissions.stream().map(permission ->{
+                        RevokeSecurityGroupRequest.Permissions p =
+                                RevokeSecurityGroupRequest.Permissions.builder().build();
+                        super.converter.convertM2P(permission,p);
+                        return p;
+                    }).toList())
+                    .build();
+            com.aliyun.sdk.service.ecs20140526.AsyncClient asyncClient = (com.aliyun.sdk.service.ecs20140526.AsyncClient) client;
+            return asyncClient.revokeSecurityGroup(request).get();
+        }, region, ProductEnum.ECS);
     }
 }

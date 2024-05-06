@@ -1,9 +1,9 @@
-package com.zvz09.xiaochen.mc.component.provider;
+package com.zvz09.xiaochen.mc.component.product.vpc;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zvz09.xiaochen.mc.component.provider.AbstractBaseOperation;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
-import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VSwitcheDTO;
 import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
 import com.zvz09.xiaochen.mc.domain.entity.VpcInstance;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class AbstractVpcOperation<C,R> extends AbstractBaseOperation<C,R> {
+public abstract class AbstractVpcOperation<C,R> extends AbstractBaseOperation<C,R> implements SecurityGroupInterface<R> {
 
     protected final C client;
 
@@ -39,7 +39,7 @@ public abstract class AbstractVpcOperation<C,R> extends AbstractBaseOperation<C,
 
     public List<VpcInstance> listVpcInstances(String region){
         List<VpcInstance> instances = new ArrayList<>();
-        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(1).build();
+        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(Integer.valueOf(1)).build();
         R response = this.executeDescribeVpcInstances(region, queryParameter);
 
         //处理请求
@@ -94,33 +94,9 @@ public abstract class AbstractVpcOperation<C,R> extends AbstractBaseOperation<C,
 
     protected abstract void paddingVSwitchePage(String vpcId, R response, Page<VSwitcheDTO> page);
 
-    public abstract VSwitcheDTO createVSwitch(CreateVSwitch createVSwitch);
+    public abstract String createVSwitch(CreateVSwitch createVSwitch);
 
     public abstract void deleteVSwitch(String region, String vSwitchId);
-
-    protected VSwitcheDTO convertedVSwitche(String vSwitchId, CreateVSwitch createVSwitch) {
-        return VSwitcheDTO.builder()
-                .vSwitchId(vSwitchId)
-                .vSwitchName(createVSwitch.getVSwitchName())
-                .zoneId(createVSwitch.getZoneId())
-                .cidrBlock(createVSwitch.getCidrBlock())
-                .build();
-    }
-
-    public Page<SecurityGroupDTO> listSecurityGroups(String region,Integer pageNumber, Integer pageSize){
-        Page<SecurityGroupDTO> page = new Page<>(pageNumber,pageSize);
-        QueryParameter queryParameter = QueryParameter.builder().pageSize(pageSize).pageNumber(pageNumber).build();
-        R response = this.executeGetSecurityGroups(region,queryParameter);
-
-        //处理请求
-        this.paddingSecurityGroupPage(response,page);
-
-        return page;
-    }
-
-    protected abstract R executeGetSecurityGroups(String region, QueryParameter queryParameter);
-
-    protected abstract void paddingSecurityGroupPage(R response, Page<SecurityGroupDTO> page);
 
     public ProductEnum getProductCode(){
         return ProductEnum.VPC;

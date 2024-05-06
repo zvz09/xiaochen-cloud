@@ -1,5 +1,7 @@
-package com.zvz09.xiaochen.mc.component.provider;
+package com.zvz09.xiaochen.mc.component.product.ecs;
 
+import com.zvz09.xiaochen.mc.annotation.Converter;
+import com.zvz09.xiaochen.mc.component.provider.AbstractBaseOperation;
 import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
@@ -40,7 +42,7 @@ public abstract class AbstractEcsOperation<C,R> extends AbstractBaseOperation<C,
      */
     public List<EcsInstance> listEcsInstances(String region){
         List<EcsInstance> instances = new ArrayList<>();
-        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(1).build();
+        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(Integer.valueOf(1)).build();
         R response = this.executeDescribeInstances(region, queryParameter);
 
         //处理请求
@@ -133,7 +135,7 @@ public abstract class AbstractEcsOperation<C,R> extends AbstractBaseOperation<C,
 
     public List<EcsInstanceType> listAllInstanceTypes(String region){
         List<EcsInstanceType> ecsInstanceTypes = new ArrayList<>();
-        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(1).build();
+        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(Integer.valueOf(1)).build();
         R response = this.executeGetEcsInstanceTypes(region,queryParameter);
 
         //处理请求
@@ -182,7 +184,7 @@ public abstract class AbstractEcsOperation<C,R> extends AbstractBaseOperation<C,
 
     public List<ImageDTO> listAllImages(String region){
         List<ImageDTO> images = new ArrayList<>();
-        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(1).build();
+        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(Integer.valueOf(1)).build();
         R response = this.executeGetImages(region,queryParameter);
 
         //处理请求
@@ -200,27 +202,6 @@ public abstract class AbstractEcsOperation<C,R> extends AbstractBaseOperation<C,
     protected abstract QueryParameter imagesHasNext(QueryParameter queryParameter, R response);
 
     protected abstract void addImages(String region, R response, List<ImageDTO> images);
-
-    protected ImageDTO buildImageDTO(String region, String architecture, String bootMode, String description, String imageId,
-                                       String imageName, Boolean isSupportCloudInit, String osName, String osType, String platform,
-                                       String platformVersion, Integer size, String status) {
-        return ImageDTO.builder()
-                .region(region)
-                .architecture(architecture)
-                .bootMode(bootMode)
-                .description(description)
-                .imageId(imageId)
-                .imageName(imageName)
-                .isSupportCloudInit(isSupportCloudInit)
-                .osName(osName)
-                .osType(osType)
-                .platform(platform)
-                .platformVersion(platformVersion)
-                .size(size)
-                .status(status)
-                .build();
-    }
-
 
     public ProductEnum getProductCode(){
         return ProductEnum.ECS;

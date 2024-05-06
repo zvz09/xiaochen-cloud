@@ -34,9 +34,32 @@ public interface IVpcService {
 
     Page<VSwitcheDTO> listVSwitches(CloudProviderEnum provider, String region, String vpcId, Integer pageNumber, Integer pageSize);
 
-    VSwitcheDTO createVSwitch(CloudProviderEnum provider, CreateVSwitch createVSwitch);
+    String createVSwitch(CloudProviderEnum provider, CreateVSwitch createVSwitch);
 
     void deleteVSwitch(CloudProviderEnum provider,String region, String vSwitchId);
 
     Page<SecurityGroupDTO> listSecurityGroups(CloudProviderEnum provider, String region, Integer pageNumber, Integer pageSize);
+
+    SecurityGroupDTO describeSecurityGroupAttributes(CloudProviderEnum provider,String region,String securityGroupId);
+
+    /**
+     * 增加安全组出方向规则
+     */
+    void authorizeSecurityGroupEgress(CloudProviderEnum provider,String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions);
+
+    /**
+     * 增加入方向的规则
+     */
+    void authorizeSecurityGroupIngress(CloudProviderEnum provider,String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions);
+
+    /**
+     * 删除安全组出方向规则
+     */
+    void revokeSecurityGroupEgress(CloudProviderEnum provider,String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions);
+
+    /**
+     * 删除入方向的规则
+     */
+    void revokeSecurityGroupIngress(CloudProviderEnum provider,String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions);
+
 }

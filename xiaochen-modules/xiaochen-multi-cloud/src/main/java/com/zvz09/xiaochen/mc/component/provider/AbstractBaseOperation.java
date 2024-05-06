@@ -1,6 +1,7 @@
 package com.zvz09.xiaochen.mc.component.provider;
 
 import com.zvz09.xiaochen.common.core.exception.BusinessException;
+import com.zvz09.xiaochen.mc.annotation.Converter;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
@@ -15,9 +16,12 @@ public abstract class AbstractBaseOperation<C,R> implements BaseProductService  
 
     protected final Integer maxPageSize;
 
+    protected final Converter converter;
+
     protected AbstractBaseOperation(C client, Integer maxPageSize) {
         this.client = client;
         this.maxPageSize = maxPageSize;
+        this.converter = new Converter(this.getProviderCode());
     }
 
     /**
@@ -26,7 +30,7 @@ public abstract class AbstractBaseOperation<C,R> implements BaseProductService  
      */
     public List<Region> listRegions(){
         List<Region> regions = new ArrayList<>();
-        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(1).build();
+        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(Integer.valueOf(1)).build();
         R response = this.executeGetRegions(queryParameter);
 
         //处理请求
@@ -75,7 +79,7 @@ public abstract class AbstractBaseOperation<C,R> implements BaseProductService  
 
     public List<ZoneDTO> listZones(String region){
         List<ZoneDTO> zones = new ArrayList<>();
-        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(1).build();
+        QueryParameter queryParameter = QueryParameter.builder().pageSize(maxPageSize).pageNumber(Integer.valueOf(1)).build();
         R response = this.executeGetZones(region,queryParameter);
 
         //处理请求
@@ -113,7 +117,7 @@ public abstract class AbstractBaseOperation<C,R> implements BaseProductService  
         }
         if(queryParameter.getOffset() + queryParameter.getPageSize() < TotalCount){
             queryParameter.setHaveNext(true);
-            queryParameter.setPageNumber(queryParameter.getPageNumber() +1);
+            queryParameter.setPageNumber(Integer.valueOf(queryParameter.getPageNumber() +1));
         }else {
             queryParameter.setHaveNext(false);
         }

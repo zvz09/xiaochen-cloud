@@ -17,7 +17,7 @@ import com.volcengine.model.AbstractResponse;
 import com.volcengine.vpc.VpcApi;
 import com.volcengine.vpc.model.DescribeEipAddressAttributesRequest;
 import com.volcengine.vpc.model.DescribeEipAddressAttributesResponse;
-import com.zvz09.xiaochen.mc.component.provider.AbstractEcsOperation;
+import com.zvz09.xiaochen.mc.component.product.ecs.AbstractEcsOperation;
 import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
@@ -25,7 +25,6 @@ import com.zvz09.xiaochen.mc.domain.entity.EcsInstance;
 import com.zvz09.xiaochen.mc.domain.entity.EcsInstanceType;
 import com.zvz09.xiaochen.mc.domain.entity.Region;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +33,7 @@ import java.util.Objects;
 public class VolcengineEcsOperation extends AbstractEcsOperation<VolcengineClient, AbstractResponse> implements VolcengineBaseOperation {
 
     protected VolcengineEcsOperation(VolcengineClient client) {
-        super(client, 100);
+        super(client, Integer.valueOf(100));
     }
 
     @Override
@@ -56,7 +55,7 @@ public class VolcengineEcsOperation extends AbstractEcsOperation<VolcengineClien
         return  (DescribeInstancesResponse) client.handleClient((client) -> {
             EcsApi api = new EcsApi(client);
             DescribeInstancesRequest describeInstancesRequest = new DescribeInstancesRequest();
-            describeInstancesRequest.setMaxResults(1);
+            describeInstancesRequest.setMaxResults(Integer.valueOf(1));
             describeInstancesRequest.setInstanceIds(List.of(instanceId));
             return api.describeInstances(describeInstancesRequest);
         }, region);
@@ -101,7 +100,7 @@ public class VolcengineEcsOperation extends AbstractEcsOperation<VolcengineClien
         return (DescribeRegionsResponse) client.handleClient((client) -> {
             EcsApi api = new EcsApi(client);
             DescribeRegionsRequest describeRegionsRequest = new DescribeRegionsRequest();
-            describeRegionsRequest.setMaxResults(20);
+            describeRegionsRequest.setMaxResults(Integer.valueOf(20));
             if (StringUtils.isNotBlank(queryParameter.getNextToken())) {
                 describeRegionsRequest.setNextToken(queryParameter.getNextToken());
             }
@@ -151,7 +150,7 @@ public class VolcengineEcsOperation extends AbstractEcsOperation<VolcengineClien
         return (DescribeInstanceTypesResponse) client.handleClient((client) -> {
             EcsApi api = new EcsApi(client);
             DescribeInstanceTypesRequest request = new DescribeInstanceTypesRequest();
-            request.setMaxResults(500);
+            request.setMaxResults(Integer.valueOf(500));
 
             if (StringUtils.isNotBlank(queryParameter.getNextToken())) {
                 request.setNextToken(queryParameter.getNextToken());
@@ -191,7 +190,7 @@ public class VolcengineEcsOperation extends AbstractEcsOperation<VolcengineClien
         return (DescribeImagesResponse) client.handleClient((client) -> {
             EcsApi api = new EcsApi(client);
             DescribeImagesRequest request = new DescribeImagesRequest();
-            request.setMaxResults(100);
+            request.setMaxResults(Integer.valueOf(100));
 
             if (StringUtils.isNotBlank(queryParameter.getNextToken())) {
                 request.setNextToken(queryParameter.getNextToken());
@@ -210,21 +209,9 @@ public class VolcengineEcsOperation extends AbstractEcsOperation<VolcengineClien
     protected void addImages(String region, AbstractResponse response, List<ImageDTO> images) {
         DescribeImagesResponse resp = (DescribeImagesResponse) response;
         resp.getImages().forEach(output -> {
-            images.add(ImageDTO.builder()
-                    .region(region)
-                    .architecture(output.getArchitecture())
-                    .bootMode(output.getBootMode())
-                    .description(output.getDescription())
-                    .imageId(output.getImageId())
-                    .imageName(output.getImageName())
-                    .isSupportCloudInit(output.isIsSupportCloudInit())
-                    .osName(output.getOsName())
-                    .osType(output.getOsType())
-                    .platform(output.getPlatform())
-                    .platformVersion(output.getPlatformVersion())
-                    .size(output.getSize())
-                    .status(output.getStatus())
-                    .build());
+            ImageDTO imageDTO = this.converter.convertP2M(output,new ImageDTO());
+            imageDTO.setRegion(region);
+            images.add(imageDTO);
         });
     }
 

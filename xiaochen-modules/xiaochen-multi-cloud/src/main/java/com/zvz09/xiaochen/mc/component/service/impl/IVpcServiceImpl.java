@@ -1,7 +1,7 @@
 package com.zvz09.xiaochen.mc.component.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zvz09.xiaochen.mc.component.provider.AbstractVpcOperation;
+import com.zvz09.xiaochen.mc.component.product.vpc.AbstractVpcOperation;
 import com.zvz09.xiaochen.mc.component.service.IVpcService;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
 import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
@@ -82,7 +82,7 @@ public class IVpcServiceImpl implements IVpcService, InitializingBean {
     }
 
     @Override
-    public VSwitcheDTO createVSwitch(CloudProviderEnum provider, CreateVSwitch createVSwitch) {
+    public String createVSwitch(CloudProviderEnum provider, CreateVSwitch createVSwitch) {
         return operationsProviderMap.get(provider).createVSwitch(createVSwitch);
     }
 
@@ -94,6 +94,31 @@ public class IVpcServiceImpl implements IVpcService, InitializingBean {
     @Override
     public Page<SecurityGroupDTO> listSecurityGroups(CloudProviderEnum provider, String region, Integer pageNumber, Integer pageSize) {
         return operationsProviderMap.get(provider).listSecurityGroups(region, pageNumber, pageSize);
+    }
+
+    @Override
+    public SecurityGroupDTO describeSecurityGroupAttributes(CloudProviderEnum provider, String region, String securityGroupId) {
+        return operationsProviderMap.get(provider).describeSecurityGroupAttributes(region, securityGroupId);
+    }
+
+    @Override
+    public void authorizeSecurityGroupEgress(CloudProviderEnum provider, String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+       operationsProviderMap.get(provider).authorizeSecurityGroupEgress(region, securityGroupId, permissions);
+    }
+
+    @Override
+    public void authorizeSecurityGroupIngress(CloudProviderEnum provider, String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        operationsProviderMap.get(provider).authorizeSecurityGroupIngress(region, securityGroupId, permissions);
+    }
+
+    @Override
+    public void revokeSecurityGroupEgress(CloudProviderEnum provider, String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        operationsProviderMap.get(provider).revokeSecurityGroupEgress(region, securityGroupId, permissions);
+    }
+
+    @Override
+    public void revokeSecurityGroupIngress(CloudProviderEnum provider, String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        operationsProviderMap.get(provider).revokeSecurityGroupIngress(region, securityGroupId, permissions);
     }
 
     @Override

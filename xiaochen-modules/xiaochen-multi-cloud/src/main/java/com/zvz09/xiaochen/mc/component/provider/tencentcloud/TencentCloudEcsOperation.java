@@ -16,7 +16,7 @@ import com.tencentcloudapi.cvm.v20170312.models.DescribeZonesResponse;
 import com.tencentcloudapi.cvm.v20170312.models.Instance;
 import com.tencentcloudapi.cvm.v20170312.models.RegionInfo;
 import com.tencentcloudapi.cvm.v20170312.models.ZoneInfo;
-import com.zvz09.xiaochen.mc.component.provider.AbstractEcsOperation;
+import com.zvz09.xiaochen.mc.component.product.ecs.AbstractEcsOperation;
 import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;
@@ -186,9 +186,9 @@ public class TencentCloudEcsOperation extends AbstractEcsOperation<TencentCloudC
         DescribeImagesResponse res = (DescribeImagesResponse) response;
         if(res.getImageSet() != null){
             Arrays.stream(res.getImageSet()).filter(image -> "NORMAL".equals(image.getImageState())).forEach(image -> {
-                images.add(this.buildImageDTO(region,image.getArchitecture(),null,image.getImageDescription(),
-                        image.getImageId(),image.getImageName(),image.getIsSupportCloudinit(),image.getOsName(),null,
-                        image.getPlatform(),null,Math.toIntExact(image.getImageSize()),image.getImageState()));
+                ImageDTO imageDTO = this.converter.convertP2M(image,new ImageDTO());
+                imageDTO.setRegion(region);
+                images.add(imageDTO);
             });
         }
     }

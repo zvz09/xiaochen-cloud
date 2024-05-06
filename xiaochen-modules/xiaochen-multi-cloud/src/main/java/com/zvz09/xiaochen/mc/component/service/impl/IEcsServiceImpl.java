@@ -1,6 +1,6 @@
 package com.zvz09.xiaochen.mc.component.service.impl;
 
-import com.zvz09.xiaochen.mc.component.provider.AbstractEcsOperation;
+import com.zvz09.xiaochen.mc.component.product.ecs.AbstractEcsOperation;
 import com.zvz09.xiaochen.mc.component.service.IEcsService;
 import com.zvz09.xiaochen.mc.domain.dto.ImageDTO;
 import com.zvz09.xiaochen.mc.domain.dto.ZoneDTO;

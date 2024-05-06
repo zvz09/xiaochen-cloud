@@ -5,12 +5,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.volcengine.model.AbstractResponse;
 import com.volcengine.vpc.VpcApi;
+import com.volcengine.vpc.model.AuthorizeSecurityGroupEgressRequest;
+import com.volcengine.vpc.model.AuthorizeSecurityGroupIngressRequest;
+import com.volcengine.vpc.model.CreateSecurityGroupRequest;
+import com.volcengine.vpc.model.CreateSecurityGroupResponse;
 import com.volcengine.vpc.model.CreateSubnetRequest;
 import com.volcengine.vpc.model.CreateSubnetResponse;
 import com.volcengine.vpc.model.CreateVpcRequest;
 import com.volcengine.vpc.model.CreateVpcResponse;
+import com.volcengine.vpc.model.DeleteSecurityGroupRequest;
 import com.volcengine.vpc.model.DeleteSubnetRequest;
 import com.volcengine.vpc.model.DeleteVpcRequest;
+import com.volcengine.vpc.model.DescribeSecurityGroupAttributesRequest;
+import com.volcengine.vpc.model.DescribeSecurityGroupAttributesResponse;
 import com.volcengine.vpc.model.DescribeSecurityGroupsRequest;
 import com.volcengine.vpc.model.DescribeSecurityGroupsResponse;
 import com.volcengine.vpc.model.DescribeSubnetsRequest;
@@ -19,7 +26,9 @@ import com.volcengine.vpc.model.DescribeVpcAttributesRequest;
 import com.volcengine.vpc.model.DescribeVpcAttributesResponse;
 import com.volcengine.vpc.model.DescribeVpcsRequest;
 import com.volcengine.vpc.model.DescribeVpcsResponse;
-import com.zvz09.xiaochen.mc.component.provider.AbstractVpcOperation;
+import com.volcengine.vpc.model.RevokeSecurityGroupEgressRequest;
+import com.volcengine.vpc.model.RevokeSecurityGroupIngressRequest;
+import com.zvz09.xiaochen.mc.component.product.vpc.AbstractVpcOperation;
 import com.zvz09.xiaochen.mc.domain.dto.CreateVSwitch;
 import com.zvz09.xiaochen.mc.domain.dto.QueryParameter;
 import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
@@ -30,7 +39,6 @@ import com.zvz09.xiaochen.mc.domain.entity.Region;
 import com.zvz09.xiaochen.mc.domain.entity.VpcInstance;
 import com.zvz09.xiaochen.mc.service.IRegionService;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,7 +52,7 @@ public class VolcengineVpcOperation extends AbstractVpcOperation<VolcengineClien
 
     public VolcengineVpcOperation(VolcengineClient client, IRegionService regionService,
                                   VolcengineEcsOperation ecsOperation) {
-        super(client, 100);
+        super(client, Integer.valueOf(100));
         this.regionService = regionService;
         this.ecsOperation = ecsOperation;
     }
@@ -86,11 +94,7 @@ public class VolcengineVpcOperation extends AbstractVpcOperation<VolcengineClien
         CreateVpcResponse response = (CreateVpcResponse) client.handleClient((client) -> {
             VpcApi api = new VpcApi(client);
 
-            CreateVpcRequest request = new CreateVpcRequest();
-            request.setCidrBlock(vpcDTO.getCidrBlock());
-            request.setEnableIpv6(vpcDTO.isEnableIpv6());
-            request.setVpcName(vpcDTO.getVpcName());
-            request.setIpv6CidrBlock(vpcDTO.getIpv6CidrBlock());
+            CreateVpcRequest request =  super.converter.convertM2P(vpcDTO,new CreateVpcRequest());
 
             return api.createVpc(request);
         }, vpcDTO.getRegion());
@@ -114,7 +118,7 @@ public class VolcengineVpcOperation extends AbstractVpcOperation<VolcengineClien
         return (DescribeVpcsResponse) client.handleClient((client)->{
             VpcApi api = new VpcApi(client);
             DescribeVpcsRequest request = new DescribeVpcsRequest();
-            request.setMaxResults(100);
+            request.setMaxResults(super.maxPageSize);
 
             if(StringUtils.isNotBlank(queryParameter.getNextToken())){
                 request.setNextToken(queryParameter.getNextToken());
@@ -140,15 +144,11 @@ public class VolcengineVpcOperation extends AbstractVpcOperation<VolcengineClien
     @Override
     protected VpcInstance buildVpcInstance(String region, AbstractResponse response) {
         DescribeVpcAttributesResponse resp = (DescribeVpcAttributesResponse) response;
-        return VpcInstance.builder()
-                .provider(this.getProviderCode().getValue())
-                .instanceId(resp.getVpcId())
-                .instanceName(resp.getVpcName())
-                .status(resp.getStatus())
-                .region(region)
-                .cidrBlock(resp.getCidrBlock())
-                .detail(JSON.toJSONString(resp))
-                .build();
+        VpcInstance vpcInstance = super.converter.convertP2M(resp,new VpcInstance());
+        vpcInstance.setProvider(this.getProviderCode().getValue());
+        vpcInstance.setRegion(region);
+        vpcInstance.setDetail(JSON.toJSONString(resp));
+        return vpcInstance;
     }
 
     @Override
@@ -179,31 +179,17 @@ public class VolcengineVpcOperation extends AbstractVpcOperation<VolcengineClien
     protected void paddingVSwitchePage(String vpcId, AbstractResponse response, Page<VSwitcheDTO> page) {
         DescribeSubnetsResponse resp = (DescribeSubnetsResponse) response;
         page.setTotal(resp.getTotalCount());
-        page.setRecords(resp.getSubnets().stream().map(vSwitch -> VSwitcheDTO.builder()
-                .vSwitchId(vSwitch.getSubnetId())
-                .vSwitchName(vSwitch.getSubnetName())
-                .zoneId(vSwitch.getZoneId())
-                .cidrBlock(vSwitch.getCidrBlock())
-                .ipv6CidrBlock(vSwitch.getIpv6CidrBlock())
-                .availableIpAddressCount(Long.valueOf(vSwitch.getAvailableIpAddressCount()))
-                .build()).toList());
+        page.setRecords(resp.getSubnets().stream().map(vSwitch ->  super.converter.convertP2M(vSwitch,new VSwitcheDTO())).toList());
     }
 
     @Override
-    public VSwitcheDTO createVSwitch(CreateVSwitch createVSwitch) {
+    public String createVSwitch(CreateVSwitch createVSwitch) {
         CreateSubnetResponse response = (CreateSubnetResponse) client.handleClient((client) -> {
             VpcApi api = new VpcApi(client);
-
-            CreateSubnetRequest request = new CreateSubnetRequest();
-            request.setCidrBlock(createVSwitch.getCidrBlock());
-            request.setIpv6CidrBlock(createVSwitch.getIpv6CidrBlock());
-            request.setSubnetName(createVSwitch.getVSwitchName());
-            request.setVpcId(createVSwitch.getVpcId());
-            request.setZoneId(createVSwitch.getZoneId());
-
+            CreateSubnetRequest request =  super.converter.convertM2P(createVSwitch,new CreateSubnetRequest()) ;
             return api.createSubnet(request);
         }, createVSwitch.getRegionId());
-        return this.convertedVSwitche(response.getSubnetId(), createVSwitch);
+        return response.getSubnetId();
     }
 
     @Override
@@ -220,7 +206,7 @@ public class VolcengineVpcOperation extends AbstractVpcOperation<VolcengineClien
 
 
     @Override
-    protected AbstractResponse executeGetSecurityGroups(String region, QueryParameter queryParameter) {
+    public AbstractResponse executeGetSecurityGroups(String region, QueryParameter queryParameter) {
         return  (DescribeSecurityGroupsResponse) client.handleClient((client)->{
             VpcApi api = new VpcApi(client);
 
@@ -233,22 +219,151 @@ public class VolcengineVpcOperation extends AbstractVpcOperation<VolcengineClien
     }
 
     @Override
-    protected void paddingSecurityGroupPage(AbstractResponse response, Page<SecurityGroupDTO> page) {
+    public void paddingSecurityGroupPage(AbstractResponse response, Page<SecurityGroupDTO> page) {
         DescribeSecurityGroupsResponse resp = (DescribeSecurityGroupsResponse) response;
 
         page.setTotal(resp.getTotalCount());
         List<SecurityGroupDTO> records = new ArrayList<>();
 
         resp.getSecurityGroups().forEach(securityGroup ->{
-            records.add(SecurityGroupDTO.builder()
-                    .securityGroupId(securityGroup.getSecurityGroupId())
-                    .securityGroupName(securityGroup.getSecurityGroupName())
-                    .vpcId(securityGroup.getVpcId())
-                    .description(securityGroup.getDescription())
-                    .status(securityGroup.getStatus())
-                    .type(securityGroup.getType())
-                    .build());
+            records.add(super.converter.convertP2M(securityGroup,new SecurityGroupDTO()));
         });
         page.setRecords(records);
+    }
+
+    @Override
+    public String createSecurityGroup(String region, SecurityGroupDTO securityGroupDTO) {
+        CreateSecurityGroupResponse response = (CreateSecurityGroupResponse) client.handleClient((client)->{
+            VpcApi api = new VpcApi(client);
+
+            CreateSecurityGroupRequest request = super.converter.convertM2P(securityGroupDTO,new CreateSecurityGroupRequest()) ;
+            request.setVpcId(securityGroupDTO.getVpcId());
+
+            return api.createSecurityGroup(request);
+        },region);
+        return response.getSecurityGroupId();
+    }
+
+    @Override
+    public void deleteSecurityGroup(String region, String securityGroupId) {
+        client.handleClient((client)->{
+            VpcApi api = new VpcApi(client);
+
+            DeleteSecurityGroupRequest request = new DeleteSecurityGroupRequest();
+            request.setSecurityGroupId(securityGroupId);
+
+            return api.deleteSecurityGroup(request);
+        },region);
+    }
+
+    @Override
+    public AbstractResponse executeGetSecurityGroupAttributes(String region, String securityGroupId) {
+        return (DescribeSecurityGroupAttributesResponse) client.handleClient((client)->{
+            VpcApi api = new VpcApi(client);
+
+            DescribeSecurityGroupAttributesRequest request = new DescribeSecurityGroupAttributesRequest();
+            request.setSecurityGroupId(securityGroupId);
+
+            return api.describeSecurityGroupAttributes(request);
+        },region);
+    }
+
+    @Override
+    public SecurityGroupDTO paddingSecurityGroupAttributes(AbstractResponse response) {
+        DescribeSecurityGroupAttributesResponse resp = (DescribeSecurityGroupAttributesResponse) response;
+        SecurityGroupDTO securityGroupDTO = super.converter.convertP2M(resp,new SecurityGroupDTO());
+        List<SecurityGroupDTO.PermissionDTO> permissions = new ArrayList<>();
+        resp.getPermissions().forEach(permission -> {
+            SecurityGroupDTO.PermissionDTO permissionDTO = super.converter.convertP2M(permission,new SecurityGroupDTO.PermissionDTO());
+            permissionDTO.setPortRange(String.format("%s/%s",permission.getPortStart(),permission.getPortEnd()));
+            permissions.add(permissionDTO);
+        });
+        securityGroupDTO.setPermissions(permissions);
+        return securityGroupDTO;
+    }
+
+
+    @Override
+    public void authorizeSecurityGroupEgress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        permissions.parallelStream().forEach(permission -> {
+            String[] ports = splitPortRange(permission);
+
+            client.handleClient((client)->{
+                VpcApi api = new VpcApi(client);
+
+                AuthorizeSecurityGroupEgressRequest request = this.converter.convertM2P(permission,new AuthorizeSecurityGroupEgressRequest());
+                request.setPortEnd(Integer.valueOf(ports[1]));
+                request.setPortStart(Integer.valueOf(ports[0]));
+
+                request.setSecurityGroupId(securityGroupId);
+                return api.authorizeSecurityGroupEgress(request);
+            },region);
+        });
+    }
+
+    @Override
+    public void authorizeSecurityGroupIngress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        permissions.parallelStream().forEach(permission -> {
+
+            String[] ports = splitPortRange(permission);
+
+            client.handleClient((client)->{
+                VpcApi api = new VpcApi(client);
+
+                AuthorizeSecurityGroupIngressRequest request =
+                        super.converter.convertM2P(permission,new AuthorizeSecurityGroupIngressRequest());
+                request.setPortEnd(Integer.valueOf(ports[1]));
+                request.setPortStart(Integer.valueOf(ports[0]));
+
+                request.setSecurityGroupId(securityGroupId);
+                return api.authorizeSecurityGroupIngress(request);
+            },region);
+        });
+    }
+
+    @Override
+    public void revokeSecurityGroupEgress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        permissions.parallelStream().forEach(permission -> {
+            String[] ports = splitPortRange(permission);
+
+            client.handleClient((client)->{
+                VpcApi api = new VpcApi(client);
+
+                RevokeSecurityGroupEgressRequest request =
+                        super.converter.convertM2P(permission,new RevokeSecurityGroupEgressRequest());
+                request.setPortEnd(Integer.valueOf(ports[1]));
+                request.setPortStart(Integer.valueOf(ports[0]));
+
+                request.setSecurityGroupId(securityGroupId);
+                return api.revokeSecurityGroupEgress(request);
+            },region);
+        });
+    }
+
+    @Override
+    public void revokeSecurityGroupIngress(String region, String securityGroupId, List<SecurityGroupDTO.PermissionDTO> permissions) {
+        permissions.parallelStream().forEach(permission -> {
+            String[] ports = splitPortRange(permission);
+
+            client.handleClient((client)->{
+                VpcApi api = new VpcApi(client);
+
+                RevokeSecurityGroupIngressRequest request =
+                        super.converter.convertM2P(permission,new RevokeSecurityGroupIngressRequest());
+                request.setPortEnd(Integer.valueOf(ports[1]));
+                request.setPortStart(Integer.valueOf(ports[0]));
+
+                request.setSecurityGroupId(securityGroupId);
+                return api.revokeSecurityGroupIngress(request);
+            },region);
+        });
+    }
+
+    private static String[] splitPortRange(SecurityGroupDTO.PermissionDTO permission) {
+        if ("ICMP".equals(permission.getIpProtocol()) || "ALL".equals(permission.getIpProtocol())) {
+            return new String[]{"-1","-1"};
+        }
+        return permission.getPortRange().contains("/") ?
+                permission.getPortRange().split("/"):new String[]{permission.getPortRange(), permission.getPortRange()};
     }
 }
