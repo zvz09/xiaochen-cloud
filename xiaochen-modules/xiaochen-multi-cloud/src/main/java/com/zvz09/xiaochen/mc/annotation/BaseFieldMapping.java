@@ -16,4 +16,5 @@ public @interface BaseFieldMapping {
     String value() default "";
 
     String outValue() default "";
+
 }

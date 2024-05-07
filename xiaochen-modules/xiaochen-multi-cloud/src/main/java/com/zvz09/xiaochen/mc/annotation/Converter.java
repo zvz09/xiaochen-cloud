@@ -2,16 +2,13 @@ package com.zvz09.xiaochen.mc.annotation;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.sdk.service.vpc20160428.models.CreateVpcRequest;
-import com.volcengine.vpc.model.SecurityGroupForDescribeSecurityGroupsOutput;
-import com.zvz09.xiaochen.mc.domain.dto.SecurityGroupDTO;
+import com.zvz09.xiaochen.common.core.exception.BusinessException;
 import com.zvz09.xiaochen.mc.domain.dto.VpcDTO;
 import com.zvz09.xiaochen.mc.enums.CloudProviderEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Slf4j
@@ -33,6 +30,10 @@ public class Converter {
      * @return
      */
     public <S, T> T convertP2M(S source, T target) {
+
+        if(source == null || target == null){
+            throw new BusinessException("source or target is null");
+        }
 
         Class<?> targetClass = target.getClass();
 
@@ -77,6 +78,10 @@ public class Converter {
      */
     public <S, T> T convertM2P(S source, T target) {
 
+        if(source == null || target == null){
+            throw new BusinessException("source or target is null");
+        }
+
         Class<?> sourceClass = source.getClass();
         Class<?> targetClass = target.getClass();
 
@@ -105,7 +110,7 @@ public class Converter {
                         targetField.set(target, convertValue(targetField.getType(), sourceField.get(source)));
                     }
                 } catch (NoSuchFieldException | IllegalAccessException e) {
-                    log.error("Converter error: ", e);
+                    log.error("Converter error: NoSuchFieldException | IllegalAccessException");
                 }
             }
         }
@@ -126,8 +131,8 @@ public class Converter {
                     return convertValue(targetField.getType(), sourceField.get(source));
                 }
             }
-        } catch (Exception e) {
-            log.error("Converter error: ", e);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            log.error("Converter error: NoSuchFieldException | IllegalAccessException");
         }
         return null;
     }

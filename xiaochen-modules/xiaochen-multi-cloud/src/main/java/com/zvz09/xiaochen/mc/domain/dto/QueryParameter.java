@@ -22,6 +22,9 @@ public class QueryParameter {
     private boolean haveNext = false;
 
     public Integer getOffset(){
+        if(pageNumber == null){
+            return 0;
+        }
         return pageNumber <= 1 ? 0 : (pageNumber - 1) * pageSize;
     }
 
