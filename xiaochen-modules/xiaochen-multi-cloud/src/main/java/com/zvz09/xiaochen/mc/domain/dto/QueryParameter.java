@@ -19,6 +19,7 @@ public class QueryParameter {
 
     private String nextToken;
 
+    @Builder.Default
     private boolean haveNext = false;
 
     public Integer getOffset(){

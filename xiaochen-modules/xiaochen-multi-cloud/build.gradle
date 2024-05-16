@@ -5,6 +5,7 @@ dependencies {
     implementation project(':xiaochen-common:common-web')
     implementation project(':xiaochen-common:common-auxiliary')
     implementation project(':xiaochen-common:common-log')
+    implementation project(':xiaochen-common:data-desensitize')
     implementation project(':xiaochen-api:xiaochen-api-system')
     implementation project(':xiaochen-job:xiaochen-job-client')
 

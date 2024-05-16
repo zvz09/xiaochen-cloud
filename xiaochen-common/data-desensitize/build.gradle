@@ -1,0 +1,15 @@
+description = 'data-desensitize'
+
+jar.enabled = true
+bootJar.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api project(':xiaochen-common:common-core')
+    api("com.alibaba:fastjson:2.0.42")
+    api 'cn.hutool:hutool-all'
+    api 'org.springframework.boot:spring-boot-starter-web'
+}

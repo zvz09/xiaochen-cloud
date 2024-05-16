@@ -9,7 +9,7 @@ public class SecurityConstants {
     /**
      * 用户ID字段
      */
-    public static final String REMOTE_IP = "remote_ip";
+    public static final String REMOTE_IP = "X-Real-IP";
     /**
      * 用户ID字段
      */

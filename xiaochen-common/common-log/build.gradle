@@ -9,6 +9,7 @@ repositories {
 
 dependencies {
     api 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.lionsoul:ip2region:2.7.0'
     implementation project(':xiaochen-common:common-web')
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

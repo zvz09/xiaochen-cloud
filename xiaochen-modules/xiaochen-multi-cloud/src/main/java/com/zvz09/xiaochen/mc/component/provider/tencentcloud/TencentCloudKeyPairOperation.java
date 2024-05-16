@@ -5,7 +5,6 @@ import com.tencentcloudapi.cvm.v20170312.models.AssociateInstancesKeyPairsReques
 import com.tencentcloudapi.cvm.v20170312.models.CreateKeyPairRequest;
 import com.tencentcloudapi.cvm.v20170312.models.CreateKeyPairResponse;
 import com.tencentcloudapi.cvm.v20170312.models.DeleteKeyPairsRequest;
-import com.tencentcloudapi.cvm.v20170312.models.DescribeInstancesRequest;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeKeyPairsRequest;
 import com.tencentcloudapi.cvm.v20170312.models.DescribeKeyPairsResponse;
 import com.tencentcloudapi.cvm.v20170312.models.DisassociateInstancesKeyPairsRequest;
@@ -22,7 +21,7 @@ import java.util.Arrays;
 
 public class TencentCloudKeyPairOperation extends AbstractKeyPairOperation implements TencentCloudBaseOperation {
 
-    private TencentCloudClient client;
+    private final TencentCloudClient client;
 
     public TencentCloudKeyPairOperation(String region) {
         super(region);

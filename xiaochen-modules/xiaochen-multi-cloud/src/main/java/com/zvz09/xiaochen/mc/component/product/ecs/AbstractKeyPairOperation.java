@@ -40,7 +40,7 @@ public abstract class AbstractKeyPairOperation implements BaseProductService {
     /**
      * 解绑密钥对
      * @param keyPair
-     * @param instanceId
+     * @param instanceIds
      */
     public abstract void  detachKeyPair(KeyPair keyPair,String... instanceIds);
 

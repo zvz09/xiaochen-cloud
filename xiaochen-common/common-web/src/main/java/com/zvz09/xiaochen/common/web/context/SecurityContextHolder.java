@@ -49,8 +49,8 @@ public class SecurityContextHolder {
         return Convert.toStr(get(SecurityConstants.REMOTE_IP), "未知");
     }
 
-    public static void setRemoteIp(String account) {
-        set(SecurityConstants.REMOTE_IP, account);
+    public static void setRemoteIp(String remoteIp) {
+        set(SecurityConstants.REMOTE_IP, remoteIp);
     }
 
     public static Long getUserId() {

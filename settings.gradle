@@ -68,4 +68,6 @@ include 'xiaochen-modules:xiaochen-multi-cloud'
 findProject(':xiaochen-modules:xiaochen-multi-cloud')?.name = 'xiaochen-multi-cloud'
 include 'xiaochen-modules:xiaochen-multi-cloud'
 findProject(':xiaochen-modules:xiaochen-multi-cloud')?.name = 'xiaochen-multi-cloud'
+include 'xiaochen-common:data-desensitize'
+findProject(':xiaochen-common:data-desensitize')?.name = 'data-desensitize'
 

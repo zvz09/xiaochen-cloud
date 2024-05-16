@@ -24,6 +24,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.lionsoul.ip2region.xdb.Searcher;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -62,6 +63,7 @@ public class OperationLogAspect {
 
     private final ApplicationContext applicationContext;
     private final LogRabbitMqService logRabbitMqService;
+    private final Searcher searcher;
 
     /**
      * 错误信息、请求参数和应答结果字符串的最大长度。
@@ -179,6 +181,11 @@ public class OperationLogAspect {
         }
         operationLog.setBusinessType(getBusinessType(joinPoint));
         operationLog.setRequestIp(SecurityContextHolder.getRemoteIp());
+        try{
+            operationLog.setLocation(searcher.search(SecurityContextHolder.getRemoteIp()));
+        }catch (Exception e){
+            operationLog.setLocation("未知");
+        }
 
         if (params != null) {
             if (params.length() <= MAX_LENGTH) {

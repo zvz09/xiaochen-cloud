@@ -75,6 +75,11 @@ public class OperationLog implements Serializable {
     private String requestIp;
 
     /**
+     * 请求地址
+     */
+    private String location;
+
+    /**
      * 应答状态。
      */
     private Boolean success;
