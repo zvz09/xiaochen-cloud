@@ -51,7 +51,7 @@
     "axios": "^1.5.1",
     "bpmn-js": "^8.10.0",
     "bpmn-js-task-resize": "^1.2.0",
-    "bpmn-js-token-simulation": "^0.10.0",
+    "bpmn-js-token-simulation": "^0.38.0",
     "codemirror": "^6.0.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
