@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:1.29.3-alpine3.22
 LABEL MAINTAINER="zvz09"
 
 COPY .docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/my.conf
