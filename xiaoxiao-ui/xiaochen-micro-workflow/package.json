@@ -44,7 +44,7 @@
     "@codemirror/state": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@element-plus/icons-vue": "^2.3.1",
-    "@kubernetes/client-node": "^0.20.0",
+    "@kubernetes/client-node": "^0.21.0",
     "@vueuse/core": "^10.4.1",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
