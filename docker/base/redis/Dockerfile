@@ -1,5 +1,5 @@
 # 基础镜像
-FROM redis
+FROM redis:8.4.0-bookworm
 # author
 MAINTAINER zvz09
 
