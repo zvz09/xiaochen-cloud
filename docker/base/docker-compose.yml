@@ -56,7 +56,7 @@ services:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: 5tgbhu8
   minio:
-    image: bitnami/minio:latest
+    image: soldevelo/minio:latest
     container_name: minio
     ports:
       - "9000:9000"

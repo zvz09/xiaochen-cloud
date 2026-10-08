@@ -376,7 +376,7 @@ spec:
     spec:
       containers:
         - name: minio
-          image: bitnami/minio:latest
+          image: soldevelo/minio:latest
           ports:
             - containerPort: 9000
               name: client9000
